@@ -19,11 +19,11 @@ class Multiply2 extends Module{
     src2 := 0.U
 
     when(io.op === ALU_MULHU){
-        val src1 = 0.U(34.W) ## io.src1
-        val src2 = 0.U(34.W) ## io.src2
+        src1 := 0.U(34.W) ## io.src1
+        src2 := 0.U(34.W) ## io.src2
     }.otherwise{
-        val src1 = Fill(34, io.src1(31)) ## io.src1
-        val src2 = Fill(34, io.src2(31)) ## io.src2
+        src1 := Fill(34, io.src1(31)) ## io.src1
+        src2 := Fill(34, io.src2(31)) ## io.src2
     }
 
     //Booth编码，使用乘数将被乘数编码
