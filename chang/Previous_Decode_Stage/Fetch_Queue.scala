@@ -46,7 +46,7 @@ class Fetch_Queue extends Module{
 
     val mask_bits = VecInit.tabulate(FQ_NUM)(i => mask(i) & io.insts_pack(0).inst_valid)
     val rotated_mask_bits = VecInit.tabulate(FQ_NUM)(i => rotate_left_1(mask)(i) & io.insts_pack(1).inst_valid)
-    val enqueue_mask = mask_bits | rotated_mask_bits
+    val enqueue_mask = mask_bits.asUInt | rotated_mask_bits.asUInt
     val enqueue_mask_0 = VecInit.tabulate(ROW_WIDTH)(i => enqueue_mask(2*i)).asUInt
     val enqueue_data_0 = Mux(mask_0.orR, io.insts_pack(0), io.insts_pack(1))
     val enqueue_mask_1 = VecInit.tabulate(ROW_WIDTH)(i => enqueue_mask(2*i+1)).asUInt
@@ -66,10 +66,10 @@ class Fetch_Queue extends Module{
         io.insts_pack_id(i) := Mux1H(head, queue(i))
     }
 
-    when(!full && io.inst_pack(0).inst_valid){
-        when(io.inst_pack(1).inst_valid){
+    when(!full && io.insts_pack(0).inst_valid){
+        when(io.insts_pack(1).inst_valid){
             mask := rotate_left_2(mask)
-        }.elsewhen(!full && io.inst_pack(0).inst_valid){
+        }.elsewhen(!full && io.insts_pack(0).inst_valid){
             mask := rotate_left_1(mask)
         }
     }

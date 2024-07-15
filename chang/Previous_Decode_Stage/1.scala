@@ -1,91 +1,97 @@
 import chisel3._
 import chisel3.util._
 import Inst_Pack._
-import CPU_Config._
+import Control_Signal._
+import PreDecode_Config._
 
-class Fetch_Queue_IO extends Bundle{
-    val insts_pack          = Input(Vec(2, new inst_pack_PD_t))
+class Prev_Decode_IO extends Bundle {
+    val insts_pack_IF       = Input(Vec(2, new inst_pack_IF_t))
+    val pc_sign_IF          = Input(Vec(2, UInt(2.W)))
 
-    val next_ready          = Input(Bool())
-    val insts_valid_decode  = Output(Vec(2, Bool()))
-    val insts_pack_id       = Output(Vec(2, new inst_pack_PD_t))
+    val npc16_IF            = Input(Vec(2, UInt(32.W)))
+    val npc26_IF            = Input(Vec(2, UInt(32.W)))
+    val npc4_IF             = Input(Vec(2, UInt(32.W)))
     
-    val full                = Output(Bool())
-    val flush               = Input(Bool())
+    val insts_pack_PD       = Output(Vec(2, new inst_pack_IF_t))
+    val pred_fix            = Output(Bool())
+    val pred_fix_target     = Output(UInt(32.W))
+    val pred_fix_is_bl      = Output(Bool())
+    val pred_fix_pc         = Output(UInt(32.W))
+
+
 }
+class Prev_Decode extends Module {
+    val io = IO(new Prev_Decode_IO)
 
-class Fetch_Queue extends Module{
-    val io = IO(new Fetch_Queue_IO)
+    val inst_pack_IF    = io.insts_pack_IF
+    val insts_opcode    = VecInit(inst_pack_IF.map(_.inst(31, 30)))
+    val br_type         = VecInit(inst_pack_IF.map(_.inst(29, 26)))
 
-    /* config */
-    val ROW_WIDTH = FQ_NUM / 2       /* 8 / 2 */
-    // 创建一个 ROW_WIDTH 长度的一维向量，其中每个元素初始化为类型为 inst_pack_PD_t 的零值
-    val initial_row = VecInit.fill(ROW_WIDTH)(0.U.asTypeOf(new inst_pack_PD_t))
-    // 创建一个长度为2的二维向量，其中每个元素都是一个 ROW_WIDTH 长度的一维向量
-    val initial_queue = VecInit.fill(2)(initial_row)
-    // 创建一个带有初始值的寄存器，初始值是上面定义的二维向量
-    val queue = RegInit(initial_queue)
+    val inst_pack_pd    = Wire(Vec(2, new inst_pack_IF_t))
+    inst_pack_pd        := inst_pack_IF
+    val inst            = VecInit(inst_pack_IF.map(_.inst))
 
-    def rotate_left1(x: UInt): UInt = {
-        val n = x.getWidth
-        x(n-2, 0) ## x(n-1)
-    }
-    def rotate_left2(x: UInt): UInt = {
-        val n = x.getWidth
-        x(n-3, 0) ## x(n-1, n-2)
-    }
+    val need_fix        = VecInit.fill(2)(false.B)
+    val fix_index       = !need_fix(0)
+    io.pred_fix         := need_fix.asUInt.orR
 
-    val head = RegInit(1.U(ROW_WIDTH.W))
-    val tail = RegInit(1.U(FQ_NUM.W))
-    val tail_odd = VecInit.tabulate(ROW_WIDTH)(i => tail(2*i+1)).asUInt 
-    val tail_even = VecInit.tabulate(ROW_WIDTH)(i => tail(2*i)).asUInt
-    val rear = tail_odd | tail_even
+    io.pred_fix_target  := inst_pack_pd(fix_index).pred_npc
 
-    val full = (head & rotate_left1(rear)).orR
-    val empty = (head & rear).orR
-
-    // Enqueue
-    io.full := full
-
-    val tail_bits = VecInit.tabulate(FQ_NUM)(i => tail(i) & io.insts_pack(0).inst_valid)
-    val rotated_tail_bits = VecInit.tabulate(FQ_NUM)(i => rotate_left1(tail)(i) & io.insts_pack(1).inst_valid)
-    val write_mask = VecInit.tabulate(FQ_NUM)(i => tail_bits(i) | rotated_tail_bits(i)).asUInt
-
-    val write_mask_even = VecInit.tabulate(ROW_WIDTH)(i => write_mask(2*i)).asUInt
-    val write_mask_odd = VecInit.tabulate(ROW_WIDTH)(i => write_mask(2*i+1)).asUInt
-    
-    val write_data_even = Mux(tail_even.orR, io.insts_pack(0), io.insts_pack(1))
-    val write_data_odd = Mux(!tail_even.orR, io.insts_pack(0), io.insts_pack(1))
-
-    // even queue write
-    for(i <- 0 until ROW_WIDTH){
-        when(!full && write_mask_even(i)){
-            queue(0)(i) := write_data_even
-        }
-    }
-    // odd queue write
-    for(i <- 0 until ROW_WIDTH){
-        when(!full && write_mask_odd(i)){
-            queue(1)(i) := write_data_odd
-        }
-    }
-
-    // Dequeue
+    val jump_type       = VecInit.fill(2)(NOT_JUMP)
     for(i <- 0 until 2){
-        io.insts_pack_id(i) := Mux1H(head, queue(i))
-        io.insts_valid_decode(i) := !empty
+        when(!(insts_opcode(i) ^ "b01".U)){
+            when(!((br_type(i) ^ BR_B) & (br_type(i) ^ BR_BL))){
+                jump_type(i) := YES_JUMP
+            }.elsewhen((br_type(i) ^ BR_JIRL).orR){
+                jump_type(i) := MAY_JUMP
+            }
+        }.otherwise{
+            jump_type(i) := NOT_BR
+        }
     }
-    // update ptrs
-    when(!full){
-        tail := Mux(io.insts_pack(0).inst_valid, Mux(io.insts_pack(1).inst_valid, rotate_left2(tail), rotate_left1(tail)), tail)
-    }
-    when(io.next_ready && !empty){
-        head := rotate_left1(head)
-    }
-    when(io.flush){
-        head := 1.U
-        tail := 1.U
-    }
+    val pred_fix_is_bl      = VecInit.tabulate(2)(i => !(inst_pack_IF(i).inst(29, 26) ^ BR_BL))
+    val pred_fix_pc         = VecInit.tabulate(2)(i => inst_pack_IF(i).pc)
+    io.pred_fix_is_bl       := pred_fix_is_bl(fix_index)
+    io.pred_fix_pc          := pred_fix_pc(fix_index)
 
-
+    val pc_in = VecInit.tabulate(2)(i => MuxLookup(io.pc_sign_IF(i), 0.U)(Seq(
+        0.U  -> inst_pack_IF(i).pc,
+        1.U  -> Mux(!(jump_type(i) ^ YES_JUMP), inst_pack_IF(i).pc_plus_1_28, inst_pack_IF(i).pc_plus_1_18),
+        3.U  -> Mux(!(jump_type(i) ^ YES_JUMP), inst_pack_IF(i).pc_minus_1_28, inst_pack_IF(i).pc_minus_1_18)
+    )))
+    val npc18 = VecInit.tabulate(2)(i => pc_in(i)(31, 18) ## inst_pack_IF(i).inst(25, 10) ## 0.U(2.W))
+    val npc28 = VecInit.tabulate(2)(i => pc_in(i)(31, 28) ## inst_pack_IF(i).inst(9, 0) ## inst_pack_IF(i).inst(25, 10) ## 0.U(2.W))
+    
+    for(i <- 0 until 2){
+        switch(jump_type(i)){
+            is(YES_JUMP){
+                val imm_raw                     = npc28(i) - inst_pack_IF(i).pc
+                need_fix(i)                     := inst_pack_IF(i).inst_valid && !(inst_pack_IF(i).predict_jump && !(inst_pack_IF(i).pred_npc ^ npc28(i)))
+                inst_pack_pd(i).predict_jump    := true.B
+                inst_pack_pd(i).pred_npc        := npc28(i)
+                inst_pack_pd(i).inst            := inst_pack_IF(i).inst(31, 26) ## imm_raw(17, 2) ## imm_raw(27, 18)
+            }
+            is(MAY_JUMP){
+                val imm_raw                     = npc18(i) - inst_pack_IF(i).pc
+                inst_pack_pd(i).inst            := inst_pack_IF(i).inst(31, 26) ## imm_raw(17, 2) ## inst_pack_IF(i).inst(9, 0)
+                when(!inst_pack_IF(i).pred_valid){
+                    need_fix(i)                     := inst(i)(25) && inst_pack_IF(i).inst_valid
+                    inst_pack_pd(i).predict_jump    := inst(i)(25)
+                    inst_pack_pd(i).pred_npc        := Mux(inst(i)(25), npc18(i), io.npc4_IF(i))
+                }
+            }
+            is(NOT_BR){
+                inst_pack_pd(i).predict_jump    := false.B
+                inst_pack_pd(i).pred_npc        := io.npc4_IF(i)
+                need_fix(i)                     := inst_pack_IF(i).inst_valid && inst_pack_IF(i).predict_jump
+            }
+        }
+    }
+    val inst_valid              = VecInit.fill(2)(false.B)
+    inst_valid(0)               := inst_pack_IF(0).inst_valid
+    inst_pack_pd(0).inst_valid  := inst_valid(0)
+    for(i <- 1 until 2){
+        inst_pack_pd(i).inst_valid  := inst_valid(i-1) && inst_pack_IF(i).inst_valid && !need_fix(i-1)
+    }
+    io.insts_pack_PD := inst_pack_pd
 }
