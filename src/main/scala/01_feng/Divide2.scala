@@ -2,7 +2,7 @@ import chisel3._
 import chisel3.util._
 import Control_Signal._
 
-class Divide2 extends Module{
+class Divide extends Module{
     val io=IO(new Bundle{
         val num1=Input(UInt(32.W))
         val num2=Input(UInt(32.W))

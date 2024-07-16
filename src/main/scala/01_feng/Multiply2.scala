@@ -3,7 +3,7 @@ import chisel3.util._
 import Control_Signal._
 
 //feng
-class Multiply2 extends Module{
+class Multiply extends Module{
     val io = IO(new Bundle{
         val num1 = Input(UInt(32.W))
         val num2 = Input(UInt(32.W))
