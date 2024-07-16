@@ -4,13 +4,13 @@ import Inst_Pack._
 import CPU_Config._
 
 class Fetch_Queue_IO extends Bundle{
-    val insts_pack            = Input(Vec(2, new inst_pack_PD_t))
-    val next_ready            = Input(Bool())
-    val flush                 = Input(Bool())
+    val insts_pack            = Input(Vec(2, new inst_pack_PD_t))       // a package that contains two instructions
+    val next_ready            = Input(Bool())                           // next stage is ready
+    val flush                 = Input(Bool())                           // flush the queue
 
-    val insts_valid_decode    = Output(Vec(2, Bool()))
-    val insts_pack_id         = Output(Vec(2, new inst_pack_PD_t))
-    val full                  = Output(Bool()) 
+    val insts_valid_decode    = Output(Vec(2, Bool()))                  //whether the instruction is valid  
+    val insts_pack_id         = Output(Vec(2, new inst_pack_PD_t))      // the instruction package that is ready to be sent to the next stage
+    val full                  = Output(Bool())                          // the queue is full
 }
 
 class Fetch_Queue extends Module{
@@ -25,11 +25,11 @@ class Fetch_Queue extends Module{
 
     def rotate_left_1(x: UInt): UInt = {
         val n = x.getWidth
-        x(n-2, 0) ## x(n-1)
+        Cat(x(n-2, 0), x(n-1))
     }
     def rotate_left_2(x: UInt): UInt = {
         val n = x.getWidth
-        x(n-3, 0) ## x(n-1, n-2)
+        Cat(x(n-3, 0), x(n-2, n-1))
     }
 
     val mask = RegInit(1.U(FQ_NUM.W))

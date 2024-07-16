@@ -17,8 +17,7 @@ class Prev_Decode_IO extends Bundle {
     val pred_fix_target     = Output(UInt(32.W))
     val pred_fix_is_bl      = Output(Bool())
     val pred_fix_pc         = Output(UInt(32.W))
-
-
+    
 }
 class Prev_Decode extends Module {
     val io = IO(new Prev_Decode_IO)
