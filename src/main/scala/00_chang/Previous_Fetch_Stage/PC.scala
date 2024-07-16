@@ -1,17 +1,17 @@
 import chisel3._
 import chisel3.util._
-import CPU_config._
+import CPU_Config._
 
-class PC_IO extends Bundle{
-    val pc_pf           = Output(Vec(10, UInt(32.W)))
+class PC_IO extends Bundle {
+    val pc_PF           = Output(Vec(10, UInt(32.W)))
     val pc_stall        = Input(Bool())
     val predict_fail    = Input(Bool())
     val npc             = Output(Vec(10, UInt(32.W)))
     val pred_jump       = Input(Vec(2, Bool()))
     val pred_npc        = Input(UInt(32.W))
     val branch_target   = Input(UInt(32.W))
-    val inst_valid_pf   = Output(Vec(2, Bool()))
-    val exception_pf    = Output(UInt(8.W))
+    val inst_valid_PF   = Output(Vec(2, Bool()))
+    val exception_PF    = Output(UInt(8.W))
 
     val flush_by_pd     = Input(Bool())
     val flush_pd_target = Input(UInt(32.W))
@@ -30,7 +30,7 @@ class PC_IO extends Bundle{
     val pc_minus_1_18   = Output(UInt(32.W))
 }
 
-class PC(reset_val: Int) extends Module{
+class PC(reset_val: Int) extends Module {
     val io = IO(new PC_IO)
 
     val pc = RegInit(VecInit.fill(10)(reset_val.U(32.W)))
@@ -41,7 +41,6 @@ class PC(reset_val: Int) extends Module{
     }.elsewhen(!idle_en){
         idle_en := io.is_idle_cmt
     }
-
     for(i <- 0 until 10){
         when(idle_en || io.has_csr_change){
             io.npc(i) := pc(i)

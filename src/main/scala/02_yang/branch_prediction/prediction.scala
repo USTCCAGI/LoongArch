@@ -1,30 +1,6 @@
 import chisel3._
 import chisel3.util._
 
-object Predict_Config {
-    val BTB_INDEX_WIDTH = 7
-    val BTB_TAG_WIDTH   = 28 - BTB_INDEX_WIDTH
-    val BTB_DEPTH       = 1 << BTB_INDEX_WIDTH
-    val BHT_INDEX_WIDTH = 6
-    val BHT_DEPTH       = 1 << BHT_INDEX_WIDTH
-    val PHT_INDEX_WIDTH = 6
-    val PHT_DEPTH       = 1 << PHT_INDEX_WIDTH
-
-    val RET       = 1.U(2.W)
-    val BL        = 2.U(2.W)
-    val ICALL     = 3.U(2.W)
-    val ELSE      = 0.U(2.W)
-}
-
-object Predict_Struct{
-    class btb_t extends Bundle{
-        val valid       = Bool()
-        val target      = UInt(30.W)
-        val tag         = UInt(BTB_TAG_WIDTH.W)
-        val typ         = UInt(2.W)
-    }
-}
-
 class Predict_IO extends Bundle{
     // check
     val npc                 = Input(Vec(10, UInt(32.W)))
