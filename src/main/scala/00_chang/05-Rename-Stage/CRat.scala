@@ -41,7 +41,6 @@ class CRat(n: Int) extends Module{
     val wake_valid = io.wake_valid
 
     val crat = RegInit(VecInit.fill(n)(0.U.asTypeOf(new rat_t))) //crat initailized
-
     // read physical registers for arch_rj and arch_rk and arch_rd
     for(i <- 0 until 2){
         val phy_rj_OH = crat.map(entry => entry.valid && entry.lr === arch_rj(i))
@@ -65,10 +64,11 @@ class CRat(n: Int) extends Module{
         }
     }.otherwise{
         for(i <- 0 until 2){
-            crat(alloc_phy_rd(i)).lr := arch_rd(i)
             when(arch_rd_valid(i)){
-                crat(alloc_phy_rd(i)).valid := true.B
-                crat(alloc_phy_rd(i)).free := false.B
+                val phy_rd = alloc_phy_rd(i)
+                crat(phy_rd).lr := arch_rd(i)
+                crat(phy_rd).valid := true.B
+                crat(phy_rd).free := false.B
                 crat(io.pprd(i)).valid := false.B   // clear the valid bit of the physical register that was once assigned to rd
             }
         }

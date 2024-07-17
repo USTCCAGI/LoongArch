@@ -33,6 +33,7 @@ class Free_List(n: Int) extends Module{
     }
 
     val free_list  = RegInit(VecInit.tabulate(n)(i => (i + 1).asUInt(log2Ceil(n).W)))
+    val free_list   = RegInit(VecInit.tabulate(n)(i => (i + 1).asUInt(log2Ceil(n)-1, 0)))
     val head = RegInit(1.U(n.W))
     val rear = Reg(UInt(n.W))
 
