@@ -20,16 +20,11 @@ class Fetch_Queue extends Module{
 
     // two-row queue
     val initial_row = VecInit.fill(ROW_WIDTH)(0.U.asTypeOf(new inst_pack_PD_t))
-    val initial_queue = VecInit.fill(2)(initial_row)
-    val queue = RegInit(initial_queue)
+    val queue = RegInit(VecInit.fill(2)(initial_row))
 
-    def rotate_left_1(x: UInt): UInt = {
-        val n = x.getWidth
-        Cat(x(n-2, 0), x(n-1))
-    }
-    def rotate_left_2(x: UInt): UInt = {
-        val n = x.getWidth
-        Cat(x(n-3, 0), x(n-2, n-1))
+    def rotate_left(x: UInt, n: Int): UInt = {
+        val width = x.getWidth
+        Cat(x(width - n - 1, 0), x(width - 1, width - n))
     }
 
     val mask = RegInit(1.U(FQ_NUM.W))
@@ -39,43 +34,43 @@ class Fetch_Queue extends Module{
     val head = RegInit(1.U(ROW_WIDTH.W))
     val rear = mask_0 | mask_1
 
-    val full = (head === rotate_left_1(rear))
+    val full = (head === rotate_left(rear, 1))
     val empty = (head === rear)
 
     io.full := full
 
-    val mask_bits = VecInit.tabulate(FQ_NUM)(i => mask(i) & io.insts_pack(0).inst_valid)
-    val rotated_mask_bits = VecInit.tabulate(FQ_NUM)(i => rotate_left_1(mask)(i) & io.insts_pack(1).inst_valid)
-    val enqueue_mask = mask_bits.asUInt | rotated_mask_bits.asUInt
-    val enqueue_mask_0 = VecInit.tabulate(ROW_WIDTH)(i => enqueue_mask(2*i)).asUInt
-    val enqueue_data_0 = Mux(mask_0.orR, io.insts_pack(0), io.insts_pack(1))
-    val enqueue_mask_1 = VecInit.tabulate(ROW_WIDTH)(i => enqueue_mask(2*i+1)).asUInt
-    val enqueue_data_1 = Mux(!mask_0.orR, io.insts_pack(0), io.insts_pack(1))
+    //Enqueue
+    val insts_valid = VecInit(io.insts_pack.map(_.inst_valid))
+    val mask_bits = mask & Fill(FQ_NUM, insts_valid(0))
+    val rotated_mask_bits = rotate_left(mask, 1) & Fill(FQ_NUM, insts_valid(1))
+    val enqueue_mask = mask_bits | rotated_mask_bits
+    
+    val enqueue_mask_0 = (0 until ROW_WIDTH).map(i => enqueue_mask(2 * i))
+    val enqueue_mask_1 = (0 until ROW_WIDTH).map(i => enqueue_mask(2 * i + 1))
 
     for(i <- 0 until ROW_WIDTH){
         when(!full && enqueue_mask_0(i)){
-            queue(0)(i) := enqueue_data_0
+            queue(0)(i) := io.insts_pack(!mask_0.orR)
         }
         when(!full && enqueue_mask_1(i)){
-            queue(1)(i) := enqueue_data_1
+            queue(1)(i) := io.insts_pack(mask_0.orR)
         }
     }
+
+    //Dequeue
 
     for(i <- 0 until 2){
         io.insts_valid_decode(i) := !empty
         io.insts_pack_id(i) := Mux1H(head, queue(i))
     }
 
+    //Update head and mask
     when(!full && io.insts_pack(0).inst_valid){
-        when(io.insts_pack(1).inst_valid){
-            mask := rotate_left_2(mask)
-        }.elsewhen(!full && io.insts_pack(0).inst_valid){
-            mask := rotate_left_1(mask)
-        }
+         mask := Mux(io.insts_pack(1).inst_valid, rotate_left(mask, 2), rotate_left(mask, 1))
     }
 
     when(io.next_ready && !empty){
-        head := rotate_left_1(head)
+        head := rotate_left(head, 1)
     }
 
     when(io.flush){
