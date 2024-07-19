@@ -10,7 +10,7 @@ class Dispatch_IO(n: Int) extends Bundle{
     val elem_num            = Input(Vec(2, UInt((log2Ceil(n)+1).W)))
 
     // output for each issue queue
-    val insts_disp_index    = Output(Vec(4, Vec(2, UInt(1.W))))
+    val insts_disp_index    = Output(Vec(4, Vec(2, UInt(1.W))))  //wu
     val insts_disp_valid    = Output(Vec(4, Vec(2, Bool())))
 }
 
@@ -32,9 +32,9 @@ class Dispatch extends Module{
         }
     } //find the right issue queue for each instruction
 
-    io.insts_disp_index := DontCare
+    io.insts_disp_index := DontCare  //wu
     io.insts_disp_valid := VecInit.fill(4)(VecInit.fill(2)(false.B))
-
+    //wu
     for(i <- 0 until 4){
         var alloc_index = 0.U(1.W)
         for(j <- 0 until 2){
@@ -43,7 +43,9 @@ class Dispatch extends Module{
             alloc_index = Mux(issue_queue(j)(i), 1.U, 0.U)
         }
     }
+    //wu
 
+    //you
     // for(i <- 0 until 4){
     //     for(j <- 0 until 2){
     //         io.insts_disp_valid(i)(j) := issue_queue(j)(i).asBool
