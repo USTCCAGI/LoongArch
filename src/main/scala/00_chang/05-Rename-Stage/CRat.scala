@@ -41,6 +41,32 @@ class CRat(n: Int) extends Module{
     val wake_valid = io.wake_valid
 
     val crat = RegInit(VecInit.fill(n)(0.U.asTypeOf(new rat_t))) //crat initailized
+    
+    //write for dispatch
+    when(io.predict_fail){
+        for(i <- 0 until n){
+            crat(i).valid := arch_rat(i)
+            crat(i).free  := true.B
+        }
+    }.otherwise{
+        for(i <- 0 until 2){
+            val phy_rd = alloc_phy_rd(i)
+            crat(phy_rd).lr := arch_rd(i)
+            when(arch_rd_valid(i)){
+                crat(phy_rd).valid := true.B
+                crat(phy_rd).free := false.B
+                crat(io.pprd(i)).valid := false.B   // clear the valid bit of the physical register that was previously assigned to rd
+            }
+        }
+        for(i <- 0 until 4){
+            when(wake_valid(i)){
+                crat(prd_wake(i)).free := true.B
+            }
+        }
+    }
+    
+    
+    
     // read physical registers for arch_rj and arch_rk and arch_rd
     for(i <- 0 until 2){
         val phy_rj_OH = crat.map(entry => entry.valid && entry.lr === arch_rj(i))
@@ -54,29 +80,5 @@ class CRat(n: Int) extends Module{
         io.prj_ready(i) := crat(OHToUInt(phy_rj_OH)).free
         io.prk_ready(i) := crat(OHToUInt(phy_rk_OH)).free
     }
-
-
-    //write for dispatch
-    when(predict_fail){
-        crat.foreach { entry =>
-            entry.valid := false.B
-            entry.free := true.B
-        }
-    }.otherwise{
-        for(i <- 0 until 2){
-            when(arch_rd_valid(i)){
-                val phy_rd = alloc_phy_rd(i)
-                crat(phy_rd).lr := arch_rd(i)
-                crat(phy_rd).valid := true.B
-                crat(phy_rd).free := false.B
-                crat(io.pprd(i)).valid := false.B   // clear the valid bit of the physical register that was once assigned to rd
-            }
-        }
-        for(i <- 0 until 4){
-            when(wake_valid(i)){
-                crat(prd_wake(i)).free := true.B
-            }
-        }
-    }
-
+    
 }
