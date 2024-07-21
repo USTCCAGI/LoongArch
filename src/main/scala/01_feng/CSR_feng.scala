@@ -55,40 +55,30 @@ class CSR_Regfile_IO extends Bundle{
     val estat_13        = Output(UInt(13.W))  //这是中断处理，包含
     //核间中断[12]  定时器中断[11]  硬中断[9:2] 软中断[1:0]
 }
-
 class CSR_Regfile(PALEN: 32, TIMER_INIT_WIDTH: 30) extends Module{
     val TLB_INDEX_WIDTH = log2Ceil(TLB_ENTRY_NUM)
-    
     val io          = IO(new CSR_Regfile_IO)
-    val we          = io.we
+    //内部线
+    val wdata       = io.wdata
     val waddr       = io.waddr
     val raddr       = io.raddr
-    val wdata       = io.wdata
-    val trap        = io.exception  //第八位是：例外是否有效
-    val eret        = io.is_eret //是否返回，例外返回
-    val rdata       = WireDefault(0.U(32.W))
+    val we          = io.we
+    val eret        = io.is_eret
+    val interrupt   = io.interrupt
+    val trap        = io.exception
 
-    val timer_int_reg = RegInit(false.B)
-    val timer_int = timer_int_reg
-
-    // CRMD：当前模式信息 
-    val crmd = RegInit(8.U(32.W)) //例外的模式信息 1：0PLV，2IE
-    val prmd = RegInit(0.U(32.W)) //1：0 PPLV  2PIE
-    val estat = RegInit(0.U(32.W))
-
-    //页错误保存和取地址错误ADEF保存，或地址对齐例外
-    val badv_save = trap(5, 0) === 0x8.U || trap(6, 0) === ALE
-
-    //CRMD的修改
-    when(trap(7)){//触发例外，PLV，IE置零
-        crmd := crmd(31, 5) ## crmd(4, 3) ## 0.U(3.W) 
-    }.elsewhen(eret){//例外返回，将低位写回
-        crmd := crmd(31, 5) ## crmd(4, 3) ## prmd(2, 0)
-    }.elsewhen(we && waddr === CSR_CRMD){//3条指令对CSR的操作
+    //CRMD
+    val crmd        = RegInit(8.U(32.W))
+    val prmd        = RegInit(0.U(32.W))
+    when(trap(7)){
+        crmd := crmd(31,3) ## 0.U(3.W)
+    }.elsewhen(eret){
+        crmd := crmd(31,3) ## prmd(2,0)
+    }.elsewhen(we && waddr === CSR_CRMD){
         crmd := 0.U(23.W) ## wdata(8, 0) //规定前23位0，软件不可写
     }
-    io.plv_global := crmd(1, 0)
-    io.crmd_trans := crmd(8, 3)
+    io.plv_global  := crmd(1,0)
+    io.crmd_trans  := crmd(8, 3)
     
     //PRMD更新逻辑，触发例外前逻辑
     when(trap(7)){ //触发中断，PPLV，PIE写为PLV，IE
@@ -110,15 +100,19 @@ class CSR_Regfile(PALEN: 32, TIMER_INIT_WIDTH: 30) extends Module{
     }
 
     // ESTAT：例外状态
+    val estat = RegInit(0.U(32.W))
+    val timer_reg   = RegInit(false.B)
+    val timer       = timer_reg
     when(trap(7)){//触发例外，将例外状态写入
-        estat := 0.U(1.W) ## 0.U(8.W) ## trap(6, 0) ## estat(15, 0)
-    }.elsewhen(we && waddr === CSR_ESTAT){  //这里，ipint是核间中断，timer是计数器中断，10号空，9：2是硬中断，1：0是软中断
-        estat := 0.U(1.W) ## estat(30, 16) ## 0.U(3.W) ## io.ip_int ## timer_int ## 0.U(1.W) ## io.interrupt ## wdata(1, 0)
+        estat := 0.U(9.W) ## trap(6,0) ##estat(15,0)  
+    }.elsewhen(we && waddr === CSR_ESTAT){
+        estat := 0.U(1.W) ## estat(30, 16) ## 0.U(3.W) ## io.ip_int ## timer ## 0.U(1.W) ## io.interrupt ## wdata(1, 0)
     }.otherwise{
-        estat := 0.U(1.W) ## estat(30, 16) ## 0.U(3.W) ## io.ip_int ## timer_int ## 0.U(1.W) ## io.interrupt ## estat(1, 0)
+        estat := 0.U(1.W) ## estat(30, 16) ## 0.U(3.W) ## io.ip_int ## timer ## 0.U(1.W) ## io.interrupt ## estat(1, 0)
     }
     io.estat_13 := estat(13, 0)
 
+    
     // ERA：例外返回地址,触发例外时，指令的PC记录在这
     val era = RegInit(0.U(32.W))
     when(trap(7)){
@@ -128,8 +122,9 @@ class CSR_Regfile(PALEN: 32, TIMER_INIT_WIDTH: 30) extends Module{
     }
 
     // BADV：出错虚地址
+    val save_v  = trap(5, 0) === 0x8.U || trap(6, 0) === ALE
     val badv = RegInit(0.U(32.W))
-    when(trap(7) && badv_save){
+    when(trap(7) && save_v){
         badv := io.badv_exp
     }.elsewhen(we && waddr === CSR_BADV){
         badv := wdata
@@ -241,6 +236,7 @@ class CSR_Regfile(PALEN: 32, TIMER_INIT_WIDTH: 30) extends Module{
     }
     io.dmw1_global := dmw1
 
+    
     // TID：定时器编号
     val tid = RegInit(0.U(32.W))
     when(we && waddr === CSR_TID){
@@ -264,15 +260,14 @@ class CSR_Regfile(PALEN: 32, TIMER_INIT_WIDTH: 30) extends Module{
             tval := tval - 1.U
         }
     }
-
-    // TICLR：定时器中断清除
+      // TICLR：定时器中断清除
     val clr = RegInit(0.U(32.W))  //规定读返回0
     val tval_edge = ShiftRegister(tval, 1)
     when(we && waddr === CSR_TICLR && wdata(0) === 1.U){
-        timer_int_reg := false.B
+        timer_reg := false.B
         clr := 0.U(32.W)
     }.elsewhen(tcfg(0) === 1.U && tval === 0.U && tval_edge === 1.U){
-        timer_int_reg := true.B
+        timer_reg := true.B
         clr := 0.U(32.W)
     }
 
@@ -280,38 +275,39 @@ class CSR_Regfile(PALEN: 32, TIMER_INIT_WIDTH: 30) extends Module{
 
     
     io.tlbentry_global :=  0.U.asTypeOf(new tlb_t)
+    
+    io.rdata := 0.U(32.W)
     switch(raddr){
-        is(CSR_CRMD)        { rdata := crmd }
-        is(CSR_PRMD)        { rdata := prmd }
-        is(CSR_EUEN)        { rdata := euen }
-        is(CSR_ECFG)        { rdata := ecfg }   
-        is(CSR_ESTAT)       { rdata := estat }
-        is(CSR_ERA)         { rdata := era }
-        is(CSR_BADV)        { rdata := badv }
-        is(CSR_EENTRY)      { rdata := eentry }
-        is(CSR_CPUID)       { rdata := coreid }
-        is(CSR_SAVE0)       { rdata := data0 }
-        is(CSR_SAVE1)       { rdata := data1 }
-        is(CSR_SAVE2)       { rdata := data2 }
-        is(CSR_SAVE3)       { rdata := data3 }
-        is(CSR_LLBCTL)      { rdata := llbctl }
-        is(CSR_TLBIDX)      { rdata := tlbidx }
-        is(CSR_TLBEHI)      { rdata := tlbehi }
-        is(CSR_TLBELO0)     { rdata := tlbelo0 }
-        is(CSR_TLBELO1)     { rdata := tlbelo1 }
-        is(CSR_ASID)        { rdata := asid }
-        is(CSR_PGDL)        { rdata := pgdl }
-        is(CSR_PGDH)        { rdata := pgdh }
-        is(CSR_PGD)         { rdata := pgd }
-        is(CSR_TLBRENTRY)   { rdata := tlbreentry }
-        is(CSR_DMW0)        { rdata := dmw0 }
-        is(CSR_DMW1)        { rdata := dmw1 }
-        is(CSR_TID)         { rdata := tid }
-        is(CSR_TCFG)        { rdata := tcfg }
-        is(CSR_TVAL)        { rdata := tval }
-        is(CSR_TICLR)       { rdata := clr }
+        is(CSR_CRMD)        { io.rdata := crmd }
+        is(CSR_PRMD)        { io.rdata := prmd }
+        is(CSR_EUEN)        { io.rdata := euen }
+        is(CSR_ECFG)        { io.rdata := ecfg }   
+        is(CSR_ESTAT)       { io.rdata := estat }
+        is(CSR_ERA)         { io.rdata := era }
+        is(CSR_BADV)        { io.rdata := badv }
+        is(CSR_EENTRY)      { io.rdata := eentry }
+        is(CSR_CPUID)       { io.rdata := coreid }
+        is(CSR_SAVE0)       { io.rdata := data0 }
+        is(CSR_SAVE1)       { io.rdata := data1 }
+        is(CSR_SAVE2)       { io.rdata := data2 }
+        is(CSR_SAVE3)       { io.rdata := data3 }
+        is(CSR_LLBCTL)      { io.rdata := llbctl }
+        is(CSR_TLBIDX)      { io.rdata := tlbidx }
+        is(CSR_TLBEHI)      { io.rdata := tlbehi }
+        is(CSR_TLBELO0)     { io.rdata := tlbelo0 }
+        is(CSR_TLBELO1)     { io.rdata := tlbelo1 }
+        is(CSR_ASID)        { io.rdata := asid }
+        is(CSR_PGDL)        { io.rdata := pgdl }
+        is(CSR_PGDH)        { io.rdata := pgdh }
+        is(CSR_PGD)         { io.rdata := pgd }
+        is(CSR_TLBRENTRY)   { io.rdata := tlbreentry }
+        is(CSR_DMW0)        { io.rdata := dmw0 }
+        is(CSR_DMW1)        { io.rdata := dmw1 }
+        is(CSR_TID)         { io.rdata := tid }
+        is(CSR_TCFG)        { io.rdata := tcfg }
+        is(CSR_TVAL)        { io.rdata := tval }
+        is(CSR_TICLR)       { io.rdata := clr }
     }
-    io.rdata             := rdata
     io.eentry_global     := eentry
     io.tlbreentry_global := tlbreentry
 
