@@ -57,7 +57,7 @@ class Arch_Rat(n: Int) extends Module {
     val top = RegInit(0x7.U(3.W))
     val return_address_stack = RegInit(VecInit.fill(8)(0x1c000000.U(32.W)))
 
-    val update_pop = io.br_type_pred_cmt === RET && io.pred_update_en_cmt
+    val update_pop = (io.br_type_pred_cmt === RET) && (io.pred_update_en_cmt)
     val update_push = io.br_type_pred_cmt(1) && io.pred_update_en_cmt
 
     when(update_pop){
