@@ -135,7 +135,7 @@ class ROB(n: Int) extends Module{
     val tail = RegInit(0.U(log2Ceil(group_num).W))
 
     // Define element numbers with initial values
-    val elem_num = RegInit(VecInit.fill(10)(VecInit.fill(2)(0.U(log2Ceil(group_num) + 1).W)))
+    val elem_num    = RegInit(VecInit.fill(10)(VecInit.fill(2)(0.U((log2Ceil(group_num)+1).W))))
 
     // Define head_select_index and head_index
     val head_select_index = VecInit.tabulate(2) { i =>
@@ -224,12 +224,15 @@ class ROB(n: Int) extends Module{
             rob_entry.rf_wdata := io.rf_wdata_wb(i)
             rob_entry.is_ucread := io.is_ucread_wb(i)
             // Determine branch_target
-            val branch_target = i match {
-                case 2 if rob_entry.exception(7) => rob_entry.pc
-                case 3 => io.branch_target_wb(i) + 4.U
-                case _ => io.branch_target_wb(i)
+            if(i != 0){
+                if(i == 2){
+                    rob_entry.branch_target   := Mux(rob_entry.exception(7), rob_entry.pc, io.branch_target_wb(i))
+                }else if(i == 3){
+                    rob_entry.branch_target   := io.branch_target_wb(i) + 4.U
+                }else{
+                    rob_entry.branch_target   := io.branch_target_wb(i)
+                }
             }
-            rob_entry.branch_target := branch_target
             
             if(i == 1){
                 rob_entry.predict_fail      := io.predict_fail_wb(i)
@@ -254,13 +257,14 @@ class ROB(n: Int) extends Module{
     io.rob_index_cmt            := ShiftRegister(VecInit.fill(4)(head), 1)
 
     val eentry_global           = ShiftRegister(io.eentry_global, 1);
+    val tlbreentry_global       = ShiftRegister(io.tlbreentry_global, 1);
     val interrupt               = interrupt_vec && cmt_en(0)
 
     // update predict and ras
     val rob_update_item         = Mux(cmt_en(0), Mux(cmt_en(1), rob_commit_items(1), rob_commit_items(0)), 0.U.asTypeOf(new rob_t))
 
     val predict_fail_cmt        = rob_update_item.predict_fail || rob_update_item.is_priv_wrt || rob_update_item.is_priv_ls || rob_update_item.exception(7) || interrupt
-    val branch_target_cmt       = Mux(rob_update_item.exception(7) || interrupt_vec, eentry_global, 
+    val branch_target_cmt       = Mux(rob_update_item.exception(7) || interrupt_vec, Mux(rob_update_item.exception(5, 0) === 0x3f.U, tlbreentry_global, eentry_global), 
                                   Mux(rob_update_item.is_priv_wrt && priv_buffer.priv_vec(3) || rob_update_item.pred_update_en && rob_update_item.real_jump, rob_update_item.branch_target, rob_update_item.pc))
     val pred_update_en_cmt      = rob_update_item.pred_update_en
     val pred_branch_target_cmt  = rob_update_item.branch_target
@@ -291,46 +295,41 @@ class ROB(n: Int) extends Module{
 
     // update csr file
     // Collect all CSR related signals
-    val csrSignals = Seq(
-        priv_buffer.csr_addr,
-        rob_update_item.branch_target,
-        rob_update_item.is_priv_wrt && priv_buffer.priv_vec(2, 1).orR,
-        rob_update_item.is_priv_wrt && priv_buffer.priv_vec(3),
-        rob_update_item.branch_target - 4.U,
-        rob_update_item.is_priv_wrt && priv_buffer.priv_vec(4),
-        rob_update_item.is_priv_wrt && priv_buffer.priv_vec(5),
-        rob_update_item.is_priv_wrt && priv_buffer.priv_vec(6),
-        rob_update_item.is_priv_wrt && priv_buffer.priv_vec(7),
-        priv_buffer.tlb_entry,
-        rob_update_item.is_priv_wrt && priv_buffer.priv_vec(8),
-        rob_update_item.is_priv_wrt && priv_buffer.priv_vec(9),
-        priv_buffer.inv_op,
-        priv_buffer.inv_vaddr,
-        priv_buffer.inv_asid,
-        rob_update_item.is_priv_ls && priv_ls_buffer.priv_vec(1),
-        rob_update_item.is_priv_ls && priv_ls_buffer.priv_vec(2)
-    )
+    val csr_addr_cmt            = priv_buffer.csr_addr
+    val csr_wdata_cmt           = rob_update_item.branch_target
+    val csr_we_cmt              = rob_update_item.is_priv_wrt && priv_buffer.priv_vec(2, 1).orR
+    val is_eret_cmt             = rob_update_item.is_priv_wrt && priv_buffer.priv_vec(3)
+    val badv_cmt                = rob_update_item.branch_target - 4.U
+    val tlbrd_en_cmt            = rob_update_item.is_priv_wrt && priv_buffer.priv_vec(4)
+    val tlbwr_en_cmt            = rob_update_item.is_priv_wrt && priv_buffer.priv_vec(5)
+    val tlbfill_en_cmt          = rob_update_item.is_priv_wrt && priv_buffer.priv_vec(6)
+    val tlbsrch_en_cmt          = rob_update_item.is_priv_wrt && priv_buffer.priv_vec(7)
+    val tlbentry_cmt            = priv_buffer.tlb_entry
+    val invtlb_en_cmt           = rob_update_item.is_priv_wrt && priv_buffer.priv_vec(8)
+    val idle_en_cmt             = rob_update_item.is_priv_wrt && priv_buffer.priv_vec(9)
+    val invtlb_op_cmt           = priv_buffer.inv_op
+    val invtlb_vaddr_cmt        = priv_buffer.inv_vaddr
+    val invtlb_asid_cmt         = priv_buffer.inv_asid
+    val llbit_set_cmt           = rob_update_item.is_priv_ls && priv_ls_buffer.priv_vec(1)
+    val llbit_clear_cmt         = rob_update_item.is_priv_ls && priv_ls_buffer.priv_vec(2)
 
-    // Shift and assign all signals
-    val shiftedCsrSignals = ShiftRegister(VecInit(csrSignals), 1)
-
-    io.csr_addr_cmt             := shiftedCsrSignals(0)
-    io.csr_wdata_cmt            := shiftedCsrSignals(1)
-    io.csr_we_cmt               := shiftedCsrSignals(2)
-    io.is_eret_cmt              := shiftedCsrSignals(3)
-    io.badv_cmt                 := shiftedCsrSignals(4)
-    io.tlbrd_en_cmt             := shiftedCsrSignals(5)
-    io.tlbwr_en_cmt             := shiftedCsrSignals(6)
-    io.tlbfill_en_cmt           := shiftedCsrSignals(7)
-    io.tlbsrch_en_cmt           := shiftedCsrSignals(8)
-    io.tlbentry_cmt             := shiftedCsrSignals(9)
-    io.invtlb_en_cmt            := shiftedCsrSignals(10)
-    io.invtlb_op_cmt            := shiftedCsrSignals(11)
-    io.invtlb_vaddr_cmt         := shiftedCsrSignals(12)
-    io.invtlb_asid_cmt          := shiftedCsrSignals(13)
-    io.idle_en_cmt              := shiftedCsrSignals(14)
-    io.llbit_set_cmt            := shiftedCsrSignals(15)
-    io.llbit_clear_cmt          := shiftedCsrSignals(16)
+    io.csr_addr_cmt             := ShiftRegister(csr_addr_cmt, 1)
+    io.csr_wdata_cmt            := ShiftRegister(csr_wdata_cmt, 1)
+    io.csr_we_cmt               := ShiftRegister(csr_we_cmt, 1)
+    io.is_eret_cmt              := ShiftRegister(is_eret_cmt, 1)
+    io.badv_cmt                 := ShiftRegister(badv_cmt, 1)
+    io.tlbrd_en_cmt             := ShiftRegister(tlbrd_en_cmt, 1)
+    io.tlbwr_en_cmt             := ShiftRegister(tlbwr_en_cmt, 1)
+    io.tlbfill_en_cmt           := ShiftRegister(tlbfill_en_cmt, 1)
+    io.tlbsrch_en_cmt           := ShiftRegister(tlbsrch_en_cmt, 1)
+    io.tlbentry_cmt             := ShiftRegister(tlbentry_cmt, 1)
+    io.invtlb_en_cmt            := ShiftRegister(invtlb_en_cmt, 1)
+    io.invtlb_op_cmt            := ShiftRegister(invtlb_op_cmt, 1)
+    io.invtlb_vaddr_cmt         := ShiftRegister(invtlb_vaddr_cmt, 1)
+    io.invtlb_asid_cmt          := ShiftRegister(invtlb_asid_cmt, 1)
+    io.idle_en_cmt              := ShiftRegister(idle_en_cmt, 1)
+    io.llbit_set_cmt            := ShiftRegister(llbit_set_cmt, 1)
+    io.llbit_clear_cmt          := ShiftRegister(llbit_clear_cmt, 1)
 
     // update ptrs
     val cmt_num = PopCount(cmt_en)
@@ -368,7 +367,7 @@ class ROB(n: Int) extends Module{
     val rd_valid_cmt             = VecInit.tabulate(2)(i => rob_commit_items(i).rd_valid && !rob_commit_items(i).exception(7))
     val prd_cmt                  = VecInit.tabulate(2)(i => rob_commit_items(i).prd)
     val pprd_cmt                 = VecInit.tabulate(2)(i => rob_commit_items(i).pprd)
-    val pc_cmt                   = VecInit.tabulate(2)(i => Mux(rob_commit_items(i).exception(7) || interrupt,  eentry_global, 
+    val pc_cmt                   = VecInit.tabulate(2)(i => Mux(rob_commit_items(i).exception(7) || interrupt, Mux(rob_commit_items(i).exception(5, 0) === 0x3f.U, tlbreentry_global, eentry_global), 
                                                             Mux(rob_commit_items(i).is_priv_wrt && priv_buffer.priv_vec(3) || rob_commit_items(i).pred_update_en && rob_commit_items(i).real_jump, rob_commit_items(i).branch_target, rob_commit_items(i).pc)))
     val rf_wdata_cmt             = VecInit.tabulate(2)(i => rob_commit_items(i).rf_wdata)
     val is_ucread_cmt            = VecInit.tabulate(2)(i => rob_commit_items(i).is_ucread && cmt_en(i))
