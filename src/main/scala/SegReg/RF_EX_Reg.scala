@@ -3,6 +3,7 @@ import chisel3.util._
 import Inst_Pack._
 
 class RF_EX_Reg[T <: Bundle](inst_pack_t: T) extends Module {
+    //这是所有路的regfile到execute的段间寄存器
     val io = IO(new Bundle {
         val flush           = Input(Bool())
         val stall           = Input(Bool())
