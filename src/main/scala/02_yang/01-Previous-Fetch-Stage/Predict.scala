@@ -60,8 +60,11 @@ class Predict extends Module{
     val btb_tagv    = VecInit.fill(2)(VecInit.fill(2)(Module(new xilinx_simple_dual_port_1_clock_ram_read_first(BTB_TAG_WIDTH+1, BTB_DEPTH)).io))
     val btb_targ    = VecInit.fill(2)(VecInit.fill(2)(Module(new xilinx_simple_dual_port_1_clock_ram_read_first(30+2, BTB_DEPTH)).io))
     val bht         = RegInit(VecInit.fill(2)(VecInit.fill(BHT_DEPTH)(0.U(4.W))))
-    val pht         = RegInit(VecInit.fill(2)(VecInit.fill(PHT_DEPTH)(2.U(2.W))))
 
+    val lpht       = RegInit(VecInit.fill(2)(VecInit.fill(PHT_DEPTH)(2.U(2.W))))
+
+    val gpht       = RegInit(VecInit.fill(2)(VecInit.fill(PHT_DEPTH)(2.U(2.W))))
+    val ghr         = RegInit(0.U(8.W))
     val ras         = RegInit(VecInit.fill(8)(0x1c000000.U(32.W)))
     val jirl_sel    = RegInit(2.U(2.W))
     val top         = RegInit(0x7.U(3.W))
@@ -78,11 +81,11 @@ class Predict extends Module{
     val bht_rindex      = VecInit.tabulate(2)(i => pc(i)(3+BHT_INDEX_WIDTH-1, 3))
     val bht_rdata       = VecInit.tabulate(2)(i => bht(i)(bht_rindex(i)))
 
-    val pht_rindex      = VecInit.tabulate(2)(i => bht_rdata(i)(3, 2)  ## (bht_rdata(i)(1, 0) ^ pc(i+2)(PHT_INDEX_WIDTH, PHT_INDEX_WIDTH-1)) ## pc(i+2)(PHT_INDEX_WIDTH-2, 3))
-    val pht_rdata       = VecInit.tabulate(2)(i => pht(i)(pht_rindex(i)))
+    val lpht_rindex      = VecInit.tabulate(2)(i => bht_rdata(i)(3, 2)  ## (bht_rdata(i)(1, 0) ^ pc(i+2)(PHT_INDEX_WIDTH, PHT_INDEX_WIDTH-1)) ## pc(i+2)(PHT_INDEX_WIDTH-2, 3))
+    val lpht_rdata       = VecInit.tabulate(2)(i => lpht(i)(lpht_rindex(i)))
 
     val predict_valid   = VecInit.tabulate(2)(i => btb_rdata(btb_rsel)(i).valid && !(btb_rdata(btb_rsel)(i).tag ^ pc(i+4)(31, 32 - BTB_TAG_WIDTH)))
-    val predict_jump    = VecInit.tabulate(2)(i => (pht_rdata(i)(1)) && predict_valid(i))
+    val predict_jump    = VecInit.tabulate(2)(i => (lpht_rdata(i)(1)) && predict_valid(i))
 
     val valid_mask      = true.B ## !pc(6)(2)
     val pred_hit        = VecInit.tabulate(2)(i => predict_jump(i) && valid_mask(i))
@@ -108,8 +111,7 @@ class Predict extends Module{
     }
 
     // btb_rsel
-    val btb_rsel        = Wire(UInt(1.W))
-    btb_rsel := Mux((btb_rdata(1)(0).tag ^ pc(4)(31, 32 - BTB_TAG_WIDTH)) || (btb_rdata(1)(1).tag ^ pc(1+4)(31, 32 - BTB_TAG_WIDTH)), 1.U(1.W), 0.U(1.W))
+    val btb_rsel        = Mux((btb_rdata(1)(0).tag ^ pc(4)(31, 32 - BTB_TAG_WIDTH)) || (btb_rdata(1)(1).tag ^ pc(1+4)(31, 32 - BTB_TAG_WIDTH)), 1.U(1.W), 0.U(1.W))
 
     for (i <- 0 until 2){
         btb_wdata(i).valid  := true.B
@@ -142,20 +144,37 @@ class Predict extends Module{
     }
     // bht
     val bht_windex = pc_cmt(3-1+BHT_INDEX_WIDTH, 3)
-    val bht_wdata = io.real_jump
+    val bht_wdata  = io.real_jump
     when(update_en){
         bht(cmt_col)(bht_windex) := bht_wdata ## bht(cmt_col)(bht_windex)(3, 1)
     }
 
-    // pht
-    val pht_windex = bht(cmt_col)(bht_windex)(3, 2) ## (bht(cmt_col)(bht_windex)(1, 0) ^ pc_cmt(PHT_INDEX_WIDTH, PHT_INDEX_WIDTH-1)) ## pc_cmt(PHT_INDEX_WIDTH-2, 3)
-    val pht_raw_rdata = pht(cmt_col)(pht_windex)
+    // local pht
+    val lpht_windex = bht(cmt_col)(bht_windex)(3, 2) ## (bht(cmt_col)(bht_windex)(1, 0) ^ pc_cmt(PHT_INDEX_WIDTH, PHT_INDEX_WIDTH-1)) ## pc_cmt(PHT_INDEX_WIDTH-2, 3)
+    val lpht_raw_rdata = lpht(cmt_col)(lpht_windex)
 
     when(update_en){
-        pht(cmt_col)(pht_windex) := Mux(io.real_jump, 
-                                        pht_raw_rdata + (pht_raw_rdata =/= 3.U), 
-                                        pht_raw_rdata - (pht_raw_rdata =/= 0.U))
+        lpht(cmt_col)(lpht_windex) := Mux(io.real_jump, 
+                                        lpht_raw_rdata + (lpht_raw_rdata =/= 3.U), 
+                                        lpht_raw_rdata - (lpht_raw_rdata =/= 0.U))
     }
+
+    // global pht
+
+    val gpht_rindex      = VecInit.tabulate(2)(i => ghr(3, 2)  ## (ghr ^ pc(i+2)(PHT_INDEX_WIDTH, PHT_INDEX_WIDTH-1)) ## pc(i+2)(PHT_INDEX_WIDTH-2, 3))
+    val gpht_rdata       = VecInit.tabulate(2)(i => gpht(i)(gpht_rindex(i)))
+    val gpht_windex      = ghr(3, 2) ## (ghr(1, 0) ^ pc_cmt(PHT_INDEX_WIDTH, PHT_INDEX_WIDTH-1)) ## pc_cmt(PHT_INDEX_WIDTH-2, 3)
+    val gpht_raw_rdata   = gpht(cmt_col)(gpht_windex)
+
+    when(update_en){
+        gpht(cmt_col)(gpht_windex) := Mux(io.real_jump, 
+                                        gpht_raw_rdata + (gpht_raw_rdata =/= 3.U), 
+                                        gpht_raw_rdata - (gpht_raw_rdata =/= 0.U))
+        ghr     :=  ghr(3:1) ## Mux(io.real_jump, 1.U, 0.U)
+    }
+
+    // Competition
+    
 
     // RAS
     when(io.predict_fail){
