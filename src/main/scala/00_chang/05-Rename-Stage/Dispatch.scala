@@ -22,7 +22,6 @@ class Dispatch extends Module{
     val fu1_num = io.elem_num(0)
     val fu2_num = io.elem_num(1)
     val min = Mux(fu1_num <= fu2_num, 0.U, 1.U)
-    val predict_issue_queue = Wire(Vec(2,UInt(4.W)))
 
     for(i <- 0 until 2){
         when(inst_packs(i).fu_id === ARITH){

@@ -33,7 +33,6 @@ class Free_List(n: Int) extends Module{
     }
 
     val free_list  = RegInit(VecInit.tabulate(n)(i => (i + 1).asUInt(log2Ceil(n).W)))
-    val free_list   = RegInit(VecInit.tabulate(n)(i => (i + 1).asUInt(log2Ceil(n)-1, 0)))
     val head = RegInit(1.U(n.W))
     val rear = Reg(UInt(n.W))
 
@@ -45,23 +44,22 @@ class Free_List(n: Int) extends Module{
         head := UIntToOH(head_arch)
     }
     
-    val empty = Wire(Bool())
-    empty := (head === rear) || (rotate_left_1(head) === rear)
+    val empty = (head === rear) || (rotate_left_1(head) === rear)
     io.empty := empty
 
     //Dequeue -- allocate new physical register
-    val head_prev = Wire(Vec(2, UInt(n.W)))
-    var head_curr = head
-    val alloc_preg = Wire(VecInit.fill(2)(0.U(log2Ceil(n).W)))
+    val head_pre    = Wire(Vec(2, UInt(n.W)))
+    var head_cur    = head
+    io.alloc_preg  := VecInit.fill(2)(0.U(log2Ceil(n).W))
     for(i <- 0 until 2){
-        head_prev(i) := head_curr
-        when(inst_valid(i) && rename_en(i) && !empty){
-            head_curr = rotate_left_1(head_curr)
+        val head_move = inst_valid(i) && rename_en(i) && !empty
+        head_pre(i)         := head_cur
+        when (head_move){
+            head_cur := rotate_left_1(head_cur)
         }
-        alloc_preg(i) := Mux1H(head_prev(i), free_list)
+        io.alloc_preg(i)    := Mux1H(head_pre(i), free_list)
     }
-    head := head_curr
-    io.alloc_preg := alloc_preg
+    head := head_cur
 
     //Enqueue -- push retired physical register to free list
     val rear_prev = Wire(Vec(2, UInt(n.W)))
