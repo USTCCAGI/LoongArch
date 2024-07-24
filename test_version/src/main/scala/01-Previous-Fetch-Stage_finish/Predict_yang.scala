@@ -15,7 +15,7 @@ object Predict_Config {
     val ICALL     = 3.U(2.W)
     val ELSE      = 0.U(2.W)
 }
-
+import Predict_Config._
 object Predict_Struct{
     class btb_t extends Bundle{
         val valid       = Bool()
@@ -24,7 +24,7 @@ object Predict_Struct{
         val typ         = UInt(2.W)
     }
 }
-
+import Predict_Struct._
 class Predict_IO extends Bundle{
     // check
     val npc                 = Input(Vec(10, UInt(32.W)))

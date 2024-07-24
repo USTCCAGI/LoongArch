@@ -160,7 +160,7 @@ class CPU extends Module {
 
     /* ---------- 1. Previous Fetch Stage ---------- */
     // PC
-    pc.io.pc_stall                  := fq.io.full || icache.io.cache_miss_RM || icache.io.has_cacop_IF
+    pc.io.pc_stall                  := fq.io.full || icache.io.cache_miss_RM //|| icache.io.has_cacop_IF
     pc.io.predict_fail              := rob.io.predict_fail_cmt(0)
     pc.io.branch_target             := rob.io.branch_target_cmt
     pc.io.pred_jump                 := predict.io.predict_jump
@@ -195,7 +195,7 @@ class CPU extends Module {
     /* ---------- PF-IF SegReg ---------- */
     val pcs_PF                      = VecInit(pc.io.pc_PF(8), pc.io.pc_PF(8) + 4.U)
     pi_reg.io.flush                 := rob.io.predict_fail_cmt(0) || (!fq.io.full && pd.io.pred_fix)
-    pi_reg.io.stall                 := fq.io.full || icache.io.cache_miss_RM || icache.io.has_cacop_IF
+    pi_reg.io.stall                 := fq.io.full || icache.io.cache_miss_RM //|| icache.io.has_cacop_IF
     pi_reg.io.inst_pack_PF          := VecInit.tabulate(2)(i => inst_pack_PF_gen(pcs_PF(i), pc.io.inst_valid_PF(i), predict.io.predict_jump(i), predict.io.pred_npc, predict.io.pred_valid(i), pc.io.exception_PF,
                                                             (pcs_PF(i)(31, 28) + 1.U)(3, 0) ## 0.U(28.W), (pcs_PF(i)(31, 28) - 1.U)(3, 0) ## 0.U(28.W), (pcs_PF(i)(31, 18) + 1.U)(13, 0) ## 0.U(18.W), (pcs_PF(i)(31, 18) - 1.U)(13, 0) ## 0.U(18.W)))
 
@@ -204,14 +204,14 @@ class CPU extends Module {
     icache.io.addr_IF               := Mux(RegNext(re_reg4.io.inst_pack_EX.priv_vec(0)), RegNext(re_reg4.io.src1_EX), pc.io.pc_PF(9))
     icache.io.rvalid_IF             := !reset.asBool 
     icache.io.paddr_IF              := Mux(RegNext(re_reg4.io.inst_pack_EX.priv_vec(0)), RegNext(mmu.io.d_paddr), mmu.io.i_paddr)
-    icache.io.uncache_IF            := mmu.io.i_uncache 
+    //icache.io.uncache_IF            := mmu.io.i_uncache 
     icache.io.stall                 := fq.io.full
     icache.io.flush                 := false.B
     icache.io.i_rready              := arb.io.i_rready
     icache.io.i_rdata               := arb.io.i_rdata
     icache.io.i_rlast               := arb.io.i_rlast
-    icache.io.cacop_en              := RegNext(re_reg4.io.inst_pack_EX.priv_vec(0)) && RegNext(re_reg4.io.inst_pack_EX.imm(2, 0) === 0.U)
-    icache.io.cacop_op              := RegNext(re_reg4.io.inst_pack_EX.imm(4, 3))
+    //icache.io.cacop_en              := RegNext(re_reg4.io.inst_pack_EX.priv_vec(0)) && RegNext(re_reg4.io.inst_pack_EX.imm(2, 0) === 0.U)
+    //icache.io.cacop_op              := RegNext(re_reg4.io.inst_pack_EX.imm(4, 3))
     icache.io.exception_RM          := mmu.io.i_exception(7)
 
     /* ---------- IF-PD SegReg ---------- */
