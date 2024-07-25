@@ -63,7 +63,9 @@ class Predict extends Module{
 
     val lpht_rindex      = VecInit.tabulate(2)(i => bht_rdata(i)(3, 2)  ## (bht_rdata(i)(1, 0) ^ pc(i+2)(PHT_INDEX_WIDTH, PHT_INDEX_WIDTH-1)) ## pc(i+2)(PHT_INDEX_WIDTH-2, 3))
     val lpht_rdata       = VecInit.tabulate(2)(i => lpht(i)(lpht_rindex(i)))
-
+    // btb_rsel
+    val btb_rsel        = Mux(((btb_rdata(1)(0).tag ^ pc(4)(31, 32 - BTB_TAG_WIDTH)) | (btb_rdata(1)(1).tag ^ pc(1+4)(31, 32 - BTB_TAG_WIDTH))) === 0.U, 1.U(1.W), 0.U(1.W))
+    
     val predict_valid   = VecInit.tabulate(2)(i => btb_rdata(btb_rsel)(i).valid && !(btb_rdata(btb_rsel)(i).tag ^ pc(i+4)(31, 32 - BTB_TAG_WIDTH)))
     val predict_jump    = VecInit.tabulate(2)(i => (lpht_rdata(i)(1)) && predict_valid(i))
 
@@ -89,9 +91,7 @@ class Predict extends Module{
     when (update_en){
         way_sel(btb_windex) := ~way_sel(btb_windex)
     }
-
-    // btb_rsel
-    val btb_rsel        = Mux(((btb_rdata(1)(0).tag ^ pc(4)(31, 32 - BTB_TAG_WIDTH)) | (btb_rdata(1)(1).tag ^ pc(1+4)(31, 32 - BTB_TAG_WIDTH))) === 0.U, 1.U(1.W), 0.U(1.W))
+    
 
     for (i <- 0 until 2){
         btb_wdata(i).valid  := true.B
@@ -143,7 +143,7 @@ class Predict extends Module{
 
     // global pht
 
-    val gpht_rindex      = VecInit.tabulate(2)(i => ghr(3, 2)  ## (ghr ^ pc(i+2)(PHT_INDEX_WIDTH, PHT_INDEX_WIDTH-1)) ## pc(i+2)(PHT_INDEX_WIDTH-2, 3))
+    val gpht_rindex      = VecInit.tabulate(2)(i => ghr(3, 2)  ## (ghr(1, 0) ^ pc(i+2)(PHT_INDEX_WIDTH, PHT_INDEX_WIDTH-1)) ## pc(i+2)(PHT_INDEX_WIDTH-2, 3))
     val gpht_rdata       = VecInit.tabulate(2)(i => gpht(i)(gpht_rindex(i)))
     val gpht_windex      = ghr(3, 2) ## (ghr(1, 0) ^ pc_cmt(PHT_INDEX_WIDTH, PHT_INDEX_WIDTH-1)) ## pc_cmt(PHT_INDEX_WIDTH-2, 3)
     val gpht_raw_rdata   = gpht(cmt_col)(gpht_windex)
@@ -156,7 +156,7 @@ class Predict extends Module{
     }
 
     // Competition
-    val cpht_rindex      = VecInit.tabulate(2)(i => ghr(3, 2)  ## (ghr ^ pc(i+2)(PHT_INDEX_WIDTH, PHT_INDEX_WIDTH-1)) ## pc(i+2)(PHT_INDEX_WIDTH-2, 3))
+    val cpht_rindex      = VecInit.tabulate(2)(i => ghr(3, 2)  ## (ghr(1, 0) ^ pc(i+2)(PHT_INDEX_WIDTH, PHT_INDEX_WIDTH-1)) ## pc(i+2)(PHT_INDEX_WIDTH-2, 3))
     val cpht_rdata       = VecInit.tabulate(2)(i => cpht(i)(gpht_rindex(i)))
     val cpht_windex      = ghr(3, 2) ## (ghr(1, 0) ^ pc_cmt(PHT_INDEX_WIDTH, PHT_INDEX_WIDTH-1)) ## pc_cmt(PHT_INDEX_WIDTH-2, 3)
     val cpht_raw_rdata   = cpht(cmt_col)(cpht_windex)
