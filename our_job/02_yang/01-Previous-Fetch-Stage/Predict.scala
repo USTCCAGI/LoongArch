@@ -65,6 +65,8 @@ class Predict extends Module{
 
     val gpht       = RegInit(VecInit.fill(2)(VecInit.fill(PHT_DEPTH)(2.U(2.W))))
     val ghr         = RegInit(0.U(8.W))
+    val cpht       = RegInit(VecInit.fill(2)(VecInit.fill(PHT_DEPTH)(2.U(2.W))))
+
     val ras         = RegInit(VecInit.fill(8)(0x1c000000.U(32.W)))
     val jirl_sel    = RegInit(2.U(2.W))
     val top         = RegInit(0x7.U(3.W))
@@ -174,7 +176,17 @@ class Predict extends Module{
     }
 
     // Competition
-    
+    val cpht_rindex      = VecInit.tabulate(2)(i => ghr(3, 2)  ## (ghr ^ pc(i+2)(PHT_INDEX_WIDTH, PHT_INDEX_WIDTH-1)) ## pc(i+2)(PHT_INDEX_WIDTH-2, 3))
+    val cpht_rdata       = VecInit.tabulate(2)(i => cpht(i)(gpht_rindex(i)))
+    val cpht_windex      = ghr(3, 2) ## (ghr(1, 0) ^ pc_cmt(PHT_INDEX_WIDTH, PHT_INDEX_WIDTH-1)) ## pc_cmt(PHT_INDEX_WIDTH-2, 3)
+    val cpht_raw_rdata   = cpht(cmt_col)(cpht_windex)
+
+    when(update_en){
+        cpht(cmt_col)(cpht_windex) := Mux(io.real_jump, 
+                                        cpht_raw_rdata + (cpht_raw_rdata =/= 3.U), 
+                                        cpht_raw_rdata - (cpht_raw_rdata =/= 0.U))
+        ghr     :=  ghr(3:1) ## Mux(io.real_jump, 1.U, 0.U)
+    }
 
     // RAS
     when(io.predict_fail){
