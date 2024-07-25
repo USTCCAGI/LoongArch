@@ -15,20 +15,20 @@ object CPU_Config{
     val TLB_ENTRY_NUM   = 16
 }
 
-//object Predict_Config {
-//    val BTB_INDEX_WIDTH = 7
-//    val BTB_TAG_WIDTH   = 28 - BTB_INDEX_WIDTH
-//    val BTB_DEPTH       = 1 << BTB_INDEX_WIDTH
-//    val BHT_INDEX_WIDTH = 6
-//    val BHT_DEPTH       = 1 << BHT_INDEX_WIDTH
-//    val PHT_INDEX_WIDTH = 6
-//    val PHT_DEPTH       = 1 << PHT_INDEX_WIDTH
-//
-//    val RET       = 1.U(2.W)
-//    val BL        = 2.U(2.W)
-//    val ICALL     = 3.U(2.W)
-//    val ELSE      = 0.U(2.W)
-//}
+object Predict_Config {
+   val BTB_INDEX_WIDTH = 7
+   val BTB_TAG_WIDTH   = 28 - BTB_INDEX_WIDTH
+   val BTB_DEPTH       = 1 << BTB_INDEX_WIDTH
+   val BHT_INDEX_WIDTH = 6
+   val BHT_DEPTH       = 1 << BHT_INDEX_WIDTH
+   val PHT_INDEX_WIDTH = 6
+   val PHT_DEPTH       = 1 << PHT_INDEX_WIDTH
+
+   val RET       = 1.U(2.W)
+   val BL        = 2.U(2.W)
+   val ICALL     = 3.U(2.W)
+   val ELSE      = 0.U(2.W)
+}
 
 object ICache_Config{
     val INDEX_WIDTH = 7

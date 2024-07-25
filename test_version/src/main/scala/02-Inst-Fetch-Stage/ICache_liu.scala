@@ -42,6 +42,9 @@ class ICache_IO extends Bundle{
     // for stat
     val commit_icache_visit    = Output(Bool())
     val commit_icache_miss     = Output(Bool())
+
+    // useless
+    val pc_sign_RM      = Output(Vec(2, UInt(2.W)))
 }
 
 //class ICache_IO extends Bundle{
@@ -85,7 +88,7 @@ class ICache extends Module{
     val io = IO(new ICache_IO)
     // no_use
     //io.has_cacop_IF := false.B
-    //io.pc_sign_RM := VecInit.fill(2)(0.U(2.W))
+    io.pc_sign_RM := VecInit.fill(2)(0.U(2.W))
     
     // input
     val vaddr_IF = io.addr_IF
