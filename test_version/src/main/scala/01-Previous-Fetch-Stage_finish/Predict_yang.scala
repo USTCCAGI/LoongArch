@@ -87,7 +87,7 @@ class Predict extends Module{
     val btb_windex      = pc_cmt(3-1+BTB_INDEX_WIDTH, 3)
 
     // way_sel reg
-    val way_sel         = VecInit.fill(BTB_DEPTH)(0.U(1.W))
+    val way_sel         = RegInit(VecInit.fill(BTB_DEPTH)(0.U(1.W)))
     when (update_en){
         way_sel(btb_windex) := ~way_sel(btb_windex)
     }
@@ -106,8 +106,10 @@ class Predict extends Module{
             btb_tagv(i)(j).dina    := btb_wdata(j).valid ## btb_wdata(j).tag
             btb_tagv(i)(j).clka    := clock
         }
-        btb_tagv(way_sel(btb_windex))(j).wea     := update_en && mask(j)
-}
+        btb_tagv(0)(j).wea     := update_en && mask(j) && !way_sel(btb_windex)
+        btb_tagv(1)(j).wea     := update_en && mask(j) && way_sel(btb_windex).asBools(0)
+    }
+
     for(i <- 0 until 2)
         for(j <- 0 until 2){
             btb_rdata(i)(j).valid  := btb_tagv(i)(j).doutb(BTB_TAG_WIDTH)
@@ -122,8 +124,10 @@ class Predict extends Module{
             btb_targ(i)(j).dina    := btb_wdata(j).target ## btb_wdata(j).typ
             btb_targ(i)(j).clka    := clock
         }
-        btb_targ(way_sel(btb_windex))(j).wea     := update_en && mask(j)
-}
+        btb_targ(0)(j).wea     := update_en && mask(j) && !way_sel(btb_windex)
+        btb_targ(1)(j).wea     := update_en && mask(j) && way_sel(btb_windex).asBools(0)   
+    }
+
     // bht
     val bht_windex = pc_cmt(3-1+BHT_INDEX_WIDTH, 3)
     val bht_wdata  = io.real_jump
