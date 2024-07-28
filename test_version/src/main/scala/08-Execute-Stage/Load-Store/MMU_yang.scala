@@ -59,7 +59,9 @@ class MMU_IO extends Bundle{
 class MMU extends Module{
     val io = IO(new MMU_IO)
     // val tlb = Module(new TLB)
-
+    io.tlbrd_entry := DontCare
+    io.tlbsrch_idx     := DontCare
+    io.tlbsrch_hit     := DontCare
     // tlb.io.csr_asid       := io.csr_asid
     // tlb.io.csr_plv        := io.csr_plv
     // tlb.io.csr_tlbehi     := io.csr_tlbehi
