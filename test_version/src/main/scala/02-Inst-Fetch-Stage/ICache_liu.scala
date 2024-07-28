@@ -130,7 +130,7 @@ class ICache extends Module{
     val cache_miss_RM = WireDefault(0.U(1.W))
     val tag_we = WireDefault(VecInit.fill(2)(false.B))
     val inst_we = WireDefault(VecInit.fill(2)(false.B))
-    val data_sel = WireDefault(FROM_MEM)
+    val data_sel = WireDefault(FROM_BUF)
 
     //lru
     val lrumem = RegInit(VecInit.fill(INDEX_NUM)(0.U(1.W)))
@@ -139,7 +139,7 @@ class ICache extends Module{
     val lru_hit_upd = WireDefault(false.B)
 
     // segreg logic
-    when(!(stall || exception)){
+    when(!(stall || cache_miss_RM.orR)){
         vaddr_IF_RM := vaddr_IF
         paddr_IF_RM := paddr_IF
         rvalid_IF_RM := rvalid_IF
@@ -208,6 +208,7 @@ class ICache extends Module{
             irvalid := true.B
             cache_miss_RM := true.B
             cs := Mux(io.i_rready && io.i_rlast, s_refill, s_miss)
+            addr_sel := FROM_SEG
         }
         is(s_refill){
             cs := s_wait
