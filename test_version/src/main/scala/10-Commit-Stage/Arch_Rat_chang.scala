@@ -32,13 +32,16 @@ class Arch_Rat(n: Int) extends Module {
     val head = RegInit(0.U(log2Ceil(n).W))
     var head_next = head
     for(i <- 0 until 2){
-        when(io.cmt_en(i) && io.rd_valid_cmt(i)){
-            head_next = Mux(head_next === (n-1).U, 0.U, head_next + 1.U)
+        head_next = Mux(io.cmt_en(i) && io.rd_valid_cmt(i), Mux(head_next === (n-1).U, 0.U, head_next + 1.U), head_next)
+    }
+    head := head_next
+
+    for(i <- 0 until 2){
+        when(io.rd_valid_cmt(i) && io.cmt_en(i)){
             arat(io.pprd_cmt(i)) := false.B
             arat(io.prd_cmt(i)) := true.B
         }
     }
-    head := head_next
 
     io.arch_rat     := arat
     io.head_arch    := head

@@ -1,23 +1,7 @@
 import chisel3._
 import chisel3.util._
-
-object DCache_Config{
-    val INDEX_WIDTH = 5
-    val INDEX_NUM = 1 << INDEX_WIDTH
-
-    val OFFSET_WIDTH = 5
-    val OFFSET_NUM = 1 << OFFSET_WIDTH
-
-    val TAG_WIDTH = 32 - INDEX_WIDTH - OFFSET_WIDTH
-
-    val FROM_MEM = 0.U(1.W)
-    val FROM_BUF = 1.U(1.W)
-
-    val FROM_PIPE = 0.U(1.W)
-    val FROM_SEG  = 1.U(1.W)
-}
-
 import DCache_Config._
+
 class DCache_IO extends Bundle{
     // RF stage
     val addr_RF         = Input(UInt(32.W))

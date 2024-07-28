@@ -2,15 +2,15 @@ import chisel3._
 import chisel3.util._
 
 /* Predict Struct */
-//object Predict_Struct{
-//    import Predict_Config._
-//    class btb_t extends Bundle{
-//        val valid       = Bool()
-//        val target      = UInt(30.W)
-//        val tag         = UInt(BTB_TAG_WIDTH.W)
-//        val typ         = UInt(2.W)
-//    }
-//}
+object Predict_Struct{
+   import Predict_Config._
+   class btb_t extends Bundle{
+       val valid       = Bool()
+       val target      = UInt(30.W)
+       val tag         = UInt(BTB_TAG_WIDTH.W)
+       val typ         = UInt(2.W)
+   }
+}
 /* ICache Item */
 object ICache_Struct{
     class icache_t extends Bundle{
