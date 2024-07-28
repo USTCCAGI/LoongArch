@@ -127,7 +127,7 @@ class ICache extends Module{
     val cache_miss_RM = WireDefault(0.U(1.W))
     val tag_we = WireDefault(VecInit.fill(2)(false.B))
     val inst_we = WireDefault(VecInit.fill(2)(false.B))
-    val data_sel = WireDefault(FROM_MEM)
+    val data_sel = WireDefault(FROM_BUF)
 
     //lru
     val lrumem = RegInit(VecInit.fill(INDEX_NUM)(0.U(1.W)))
