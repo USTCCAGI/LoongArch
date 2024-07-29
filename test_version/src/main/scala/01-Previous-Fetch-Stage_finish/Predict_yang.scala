@@ -56,7 +56,7 @@ class Predict extends Module{
     val cmt_col         = pc_cmt(2)
     
     val btb_rindex      = VecInit.tabulate(2)(i => npc(i)(3+BTB_INDEX_WIDTH-1, 3))
-    val btb_rdata       = Wire(Vec(2,Vec(2, new btb_t)))
+    val btb_rdata       = Reg(Vec(2,Vec(2, new btb_t)))
 
     val bht_rindex      = VecInit.tabulate(2)(i => pc(i)(3+BHT_INDEX_WIDTH-1, 3))
     val bht_rdata       = VecInit.tabulate(2)(i => bht(i)(bht_rindex(i)))
@@ -64,7 +64,7 @@ class Predict extends Module{
     val lpht_rindex      = VecInit.tabulate(2)(i => bht_rdata(i)(3, 2)  ## (bht_rdata(i)(1, 0) ^ pc(i+2)(PHT_INDEX_WIDTH, PHT_INDEX_WIDTH-1)) ## pc(i+2)(PHT_INDEX_WIDTH-2, 3))
     val lpht_rdata       = VecInit.tabulate(2)(i => lpht(i)(lpht_rindex(i)))
     // btb_rsel
-    val btb_rsel        = Mux(((btb_rdata(1)(0).tag ^ pc(4)(31, 32 - BTB_TAG_WIDTH)) | (btb_rdata(1)(1).tag ^ pc(1+4)(31, 32 - BTB_TAG_WIDTH))) === 0.U, 1.U(1.W), 0.U(1.W))
+    val btb_rsel        = ~((btb_rdata(1)(0).tag ^ pc(4)(31, 32 - BTB_TAG_WIDTH)).orR & (btb_rdata(1)(1).tag ^ pc(1+4)(31, 32 - BTB_TAG_WIDTH)).orR)
     
     val predict_valid   = VecInit.tabulate(2)(i => btb_rdata(btb_rsel)(i).valid && !(btb_rdata(btb_rsel)(i).tag ^ pc(i+4)(31, 32 - BTB_TAG_WIDTH)))
     val predict_jump    = VecInit.tabulate(2)(i => (lpht_rdata(i)(1)) && predict_valid(i))
