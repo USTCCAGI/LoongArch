@@ -4,293 +4,277 @@ module ID_RN_Reg(
                 reset,
                 io_flush,
                 io_stall,
-  input  [31:0] io_insts_pack_ID_0_pc,
-  input         io_insts_pack_ID_0_inst_valid,
-                io_insts_pack_ID_0_predict_jump,
-  input  [31:0] io_insts_pack_ID_0_pred_npc,
-  input  [7:0]  io_insts_pack_ID_0_exception,
-  input  [4:0]  io_insts_pack_ID_0_rj,
-                io_insts_pack_ID_0_rk,
-                io_insts_pack_ID_0_rd,
-  input         io_insts_pack_ID_0_rd_valid,
-  input  [31:0] io_insts_pack_ID_0_imm,
-  input  [3:0]  io_insts_pack_ID_0_alu_op,
-  input         io_insts_pack_ID_0_alu_rs1_sel,
-  input  [1:0]  io_insts_pack_ID_0_alu_rs2_sel,
-  input  [3:0]  io_insts_pack_ID_0_br_type,
-  input  [4:0]  io_insts_pack_ID_0_mem_type,
-  input  [12:0] io_insts_pack_ID_0_priv_vec,
-  input  [2:0]  io_insts_pack_ID_0_fu_id,
-  input  [31:0] io_insts_pack_ID_1_pc,
-  input         io_insts_pack_ID_1_inst_valid,
-                io_insts_pack_ID_1_predict_jump,
-  input  [31:0] io_insts_pack_ID_1_pred_npc,
-  input  [7:0]  io_insts_pack_ID_1_exception,
-  input  [4:0]  io_insts_pack_ID_1_rj,
-                io_insts_pack_ID_1_rk,
-                io_insts_pack_ID_1_rd,
-  input         io_insts_pack_ID_1_rd_valid,
-  input  [31:0] io_insts_pack_ID_1_imm,
-  input  [3:0]  io_insts_pack_ID_1_alu_op,
-  input         io_insts_pack_ID_1_alu_rs1_sel,
-  input  [1:0]  io_insts_pack_ID_1_alu_rs2_sel,
-  input  [3:0]  io_insts_pack_ID_1_br_type,
-  input  [4:0]  io_insts_pack_ID_1_mem_type,
-  input  [12:0] io_insts_pack_ID_1_priv_vec,
-  input  [2:0]  io_insts_pack_ID_1_fu_id,
+  input  [31:0] io_insts_pack_ID_pc_0,
+                io_insts_pack_ID_pc_1,
+  input         io_insts_pack_ID_inst_valid_0,
+                io_insts_pack_ID_inst_valid_1,
+                io_insts_pack_ID_predict_jump_0,
+                io_insts_pack_ID_predict_jump_1,
+  input  [31:0] io_insts_pack_ID_pred_npc_0,
+                io_insts_pack_ID_pred_npc_1,
+  input  [7:0]  io_insts_pack_ID_exception_0,
+                io_insts_pack_ID_exception_1,
+  input  [4:0]  io_insts_pack_ID_rj_0,
+                io_insts_pack_ID_rj_1,
+                io_insts_pack_ID_rk_0,
+                io_insts_pack_ID_rk_1,
+                io_insts_pack_ID_rd_0,
+                io_insts_pack_ID_rd_1,
+  input         io_insts_pack_ID_rd_valid_0,
+                io_insts_pack_ID_rd_valid_1,
+  input  [31:0] io_insts_pack_ID_imm_0,
+                io_insts_pack_ID_imm_1,
+  input  [3:0]  io_insts_pack_ID_alu_op_0,
+                io_insts_pack_ID_alu_op_1,
+  input         io_insts_pack_ID_alu_rs1_sel_0,
+                io_insts_pack_ID_alu_rs1_sel_1,
+  input  [1:0]  io_insts_pack_ID_alu_rs2_sel_0,
+                io_insts_pack_ID_alu_rs2_sel_1,
+  input  [3:0]  io_insts_pack_ID_br_type_0,
+                io_insts_pack_ID_br_type_1,
+  input  [4:0]  io_insts_pack_ID_mem_type_0,
+                io_insts_pack_ID_mem_type_1,
+  input  [12:0] io_insts_pack_ID_priv_vec_0,
+                io_insts_pack_ID_priv_vec_1,
+  input  [2:0]  io_insts_pack_ID_fu_id_0,
+                io_insts_pack_ID_fu_id_1,
   input  [5:0]  io_alloc_preg_ID_0,
                 io_alloc_preg_ID_1,
-  input  [31:0] io_inst_ID_0,
-                io_inst_ID_1,
-  output [31:0] io_insts_pack_RN_0_pc,
-  output        io_insts_pack_RN_0_inst_valid,
-                io_insts_pack_RN_0_predict_jump,
-  output [31:0] io_insts_pack_RN_0_pred_npc,
-  output [7:0]  io_insts_pack_RN_0_exception,
-  output [4:0]  io_insts_pack_RN_0_rj,
-                io_insts_pack_RN_0_rk,
-                io_insts_pack_RN_0_rd,
-  output        io_insts_pack_RN_0_rd_valid,
-  output [31:0] io_insts_pack_RN_0_imm,
-  output [3:0]  io_insts_pack_RN_0_alu_op,
-  output        io_insts_pack_RN_0_alu_rs1_sel,
-  output [1:0]  io_insts_pack_RN_0_alu_rs2_sel,
-  output [3:0]  io_insts_pack_RN_0_br_type,
-  output [4:0]  io_insts_pack_RN_0_mem_type,
-  output [12:0] io_insts_pack_RN_0_priv_vec,
-  output [2:0]  io_insts_pack_RN_0_fu_id,
-  output [31:0] io_insts_pack_RN_1_pc,
-  output        io_insts_pack_RN_1_inst_valid,
-                io_insts_pack_RN_1_predict_jump,
-  output [31:0] io_insts_pack_RN_1_pred_npc,
-  output [7:0]  io_insts_pack_RN_1_exception,
-  output [4:0]  io_insts_pack_RN_1_rj,
-                io_insts_pack_RN_1_rk,
-                io_insts_pack_RN_1_rd,
-  output        io_insts_pack_RN_1_rd_valid,
-  output [31:0] io_insts_pack_RN_1_imm,
-  output [3:0]  io_insts_pack_RN_1_alu_op,
-  output        io_insts_pack_RN_1_alu_rs1_sel,
-  output [1:0]  io_insts_pack_RN_1_alu_rs2_sel,
-  output [3:0]  io_insts_pack_RN_1_br_type,
-  output [4:0]  io_insts_pack_RN_1_mem_type,
-  output [12:0] io_insts_pack_RN_1_priv_vec,
-  output [2:0]  io_insts_pack_RN_1_fu_id,
+  output [31:0] io_insts_pack_RN_pc_0,
+                io_insts_pack_RN_pc_1,
+  output        io_insts_pack_RN_inst_valid_0,
+                io_insts_pack_RN_inst_valid_1,
+                io_insts_pack_RN_predict_jump_0,
+                io_insts_pack_RN_predict_jump_1,
+  output [31:0] io_insts_pack_RN_pred_npc_0,
+                io_insts_pack_RN_pred_npc_1,
+  output [7:0]  io_insts_pack_RN_exception_0,
+                io_insts_pack_RN_exception_1,
+  output [4:0]  io_insts_pack_RN_rj_0,
+                io_insts_pack_RN_rj_1,
+                io_insts_pack_RN_rk_0,
+                io_insts_pack_RN_rk_1,
+                io_insts_pack_RN_rd_0,
+                io_insts_pack_RN_rd_1,
+  output        io_insts_pack_RN_rd_valid_0,
+                io_insts_pack_RN_rd_valid_1,
+  output [31:0] io_insts_pack_RN_imm_0,
+                io_insts_pack_RN_imm_1,
+  output [3:0]  io_insts_pack_RN_alu_op_0,
+                io_insts_pack_RN_alu_op_1,
+  output        io_insts_pack_RN_alu_rs1_sel_0,
+                io_insts_pack_RN_alu_rs1_sel_1,
+  output [1:0]  io_insts_pack_RN_alu_rs2_sel_0,
+                io_insts_pack_RN_alu_rs2_sel_1,
+  output [3:0]  io_insts_pack_RN_br_type_0,
+                io_insts_pack_RN_br_type_1,
+  output [4:0]  io_insts_pack_RN_mem_type_0,
+                io_insts_pack_RN_mem_type_1,
+  output [12:0] io_insts_pack_RN_priv_vec_0,
+                io_insts_pack_RN_priv_vec_1,
+  output [2:0]  io_insts_pack_RN_fu_id_0,
+                io_insts_pack_RN_fu_id_1,
   output [5:0]  io_alloc_preg_RN_0,
-                io_alloc_preg_RN_1,
-  output [31:0] io_inst_RN_0,
-                io_inst_RN_1
+                io_alloc_preg_RN_1
 );
 
-  reg  [31:0] insts_pack_reg_0_pc;
-  reg         insts_pack_reg_0_inst_valid;
-  reg         insts_pack_reg_0_predict_jump;
-  reg  [31:0] insts_pack_reg_0_pred_npc;
-  reg  [7:0]  insts_pack_reg_0_exception;
-  reg  [4:0]  insts_pack_reg_0_rj;
-  reg  [4:0]  insts_pack_reg_0_rk;
-  reg  [4:0]  insts_pack_reg_0_rd;
-  reg         insts_pack_reg_0_rd_valid;
-  reg  [31:0] insts_pack_reg_0_imm;
-  reg  [3:0]  insts_pack_reg_0_alu_op;
-  reg         insts_pack_reg_0_alu_rs1_sel;
-  reg  [1:0]  insts_pack_reg_0_alu_rs2_sel;
-  reg  [3:0]  insts_pack_reg_0_br_type;
-  reg  [4:0]  insts_pack_reg_0_mem_type;
-  reg  [12:0] insts_pack_reg_0_priv_vec;
-  reg  [2:0]  insts_pack_reg_0_fu_id;
-  reg  [31:0] insts_pack_reg_1_pc;
-  reg         insts_pack_reg_1_inst_valid;
-  reg         insts_pack_reg_1_predict_jump;
-  reg  [31:0] insts_pack_reg_1_pred_npc;
-  reg  [7:0]  insts_pack_reg_1_exception;
-  reg  [4:0]  insts_pack_reg_1_rj;
-  reg  [4:0]  insts_pack_reg_1_rk;
-  reg  [4:0]  insts_pack_reg_1_rd;
-  reg         insts_pack_reg_1_rd_valid;
-  reg  [31:0] insts_pack_reg_1_imm;
-  reg  [3:0]  insts_pack_reg_1_alu_op;
-  reg         insts_pack_reg_1_alu_rs1_sel;
-  reg  [1:0]  insts_pack_reg_1_alu_rs2_sel;
-  reg  [3:0]  insts_pack_reg_1_br_type;
-  reg  [4:0]  insts_pack_reg_1_mem_type;
-  reg  [12:0] insts_pack_reg_1_priv_vec;
-  reg  [2:0]  insts_pack_reg_1_fu_id;
+  reg  [31:0] insts_pack_reg_pc_0;
+  reg  [31:0] insts_pack_reg_pc_1;
+  reg         insts_pack_reg_inst_valid_0;
+  reg         insts_pack_reg_inst_valid_1;
+  reg         insts_pack_reg_predict_jump_0;
+  reg         insts_pack_reg_predict_jump_1;
+  reg  [31:0] insts_pack_reg_pred_npc_0;
+  reg  [31:0] insts_pack_reg_pred_npc_1;
+  reg  [7:0]  insts_pack_reg_exception_0;
+  reg  [7:0]  insts_pack_reg_exception_1;
+  reg  [4:0]  insts_pack_reg_rj_0;
+  reg  [4:0]  insts_pack_reg_rj_1;
+  reg  [4:0]  insts_pack_reg_rk_0;
+  reg  [4:0]  insts_pack_reg_rk_1;
+  reg  [4:0]  insts_pack_reg_rd_0;
+  reg  [4:0]  insts_pack_reg_rd_1;
+  reg         insts_pack_reg_rd_valid_0;
+  reg         insts_pack_reg_rd_valid_1;
+  reg  [31:0] insts_pack_reg_imm_0;
+  reg  [31:0] insts_pack_reg_imm_1;
+  reg  [3:0]  insts_pack_reg_alu_op_0;
+  reg  [3:0]  insts_pack_reg_alu_op_1;
+  reg         insts_pack_reg_alu_rs1_sel_0;
+  reg         insts_pack_reg_alu_rs1_sel_1;
+  reg  [1:0]  insts_pack_reg_alu_rs2_sel_0;
+  reg  [1:0]  insts_pack_reg_alu_rs2_sel_1;
+  reg  [3:0]  insts_pack_reg_br_type_0;
+  reg  [3:0]  insts_pack_reg_br_type_1;
+  reg  [4:0]  insts_pack_reg_mem_type_0;
+  reg  [4:0]  insts_pack_reg_mem_type_1;
+  reg  [12:0] insts_pack_reg_priv_vec_0;
+  reg  [12:0] insts_pack_reg_priv_vec_1;
+  reg  [2:0]  insts_pack_reg_fu_id_0;
+  reg  [2:0]  insts_pack_reg_fu_id_1;
   reg  [5:0]  alloc_preg_reg_0;
   reg  [5:0]  alloc_preg_reg_1;
-  reg  [31:0] inst_reg_0;
-  reg  [31:0] inst_reg_1;
   wire        _GEN =
-    io_stall ? insts_pack_reg_0_inst_valid : io_insts_pack_ID_0_inst_valid;
+    io_stall ? insts_pack_reg_inst_valid_0 : io_insts_pack_ID_inst_valid_0;
   wire        _GEN_0 =
-    io_stall ? insts_pack_reg_0_predict_jump : io_insts_pack_ID_0_predict_jump;
-  wire        _GEN_1 = io_stall ? insts_pack_reg_0_rd_valid : io_insts_pack_ID_0_rd_valid;
+    io_stall ? insts_pack_reg_inst_valid_1 : io_insts_pack_ID_inst_valid_1;
+  wire        _GEN_1 =
+    io_stall ? insts_pack_reg_predict_jump_0 : io_insts_pack_ID_predict_jump_0;
   wire        _GEN_2 =
-    io_stall ? insts_pack_reg_0_alu_rs1_sel : io_insts_pack_ID_0_alu_rs1_sel;
-  wire        _GEN_3 =
-    io_stall ? insts_pack_reg_1_inst_valid : io_insts_pack_ID_1_inst_valid;
-  wire        _GEN_4 =
-    io_stall ? insts_pack_reg_1_predict_jump : io_insts_pack_ID_1_predict_jump;
-  wire        _GEN_5 = io_stall ? insts_pack_reg_1_rd_valid : io_insts_pack_ID_1_rd_valid;
+    io_stall ? insts_pack_reg_predict_jump_1 : io_insts_pack_ID_predict_jump_1;
+  wire        _GEN_3 = io_stall ? insts_pack_reg_rd_valid_0 : io_insts_pack_ID_rd_valid_0;
+  wire        _GEN_4 = io_stall ? insts_pack_reg_rd_valid_1 : io_insts_pack_ID_rd_valid_1;
+  wire        _GEN_5 =
+    io_stall ? insts_pack_reg_alu_rs1_sel_0 : io_insts_pack_ID_alu_rs1_sel_0;
   wire        _GEN_6 =
-    io_stall ? insts_pack_reg_1_alu_rs1_sel : io_insts_pack_ID_1_alu_rs1_sel;
+    io_stall ? insts_pack_reg_alu_rs1_sel_1 : io_insts_pack_ID_alu_rs1_sel_1;
   always @(posedge clock) begin
     if (reset) begin
-      insts_pack_reg_0_pc <= 32'h0;
-      insts_pack_reg_0_inst_valid <= 1'h0;
-      insts_pack_reg_0_predict_jump <= 1'h0;
-      insts_pack_reg_0_pred_npc <= 32'h0;
-      insts_pack_reg_0_exception <= 8'h0;
-      insts_pack_reg_0_rj <= 5'h0;
-      insts_pack_reg_0_rk <= 5'h0;
-      insts_pack_reg_0_rd <= 5'h0;
-      insts_pack_reg_0_rd_valid <= 1'h0;
-      insts_pack_reg_0_imm <= 32'h0;
-      insts_pack_reg_0_alu_op <= 4'h0;
-      insts_pack_reg_0_alu_rs1_sel <= 1'h0;
-      insts_pack_reg_0_alu_rs2_sel <= 2'h0;
-      insts_pack_reg_0_br_type <= 4'h0;
-      insts_pack_reg_0_mem_type <= 5'h0;
-      insts_pack_reg_0_priv_vec <= 13'h0;
-      insts_pack_reg_0_fu_id <= 3'h0;
-      insts_pack_reg_1_pc <= 32'h0;
-      insts_pack_reg_1_inst_valid <= 1'h0;
-      insts_pack_reg_1_predict_jump <= 1'h0;
-      insts_pack_reg_1_pred_npc <= 32'h0;
-      insts_pack_reg_1_exception <= 8'h0;
-      insts_pack_reg_1_rj <= 5'h0;
-      insts_pack_reg_1_rk <= 5'h0;
-      insts_pack_reg_1_rd <= 5'h0;
-      insts_pack_reg_1_rd_valid <= 1'h0;
-      insts_pack_reg_1_imm <= 32'h0;
-      insts_pack_reg_1_alu_op <= 4'h0;
-      insts_pack_reg_1_alu_rs1_sel <= 1'h0;
-      insts_pack_reg_1_alu_rs2_sel <= 2'h0;
-      insts_pack_reg_1_br_type <= 4'h0;
-      insts_pack_reg_1_mem_type <= 5'h0;
-      insts_pack_reg_1_priv_vec <= 13'h0;
-      insts_pack_reg_1_fu_id <= 3'h0;
+      insts_pack_reg_pc_0 <= 32'h0;
+      insts_pack_reg_pc_1 <= 32'h0;
+      insts_pack_reg_inst_valid_0 <= 1'h0;
+      insts_pack_reg_inst_valid_1 <= 1'h0;
+      insts_pack_reg_predict_jump_0 <= 1'h0;
+      insts_pack_reg_predict_jump_1 <= 1'h0;
+      insts_pack_reg_pred_npc_0 <= 32'h0;
+      insts_pack_reg_pred_npc_1 <= 32'h0;
+      insts_pack_reg_exception_0 <= 8'h0;
+      insts_pack_reg_exception_1 <= 8'h0;
+      insts_pack_reg_rj_0 <= 5'h0;
+      insts_pack_reg_rj_1 <= 5'h0;
+      insts_pack_reg_rk_0 <= 5'h0;
+      insts_pack_reg_rk_1 <= 5'h0;
+      insts_pack_reg_rd_0 <= 5'h0;
+      insts_pack_reg_rd_1 <= 5'h0;
+      insts_pack_reg_rd_valid_0 <= 1'h0;
+      insts_pack_reg_rd_valid_1 <= 1'h0;
+      insts_pack_reg_imm_0 <= 32'h0;
+      insts_pack_reg_imm_1 <= 32'h0;
+      insts_pack_reg_alu_op_0 <= 4'h0;
+      insts_pack_reg_alu_op_1 <= 4'h0;
+      insts_pack_reg_alu_rs1_sel_0 <= 1'h0;
+      insts_pack_reg_alu_rs1_sel_1 <= 1'h0;
+      insts_pack_reg_alu_rs2_sel_0 <= 2'h0;
+      insts_pack_reg_alu_rs2_sel_1 <= 2'h0;
+      insts_pack_reg_br_type_0 <= 4'h0;
+      insts_pack_reg_br_type_1 <= 4'h0;
+      insts_pack_reg_mem_type_0 <= 5'h0;
+      insts_pack_reg_mem_type_1 <= 5'h0;
+      insts_pack_reg_priv_vec_0 <= 13'h0;
+      insts_pack_reg_priv_vec_1 <= 13'h0;
+      insts_pack_reg_fu_id_0 <= 3'h0;
+      insts_pack_reg_fu_id_1 <= 3'h0;
       alloc_preg_reg_0 <= 6'h0;
       alloc_preg_reg_1 <= 6'h0;
-      inst_reg_0 <= 32'h0;
-      inst_reg_1 <= 32'h0;
     end
     else begin
       if (io_flush) begin
-        insts_pack_reg_0_pc <= 32'h0;
-        insts_pack_reg_0_pred_npc <= 32'h0;
-        insts_pack_reg_0_exception <= 8'h0;
-        insts_pack_reg_0_rj <= 5'h0;
-        insts_pack_reg_0_rk <= 5'h0;
-        insts_pack_reg_0_rd <= 5'h0;
-        insts_pack_reg_0_imm <= 32'h0;
-        insts_pack_reg_0_alu_op <= 4'h0;
-        insts_pack_reg_0_alu_rs2_sel <= 2'h0;
-        insts_pack_reg_0_br_type <= 4'h0;
-        insts_pack_reg_0_mem_type <= 5'h0;
-        insts_pack_reg_0_priv_vec <= 13'h0;
-        insts_pack_reg_0_fu_id <= 3'h0;
-        insts_pack_reg_1_pc <= 32'h0;
-        insts_pack_reg_1_pred_npc <= 32'h0;
-        insts_pack_reg_1_exception <= 8'h0;
-        insts_pack_reg_1_rj <= 5'h0;
-        insts_pack_reg_1_rk <= 5'h0;
-        insts_pack_reg_1_rd <= 5'h0;
-        insts_pack_reg_1_imm <= 32'h0;
-        insts_pack_reg_1_alu_op <= 4'h0;
-        insts_pack_reg_1_alu_rs2_sel <= 2'h0;
-        insts_pack_reg_1_br_type <= 4'h0;
-        insts_pack_reg_1_mem_type <= 5'h0;
-        insts_pack_reg_1_priv_vec <= 13'h0;
-        insts_pack_reg_1_fu_id <= 3'h0;
+        insts_pack_reg_pc_0 <= 32'h0;
+        insts_pack_reg_pc_1 <= 32'h0;
+        insts_pack_reg_pred_npc_0 <= 32'h0;
+        insts_pack_reg_pred_npc_1 <= 32'h0;
+        insts_pack_reg_exception_0 <= 8'h0;
+        insts_pack_reg_exception_1 <= 8'h0;
+        insts_pack_reg_rj_0 <= 5'h0;
+        insts_pack_reg_rj_1 <= 5'h0;
+        insts_pack_reg_rk_0 <= 5'h0;
+        insts_pack_reg_rk_1 <= 5'h0;
+        insts_pack_reg_rd_0 <= 5'h0;
+        insts_pack_reg_rd_1 <= 5'h0;
+        insts_pack_reg_imm_0 <= 32'h0;
+        insts_pack_reg_imm_1 <= 32'h0;
+        insts_pack_reg_alu_op_0 <= 4'h0;
+        insts_pack_reg_alu_op_1 <= 4'h0;
+        insts_pack_reg_alu_rs2_sel_0 <= 2'h0;
+        insts_pack_reg_alu_rs2_sel_1 <= 2'h0;
+        insts_pack_reg_br_type_0 <= 4'h0;
+        insts_pack_reg_br_type_1 <= 4'h0;
+        insts_pack_reg_mem_type_0 <= 5'h0;
+        insts_pack_reg_mem_type_1 <= 5'h0;
+        insts_pack_reg_priv_vec_0 <= 13'h0;
+        insts_pack_reg_priv_vec_1 <= 13'h0;
+        insts_pack_reg_fu_id_0 <= 3'h0;
+        insts_pack_reg_fu_id_1 <= 3'h0;
         alloc_preg_reg_0 <= 6'h0;
         alloc_preg_reg_1 <= 6'h0;
       end
       else if (io_stall) begin
       end
       else begin
-        insts_pack_reg_0_pc <= io_insts_pack_ID_0_pc;
-        insts_pack_reg_0_pred_npc <= io_insts_pack_ID_0_pred_npc;
-        insts_pack_reg_0_exception <= io_insts_pack_ID_0_exception;
-        insts_pack_reg_0_rj <= io_insts_pack_ID_0_rj;
-        insts_pack_reg_0_rk <= io_insts_pack_ID_0_rk;
-        insts_pack_reg_0_rd <= io_insts_pack_ID_0_rd;
-        insts_pack_reg_0_imm <= io_insts_pack_ID_0_imm;
-        insts_pack_reg_0_alu_op <= io_insts_pack_ID_0_alu_op;
-        insts_pack_reg_0_alu_rs2_sel <= io_insts_pack_ID_0_alu_rs2_sel;
-        insts_pack_reg_0_br_type <= io_insts_pack_ID_0_br_type;
-        insts_pack_reg_0_mem_type <= io_insts_pack_ID_0_mem_type;
-        insts_pack_reg_0_priv_vec <= io_insts_pack_ID_0_priv_vec;
-        insts_pack_reg_0_fu_id <= io_insts_pack_ID_0_fu_id;
-        insts_pack_reg_1_pc <= io_insts_pack_ID_1_pc;
-        insts_pack_reg_1_pred_npc <= io_insts_pack_ID_1_pred_npc;
-        insts_pack_reg_1_exception <= io_insts_pack_ID_1_exception;
-        insts_pack_reg_1_rj <= io_insts_pack_ID_1_rj;
-        insts_pack_reg_1_rk <= io_insts_pack_ID_1_rk;
-        insts_pack_reg_1_rd <= io_insts_pack_ID_1_rd;
-        insts_pack_reg_1_imm <= io_insts_pack_ID_1_imm;
-        insts_pack_reg_1_alu_op <= io_insts_pack_ID_1_alu_op;
-        insts_pack_reg_1_alu_rs2_sel <= io_insts_pack_ID_1_alu_rs2_sel;
-        insts_pack_reg_1_br_type <= io_insts_pack_ID_1_br_type;
-        insts_pack_reg_1_mem_type <= io_insts_pack_ID_1_mem_type;
-        insts_pack_reg_1_priv_vec <= io_insts_pack_ID_1_priv_vec;
-        insts_pack_reg_1_fu_id <= io_insts_pack_ID_1_fu_id;
+        insts_pack_reg_pc_0 <= io_insts_pack_ID_pc_0;
+        insts_pack_reg_pc_1 <= io_insts_pack_ID_pc_1;
+        insts_pack_reg_pred_npc_0 <= io_insts_pack_ID_pred_npc_0;
+        insts_pack_reg_pred_npc_1 <= io_insts_pack_ID_pred_npc_1;
+        insts_pack_reg_exception_0 <= io_insts_pack_ID_exception_0;
+        insts_pack_reg_exception_1 <= io_insts_pack_ID_exception_1;
+        insts_pack_reg_rj_0 <= io_insts_pack_ID_rj_0;
+        insts_pack_reg_rj_1 <= io_insts_pack_ID_rj_1;
+        insts_pack_reg_rk_0 <= io_insts_pack_ID_rk_0;
+        insts_pack_reg_rk_1 <= io_insts_pack_ID_rk_1;
+        insts_pack_reg_rd_0 <= io_insts_pack_ID_rd_0;
+        insts_pack_reg_rd_1 <= io_insts_pack_ID_rd_1;
+        insts_pack_reg_imm_0 <= io_insts_pack_ID_imm_0;
+        insts_pack_reg_imm_1 <= io_insts_pack_ID_imm_1;
+        insts_pack_reg_alu_op_0 <= io_insts_pack_ID_alu_op_0;
+        insts_pack_reg_alu_op_1 <= io_insts_pack_ID_alu_op_1;
+        insts_pack_reg_alu_rs2_sel_0 <= io_insts_pack_ID_alu_rs2_sel_0;
+        insts_pack_reg_alu_rs2_sel_1 <= io_insts_pack_ID_alu_rs2_sel_1;
+        insts_pack_reg_br_type_0 <= io_insts_pack_ID_br_type_0;
+        insts_pack_reg_br_type_1 <= io_insts_pack_ID_br_type_1;
+        insts_pack_reg_mem_type_0 <= io_insts_pack_ID_mem_type_0;
+        insts_pack_reg_mem_type_1 <= io_insts_pack_ID_mem_type_1;
+        insts_pack_reg_priv_vec_0 <= io_insts_pack_ID_priv_vec_0;
+        insts_pack_reg_priv_vec_1 <= io_insts_pack_ID_priv_vec_1;
+        insts_pack_reg_fu_id_0 <= io_insts_pack_ID_fu_id_0;
+        insts_pack_reg_fu_id_1 <= io_insts_pack_ID_fu_id_1;
         alloc_preg_reg_0 <= io_alloc_preg_ID_0;
         alloc_preg_reg_1 <= io_alloc_preg_ID_1;
       end
-      insts_pack_reg_0_inst_valid <= ~io_flush & _GEN;
-      insts_pack_reg_0_predict_jump <= ~io_flush & _GEN_0;
-      insts_pack_reg_0_rd_valid <= ~io_flush & _GEN_1;
-      insts_pack_reg_0_alu_rs1_sel <= ~io_flush & _GEN_2;
-      insts_pack_reg_1_inst_valid <= ~io_flush & _GEN_3;
-      insts_pack_reg_1_predict_jump <= ~io_flush & _GEN_4;
-      insts_pack_reg_1_rd_valid <= ~io_flush & _GEN_5;
-      insts_pack_reg_1_alu_rs1_sel <= ~io_flush & _GEN_6;
-      if (io_flush | io_stall) begin
-      end
-      else begin
-        inst_reg_0 <= io_inst_ID_0;
-        inst_reg_1 <= io_inst_ID_1;
-      end
+      insts_pack_reg_inst_valid_0 <= ~io_flush & _GEN;
+      insts_pack_reg_inst_valid_1 <= ~io_flush & _GEN_0;
+      insts_pack_reg_predict_jump_0 <= ~io_flush & _GEN_1;
+      insts_pack_reg_predict_jump_1 <= ~io_flush & _GEN_2;
+      insts_pack_reg_rd_valid_0 <= ~io_flush & _GEN_3;
+      insts_pack_reg_rd_valid_1 <= ~io_flush & _GEN_4;
+      insts_pack_reg_alu_rs1_sel_0 <= ~io_flush & _GEN_5;
+      insts_pack_reg_alu_rs1_sel_1 <= ~io_flush & _GEN_6;
     end
   end // always @(posedge)
-  assign io_insts_pack_RN_0_pc = insts_pack_reg_0_pc;
-  assign io_insts_pack_RN_0_inst_valid = insts_pack_reg_0_inst_valid;
-  assign io_insts_pack_RN_0_predict_jump = insts_pack_reg_0_predict_jump;
-  assign io_insts_pack_RN_0_pred_npc = insts_pack_reg_0_pred_npc;
-  assign io_insts_pack_RN_0_exception = insts_pack_reg_0_exception;
-  assign io_insts_pack_RN_0_rj = insts_pack_reg_0_rj;
-  assign io_insts_pack_RN_0_rk = insts_pack_reg_0_rk;
-  assign io_insts_pack_RN_0_rd = insts_pack_reg_0_rd;
-  assign io_insts_pack_RN_0_rd_valid = insts_pack_reg_0_rd_valid;
-  assign io_insts_pack_RN_0_imm = insts_pack_reg_0_imm;
-  assign io_insts_pack_RN_0_alu_op = insts_pack_reg_0_alu_op;
-  assign io_insts_pack_RN_0_alu_rs1_sel = insts_pack_reg_0_alu_rs1_sel;
-  assign io_insts_pack_RN_0_alu_rs2_sel = insts_pack_reg_0_alu_rs2_sel;
-  assign io_insts_pack_RN_0_br_type = insts_pack_reg_0_br_type;
-  assign io_insts_pack_RN_0_mem_type = insts_pack_reg_0_mem_type;
-  assign io_insts_pack_RN_0_priv_vec = insts_pack_reg_0_priv_vec;
-  assign io_insts_pack_RN_0_fu_id = insts_pack_reg_0_fu_id;
-  assign io_insts_pack_RN_1_pc = insts_pack_reg_1_pc;
-  assign io_insts_pack_RN_1_inst_valid = insts_pack_reg_1_inst_valid;
-  assign io_insts_pack_RN_1_predict_jump = insts_pack_reg_1_predict_jump;
-  assign io_insts_pack_RN_1_pred_npc = insts_pack_reg_1_pred_npc;
-  assign io_insts_pack_RN_1_exception = insts_pack_reg_1_exception;
-  assign io_insts_pack_RN_1_rj = insts_pack_reg_1_rj;
-  assign io_insts_pack_RN_1_rk = insts_pack_reg_1_rk;
-  assign io_insts_pack_RN_1_rd = insts_pack_reg_1_rd;
-  assign io_insts_pack_RN_1_rd_valid = insts_pack_reg_1_rd_valid;
-  assign io_insts_pack_RN_1_imm = insts_pack_reg_1_imm;
-  assign io_insts_pack_RN_1_alu_op = insts_pack_reg_1_alu_op;
-  assign io_insts_pack_RN_1_alu_rs1_sel = insts_pack_reg_1_alu_rs1_sel;
-  assign io_insts_pack_RN_1_alu_rs2_sel = insts_pack_reg_1_alu_rs2_sel;
-  assign io_insts_pack_RN_1_br_type = insts_pack_reg_1_br_type;
-  assign io_insts_pack_RN_1_mem_type = insts_pack_reg_1_mem_type;
-  assign io_insts_pack_RN_1_priv_vec = insts_pack_reg_1_priv_vec;
-  assign io_insts_pack_RN_1_fu_id = insts_pack_reg_1_fu_id;
+  assign io_insts_pack_RN_pc_0 = insts_pack_reg_pc_0;
+  assign io_insts_pack_RN_pc_1 = insts_pack_reg_pc_1;
+  assign io_insts_pack_RN_inst_valid_0 = insts_pack_reg_inst_valid_0;
+  assign io_insts_pack_RN_inst_valid_1 = insts_pack_reg_inst_valid_1;
+  assign io_insts_pack_RN_predict_jump_0 = insts_pack_reg_predict_jump_0;
+  assign io_insts_pack_RN_predict_jump_1 = insts_pack_reg_predict_jump_1;
+  assign io_insts_pack_RN_pred_npc_0 = insts_pack_reg_pred_npc_0;
+  assign io_insts_pack_RN_pred_npc_1 = insts_pack_reg_pred_npc_1;
+  assign io_insts_pack_RN_exception_0 = insts_pack_reg_exception_0;
+  assign io_insts_pack_RN_exception_1 = insts_pack_reg_exception_1;
+  assign io_insts_pack_RN_rj_0 = insts_pack_reg_rj_0;
+  assign io_insts_pack_RN_rj_1 = insts_pack_reg_rj_1;
+  assign io_insts_pack_RN_rk_0 = insts_pack_reg_rk_0;
+  assign io_insts_pack_RN_rk_1 = insts_pack_reg_rk_1;
+  assign io_insts_pack_RN_rd_0 = insts_pack_reg_rd_0;
+  assign io_insts_pack_RN_rd_1 = insts_pack_reg_rd_1;
+  assign io_insts_pack_RN_rd_valid_0 = insts_pack_reg_rd_valid_0;
+  assign io_insts_pack_RN_rd_valid_1 = insts_pack_reg_rd_valid_1;
+  assign io_insts_pack_RN_imm_0 = insts_pack_reg_imm_0;
+  assign io_insts_pack_RN_imm_1 = insts_pack_reg_imm_1;
+  assign io_insts_pack_RN_alu_op_0 = insts_pack_reg_alu_op_0;
+  assign io_insts_pack_RN_alu_op_1 = insts_pack_reg_alu_op_1;
+  assign io_insts_pack_RN_alu_rs1_sel_0 = insts_pack_reg_alu_rs1_sel_0;
+  assign io_insts_pack_RN_alu_rs1_sel_1 = insts_pack_reg_alu_rs1_sel_1;
+  assign io_insts_pack_RN_alu_rs2_sel_0 = insts_pack_reg_alu_rs2_sel_0;
+  assign io_insts_pack_RN_alu_rs2_sel_1 = insts_pack_reg_alu_rs2_sel_1;
+  assign io_insts_pack_RN_br_type_0 = insts_pack_reg_br_type_0;
+  assign io_insts_pack_RN_br_type_1 = insts_pack_reg_br_type_1;
+  assign io_insts_pack_RN_mem_type_0 = insts_pack_reg_mem_type_0;
+  assign io_insts_pack_RN_mem_type_1 = insts_pack_reg_mem_type_1;
+  assign io_insts_pack_RN_priv_vec_0 = insts_pack_reg_priv_vec_0;
+  assign io_insts_pack_RN_priv_vec_1 = insts_pack_reg_priv_vec_1;
+  assign io_insts_pack_RN_fu_id_0 = insts_pack_reg_fu_id_0;
+  assign io_insts_pack_RN_fu_id_1 = insts_pack_reg_fu_id_1;
   assign io_alloc_preg_RN_0 = alloc_preg_reg_0;
   assign io_alloc_preg_RN_1 = alloc_preg_reg_1;
-  assign io_inst_RN_0 = inst_reg_0;
-  assign io_inst_RN_1 = inst_reg_1;
 endmodule
 

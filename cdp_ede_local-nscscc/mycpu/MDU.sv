@@ -11,8 +11,7 @@ module MDU(
                 io_busy_17,
                 io_busy_18,
                 io_busy_19,
-                io_busy_20,
-                io_busy_21
+                io_busy_20
 );
 
   wire _mul_io_busy_6;
@@ -48,8 +47,7 @@ module MDU(
     .io_busy_17 (io_busy_17),
     .io_busy_18 (io_busy_18),
     .io_busy_19 (io_busy_19),
-    .io_busy_20 (io_busy_20),
-    .io_busy_21 (io_busy_21)
+    .io_busy_20 (io_busy_20)
   );
 endmodule
 

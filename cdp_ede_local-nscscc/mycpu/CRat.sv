@@ -87,269 +87,269 @@ module CRat(
                io_wake_valid_3
 );
 
-  reg         crat_0_valid;
-  reg  [4:0]  crat_0_lr;
-  reg         crat_0_free;
-  reg         crat_1_valid;
-  reg  [4:0]  crat_1_lr;
-  reg         crat_1_free;
-  reg         crat_2_valid;
-  reg  [4:0]  crat_2_lr;
-  reg         crat_2_free;
-  reg         crat_3_valid;
-  reg  [4:0]  crat_3_lr;
-  reg         crat_3_free;
-  reg         crat_4_valid;
-  reg  [4:0]  crat_4_lr;
-  reg         crat_4_free;
-  reg         crat_5_valid;
-  reg  [4:0]  crat_5_lr;
-  reg         crat_5_free;
-  reg         crat_6_valid;
-  reg  [4:0]  crat_6_lr;
-  reg         crat_6_free;
-  reg         crat_7_valid;
-  reg  [4:0]  crat_7_lr;
-  reg         crat_7_free;
-  reg         crat_8_valid;
-  reg  [4:0]  crat_8_lr;
-  reg         crat_8_free;
-  reg         crat_9_valid;
-  reg  [4:0]  crat_9_lr;
-  reg         crat_9_free;
-  reg         crat_10_valid;
-  reg  [4:0]  crat_10_lr;
-  reg         crat_10_free;
-  reg         crat_11_valid;
-  reg  [4:0]  crat_11_lr;
-  reg         crat_11_free;
-  reg         crat_12_valid;
-  reg  [4:0]  crat_12_lr;
-  reg         crat_12_free;
-  reg         crat_13_valid;
-  reg  [4:0]  crat_13_lr;
-  reg         crat_13_free;
-  reg         crat_14_valid;
-  reg  [4:0]  crat_14_lr;
-  reg         crat_14_free;
-  reg         crat_15_valid;
-  reg  [4:0]  crat_15_lr;
-  reg         crat_15_free;
-  reg         crat_16_valid;
-  reg  [4:0]  crat_16_lr;
-  reg         crat_16_free;
-  reg         crat_17_valid;
-  reg  [4:0]  crat_17_lr;
-  reg         crat_17_free;
-  reg         crat_18_valid;
-  reg  [4:0]  crat_18_lr;
-  reg         crat_18_free;
-  reg         crat_19_valid;
-  reg  [4:0]  crat_19_lr;
-  reg         crat_19_free;
-  reg         crat_20_valid;
-  reg  [4:0]  crat_20_lr;
-  reg         crat_20_free;
-  reg         crat_21_valid;
-  reg  [4:0]  crat_21_lr;
-  reg         crat_21_free;
-  reg         crat_22_valid;
-  reg  [4:0]  crat_22_lr;
-  reg         crat_22_free;
-  reg         crat_23_valid;
-  reg  [4:0]  crat_23_lr;
-  reg         crat_23_free;
-  reg         crat_24_valid;
-  reg  [4:0]  crat_24_lr;
-  reg         crat_24_free;
-  reg         crat_25_valid;
-  reg  [4:0]  crat_25_lr;
-  reg         crat_25_free;
-  reg         crat_26_valid;
-  reg  [4:0]  crat_26_lr;
-  reg         crat_26_free;
-  reg         crat_27_valid;
-  reg  [4:0]  crat_27_lr;
-  reg         crat_27_free;
-  reg         crat_28_valid;
-  reg  [4:0]  crat_28_lr;
-  reg         crat_28_free;
-  reg         crat_29_valid;
-  reg  [4:0]  crat_29_lr;
-  reg         crat_29_free;
-  reg         crat_30_valid;
-  reg  [4:0]  crat_30_lr;
-  reg         crat_30_free;
-  reg         crat_31_valid;
-  reg  [4:0]  crat_31_lr;
-  reg         crat_31_free;
-  reg         crat_32_valid;
-  reg  [4:0]  crat_32_lr;
-  reg         crat_32_free;
-  reg         crat_33_valid;
-  reg  [4:0]  crat_33_lr;
-  reg         crat_33_free;
-  reg         crat_34_valid;
-  reg  [4:0]  crat_34_lr;
-  reg         crat_34_free;
-  reg         crat_35_valid;
-  reg  [4:0]  crat_35_lr;
-  reg         crat_35_free;
-  reg         crat_36_valid;
-  reg  [4:0]  crat_36_lr;
-  reg         crat_36_free;
-  reg         crat_37_valid;
-  reg  [4:0]  crat_37_lr;
-  reg         crat_37_free;
-  reg         crat_38_valid;
-  reg  [4:0]  crat_38_lr;
-  reg         crat_38_free;
-  reg         crat_39_valid;
-  reg  [4:0]  crat_39_lr;
-  reg         crat_39_free;
-  reg         crat_40_valid;
-  reg  [4:0]  crat_40_lr;
-  reg         crat_40_free;
-  reg         crat_41_valid;
-  reg  [4:0]  crat_41_lr;
-  reg         crat_41_free;
-  reg         crat_42_valid;
-  reg  [4:0]  crat_42_lr;
-  reg         crat_42_free;
-  reg         crat_43_valid;
-  reg  [4:0]  crat_43_lr;
-  reg         crat_43_free;
-  reg         crat_44_valid;
-  reg  [4:0]  crat_44_lr;
-  reg         crat_44_free;
-  reg         crat_45_valid;
-  reg  [4:0]  crat_45_lr;
-  reg         crat_45_free;
-  reg         crat_46_valid;
-  reg  [4:0]  crat_46_lr;
-  reg         crat_46_free;
-  reg         crat_47_valid;
-  reg  [4:0]  crat_47_lr;
-  reg         crat_47_free;
-  reg         crat_48_valid;
-  reg  [4:0]  crat_48_lr;
-  reg         crat_48_free;
-  reg         crat_49_valid;
-  reg  [4:0]  crat_49_lr;
-  reg         crat_49_free;
-  reg         crat_50_valid;
-  reg  [4:0]  crat_50_lr;
-  reg         crat_50_free;
-  reg         crat_51_valid;
-  reg  [4:0]  crat_51_lr;
-  reg         crat_51_free;
-  reg         crat_52_valid;
-  reg  [4:0]  crat_52_lr;
-  reg         crat_52_free;
-  reg         crat_53_valid;
-  reg  [4:0]  crat_53_lr;
-  reg         crat_53_free;
-  wire        phy_rj_OH_22 = crat_22_valid & crat_22_lr == io_rj_0;
-  wire        phy_rj_OH_23 = crat_23_valid & crat_23_lr == io_rj_0;
-  wire        phy_rj_OH_24 = crat_24_valid & crat_24_lr == io_rj_0;
-  wire        phy_rj_OH_25 = crat_25_valid & crat_25_lr == io_rj_0;
-  wire        phy_rj_OH_26 = crat_26_valid & crat_26_lr == io_rj_0;
-  wire        phy_rj_OH_27 = crat_27_valid & crat_27_lr == io_rj_0;
-  wire        phy_rj_OH_28 = crat_28_valid & crat_28_lr == io_rj_0;
-  wire        phy_rj_OH_29 = crat_29_valid & crat_29_lr == io_rj_0;
-  wire        phy_rj_OH_30 = crat_30_valid & crat_30_lr == io_rj_0;
-  wire        phy_rj_OH_31 = crat_31_valid & crat_31_lr == io_rj_0;
-  wire        phy_rj_OH_32 = crat_32_valid & crat_32_lr == io_rj_0;
-  wire        phy_rj_OH_33 = crat_33_valid & crat_33_lr == io_rj_0;
-  wire        phy_rj_OH_34 = crat_34_valid & crat_34_lr == io_rj_0;
-  wire        phy_rj_OH_35 = crat_35_valid & crat_35_lr == io_rj_0;
-  wire        phy_rj_OH_36 = crat_36_valid & crat_36_lr == io_rj_0;
-  wire        phy_rj_OH_37 = crat_37_valid & crat_37_lr == io_rj_0;
-  wire        phy_rj_OH_38 = crat_38_valid & crat_38_lr == io_rj_0;
-  wire        phy_rj_OH_39 = crat_39_valid & crat_39_lr == io_rj_0;
-  wire        phy_rj_OH_40 = crat_40_valid & crat_40_lr == io_rj_0;
-  wire        phy_rj_OH_41 = crat_41_valid & crat_41_lr == io_rj_0;
-  wire        phy_rj_OH_42 = crat_42_valid & crat_42_lr == io_rj_0;
-  wire        phy_rj_OH_43 = crat_43_valid & crat_43_lr == io_rj_0;
-  wire        phy_rj_OH_44 = crat_44_valid & crat_44_lr == io_rj_0;
-  wire        phy_rj_OH_45 = crat_45_valid & crat_45_lr == io_rj_0;
-  wire        phy_rj_OH_46 = crat_46_valid & crat_46_lr == io_rj_0;
-  wire        phy_rj_OH_47 = crat_47_valid & crat_47_lr == io_rj_0;
-  wire        phy_rj_OH_48 = crat_48_valid & crat_48_lr == io_rj_0;
-  wire        phy_rj_OH_49 = crat_49_valid & crat_49_lr == io_rj_0;
-  wire        phy_rj_OH_50 = crat_50_valid & crat_50_lr == io_rj_0;
-  wire        phy_rj_OH_51 = crat_51_valid & crat_51_lr == io_rj_0;
-  wire        phy_rj_OH_52 = crat_52_valid & crat_52_lr == io_rj_0;
-  wire        phy_rj_OH_53 = crat_53_valid & crat_53_lr == io_rj_0;
-  wire        phy_rk_OH_22 = crat_22_valid & crat_22_lr == io_rk_0;
-  wire        phy_rk_OH_23 = crat_23_valid & crat_23_lr == io_rk_0;
-  wire        phy_rk_OH_24 = crat_24_valid & crat_24_lr == io_rk_0;
-  wire        phy_rk_OH_25 = crat_25_valid & crat_25_lr == io_rk_0;
-  wire        phy_rk_OH_26 = crat_26_valid & crat_26_lr == io_rk_0;
-  wire        phy_rk_OH_27 = crat_27_valid & crat_27_lr == io_rk_0;
-  wire        phy_rk_OH_28 = crat_28_valid & crat_28_lr == io_rk_0;
-  wire        phy_rk_OH_29 = crat_29_valid & crat_29_lr == io_rk_0;
-  wire        phy_rk_OH_30 = crat_30_valid & crat_30_lr == io_rk_0;
-  wire        phy_rk_OH_31 = crat_31_valid & crat_31_lr == io_rk_0;
-  wire        phy_rk_OH_32 = crat_32_valid & crat_32_lr == io_rk_0;
-  wire        phy_rk_OH_33 = crat_33_valid & crat_33_lr == io_rk_0;
-  wire        phy_rk_OH_34 = crat_34_valid & crat_34_lr == io_rk_0;
-  wire        phy_rk_OH_35 = crat_35_valid & crat_35_lr == io_rk_0;
-  wire        phy_rk_OH_36 = crat_36_valid & crat_36_lr == io_rk_0;
-  wire        phy_rk_OH_37 = crat_37_valid & crat_37_lr == io_rk_0;
-  wire        phy_rk_OH_38 = crat_38_valid & crat_38_lr == io_rk_0;
-  wire        phy_rk_OH_39 = crat_39_valid & crat_39_lr == io_rk_0;
-  wire        phy_rk_OH_40 = crat_40_valid & crat_40_lr == io_rk_0;
-  wire        phy_rk_OH_41 = crat_41_valid & crat_41_lr == io_rk_0;
-  wire        phy_rk_OH_42 = crat_42_valid & crat_42_lr == io_rk_0;
-  wire        phy_rk_OH_43 = crat_43_valid & crat_43_lr == io_rk_0;
-  wire        phy_rk_OH_44 = crat_44_valid & crat_44_lr == io_rk_0;
-  wire        phy_rk_OH_45 = crat_45_valid & crat_45_lr == io_rk_0;
-  wire        phy_rk_OH_46 = crat_46_valid & crat_46_lr == io_rk_0;
-  wire        phy_rk_OH_47 = crat_47_valid & crat_47_lr == io_rk_0;
-  wire        phy_rk_OH_48 = crat_48_valid & crat_48_lr == io_rk_0;
-  wire        phy_rk_OH_49 = crat_49_valid & crat_49_lr == io_rk_0;
-  wire        phy_rk_OH_50 = crat_50_valid & crat_50_lr == io_rk_0;
-  wire        phy_rk_OH_51 = crat_51_valid & crat_51_lr == io_rk_0;
-  wire        phy_rk_OH_52 = crat_52_valid & crat_52_lr == io_rk_0;
-  wire        phy_rk_OH_53 = crat_53_valid & crat_53_lr == io_rk_0;
-  wire        phy_rd_OH_22 = crat_22_valid & crat_22_lr == io_rd_0;
-  wire        phy_rd_OH_23 = crat_23_valid & crat_23_lr == io_rd_0;
-  wire        phy_rd_OH_24 = crat_24_valid & crat_24_lr == io_rd_0;
-  wire        phy_rd_OH_25 = crat_25_valid & crat_25_lr == io_rd_0;
-  wire        phy_rd_OH_26 = crat_26_valid & crat_26_lr == io_rd_0;
-  wire        phy_rd_OH_27 = crat_27_valid & crat_27_lr == io_rd_0;
-  wire        phy_rd_OH_28 = crat_28_valid & crat_28_lr == io_rd_0;
-  wire        phy_rd_OH_29 = crat_29_valid & crat_29_lr == io_rd_0;
-  wire        phy_rd_OH_30 = crat_30_valid & crat_30_lr == io_rd_0;
-  wire        phy_rd_OH_31 = crat_31_valid & crat_31_lr == io_rd_0;
-  wire        phy_rd_OH_33 = crat_33_valid & crat_33_lr == io_rd_0;
-  wire        phy_rd_OH_34 = crat_34_valid & crat_34_lr == io_rd_0;
-  wire        phy_rd_OH_35 = crat_35_valid & crat_35_lr == io_rd_0;
-  wire        phy_rd_OH_36 = crat_36_valid & crat_36_lr == io_rd_0;
-  wire        phy_rd_OH_37 = crat_37_valid & crat_37_lr == io_rd_0;
-  wire        phy_rd_OH_38 = crat_38_valid & crat_38_lr == io_rd_0;
-  wire        phy_rd_OH_39 = crat_39_valid & crat_39_lr == io_rd_0;
-  wire        phy_rd_OH_40 = crat_40_valid & crat_40_lr == io_rd_0;
-  wire        phy_rd_OH_41 = crat_41_valid & crat_41_lr == io_rd_0;
-  wire        phy_rd_OH_42 = crat_42_valid & crat_42_lr == io_rd_0;
-  wire        phy_rd_OH_43 = crat_43_valid & crat_43_lr == io_rd_0;
-  wire        phy_rd_OH_44 = crat_44_valid & crat_44_lr == io_rd_0;
-  wire        phy_rd_OH_45 = crat_45_valid & crat_45_lr == io_rd_0;
-  wire        phy_rd_OH_46 = crat_46_valid & crat_46_lr == io_rd_0;
-  wire        phy_rd_OH_47 = crat_47_valid & crat_47_lr == io_rd_0;
-  wire        phy_rd_OH_48 = crat_48_valid & crat_48_lr == io_rd_0;
-  wire        phy_rd_OH_49 = crat_49_valid & crat_49_lr == io_rd_0;
-  wire        phy_rd_OH_50 = crat_50_valid & crat_50_lr == io_rd_0;
-  wire        phy_rd_OH_51 = crat_51_valid & crat_51_lr == io_rd_0;
-  wire        phy_rd_OH_52 = crat_52_valid & crat_52_lr == io_rd_0;
-  wire        phy_rd_OH_53 = crat_53_valid & crat_53_lr == io_rd_0;
-  wire        _GEN = phy_rj_OH_53 | crat_21_valid & crat_21_lr == io_rj_0;
-  wire        _GEN_0 = phy_rj_OH_52 | crat_20_valid & crat_20_lr == io_rj_0;
-  wire        _GEN_1 = phy_rj_OH_51 | crat_19_valid & crat_19_lr == io_rj_0;
-  wire        _GEN_2 = phy_rj_OH_50 | crat_18_valid & crat_18_lr == io_rj_0;
-  wire        _GEN_3 = phy_rj_OH_49 | crat_17_valid & crat_17_lr == io_rj_0;
-  wire        _GEN_4 = phy_rj_OH_48 | crat_16_valid & crat_16_lr == io_rj_0;
+  reg         crat_valid_0;
+  reg         crat_valid_1;
+  reg         crat_valid_2;
+  reg         crat_valid_3;
+  reg         crat_valid_4;
+  reg         crat_valid_5;
+  reg         crat_valid_6;
+  reg         crat_valid_7;
+  reg         crat_valid_8;
+  reg         crat_valid_9;
+  reg         crat_valid_10;
+  reg         crat_valid_11;
+  reg         crat_valid_12;
+  reg         crat_valid_13;
+  reg         crat_valid_14;
+  reg         crat_valid_15;
+  reg         crat_valid_16;
+  reg         crat_valid_17;
+  reg         crat_valid_18;
+  reg         crat_valid_19;
+  reg         crat_valid_20;
+  reg         crat_valid_21;
+  reg         crat_valid_22;
+  reg         crat_valid_23;
+  reg         crat_valid_24;
+  reg         crat_valid_25;
+  reg         crat_valid_26;
+  reg         crat_valid_27;
+  reg         crat_valid_28;
+  reg         crat_valid_29;
+  reg         crat_valid_30;
+  reg         crat_valid_31;
+  reg         crat_valid_32;
+  reg         crat_valid_33;
+  reg         crat_valid_34;
+  reg         crat_valid_35;
+  reg         crat_valid_36;
+  reg         crat_valid_37;
+  reg         crat_valid_38;
+  reg         crat_valid_39;
+  reg         crat_valid_40;
+  reg         crat_valid_41;
+  reg         crat_valid_42;
+  reg         crat_valid_43;
+  reg         crat_valid_44;
+  reg         crat_valid_45;
+  reg         crat_valid_46;
+  reg         crat_valid_47;
+  reg         crat_valid_48;
+  reg         crat_valid_49;
+  reg         crat_valid_50;
+  reg         crat_valid_51;
+  reg         crat_valid_52;
+  reg         crat_valid_53;
+  reg  [4:0]  crat_lr_0;
+  reg  [4:0]  crat_lr_1;
+  reg  [4:0]  crat_lr_2;
+  reg  [4:0]  crat_lr_3;
+  reg  [4:0]  crat_lr_4;
+  reg  [4:0]  crat_lr_5;
+  reg  [4:0]  crat_lr_6;
+  reg  [4:0]  crat_lr_7;
+  reg  [4:0]  crat_lr_8;
+  reg  [4:0]  crat_lr_9;
+  reg  [4:0]  crat_lr_10;
+  reg  [4:0]  crat_lr_11;
+  reg  [4:0]  crat_lr_12;
+  reg  [4:0]  crat_lr_13;
+  reg  [4:0]  crat_lr_14;
+  reg  [4:0]  crat_lr_15;
+  reg  [4:0]  crat_lr_16;
+  reg  [4:0]  crat_lr_17;
+  reg  [4:0]  crat_lr_18;
+  reg  [4:0]  crat_lr_19;
+  reg  [4:0]  crat_lr_20;
+  reg  [4:0]  crat_lr_21;
+  reg  [4:0]  crat_lr_22;
+  reg  [4:0]  crat_lr_23;
+  reg  [4:0]  crat_lr_24;
+  reg  [4:0]  crat_lr_25;
+  reg  [4:0]  crat_lr_26;
+  reg  [4:0]  crat_lr_27;
+  reg  [4:0]  crat_lr_28;
+  reg  [4:0]  crat_lr_29;
+  reg  [4:0]  crat_lr_30;
+  reg  [4:0]  crat_lr_31;
+  reg  [4:0]  crat_lr_32;
+  reg  [4:0]  crat_lr_33;
+  reg  [4:0]  crat_lr_34;
+  reg  [4:0]  crat_lr_35;
+  reg  [4:0]  crat_lr_36;
+  reg  [4:0]  crat_lr_37;
+  reg  [4:0]  crat_lr_38;
+  reg  [4:0]  crat_lr_39;
+  reg  [4:0]  crat_lr_40;
+  reg  [4:0]  crat_lr_41;
+  reg  [4:0]  crat_lr_42;
+  reg  [4:0]  crat_lr_43;
+  reg  [4:0]  crat_lr_44;
+  reg  [4:0]  crat_lr_45;
+  reg  [4:0]  crat_lr_46;
+  reg  [4:0]  crat_lr_47;
+  reg  [4:0]  crat_lr_48;
+  reg  [4:0]  crat_lr_49;
+  reg  [4:0]  crat_lr_50;
+  reg  [4:0]  crat_lr_51;
+  reg  [4:0]  crat_lr_52;
+  reg  [4:0]  crat_lr_53;
+  reg         crat_free_0;
+  reg         crat_free_1;
+  reg         crat_free_2;
+  reg         crat_free_3;
+  reg         crat_free_4;
+  reg         crat_free_5;
+  reg         crat_free_6;
+  reg         crat_free_7;
+  reg         crat_free_8;
+  reg         crat_free_9;
+  reg         crat_free_10;
+  reg         crat_free_11;
+  reg         crat_free_12;
+  reg         crat_free_13;
+  reg         crat_free_14;
+  reg         crat_free_15;
+  reg         crat_free_16;
+  reg         crat_free_17;
+  reg         crat_free_18;
+  reg         crat_free_19;
+  reg         crat_free_20;
+  reg         crat_free_21;
+  reg         crat_free_22;
+  reg         crat_free_23;
+  reg         crat_free_24;
+  reg         crat_free_25;
+  reg         crat_free_26;
+  reg         crat_free_27;
+  reg         crat_free_28;
+  reg         crat_free_29;
+  reg         crat_free_30;
+  reg         crat_free_31;
+  reg         crat_free_32;
+  reg         crat_free_33;
+  reg         crat_free_34;
+  reg         crat_free_35;
+  reg         crat_free_36;
+  reg         crat_free_37;
+  reg         crat_free_38;
+  reg         crat_free_39;
+  reg         crat_free_40;
+  reg         crat_free_41;
+  reg         crat_free_42;
+  reg         crat_free_43;
+  reg         crat_free_44;
+  reg         crat_free_45;
+  reg         crat_free_46;
+  reg         crat_free_47;
+  reg         crat_free_48;
+  reg         crat_free_49;
+  reg         crat_free_50;
+  reg         crat_free_51;
+  reg         crat_free_52;
+  reg         crat_free_53;
+  wire        phy_rj_OH_22 = crat_valid_22 & crat_lr_22 == io_rj_0;
+  wire        phy_rj_OH_23 = crat_valid_23 & crat_lr_23 == io_rj_0;
+  wire        phy_rj_OH_24 = crat_valid_24 & crat_lr_24 == io_rj_0;
+  wire        phy_rj_OH_25 = crat_valid_25 & crat_lr_25 == io_rj_0;
+  wire        phy_rj_OH_26 = crat_valid_26 & crat_lr_26 == io_rj_0;
+  wire        phy_rj_OH_27 = crat_valid_27 & crat_lr_27 == io_rj_0;
+  wire        phy_rj_OH_28 = crat_valid_28 & crat_lr_28 == io_rj_0;
+  wire        phy_rj_OH_29 = crat_valid_29 & crat_lr_29 == io_rj_0;
+  wire        phy_rj_OH_30 = crat_valid_30 & crat_lr_30 == io_rj_0;
+  wire        phy_rj_OH_31 = crat_valid_31 & crat_lr_31 == io_rj_0;
+  wire        phy_rj_OH_32 = crat_valid_32 & crat_lr_32 == io_rj_0;
+  wire        phy_rj_OH_33 = crat_valid_33 & crat_lr_33 == io_rj_0;
+  wire        phy_rj_OH_34 = crat_valid_34 & crat_lr_34 == io_rj_0;
+  wire        phy_rj_OH_35 = crat_valid_35 & crat_lr_35 == io_rj_0;
+  wire        phy_rj_OH_36 = crat_valid_36 & crat_lr_36 == io_rj_0;
+  wire        phy_rj_OH_37 = crat_valid_37 & crat_lr_37 == io_rj_0;
+  wire        phy_rj_OH_38 = crat_valid_38 & crat_lr_38 == io_rj_0;
+  wire        phy_rj_OH_39 = crat_valid_39 & crat_lr_39 == io_rj_0;
+  wire        phy_rj_OH_40 = crat_valid_40 & crat_lr_40 == io_rj_0;
+  wire        phy_rj_OH_41 = crat_valid_41 & crat_lr_41 == io_rj_0;
+  wire        phy_rj_OH_42 = crat_valid_42 & crat_lr_42 == io_rj_0;
+  wire        phy_rj_OH_43 = crat_valid_43 & crat_lr_43 == io_rj_0;
+  wire        phy_rj_OH_44 = crat_valid_44 & crat_lr_44 == io_rj_0;
+  wire        phy_rj_OH_45 = crat_valid_45 & crat_lr_45 == io_rj_0;
+  wire        phy_rj_OH_46 = crat_valid_46 & crat_lr_46 == io_rj_0;
+  wire        phy_rj_OH_47 = crat_valid_47 & crat_lr_47 == io_rj_0;
+  wire        phy_rj_OH_48 = crat_valid_48 & crat_lr_48 == io_rj_0;
+  wire        phy_rj_OH_49 = crat_valid_49 & crat_lr_49 == io_rj_0;
+  wire        phy_rj_OH_50 = crat_valid_50 & crat_lr_50 == io_rj_0;
+  wire        phy_rj_OH_51 = crat_valid_51 & crat_lr_51 == io_rj_0;
+  wire        phy_rj_OH_52 = crat_valid_52 & crat_lr_52 == io_rj_0;
+  wire        phy_rj_OH_53 = crat_valid_53 & crat_lr_53 == io_rj_0;
+  wire        phy_rk_OH_22 = crat_valid_22 & crat_lr_22 == io_rk_0;
+  wire        phy_rk_OH_23 = crat_valid_23 & crat_lr_23 == io_rk_0;
+  wire        phy_rk_OH_24 = crat_valid_24 & crat_lr_24 == io_rk_0;
+  wire        phy_rk_OH_25 = crat_valid_25 & crat_lr_25 == io_rk_0;
+  wire        phy_rk_OH_26 = crat_valid_26 & crat_lr_26 == io_rk_0;
+  wire        phy_rk_OH_27 = crat_valid_27 & crat_lr_27 == io_rk_0;
+  wire        phy_rk_OH_28 = crat_valid_28 & crat_lr_28 == io_rk_0;
+  wire        phy_rk_OH_29 = crat_valid_29 & crat_lr_29 == io_rk_0;
+  wire        phy_rk_OH_30 = crat_valid_30 & crat_lr_30 == io_rk_0;
+  wire        phy_rk_OH_31 = crat_valid_31 & crat_lr_31 == io_rk_0;
+  wire        phy_rk_OH_32 = crat_valid_32 & crat_lr_32 == io_rk_0;
+  wire        phy_rk_OH_33 = crat_valid_33 & crat_lr_33 == io_rk_0;
+  wire        phy_rk_OH_34 = crat_valid_34 & crat_lr_34 == io_rk_0;
+  wire        phy_rk_OH_35 = crat_valid_35 & crat_lr_35 == io_rk_0;
+  wire        phy_rk_OH_36 = crat_valid_36 & crat_lr_36 == io_rk_0;
+  wire        phy_rk_OH_37 = crat_valid_37 & crat_lr_37 == io_rk_0;
+  wire        phy_rk_OH_38 = crat_valid_38 & crat_lr_38 == io_rk_0;
+  wire        phy_rk_OH_39 = crat_valid_39 & crat_lr_39 == io_rk_0;
+  wire        phy_rk_OH_40 = crat_valid_40 & crat_lr_40 == io_rk_0;
+  wire        phy_rk_OH_41 = crat_valid_41 & crat_lr_41 == io_rk_0;
+  wire        phy_rk_OH_42 = crat_valid_42 & crat_lr_42 == io_rk_0;
+  wire        phy_rk_OH_43 = crat_valid_43 & crat_lr_43 == io_rk_0;
+  wire        phy_rk_OH_44 = crat_valid_44 & crat_lr_44 == io_rk_0;
+  wire        phy_rk_OH_45 = crat_valid_45 & crat_lr_45 == io_rk_0;
+  wire        phy_rk_OH_46 = crat_valid_46 & crat_lr_46 == io_rk_0;
+  wire        phy_rk_OH_47 = crat_valid_47 & crat_lr_47 == io_rk_0;
+  wire        phy_rk_OH_48 = crat_valid_48 & crat_lr_48 == io_rk_0;
+  wire        phy_rk_OH_49 = crat_valid_49 & crat_lr_49 == io_rk_0;
+  wire        phy_rk_OH_50 = crat_valid_50 & crat_lr_50 == io_rk_0;
+  wire        phy_rk_OH_51 = crat_valid_51 & crat_lr_51 == io_rk_0;
+  wire        phy_rk_OH_52 = crat_valid_52 & crat_lr_52 == io_rk_0;
+  wire        phy_rk_OH_53 = crat_valid_53 & crat_lr_53 == io_rk_0;
+  wire        phy_rd_OH_22 = crat_valid_22 & crat_lr_22 == io_rd_0;
+  wire        phy_rd_OH_23 = crat_valid_23 & crat_lr_23 == io_rd_0;
+  wire        phy_rd_OH_24 = crat_valid_24 & crat_lr_24 == io_rd_0;
+  wire        phy_rd_OH_25 = crat_valid_25 & crat_lr_25 == io_rd_0;
+  wire        phy_rd_OH_26 = crat_valid_26 & crat_lr_26 == io_rd_0;
+  wire        phy_rd_OH_27 = crat_valid_27 & crat_lr_27 == io_rd_0;
+  wire        phy_rd_OH_28 = crat_valid_28 & crat_lr_28 == io_rd_0;
+  wire        phy_rd_OH_29 = crat_valid_29 & crat_lr_29 == io_rd_0;
+  wire        phy_rd_OH_30 = crat_valid_30 & crat_lr_30 == io_rd_0;
+  wire        phy_rd_OH_31 = crat_valid_31 & crat_lr_31 == io_rd_0;
+  wire        phy_rd_OH_33 = crat_valid_33 & crat_lr_33 == io_rd_0;
+  wire        phy_rd_OH_34 = crat_valid_34 & crat_lr_34 == io_rd_0;
+  wire        phy_rd_OH_35 = crat_valid_35 & crat_lr_35 == io_rd_0;
+  wire        phy_rd_OH_36 = crat_valid_36 & crat_lr_36 == io_rd_0;
+  wire        phy_rd_OH_37 = crat_valid_37 & crat_lr_37 == io_rd_0;
+  wire        phy_rd_OH_38 = crat_valid_38 & crat_lr_38 == io_rd_0;
+  wire        phy_rd_OH_39 = crat_valid_39 & crat_lr_39 == io_rd_0;
+  wire        phy_rd_OH_40 = crat_valid_40 & crat_lr_40 == io_rd_0;
+  wire        phy_rd_OH_41 = crat_valid_41 & crat_lr_41 == io_rd_0;
+  wire        phy_rd_OH_42 = crat_valid_42 & crat_lr_42 == io_rd_0;
+  wire        phy_rd_OH_43 = crat_valid_43 & crat_lr_43 == io_rd_0;
+  wire        phy_rd_OH_44 = crat_valid_44 & crat_lr_44 == io_rd_0;
+  wire        phy_rd_OH_45 = crat_valid_45 & crat_lr_45 == io_rd_0;
+  wire        phy_rd_OH_46 = crat_valid_46 & crat_lr_46 == io_rd_0;
+  wire        phy_rd_OH_47 = crat_valid_47 & crat_lr_47 == io_rd_0;
+  wire        phy_rd_OH_48 = crat_valid_48 & crat_lr_48 == io_rd_0;
+  wire        phy_rd_OH_49 = crat_valid_49 & crat_lr_49 == io_rd_0;
+  wire        phy_rd_OH_50 = crat_valid_50 & crat_lr_50 == io_rd_0;
+  wire        phy_rd_OH_51 = crat_valid_51 & crat_lr_51 == io_rd_0;
+  wire        phy_rd_OH_52 = crat_valid_52 & crat_lr_52 == io_rd_0;
+  wire        phy_rd_OH_53 = crat_valid_53 & crat_lr_53 == io_rd_0;
+  wire        _GEN = phy_rj_OH_53 | crat_valid_21 & crat_lr_21 == io_rj_0;
+  wire        _GEN_0 = phy_rj_OH_52 | crat_valid_20 & crat_lr_20 == io_rj_0;
+  wire        _GEN_1 = phy_rj_OH_51 | crat_valid_19 & crat_lr_19 == io_rj_0;
+  wire        _GEN_2 = phy_rj_OH_50 | crat_valid_18 & crat_lr_18 == io_rj_0;
+  wire        _GEN_3 = phy_rj_OH_49 | crat_valid_17 & crat_lr_17 == io_rj_0;
+  wire        _GEN_4 = phy_rj_OH_48 | crat_valid_16 & crat_lr_16 == io_rj_0;
   wire [14:0] _GEN_5 =
     {phy_rj_OH_31,
      phy_rj_OH_30,
@@ -367,30 +367,30 @@ module CRat(
      _GEN_2,
      _GEN_3};
   wire [14:0] _GEN_6 =
-    {phy_rj_OH_47 | crat_15_valid & crat_15_lr == io_rj_0,
-     phy_rj_OH_46 | crat_14_valid & crat_14_lr == io_rj_0,
-     phy_rj_OH_45 | crat_13_valid & crat_13_lr == io_rj_0,
-     phy_rj_OH_44 | crat_12_valid & crat_12_lr == io_rj_0,
-     phy_rj_OH_43 | crat_11_valid & crat_11_lr == io_rj_0,
-     phy_rj_OH_42 | crat_10_valid & crat_10_lr == io_rj_0,
-     phy_rj_OH_41 | crat_9_valid & crat_9_lr == io_rj_0,
-     phy_rj_OH_40 | crat_8_valid & crat_8_lr == io_rj_0,
-     phy_rj_OH_39 | crat_7_valid & crat_7_lr == io_rj_0,
-     phy_rj_OH_38 | crat_6_valid & crat_6_lr == io_rj_0,
-     phy_rj_OH_37 | crat_5_valid & crat_5_lr == io_rj_0,
-     phy_rj_OH_36 | crat_4_valid & crat_4_lr == io_rj_0,
-     phy_rj_OH_35 | crat_3_valid & crat_3_lr == io_rj_0,
-     phy_rj_OH_34 | crat_2_valid & crat_2_lr == io_rj_0,
-     phy_rj_OH_33 | crat_1_valid & crat_1_lr == io_rj_0};
+    {phy_rj_OH_47 | crat_valid_15 & crat_lr_15 == io_rj_0,
+     phy_rj_OH_46 | crat_valid_14 & crat_lr_14 == io_rj_0,
+     phy_rj_OH_45 | crat_valid_13 & crat_lr_13 == io_rj_0,
+     phy_rj_OH_44 | crat_valid_12 & crat_lr_12 == io_rj_0,
+     phy_rj_OH_43 | crat_valid_11 & crat_lr_11 == io_rj_0,
+     phy_rj_OH_42 | crat_valid_10 & crat_lr_10 == io_rj_0,
+     phy_rj_OH_41 | crat_valid_9 & crat_lr_9 == io_rj_0,
+     phy_rj_OH_40 | crat_valid_8 & crat_lr_8 == io_rj_0,
+     phy_rj_OH_39 | crat_valid_7 & crat_lr_7 == io_rj_0,
+     phy_rj_OH_38 | crat_valid_6 & crat_lr_6 == io_rj_0,
+     phy_rj_OH_37 | crat_valid_5 & crat_lr_5 == io_rj_0,
+     phy_rj_OH_36 | crat_valid_4 & crat_lr_4 == io_rj_0,
+     phy_rj_OH_35 | crat_valid_3 & crat_lr_3 == io_rj_0,
+     phy_rj_OH_34 | crat_valid_2 & crat_lr_2 == io_rj_0,
+     phy_rj_OH_33 | crat_valid_1 & crat_lr_1 == io_rj_0};
   wire [14:0] _io_prj_0_T_4 = _GEN_5 | _GEN_6;
   wire [6:0]  _io_prj_0_T_6 = _io_prj_0_T_4[14:8] | _io_prj_0_T_4[6:0];
   wire [2:0]  _io_prj_0_T_8 = _io_prj_0_T_6[6:4] | _io_prj_0_T_6[2:0];
-  wire        _GEN_7 = phy_rk_OH_53 | crat_21_valid & crat_21_lr == io_rk_0;
-  wire        _GEN_8 = phy_rk_OH_52 | crat_20_valid & crat_20_lr == io_rk_0;
-  wire        _GEN_9 = phy_rk_OH_51 | crat_19_valid & crat_19_lr == io_rk_0;
-  wire        _GEN_10 = phy_rk_OH_50 | crat_18_valid & crat_18_lr == io_rk_0;
-  wire        _GEN_11 = phy_rk_OH_49 | crat_17_valid & crat_17_lr == io_rk_0;
-  wire        _GEN_12 = phy_rk_OH_48 | crat_16_valid & crat_16_lr == io_rk_0;
+  wire        _GEN_7 = phy_rk_OH_53 | crat_valid_21 & crat_lr_21 == io_rk_0;
+  wire        _GEN_8 = phy_rk_OH_52 | crat_valid_20 & crat_lr_20 == io_rk_0;
+  wire        _GEN_9 = phy_rk_OH_51 | crat_valid_19 & crat_lr_19 == io_rk_0;
+  wire        _GEN_10 = phy_rk_OH_50 | crat_valid_18 & crat_lr_18 == io_rk_0;
+  wire        _GEN_11 = phy_rk_OH_49 | crat_valid_17 & crat_lr_17 == io_rk_0;
+  wire        _GEN_12 = phy_rk_OH_48 | crat_valid_16 & crat_lr_16 == io_rk_0;
   wire [14:0] _GEN_13 =
     {phy_rk_OH_31,
      phy_rk_OH_30,
@@ -408,29 +408,29 @@ module CRat(
      _GEN_10,
      _GEN_11};
   wire [14:0] _GEN_14 =
-    {phy_rk_OH_47 | crat_15_valid & crat_15_lr == io_rk_0,
-     phy_rk_OH_46 | crat_14_valid & crat_14_lr == io_rk_0,
-     phy_rk_OH_45 | crat_13_valid & crat_13_lr == io_rk_0,
-     phy_rk_OH_44 | crat_12_valid & crat_12_lr == io_rk_0,
-     phy_rk_OH_43 | crat_11_valid & crat_11_lr == io_rk_0,
-     phy_rk_OH_42 | crat_10_valid & crat_10_lr == io_rk_0,
-     phy_rk_OH_41 | crat_9_valid & crat_9_lr == io_rk_0,
-     phy_rk_OH_40 | crat_8_valid & crat_8_lr == io_rk_0,
-     phy_rk_OH_39 | crat_7_valid & crat_7_lr == io_rk_0,
-     phy_rk_OH_38 | crat_6_valid & crat_6_lr == io_rk_0,
-     phy_rk_OH_37 | crat_5_valid & crat_5_lr == io_rk_0,
-     phy_rk_OH_36 | crat_4_valid & crat_4_lr == io_rk_0,
-     phy_rk_OH_35 | crat_3_valid & crat_3_lr == io_rk_0,
-     phy_rk_OH_34 | crat_2_valid & crat_2_lr == io_rk_0,
-     phy_rk_OH_33 | crat_1_valid & crat_1_lr == io_rk_0};
+    {phy_rk_OH_47 | crat_valid_15 & crat_lr_15 == io_rk_0,
+     phy_rk_OH_46 | crat_valid_14 & crat_lr_14 == io_rk_0,
+     phy_rk_OH_45 | crat_valid_13 & crat_lr_13 == io_rk_0,
+     phy_rk_OH_44 | crat_valid_12 & crat_lr_12 == io_rk_0,
+     phy_rk_OH_43 | crat_valid_11 & crat_lr_11 == io_rk_0,
+     phy_rk_OH_42 | crat_valid_10 & crat_lr_10 == io_rk_0,
+     phy_rk_OH_41 | crat_valid_9 & crat_lr_9 == io_rk_0,
+     phy_rk_OH_40 | crat_valid_8 & crat_lr_8 == io_rk_0,
+     phy_rk_OH_39 | crat_valid_7 & crat_lr_7 == io_rk_0,
+     phy_rk_OH_38 | crat_valid_6 & crat_lr_6 == io_rk_0,
+     phy_rk_OH_37 | crat_valid_5 & crat_lr_5 == io_rk_0,
+     phy_rk_OH_36 | crat_valid_4 & crat_lr_4 == io_rk_0,
+     phy_rk_OH_35 | crat_valid_3 & crat_lr_3 == io_rk_0,
+     phy_rk_OH_34 | crat_valid_2 & crat_lr_2 == io_rk_0,
+     phy_rk_OH_33 | crat_valid_1 & crat_lr_1 == io_rk_0};
   wire [14:0] _io_prk_0_T_4 = _GEN_13 | _GEN_14;
   wire [6:0]  _io_prk_0_T_6 = _io_prk_0_T_4[14:8] | _io_prk_0_T_4[6:0];
   wire [2:0]  _io_prk_0_T_8 = _io_prk_0_T_6[6:4] | _io_prk_0_T_6[2:0];
-  wire        _GEN_15 = phy_rd_OH_53 | crat_21_valid & crat_21_lr == io_rd_0;
-  wire        _GEN_16 = phy_rd_OH_52 | crat_20_valid & crat_20_lr == io_rd_0;
-  wire        _GEN_17 = phy_rd_OH_51 | crat_19_valid & crat_19_lr == io_rd_0;
-  wire        _GEN_18 = phy_rd_OH_50 | crat_18_valid & crat_18_lr == io_rd_0;
-  wire        _GEN_19 = phy_rd_OH_49 | crat_17_valid & crat_17_lr == io_rd_0;
+  wire        _GEN_15 = phy_rd_OH_53 | crat_valid_21 & crat_lr_21 == io_rd_0;
+  wire        _GEN_16 = phy_rd_OH_52 | crat_valid_20 & crat_lr_20 == io_rd_0;
+  wire        _GEN_17 = phy_rd_OH_51 | crat_valid_19 & crat_lr_19 == io_rd_0;
+  wire        _GEN_18 = phy_rd_OH_50 | crat_valid_18 & crat_lr_18 == io_rd_0;
+  wire        _GEN_19 = phy_rd_OH_49 | crat_valid_17 & crat_lr_17 == io_rd_0;
   wire [14:0] _io_pprd_0_T_4 =
     {phy_rd_OH_31,
      phy_rd_OH_30,
@@ -447,21 +447,21 @@ module CRat(
      _GEN_17,
      _GEN_18,
      _GEN_19}
-    | {phy_rd_OH_47 | crat_15_valid & crat_15_lr == io_rd_0,
-       phy_rd_OH_46 | crat_14_valid & crat_14_lr == io_rd_0,
-       phy_rd_OH_45 | crat_13_valid & crat_13_lr == io_rd_0,
-       phy_rd_OH_44 | crat_12_valid & crat_12_lr == io_rd_0,
-       phy_rd_OH_43 | crat_11_valid & crat_11_lr == io_rd_0,
-       phy_rd_OH_42 | crat_10_valid & crat_10_lr == io_rd_0,
-       phy_rd_OH_41 | crat_9_valid & crat_9_lr == io_rd_0,
-       phy_rd_OH_40 | crat_8_valid & crat_8_lr == io_rd_0,
-       phy_rd_OH_39 | crat_7_valid & crat_7_lr == io_rd_0,
-       phy_rd_OH_38 | crat_6_valid & crat_6_lr == io_rd_0,
-       phy_rd_OH_37 | crat_5_valid & crat_5_lr == io_rd_0,
-       phy_rd_OH_36 | crat_4_valid & crat_4_lr == io_rd_0,
-       phy_rd_OH_35 | crat_3_valid & crat_3_lr == io_rd_0,
-       phy_rd_OH_34 | crat_2_valid & crat_2_lr == io_rd_0,
-       phy_rd_OH_33 | crat_1_valid & crat_1_lr == io_rd_0};
+    | {phy_rd_OH_47 | crat_valid_15 & crat_lr_15 == io_rd_0,
+       phy_rd_OH_46 | crat_valid_14 & crat_lr_14 == io_rd_0,
+       phy_rd_OH_45 | crat_valid_13 & crat_lr_13 == io_rd_0,
+       phy_rd_OH_44 | crat_valid_12 & crat_lr_12 == io_rd_0,
+       phy_rd_OH_43 | crat_valid_11 & crat_lr_11 == io_rd_0,
+       phy_rd_OH_42 | crat_valid_10 & crat_lr_10 == io_rd_0,
+       phy_rd_OH_41 | crat_valid_9 & crat_lr_9 == io_rd_0,
+       phy_rd_OH_40 | crat_valid_8 & crat_lr_8 == io_rd_0,
+       phy_rd_OH_39 | crat_valid_7 & crat_lr_7 == io_rd_0,
+       phy_rd_OH_38 | crat_valid_6 & crat_lr_6 == io_rd_0,
+       phy_rd_OH_37 | crat_valid_5 & crat_lr_5 == io_rd_0,
+       phy_rd_OH_36 | crat_valid_4 & crat_lr_4 == io_rd_0,
+       phy_rd_OH_35 | crat_valid_3 & crat_lr_3 == io_rd_0,
+       phy_rd_OH_34 | crat_valid_2 & crat_lr_2 == io_rd_0,
+       phy_rd_OH_33 | crat_valid_1 & crat_lr_1 == io_rd_0};
   wire [6:0]  _io_pprd_0_T_6 = _io_pprd_0_T_4[14:8] | _io_pprd_0_T_4[6:0];
   wire [2:0]  _io_pprd_0_T_8 = _io_pprd_0_T_6[6:4] | _io_pprd_0_T_6[2:0];
   wire [5:0]  io_pprd_0_0 =
@@ -486,7 +486,7 @@ module CRat(
        phy_rd_OH_35,
        phy_rd_OH_34,
        phy_rd_OH_33,
-       crat_32_valid & crat_32_lr == io_rd_0},
+       crat_valid_32 & crat_lr_32 == io_rd_0},
      |{phy_rd_OH_31,
        phy_rd_OH_30,
        phy_rd_OH_29,
@@ -502,7 +502,7 @@ module CRat(
        _GEN_17,
        _GEN_18,
        _GEN_19,
-       phy_rd_OH_48 | crat_16_valid & crat_16_lr == io_rd_0},
+       phy_rd_OH_48 | crat_valid_16 & crat_lr_16 == io_rd_0},
      |(_io_pprd_0_T_4[14:7]),
      |(_io_pprd_0_T_6[6:3]),
      |(_io_pprd_0_T_8[2:1]),
@@ -511,174 +511,174 @@ module CRat(
   wire [6:0]  _io_prj_ready_0_T_6 = _io_prj_ready_0_T_4[14:8] | _io_prj_ready_0_T_4[6:0];
   wire [2:0]  _io_prj_ready_0_T_8 = _io_prj_ready_0_T_6[6:4] | _io_prj_ready_0_T_6[2:0];
   wire [63:0] _GEN_20 =
-    {{crat_0_free},
-     {crat_0_free},
-     {crat_0_free},
-     {crat_0_free},
-     {crat_0_free},
-     {crat_0_free},
-     {crat_0_free},
-     {crat_0_free},
-     {crat_0_free},
-     {crat_0_free},
-     {crat_53_free},
-     {crat_52_free},
-     {crat_51_free},
-     {crat_50_free},
-     {crat_49_free},
-     {crat_48_free},
-     {crat_47_free},
-     {crat_46_free},
-     {crat_45_free},
-     {crat_44_free},
-     {crat_43_free},
-     {crat_42_free},
-     {crat_41_free},
-     {crat_40_free},
-     {crat_39_free},
-     {crat_38_free},
-     {crat_37_free},
-     {crat_36_free},
-     {crat_35_free},
-     {crat_34_free},
-     {crat_33_free},
-     {crat_32_free},
-     {crat_31_free},
-     {crat_30_free},
-     {crat_29_free},
-     {crat_28_free},
-     {crat_27_free},
-     {crat_26_free},
-     {crat_25_free},
-     {crat_24_free},
-     {crat_23_free},
-     {crat_22_free},
-     {crat_21_free},
-     {crat_20_free},
-     {crat_19_free},
-     {crat_18_free},
-     {crat_17_free},
-     {crat_16_free},
-     {crat_15_free},
-     {crat_14_free},
-     {crat_13_free},
-     {crat_12_free},
-     {crat_11_free},
-     {crat_10_free},
-     {crat_9_free},
-     {crat_8_free},
-     {crat_7_free},
-     {crat_6_free},
-     {crat_5_free},
-     {crat_4_free},
-     {crat_3_free},
-     {crat_2_free},
-     {crat_1_free},
-     {crat_0_free}};
+    {{crat_free_0},
+     {crat_free_0},
+     {crat_free_0},
+     {crat_free_0},
+     {crat_free_0},
+     {crat_free_0},
+     {crat_free_0},
+     {crat_free_0},
+     {crat_free_0},
+     {crat_free_0},
+     {crat_free_53},
+     {crat_free_52},
+     {crat_free_51},
+     {crat_free_50},
+     {crat_free_49},
+     {crat_free_48},
+     {crat_free_47},
+     {crat_free_46},
+     {crat_free_45},
+     {crat_free_44},
+     {crat_free_43},
+     {crat_free_42},
+     {crat_free_41},
+     {crat_free_40},
+     {crat_free_39},
+     {crat_free_38},
+     {crat_free_37},
+     {crat_free_36},
+     {crat_free_35},
+     {crat_free_34},
+     {crat_free_33},
+     {crat_free_32},
+     {crat_free_31},
+     {crat_free_30},
+     {crat_free_29},
+     {crat_free_28},
+     {crat_free_27},
+     {crat_free_26},
+     {crat_free_25},
+     {crat_free_24},
+     {crat_free_23},
+     {crat_free_22},
+     {crat_free_21},
+     {crat_free_20},
+     {crat_free_19},
+     {crat_free_18},
+     {crat_free_17},
+     {crat_free_16},
+     {crat_free_15},
+     {crat_free_14},
+     {crat_free_13},
+     {crat_free_12},
+     {crat_free_11},
+     {crat_free_10},
+     {crat_free_9},
+     {crat_free_8},
+     {crat_free_7},
+     {crat_free_6},
+     {crat_free_5},
+     {crat_free_4},
+     {crat_free_3},
+     {crat_free_2},
+     {crat_free_1},
+     {crat_free_0}};
   wire [14:0] _io_prk_ready_0_T_4 = _GEN_13 | _GEN_14;
   wire [6:0]  _io_prk_ready_0_T_6 = _io_prk_ready_0_T_4[14:8] | _io_prk_ready_0_T_4[6:0];
   wire [2:0]  _io_prk_ready_0_T_8 = _io_prk_ready_0_T_6[6:4] | _io_prk_ready_0_T_6[2:0];
-  wire        phy_rj_OH_22_1 = crat_22_valid & crat_22_lr == io_rj_1;
-  wire        phy_rj_OH_23_1 = crat_23_valid & crat_23_lr == io_rj_1;
-  wire        phy_rj_OH_24_1 = crat_24_valid & crat_24_lr == io_rj_1;
-  wire        phy_rj_OH_25_1 = crat_25_valid & crat_25_lr == io_rj_1;
-  wire        phy_rj_OH_26_1 = crat_26_valid & crat_26_lr == io_rj_1;
-  wire        phy_rj_OH_27_1 = crat_27_valid & crat_27_lr == io_rj_1;
-  wire        phy_rj_OH_28_1 = crat_28_valid & crat_28_lr == io_rj_1;
-  wire        phy_rj_OH_29_1 = crat_29_valid & crat_29_lr == io_rj_1;
-  wire        phy_rj_OH_30_1 = crat_30_valid & crat_30_lr == io_rj_1;
-  wire        phy_rj_OH_31_1 = crat_31_valid & crat_31_lr == io_rj_1;
-  wire        phy_rj_OH_32_1 = crat_32_valid & crat_32_lr == io_rj_1;
-  wire        phy_rj_OH_33_1 = crat_33_valid & crat_33_lr == io_rj_1;
-  wire        phy_rj_OH_34_1 = crat_34_valid & crat_34_lr == io_rj_1;
-  wire        phy_rj_OH_35_1 = crat_35_valid & crat_35_lr == io_rj_1;
-  wire        phy_rj_OH_36_1 = crat_36_valid & crat_36_lr == io_rj_1;
-  wire        phy_rj_OH_37_1 = crat_37_valid & crat_37_lr == io_rj_1;
-  wire        phy_rj_OH_38_1 = crat_38_valid & crat_38_lr == io_rj_1;
-  wire        phy_rj_OH_39_1 = crat_39_valid & crat_39_lr == io_rj_1;
-  wire        phy_rj_OH_40_1 = crat_40_valid & crat_40_lr == io_rj_1;
-  wire        phy_rj_OH_41_1 = crat_41_valid & crat_41_lr == io_rj_1;
-  wire        phy_rj_OH_42_1 = crat_42_valid & crat_42_lr == io_rj_1;
-  wire        phy_rj_OH_43_1 = crat_43_valid & crat_43_lr == io_rj_1;
-  wire        phy_rj_OH_44_1 = crat_44_valid & crat_44_lr == io_rj_1;
-  wire        phy_rj_OH_45_1 = crat_45_valid & crat_45_lr == io_rj_1;
-  wire        phy_rj_OH_46_1 = crat_46_valid & crat_46_lr == io_rj_1;
-  wire        phy_rj_OH_47_1 = crat_47_valid & crat_47_lr == io_rj_1;
-  wire        phy_rj_OH_48_1 = crat_48_valid & crat_48_lr == io_rj_1;
-  wire        phy_rj_OH_49_1 = crat_49_valid & crat_49_lr == io_rj_1;
-  wire        phy_rj_OH_50_1 = crat_50_valid & crat_50_lr == io_rj_1;
-  wire        phy_rj_OH_51_1 = crat_51_valid & crat_51_lr == io_rj_1;
-  wire        phy_rj_OH_52_1 = crat_52_valid & crat_52_lr == io_rj_1;
-  wire        phy_rj_OH_53_1 = crat_53_valid & crat_53_lr == io_rj_1;
-  wire        phy_rk_OH_22_1 = crat_22_valid & crat_22_lr == io_rk_1;
-  wire        phy_rk_OH_23_1 = crat_23_valid & crat_23_lr == io_rk_1;
-  wire        phy_rk_OH_24_1 = crat_24_valid & crat_24_lr == io_rk_1;
-  wire        phy_rk_OH_25_1 = crat_25_valid & crat_25_lr == io_rk_1;
-  wire        phy_rk_OH_26_1 = crat_26_valid & crat_26_lr == io_rk_1;
-  wire        phy_rk_OH_27_1 = crat_27_valid & crat_27_lr == io_rk_1;
-  wire        phy_rk_OH_28_1 = crat_28_valid & crat_28_lr == io_rk_1;
-  wire        phy_rk_OH_29_1 = crat_29_valid & crat_29_lr == io_rk_1;
-  wire        phy_rk_OH_30_1 = crat_30_valid & crat_30_lr == io_rk_1;
-  wire        phy_rk_OH_31_1 = crat_31_valid & crat_31_lr == io_rk_1;
-  wire        phy_rk_OH_32_1 = crat_32_valid & crat_32_lr == io_rk_1;
-  wire        phy_rk_OH_33_1 = crat_33_valid & crat_33_lr == io_rk_1;
-  wire        phy_rk_OH_34_1 = crat_34_valid & crat_34_lr == io_rk_1;
-  wire        phy_rk_OH_35_1 = crat_35_valid & crat_35_lr == io_rk_1;
-  wire        phy_rk_OH_36_1 = crat_36_valid & crat_36_lr == io_rk_1;
-  wire        phy_rk_OH_37_1 = crat_37_valid & crat_37_lr == io_rk_1;
-  wire        phy_rk_OH_38_1 = crat_38_valid & crat_38_lr == io_rk_1;
-  wire        phy_rk_OH_39_1 = crat_39_valid & crat_39_lr == io_rk_1;
-  wire        phy_rk_OH_40_1 = crat_40_valid & crat_40_lr == io_rk_1;
-  wire        phy_rk_OH_41_1 = crat_41_valid & crat_41_lr == io_rk_1;
-  wire        phy_rk_OH_42_1 = crat_42_valid & crat_42_lr == io_rk_1;
-  wire        phy_rk_OH_43_1 = crat_43_valid & crat_43_lr == io_rk_1;
-  wire        phy_rk_OH_44_1 = crat_44_valid & crat_44_lr == io_rk_1;
-  wire        phy_rk_OH_45_1 = crat_45_valid & crat_45_lr == io_rk_1;
-  wire        phy_rk_OH_46_1 = crat_46_valid & crat_46_lr == io_rk_1;
-  wire        phy_rk_OH_47_1 = crat_47_valid & crat_47_lr == io_rk_1;
-  wire        phy_rk_OH_48_1 = crat_48_valid & crat_48_lr == io_rk_1;
-  wire        phy_rk_OH_49_1 = crat_49_valid & crat_49_lr == io_rk_1;
-  wire        phy_rk_OH_50_1 = crat_50_valid & crat_50_lr == io_rk_1;
-  wire        phy_rk_OH_51_1 = crat_51_valid & crat_51_lr == io_rk_1;
-  wire        phy_rk_OH_52_1 = crat_52_valid & crat_52_lr == io_rk_1;
-  wire        phy_rk_OH_53_1 = crat_53_valid & crat_53_lr == io_rk_1;
-  wire        phy_rd_OH_22_1 = crat_22_valid & crat_22_lr == io_rd_1;
-  wire        phy_rd_OH_23_1 = crat_23_valid & crat_23_lr == io_rd_1;
-  wire        phy_rd_OH_24_1 = crat_24_valid & crat_24_lr == io_rd_1;
-  wire        phy_rd_OH_25_1 = crat_25_valid & crat_25_lr == io_rd_1;
-  wire        phy_rd_OH_26_1 = crat_26_valid & crat_26_lr == io_rd_1;
-  wire        phy_rd_OH_27_1 = crat_27_valid & crat_27_lr == io_rd_1;
-  wire        phy_rd_OH_28_1 = crat_28_valid & crat_28_lr == io_rd_1;
-  wire        phy_rd_OH_29_1 = crat_29_valid & crat_29_lr == io_rd_1;
-  wire        phy_rd_OH_30_1 = crat_30_valid & crat_30_lr == io_rd_1;
-  wire        phy_rd_OH_31_1 = crat_31_valid & crat_31_lr == io_rd_1;
-  wire        phy_rd_OH_33_1 = crat_33_valid & crat_33_lr == io_rd_1;
-  wire        phy_rd_OH_34_1 = crat_34_valid & crat_34_lr == io_rd_1;
-  wire        phy_rd_OH_35_1 = crat_35_valid & crat_35_lr == io_rd_1;
-  wire        phy_rd_OH_36_1 = crat_36_valid & crat_36_lr == io_rd_1;
-  wire        phy_rd_OH_37_1 = crat_37_valid & crat_37_lr == io_rd_1;
-  wire        phy_rd_OH_38_1 = crat_38_valid & crat_38_lr == io_rd_1;
-  wire        phy_rd_OH_39_1 = crat_39_valid & crat_39_lr == io_rd_1;
-  wire        phy_rd_OH_40_1 = crat_40_valid & crat_40_lr == io_rd_1;
-  wire        phy_rd_OH_41_1 = crat_41_valid & crat_41_lr == io_rd_1;
-  wire        phy_rd_OH_42_1 = crat_42_valid & crat_42_lr == io_rd_1;
-  wire        phy_rd_OH_43_1 = crat_43_valid & crat_43_lr == io_rd_1;
-  wire        phy_rd_OH_44_1 = crat_44_valid & crat_44_lr == io_rd_1;
-  wire        phy_rd_OH_45_1 = crat_45_valid & crat_45_lr == io_rd_1;
-  wire        phy_rd_OH_46_1 = crat_46_valid & crat_46_lr == io_rd_1;
-  wire        phy_rd_OH_47_1 = crat_47_valid & crat_47_lr == io_rd_1;
-  wire        phy_rd_OH_48_1 = crat_48_valid & crat_48_lr == io_rd_1;
-  wire        phy_rd_OH_49_1 = crat_49_valid & crat_49_lr == io_rd_1;
-  wire        phy_rd_OH_50_1 = crat_50_valid & crat_50_lr == io_rd_1;
-  wire        phy_rd_OH_51_1 = crat_51_valid & crat_51_lr == io_rd_1;
-  wire        phy_rd_OH_52_1 = crat_52_valid & crat_52_lr == io_rd_1;
-  wire        phy_rd_OH_53_1 = crat_53_valid & crat_53_lr == io_rd_1;
-  wire        _GEN_21 = phy_rj_OH_53_1 | crat_21_valid & crat_21_lr == io_rj_1;
-  wire        _GEN_22 = phy_rj_OH_52_1 | crat_20_valid & crat_20_lr == io_rj_1;
-  wire        _GEN_23 = phy_rj_OH_51_1 | crat_19_valid & crat_19_lr == io_rj_1;
-  wire        _GEN_24 = phy_rj_OH_50_1 | crat_18_valid & crat_18_lr == io_rj_1;
-  wire        _GEN_25 = phy_rj_OH_49_1 | crat_17_valid & crat_17_lr == io_rj_1;
-  wire        _GEN_26 = phy_rj_OH_48_1 | crat_16_valid & crat_16_lr == io_rj_1;
+  wire        phy_rj_OH_22_1 = crat_valid_22 & crat_lr_22 == io_rj_1;
+  wire        phy_rj_OH_23_1 = crat_valid_23 & crat_lr_23 == io_rj_1;
+  wire        phy_rj_OH_24_1 = crat_valid_24 & crat_lr_24 == io_rj_1;
+  wire        phy_rj_OH_25_1 = crat_valid_25 & crat_lr_25 == io_rj_1;
+  wire        phy_rj_OH_26_1 = crat_valid_26 & crat_lr_26 == io_rj_1;
+  wire        phy_rj_OH_27_1 = crat_valid_27 & crat_lr_27 == io_rj_1;
+  wire        phy_rj_OH_28_1 = crat_valid_28 & crat_lr_28 == io_rj_1;
+  wire        phy_rj_OH_29_1 = crat_valid_29 & crat_lr_29 == io_rj_1;
+  wire        phy_rj_OH_30_1 = crat_valid_30 & crat_lr_30 == io_rj_1;
+  wire        phy_rj_OH_31_1 = crat_valid_31 & crat_lr_31 == io_rj_1;
+  wire        phy_rj_OH_32_1 = crat_valid_32 & crat_lr_32 == io_rj_1;
+  wire        phy_rj_OH_33_1 = crat_valid_33 & crat_lr_33 == io_rj_1;
+  wire        phy_rj_OH_34_1 = crat_valid_34 & crat_lr_34 == io_rj_1;
+  wire        phy_rj_OH_35_1 = crat_valid_35 & crat_lr_35 == io_rj_1;
+  wire        phy_rj_OH_36_1 = crat_valid_36 & crat_lr_36 == io_rj_1;
+  wire        phy_rj_OH_37_1 = crat_valid_37 & crat_lr_37 == io_rj_1;
+  wire        phy_rj_OH_38_1 = crat_valid_38 & crat_lr_38 == io_rj_1;
+  wire        phy_rj_OH_39_1 = crat_valid_39 & crat_lr_39 == io_rj_1;
+  wire        phy_rj_OH_40_1 = crat_valid_40 & crat_lr_40 == io_rj_1;
+  wire        phy_rj_OH_41_1 = crat_valid_41 & crat_lr_41 == io_rj_1;
+  wire        phy_rj_OH_42_1 = crat_valid_42 & crat_lr_42 == io_rj_1;
+  wire        phy_rj_OH_43_1 = crat_valid_43 & crat_lr_43 == io_rj_1;
+  wire        phy_rj_OH_44_1 = crat_valid_44 & crat_lr_44 == io_rj_1;
+  wire        phy_rj_OH_45_1 = crat_valid_45 & crat_lr_45 == io_rj_1;
+  wire        phy_rj_OH_46_1 = crat_valid_46 & crat_lr_46 == io_rj_1;
+  wire        phy_rj_OH_47_1 = crat_valid_47 & crat_lr_47 == io_rj_1;
+  wire        phy_rj_OH_48_1 = crat_valid_48 & crat_lr_48 == io_rj_1;
+  wire        phy_rj_OH_49_1 = crat_valid_49 & crat_lr_49 == io_rj_1;
+  wire        phy_rj_OH_50_1 = crat_valid_50 & crat_lr_50 == io_rj_1;
+  wire        phy_rj_OH_51_1 = crat_valid_51 & crat_lr_51 == io_rj_1;
+  wire        phy_rj_OH_52_1 = crat_valid_52 & crat_lr_52 == io_rj_1;
+  wire        phy_rj_OH_53_1 = crat_valid_53 & crat_lr_53 == io_rj_1;
+  wire        phy_rk_OH_22_1 = crat_valid_22 & crat_lr_22 == io_rk_1;
+  wire        phy_rk_OH_23_1 = crat_valid_23 & crat_lr_23 == io_rk_1;
+  wire        phy_rk_OH_24_1 = crat_valid_24 & crat_lr_24 == io_rk_1;
+  wire        phy_rk_OH_25_1 = crat_valid_25 & crat_lr_25 == io_rk_1;
+  wire        phy_rk_OH_26_1 = crat_valid_26 & crat_lr_26 == io_rk_1;
+  wire        phy_rk_OH_27_1 = crat_valid_27 & crat_lr_27 == io_rk_1;
+  wire        phy_rk_OH_28_1 = crat_valid_28 & crat_lr_28 == io_rk_1;
+  wire        phy_rk_OH_29_1 = crat_valid_29 & crat_lr_29 == io_rk_1;
+  wire        phy_rk_OH_30_1 = crat_valid_30 & crat_lr_30 == io_rk_1;
+  wire        phy_rk_OH_31_1 = crat_valid_31 & crat_lr_31 == io_rk_1;
+  wire        phy_rk_OH_32_1 = crat_valid_32 & crat_lr_32 == io_rk_1;
+  wire        phy_rk_OH_33_1 = crat_valid_33 & crat_lr_33 == io_rk_1;
+  wire        phy_rk_OH_34_1 = crat_valid_34 & crat_lr_34 == io_rk_1;
+  wire        phy_rk_OH_35_1 = crat_valid_35 & crat_lr_35 == io_rk_1;
+  wire        phy_rk_OH_36_1 = crat_valid_36 & crat_lr_36 == io_rk_1;
+  wire        phy_rk_OH_37_1 = crat_valid_37 & crat_lr_37 == io_rk_1;
+  wire        phy_rk_OH_38_1 = crat_valid_38 & crat_lr_38 == io_rk_1;
+  wire        phy_rk_OH_39_1 = crat_valid_39 & crat_lr_39 == io_rk_1;
+  wire        phy_rk_OH_40_1 = crat_valid_40 & crat_lr_40 == io_rk_1;
+  wire        phy_rk_OH_41_1 = crat_valid_41 & crat_lr_41 == io_rk_1;
+  wire        phy_rk_OH_42_1 = crat_valid_42 & crat_lr_42 == io_rk_1;
+  wire        phy_rk_OH_43_1 = crat_valid_43 & crat_lr_43 == io_rk_1;
+  wire        phy_rk_OH_44_1 = crat_valid_44 & crat_lr_44 == io_rk_1;
+  wire        phy_rk_OH_45_1 = crat_valid_45 & crat_lr_45 == io_rk_1;
+  wire        phy_rk_OH_46_1 = crat_valid_46 & crat_lr_46 == io_rk_1;
+  wire        phy_rk_OH_47_1 = crat_valid_47 & crat_lr_47 == io_rk_1;
+  wire        phy_rk_OH_48_1 = crat_valid_48 & crat_lr_48 == io_rk_1;
+  wire        phy_rk_OH_49_1 = crat_valid_49 & crat_lr_49 == io_rk_1;
+  wire        phy_rk_OH_50_1 = crat_valid_50 & crat_lr_50 == io_rk_1;
+  wire        phy_rk_OH_51_1 = crat_valid_51 & crat_lr_51 == io_rk_1;
+  wire        phy_rk_OH_52_1 = crat_valid_52 & crat_lr_52 == io_rk_1;
+  wire        phy_rk_OH_53_1 = crat_valid_53 & crat_lr_53 == io_rk_1;
+  wire        phy_rd_OH_22_1 = crat_valid_22 & crat_lr_22 == io_rd_1;
+  wire        phy_rd_OH_23_1 = crat_valid_23 & crat_lr_23 == io_rd_1;
+  wire        phy_rd_OH_24_1 = crat_valid_24 & crat_lr_24 == io_rd_1;
+  wire        phy_rd_OH_25_1 = crat_valid_25 & crat_lr_25 == io_rd_1;
+  wire        phy_rd_OH_26_1 = crat_valid_26 & crat_lr_26 == io_rd_1;
+  wire        phy_rd_OH_27_1 = crat_valid_27 & crat_lr_27 == io_rd_1;
+  wire        phy_rd_OH_28_1 = crat_valid_28 & crat_lr_28 == io_rd_1;
+  wire        phy_rd_OH_29_1 = crat_valid_29 & crat_lr_29 == io_rd_1;
+  wire        phy_rd_OH_30_1 = crat_valid_30 & crat_lr_30 == io_rd_1;
+  wire        phy_rd_OH_31_1 = crat_valid_31 & crat_lr_31 == io_rd_1;
+  wire        phy_rd_OH_33_1 = crat_valid_33 & crat_lr_33 == io_rd_1;
+  wire        phy_rd_OH_34_1 = crat_valid_34 & crat_lr_34 == io_rd_1;
+  wire        phy_rd_OH_35_1 = crat_valid_35 & crat_lr_35 == io_rd_1;
+  wire        phy_rd_OH_36_1 = crat_valid_36 & crat_lr_36 == io_rd_1;
+  wire        phy_rd_OH_37_1 = crat_valid_37 & crat_lr_37 == io_rd_1;
+  wire        phy_rd_OH_38_1 = crat_valid_38 & crat_lr_38 == io_rd_1;
+  wire        phy_rd_OH_39_1 = crat_valid_39 & crat_lr_39 == io_rd_1;
+  wire        phy_rd_OH_40_1 = crat_valid_40 & crat_lr_40 == io_rd_1;
+  wire        phy_rd_OH_41_1 = crat_valid_41 & crat_lr_41 == io_rd_1;
+  wire        phy_rd_OH_42_1 = crat_valid_42 & crat_lr_42 == io_rd_1;
+  wire        phy_rd_OH_43_1 = crat_valid_43 & crat_lr_43 == io_rd_1;
+  wire        phy_rd_OH_44_1 = crat_valid_44 & crat_lr_44 == io_rd_1;
+  wire        phy_rd_OH_45_1 = crat_valid_45 & crat_lr_45 == io_rd_1;
+  wire        phy_rd_OH_46_1 = crat_valid_46 & crat_lr_46 == io_rd_1;
+  wire        phy_rd_OH_47_1 = crat_valid_47 & crat_lr_47 == io_rd_1;
+  wire        phy_rd_OH_48_1 = crat_valid_48 & crat_lr_48 == io_rd_1;
+  wire        phy_rd_OH_49_1 = crat_valid_49 & crat_lr_49 == io_rd_1;
+  wire        phy_rd_OH_50_1 = crat_valid_50 & crat_lr_50 == io_rd_1;
+  wire        phy_rd_OH_51_1 = crat_valid_51 & crat_lr_51 == io_rd_1;
+  wire        phy_rd_OH_52_1 = crat_valid_52 & crat_lr_52 == io_rd_1;
+  wire        phy_rd_OH_53_1 = crat_valid_53 & crat_lr_53 == io_rd_1;
+  wire        _GEN_21 = phy_rj_OH_53_1 | crat_valid_21 & crat_lr_21 == io_rj_1;
+  wire        _GEN_22 = phy_rj_OH_52_1 | crat_valid_20 & crat_lr_20 == io_rj_1;
+  wire        _GEN_23 = phy_rj_OH_51_1 | crat_valid_19 & crat_lr_19 == io_rj_1;
+  wire        _GEN_24 = phy_rj_OH_50_1 | crat_valid_18 & crat_lr_18 == io_rj_1;
+  wire        _GEN_25 = phy_rj_OH_49_1 | crat_valid_17 & crat_lr_17 == io_rj_1;
+  wire        _GEN_26 = phy_rj_OH_48_1 | crat_valid_16 & crat_lr_16 == io_rj_1;
   wire [14:0] _GEN_27 =
     {phy_rj_OH_31_1,
      phy_rj_OH_30_1,
@@ -696,30 +696,30 @@ module CRat(
      _GEN_24,
      _GEN_25};
   wire [14:0] _GEN_28 =
-    {phy_rj_OH_47_1 | crat_15_valid & crat_15_lr == io_rj_1,
-     phy_rj_OH_46_1 | crat_14_valid & crat_14_lr == io_rj_1,
-     phy_rj_OH_45_1 | crat_13_valid & crat_13_lr == io_rj_1,
-     phy_rj_OH_44_1 | crat_12_valid & crat_12_lr == io_rj_1,
-     phy_rj_OH_43_1 | crat_11_valid & crat_11_lr == io_rj_1,
-     phy_rj_OH_42_1 | crat_10_valid & crat_10_lr == io_rj_1,
-     phy_rj_OH_41_1 | crat_9_valid & crat_9_lr == io_rj_1,
-     phy_rj_OH_40_1 | crat_8_valid & crat_8_lr == io_rj_1,
-     phy_rj_OH_39_1 | crat_7_valid & crat_7_lr == io_rj_1,
-     phy_rj_OH_38_1 | crat_6_valid & crat_6_lr == io_rj_1,
-     phy_rj_OH_37_1 | crat_5_valid & crat_5_lr == io_rj_1,
-     phy_rj_OH_36_1 | crat_4_valid & crat_4_lr == io_rj_1,
-     phy_rj_OH_35_1 | crat_3_valid & crat_3_lr == io_rj_1,
-     phy_rj_OH_34_1 | crat_2_valid & crat_2_lr == io_rj_1,
-     phy_rj_OH_33_1 | crat_1_valid & crat_1_lr == io_rj_1};
+    {phy_rj_OH_47_1 | crat_valid_15 & crat_lr_15 == io_rj_1,
+     phy_rj_OH_46_1 | crat_valid_14 & crat_lr_14 == io_rj_1,
+     phy_rj_OH_45_1 | crat_valid_13 & crat_lr_13 == io_rj_1,
+     phy_rj_OH_44_1 | crat_valid_12 & crat_lr_12 == io_rj_1,
+     phy_rj_OH_43_1 | crat_valid_11 & crat_lr_11 == io_rj_1,
+     phy_rj_OH_42_1 | crat_valid_10 & crat_lr_10 == io_rj_1,
+     phy_rj_OH_41_1 | crat_valid_9 & crat_lr_9 == io_rj_1,
+     phy_rj_OH_40_1 | crat_valid_8 & crat_lr_8 == io_rj_1,
+     phy_rj_OH_39_1 | crat_valid_7 & crat_lr_7 == io_rj_1,
+     phy_rj_OH_38_1 | crat_valid_6 & crat_lr_6 == io_rj_1,
+     phy_rj_OH_37_1 | crat_valid_5 & crat_lr_5 == io_rj_1,
+     phy_rj_OH_36_1 | crat_valid_4 & crat_lr_4 == io_rj_1,
+     phy_rj_OH_35_1 | crat_valid_3 & crat_lr_3 == io_rj_1,
+     phy_rj_OH_34_1 | crat_valid_2 & crat_lr_2 == io_rj_1,
+     phy_rj_OH_33_1 | crat_valid_1 & crat_lr_1 == io_rj_1};
   wire [14:0] _io_prj_1_T_4 = _GEN_27 | _GEN_28;
   wire [6:0]  _io_prj_1_T_6 = _io_prj_1_T_4[14:8] | _io_prj_1_T_4[6:0];
   wire [2:0]  _io_prj_1_T_8 = _io_prj_1_T_6[6:4] | _io_prj_1_T_6[2:0];
-  wire        _GEN_29 = phy_rk_OH_53_1 | crat_21_valid & crat_21_lr == io_rk_1;
-  wire        _GEN_30 = phy_rk_OH_52_1 | crat_20_valid & crat_20_lr == io_rk_1;
-  wire        _GEN_31 = phy_rk_OH_51_1 | crat_19_valid & crat_19_lr == io_rk_1;
-  wire        _GEN_32 = phy_rk_OH_50_1 | crat_18_valid & crat_18_lr == io_rk_1;
-  wire        _GEN_33 = phy_rk_OH_49_1 | crat_17_valid & crat_17_lr == io_rk_1;
-  wire        _GEN_34 = phy_rk_OH_48_1 | crat_16_valid & crat_16_lr == io_rk_1;
+  wire        _GEN_29 = phy_rk_OH_53_1 | crat_valid_21 & crat_lr_21 == io_rk_1;
+  wire        _GEN_30 = phy_rk_OH_52_1 | crat_valid_20 & crat_lr_20 == io_rk_1;
+  wire        _GEN_31 = phy_rk_OH_51_1 | crat_valid_19 & crat_lr_19 == io_rk_1;
+  wire        _GEN_32 = phy_rk_OH_50_1 | crat_valid_18 & crat_lr_18 == io_rk_1;
+  wire        _GEN_33 = phy_rk_OH_49_1 | crat_valid_17 & crat_lr_17 == io_rk_1;
+  wire        _GEN_34 = phy_rk_OH_48_1 | crat_valid_16 & crat_lr_16 == io_rk_1;
   wire [14:0] _GEN_35 =
     {phy_rk_OH_31_1,
      phy_rk_OH_30_1,
@@ -737,29 +737,29 @@ module CRat(
      _GEN_32,
      _GEN_33};
   wire [14:0] _GEN_36 =
-    {phy_rk_OH_47_1 | crat_15_valid & crat_15_lr == io_rk_1,
-     phy_rk_OH_46_1 | crat_14_valid & crat_14_lr == io_rk_1,
-     phy_rk_OH_45_1 | crat_13_valid & crat_13_lr == io_rk_1,
-     phy_rk_OH_44_1 | crat_12_valid & crat_12_lr == io_rk_1,
-     phy_rk_OH_43_1 | crat_11_valid & crat_11_lr == io_rk_1,
-     phy_rk_OH_42_1 | crat_10_valid & crat_10_lr == io_rk_1,
-     phy_rk_OH_41_1 | crat_9_valid & crat_9_lr == io_rk_1,
-     phy_rk_OH_40_1 | crat_8_valid & crat_8_lr == io_rk_1,
-     phy_rk_OH_39_1 | crat_7_valid & crat_7_lr == io_rk_1,
-     phy_rk_OH_38_1 | crat_6_valid & crat_6_lr == io_rk_1,
-     phy_rk_OH_37_1 | crat_5_valid & crat_5_lr == io_rk_1,
-     phy_rk_OH_36_1 | crat_4_valid & crat_4_lr == io_rk_1,
-     phy_rk_OH_35_1 | crat_3_valid & crat_3_lr == io_rk_1,
-     phy_rk_OH_34_1 | crat_2_valid & crat_2_lr == io_rk_1,
-     phy_rk_OH_33_1 | crat_1_valid & crat_1_lr == io_rk_1};
+    {phy_rk_OH_47_1 | crat_valid_15 & crat_lr_15 == io_rk_1,
+     phy_rk_OH_46_1 | crat_valid_14 & crat_lr_14 == io_rk_1,
+     phy_rk_OH_45_1 | crat_valid_13 & crat_lr_13 == io_rk_1,
+     phy_rk_OH_44_1 | crat_valid_12 & crat_lr_12 == io_rk_1,
+     phy_rk_OH_43_1 | crat_valid_11 & crat_lr_11 == io_rk_1,
+     phy_rk_OH_42_1 | crat_valid_10 & crat_lr_10 == io_rk_1,
+     phy_rk_OH_41_1 | crat_valid_9 & crat_lr_9 == io_rk_1,
+     phy_rk_OH_40_1 | crat_valid_8 & crat_lr_8 == io_rk_1,
+     phy_rk_OH_39_1 | crat_valid_7 & crat_lr_7 == io_rk_1,
+     phy_rk_OH_38_1 | crat_valid_6 & crat_lr_6 == io_rk_1,
+     phy_rk_OH_37_1 | crat_valid_5 & crat_lr_5 == io_rk_1,
+     phy_rk_OH_36_1 | crat_valid_4 & crat_lr_4 == io_rk_1,
+     phy_rk_OH_35_1 | crat_valid_3 & crat_lr_3 == io_rk_1,
+     phy_rk_OH_34_1 | crat_valid_2 & crat_lr_2 == io_rk_1,
+     phy_rk_OH_33_1 | crat_valid_1 & crat_lr_1 == io_rk_1};
   wire [14:0] _io_prk_1_T_4 = _GEN_35 | _GEN_36;
   wire [6:0]  _io_prk_1_T_6 = _io_prk_1_T_4[14:8] | _io_prk_1_T_4[6:0];
   wire [2:0]  _io_prk_1_T_8 = _io_prk_1_T_6[6:4] | _io_prk_1_T_6[2:0];
-  wire        _GEN_37 = phy_rd_OH_53_1 | crat_21_valid & crat_21_lr == io_rd_1;
-  wire        _GEN_38 = phy_rd_OH_52_1 | crat_20_valid & crat_20_lr == io_rd_1;
-  wire        _GEN_39 = phy_rd_OH_51_1 | crat_19_valid & crat_19_lr == io_rd_1;
-  wire        _GEN_40 = phy_rd_OH_50_1 | crat_18_valid & crat_18_lr == io_rd_1;
-  wire        _GEN_41 = phy_rd_OH_49_1 | crat_17_valid & crat_17_lr == io_rd_1;
+  wire        _GEN_37 = phy_rd_OH_53_1 | crat_valid_21 & crat_lr_21 == io_rd_1;
+  wire        _GEN_38 = phy_rd_OH_52_1 | crat_valid_20 & crat_lr_20 == io_rd_1;
+  wire        _GEN_39 = phy_rd_OH_51_1 | crat_valid_19 & crat_lr_19 == io_rd_1;
+  wire        _GEN_40 = phy_rd_OH_50_1 | crat_valid_18 & crat_lr_18 == io_rd_1;
+  wire        _GEN_41 = phy_rd_OH_49_1 | crat_valid_17 & crat_lr_17 == io_rd_1;
   wire [14:0] _io_pprd_1_T_4 =
     {phy_rd_OH_31_1,
      phy_rd_OH_30_1,
@@ -776,21 +776,21 @@ module CRat(
      _GEN_39,
      _GEN_40,
      _GEN_41}
-    | {phy_rd_OH_47_1 | crat_15_valid & crat_15_lr == io_rd_1,
-       phy_rd_OH_46_1 | crat_14_valid & crat_14_lr == io_rd_1,
-       phy_rd_OH_45_1 | crat_13_valid & crat_13_lr == io_rd_1,
-       phy_rd_OH_44_1 | crat_12_valid & crat_12_lr == io_rd_1,
-       phy_rd_OH_43_1 | crat_11_valid & crat_11_lr == io_rd_1,
-       phy_rd_OH_42_1 | crat_10_valid & crat_10_lr == io_rd_1,
-       phy_rd_OH_41_1 | crat_9_valid & crat_9_lr == io_rd_1,
-       phy_rd_OH_40_1 | crat_8_valid & crat_8_lr == io_rd_1,
-       phy_rd_OH_39_1 | crat_7_valid & crat_7_lr == io_rd_1,
-       phy_rd_OH_38_1 | crat_6_valid & crat_6_lr == io_rd_1,
-       phy_rd_OH_37_1 | crat_5_valid & crat_5_lr == io_rd_1,
-       phy_rd_OH_36_1 | crat_4_valid & crat_4_lr == io_rd_1,
-       phy_rd_OH_35_1 | crat_3_valid & crat_3_lr == io_rd_1,
-       phy_rd_OH_34_1 | crat_2_valid & crat_2_lr == io_rd_1,
-       phy_rd_OH_33_1 | crat_1_valid & crat_1_lr == io_rd_1};
+    | {phy_rd_OH_47_1 | crat_valid_15 & crat_lr_15 == io_rd_1,
+       phy_rd_OH_46_1 | crat_valid_14 & crat_lr_14 == io_rd_1,
+       phy_rd_OH_45_1 | crat_valid_13 & crat_lr_13 == io_rd_1,
+       phy_rd_OH_44_1 | crat_valid_12 & crat_lr_12 == io_rd_1,
+       phy_rd_OH_43_1 | crat_valid_11 & crat_lr_11 == io_rd_1,
+       phy_rd_OH_42_1 | crat_valid_10 & crat_lr_10 == io_rd_1,
+       phy_rd_OH_41_1 | crat_valid_9 & crat_lr_9 == io_rd_1,
+       phy_rd_OH_40_1 | crat_valid_8 & crat_lr_8 == io_rd_1,
+       phy_rd_OH_39_1 | crat_valid_7 & crat_lr_7 == io_rd_1,
+       phy_rd_OH_38_1 | crat_valid_6 & crat_lr_6 == io_rd_1,
+       phy_rd_OH_37_1 | crat_valid_5 & crat_lr_5 == io_rd_1,
+       phy_rd_OH_36_1 | crat_valid_4 & crat_lr_4 == io_rd_1,
+       phy_rd_OH_35_1 | crat_valid_3 & crat_lr_3 == io_rd_1,
+       phy_rd_OH_34_1 | crat_valid_2 & crat_lr_2 == io_rd_1,
+       phy_rd_OH_33_1 | crat_valid_1 & crat_lr_1 == io_rd_1};
   wire [6:0]  _io_pprd_1_T_6 = _io_pprd_1_T_4[14:8] | _io_pprd_1_T_4[6:0];
   wire [2:0]  _io_pprd_1_T_8 = _io_pprd_1_T_6[6:4] | _io_pprd_1_T_6[2:0];
   wire [5:0]  io_pprd_1_0 =
@@ -815,7 +815,7 @@ module CRat(
        phy_rd_OH_35_1,
        phy_rd_OH_34_1,
        phy_rd_OH_33_1,
-       crat_32_valid & crat_32_lr == io_rd_1},
+       crat_valid_32 & crat_lr_32 == io_rd_1},
      |{phy_rd_OH_31_1,
        phy_rd_OH_30_1,
        phy_rd_OH_29_1,
@@ -831,7 +831,7 @@ module CRat(
        _GEN_39,
        _GEN_40,
        _GEN_41,
-       phy_rd_OH_48_1 | crat_16_valid & crat_16_lr == io_rd_1},
+       phy_rd_OH_48_1 | crat_valid_16 & crat_lr_16 == io_rd_1},
      |(_io_pprd_1_T_4[14:7]),
      |(_io_pprd_1_T_6[6:3]),
      |(_io_pprd_1_T_8[2:1]),
@@ -1005,113 +1005,113 @@ module CRat(
   wire        _GEN_202 = io_alloc_preg_1 == 6'h34;
   wire        _GEN_203 = io_alloc_preg_1 == 6'h35;
   wire        _GEN_204 =
-    io_rd_valid_1 ? ~(_GEN_150 | _GEN_96) & crat_0_free : ~_GEN_96 & crat_0_free;
+    io_rd_valid_1 ? ~(_GEN_150 | _GEN_96) & crat_free_0 : ~_GEN_96 & crat_free_0;
   wire        _GEN_205 =
-    io_rd_valid_1 ? ~(_GEN_151 | _GEN_97) & crat_1_free : ~_GEN_97 & crat_1_free;
+    io_rd_valid_1 ? ~(_GEN_151 | _GEN_97) & crat_free_1 : ~_GEN_97 & crat_free_1;
   wire        _GEN_206 =
-    io_rd_valid_1 ? ~(_GEN_152 | _GEN_98) & crat_2_free : ~_GEN_98 & crat_2_free;
+    io_rd_valid_1 ? ~(_GEN_152 | _GEN_98) & crat_free_2 : ~_GEN_98 & crat_free_2;
   wire        _GEN_207 =
-    io_rd_valid_1 ? ~(_GEN_153 | _GEN_99) & crat_3_free : ~_GEN_99 & crat_3_free;
+    io_rd_valid_1 ? ~(_GEN_153 | _GEN_99) & crat_free_3 : ~_GEN_99 & crat_free_3;
   wire        _GEN_208 =
-    io_rd_valid_1 ? ~(_GEN_154 | _GEN_100) & crat_4_free : ~_GEN_100 & crat_4_free;
+    io_rd_valid_1 ? ~(_GEN_154 | _GEN_100) & crat_free_4 : ~_GEN_100 & crat_free_4;
   wire        _GEN_209 =
-    io_rd_valid_1 ? ~(_GEN_155 | _GEN_101) & crat_5_free : ~_GEN_101 & crat_5_free;
+    io_rd_valid_1 ? ~(_GEN_155 | _GEN_101) & crat_free_5 : ~_GEN_101 & crat_free_5;
   wire        _GEN_210 =
-    io_rd_valid_1 ? ~(_GEN_156 | _GEN_102) & crat_6_free : ~_GEN_102 & crat_6_free;
+    io_rd_valid_1 ? ~(_GEN_156 | _GEN_102) & crat_free_6 : ~_GEN_102 & crat_free_6;
   wire        _GEN_211 =
-    io_rd_valid_1 ? ~(_GEN_157 | _GEN_103) & crat_7_free : ~_GEN_103 & crat_7_free;
+    io_rd_valid_1 ? ~(_GEN_157 | _GEN_103) & crat_free_7 : ~_GEN_103 & crat_free_7;
   wire        _GEN_212 =
-    io_rd_valid_1 ? ~(_GEN_158 | _GEN_104) & crat_8_free : ~_GEN_104 & crat_8_free;
+    io_rd_valid_1 ? ~(_GEN_158 | _GEN_104) & crat_free_8 : ~_GEN_104 & crat_free_8;
   wire        _GEN_213 =
-    io_rd_valid_1 ? ~(_GEN_159 | _GEN_105) & crat_9_free : ~_GEN_105 & crat_9_free;
+    io_rd_valid_1 ? ~(_GEN_159 | _GEN_105) & crat_free_9 : ~_GEN_105 & crat_free_9;
   wire        _GEN_214 =
-    io_rd_valid_1 ? ~(_GEN_160 | _GEN_106) & crat_10_free : ~_GEN_106 & crat_10_free;
+    io_rd_valid_1 ? ~(_GEN_160 | _GEN_106) & crat_free_10 : ~_GEN_106 & crat_free_10;
   wire        _GEN_215 =
-    io_rd_valid_1 ? ~(_GEN_161 | _GEN_107) & crat_11_free : ~_GEN_107 & crat_11_free;
+    io_rd_valid_1 ? ~(_GEN_161 | _GEN_107) & crat_free_11 : ~_GEN_107 & crat_free_11;
   wire        _GEN_216 =
-    io_rd_valid_1 ? ~(_GEN_162 | _GEN_108) & crat_12_free : ~_GEN_108 & crat_12_free;
+    io_rd_valid_1 ? ~(_GEN_162 | _GEN_108) & crat_free_12 : ~_GEN_108 & crat_free_12;
   wire        _GEN_217 =
-    io_rd_valid_1 ? ~(_GEN_163 | _GEN_109) & crat_13_free : ~_GEN_109 & crat_13_free;
+    io_rd_valid_1 ? ~(_GEN_163 | _GEN_109) & crat_free_13 : ~_GEN_109 & crat_free_13;
   wire        _GEN_218 =
-    io_rd_valid_1 ? ~(_GEN_164 | _GEN_110) & crat_14_free : ~_GEN_110 & crat_14_free;
+    io_rd_valid_1 ? ~(_GEN_164 | _GEN_110) & crat_free_14 : ~_GEN_110 & crat_free_14;
   wire        _GEN_219 =
-    io_rd_valid_1 ? ~(_GEN_165 | _GEN_111) & crat_15_free : ~_GEN_111 & crat_15_free;
+    io_rd_valid_1 ? ~(_GEN_165 | _GEN_111) & crat_free_15 : ~_GEN_111 & crat_free_15;
   wire        _GEN_220 =
-    io_rd_valid_1 ? ~(_GEN_166 | _GEN_112) & crat_16_free : ~_GEN_112 & crat_16_free;
+    io_rd_valid_1 ? ~(_GEN_166 | _GEN_112) & crat_free_16 : ~_GEN_112 & crat_free_16;
   wire        _GEN_221 =
-    io_rd_valid_1 ? ~(_GEN_167 | _GEN_113) & crat_17_free : ~_GEN_113 & crat_17_free;
+    io_rd_valid_1 ? ~(_GEN_167 | _GEN_113) & crat_free_17 : ~_GEN_113 & crat_free_17;
   wire        _GEN_222 =
-    io_rd_valid_1 ? ~(_GEN_168 | _GEN_114) & crat_18_free : ~_GEN_114 & crat_18_free;
+    io_rd_valid_1 ? ~(_GEN_168 | _GEN_114) & crat_free_18 : ~_GEN_114 & crat_free_18;
   wire        _GEN_223 =
-    io_rd_valid_1 ? ~(_GEN_169 | _GEN_115) & crat_19_free : ~_GEN_115 & crat_19_free;
+    io_rd_valid_1 ? ~(_GEN_169 | _GEN_115) & crat_free_19 : ~_GEN_115 & crat_free_19;
   wire        _GEN_224 =
-    io_rd_valid_1 ? ~(_GEN_170 | _GEN_116) & crat_20_free : ~_GEN_116 & crat_20_free;
+    io_rd_valid_1 ? ~(_GEN_170 | _GEN_116) & crat_free_20 : ~_GEN_116 & crat_free_20;
   wire        _GEN_225 =
-    io_rd_valid_1 ? ~(_GEN_171 | _GEN_117) & crat_21_free : ~_GEN_117 & crat_21_free;
+    io_rd_valid_1 ? ~(_GEN_171 | _GEN_117) & crat_free_21 : ~_GEN_117 & crat_free_21;
   wire        _GEN_226 =
-    io_rd_valid_1 ? ~(_GEN_172 | _GEN_118) & crat_22_free : ~_GEN_118 & crat_22_free;
+    io_rd_valid_1 ? ~(_GEN_172 | _GEN_118) & crat_free_22 : ~_GEN_118 & crat_free_22;
   wire        _GEN_227 =
-    io_rd_valid_1 ? ~(_GEN_173 | _GEN_119) & crat_23_free : ~_GEN_119 & crat_23_free;
+    io_rd_valid_1 ? ~(_GEN_173 | _GEN_119) & crat_free_23 : ~_GEN_119 & crat_free_23;
   wire        _GEN_228 =
-    io_rd_valid_1 ? ~(_GEN_174 | _GEN_120) & crat_24_free : ~_GEN_120 & crat_24_free;
+    io_rd_valid_1 ? ~(_GEN_174 | _GEN_120) & crat_free_24 : ~_GEN_120 & crat_free_24;
   wire        _GEN_229 =
-    io_rd_valid_1 ? ~(_GEN_175 | _GEN_121) & crat_25_free : ~_GEN_121 & crat_25_free;
+    io_rd_valid_1 ? ~(_GEN_175 | _GEN_121) & crat_free_25 : ~_GEN_121 & crat_free_25;
   wire        _GEN_230 =
-    io_rd_valid_1 ? ~(_GEN_176 | _GEN_122) & crat_26_free : ~_GEN_122 & crat_26_free;
+    io_rd_valid_1 ? ~(_GEN_176 | _GEN_122) & crat_free_26 : ~_GEN_122 & crat_free_26;
   wire        _GEN_231 =
-    io_rd_valid_1 ? ~(_GEN_177 | _GEN_123) & crat_27_free : ~_GEN_123 & crat_27_free;
+    io_rd_valid_1 ? ~(_GEN_177 | _GEN_123) & crat_free_27 : ~_GEN_123 & crat_free_27;
   wire        _GEN_232 =
-    io_rd_valid_1 ? ~(_GEN_178 | _GEN_124) & crat_28_free : ~_GEN_124 & crat_28_free;
+    io_rd_valid_1 ? ~(_GEN_178 | _GEN_124) & crat_free_28 : ~_GEN_124 & crat_free_28;
   wire        _GEN_233 =
-    io_rd_valid_1 ? ~(_GEN_179 | _GEN_125) & crat_29_free : ~_GEN_125 & crat_29_free;
+    io_rd_valid_1 ? ~(_GEN_179 | _GEN_125) & crat_free_29 : ~_GEN_125 & crat_free_29;
   wire        _GEN_234 =
-    io_rd_valid_1 ? ~(_GEN_180 | _GEN_126) & crat_30_free : ~_GEN_126 & crat_30_free;
+    io_rd_valid_1 ? ~(_GEN_180 | _GEN_126) & crat_free_30 : ~_GEN_126 & crat_free_30;
   wire        _GEN_235 =
-    io_rd_valid_1 ? ~(_GEN_181 | _GEN_127) & crat_31_free : ~_GEN_127 & crat_31_free;
+    io_rd_valid_1 ? ~(_GEN_181 | _GEN_127) & crat_free_31 : ~_GEN_127 & crat_free_31;
   wire        _GEN_236 =
-    io_rd_valid_1 ? ~(_GEN_182 | _GEN_128) & crat_32_free : ~_GEN_128 & crat_32_free;
+    io_rd_valid_1 ? ~(_GEN_182 | _GEN_128) & crat_free_32 : ~_GEN_128 & crat_free_32;
   wire        _GEN_237 =
-    io_rd_valid_1 ? ~(_GEN_183 | _GEN_129) & crat_33_free : ~_GEN_129 & crat_33_free;
+    io_rd_valid_1 ? ~(_GEN_183 | _GEN_129) & crat_free_33 : ~_GEN_129 & crat_free_33;
   wire        _GEN_238 =
-    io_rd_valid_1 ? ~(_GEN_184 | _GEN_130) & crat_34_free : ~_GEN_130 & crat_34_free;
+    io_rd_valid_1 ? ~(_GEN_184 | _GEN_130) & crat_free_34 : ~_GEN_130 & crat_free_34;
   wire        _GEN_239 =
-    io_rd_valid_1 ? ~(_GEN_185 | _GEN_131) & crat_35_free : ~_GEN_131 & crat_35_free;
+    io_rd_valid_1 ? ~(_GEN_185 | _GEN_131) & crat_free_35 : ~_GEN_131 & crat_free_35;
   wire        _GEN_240 =
-    io_rd_valid_1 ? ~(_GEN_186 | _GEN_132) & crat_36_free : ~_GEN_132 & crat_36_free;
+    io_rd_valid_1 ? ~(_GEN_186 | _GEN_132) & crat_free_36 : ~_GEN_132 & crat_free_36;
   wire        _GEN_241 =
-    io_rd_valid_1 ? ~(_GEN_187 | _GEN_133) & crat_37_free : ~_GEN_133 & crat_37_free;
+    io_rd_valid_1 ? ~(_GEN_187 | _GEN_133) & crat_free_37 : ~_GEN_133 & crat_free_37;
   wire        _GEN_242 =
-    io_rd_valid_1 ? ~(_GEN_188 | _GEN_134) & crat_38_free : ~_GEN_134 & crat_38_free;
+    io_rd_valid_1 ? ~(_GEN_188 | _GEN_134) & crat_free_38 : ~_GEN_134 & crat_free_38;
   wire        _GEN_243 =
-    io_rd_valid_1 ? ~(_GEN_189 | _GEN_135) & crat_39_free : ~_GEN_135 & crat_39_free;
+    io_rd_valid_1 ? ~(_GEN_189 | _GEN_135) & crat_free_39 : ~_GEN_135 & crat_free_39;
   wire        _GEN_244 =
-    io_rd_valid_1 ? ~(_GEN_190 | _GEN_136) & crat_40_free : ~_GEN_136 & crat_40_free;
+    io_rd_valid_1 ? ~(_GEN_190 | _GEN_136) & crat_free_40 : ~_GEN_136 & crat_free_40;
   wire        _GEN_245 =
-    io_rd_valid_1 ? ~(_GEN_191 | _GEN_137) & crat_41_free : ~_GEN_137 & crat_41_free;
+    io_rd_valid_1 ? ~(_GEN_191 | _GEN_137) & crat_free_41 : ~_GEN_137 & crat_free_41;
   wire        _GEN_246 =
-    io_rd_valid_1 ? ~(_GEN_192 | _GEN_138) & crat_42_free : ~_GEN_138 & crat_42_free;
+    io_rd_valid_1 ? ~(_GEN_192 | _GEN_138) & crat_free_42 : ~_GEN_138 & crat_free_42;
   wire        _GEN_247 =
-    io_rd_valid_1 ? ~(_GEN_193 | _GEN_139) & crat_43_free : ~_GEN_139 & crat_43_free;
+    io_rd_valid_1 ? ~(_GEN_193 | _GEN_139) & crat_free_43 : ~_GEN_139 & crat_free_43;
   wire        _GEN_248 =
-    io_rd_valid_1 ? ~(_GEN_194 | _GEN_140) & crat_44_free : ~_GEN_140 & crat_44_free;
+    io_rd_valid_1 ? ~(_GEN_194 | _GEN_140) & crat_free_44 : ~_GEN_140 & crat_free_44;
   wire        _GEN_249 =
-    io_rd_valid_1 ? ~(_GEN_195 | _GEN_141) & crat_45_free : ~_GEN_141 & crat_45_free;
+    io_rd_valid_1 ? ~(_GEN_195 | _GEN_141) & crat_free_45 : ~_GEN_141 & crat_free_45;
   wire        _GEN_250 =
-    io_rd_valid_1 ? ~(_GEN_196 | _GEN_142) & crat_46_free : ~_GEN_142 & crat_46_free;
+    io_rd_valid_1 ? ~(_GEN_196 | _GEN_142) & crat_free_46 : ~_GEN_142 & crat_free_46;
   wire        _GEN_251 =
-    io_rd_valid_1 ? ~(_GEN_197 | _GEN_143) & crat_47_free : ~_GEN_143 & crat_47_free;
+    io_rd_valid_1 ? ~(_GEN_197 | _GEN_143) & crat_free_47 : ~_GEN_143 & crat_free_47;
   wire        _GEN_252 =
-    io_rd_valid_1 ? ~(_GEN_198 | _GEN_144) & crat_48_free : ~_GEN_144 & crat_48_free;
+    io_rd_valid_1 ? ~(_GEN_198 | _GEN_144) & crat_free_48 : ~_GEN_144 & crat_free_48;
   wire        _GEN_253 =
-    io_rd_valid_1 ? ~(_GEN_199 | _GEN_145) & crat_49_free : ~_GEN_145 & crat_49_free;
+    io_rd_valid_1 ? ~(_GEN_199 | _GEN_145) & crat_free_49 : ~_GEN_145 & crat_free_49;
   wire        _GEN_254 =
-    io_rd_valid_1 ? ~(_GEN_200 | _GEN_146) & crat_50_free : ~_GEN_146 & crat_50_free;
+    io_rd_valid_1 ? ~(_GEN_200 | _GEN_146) & crat_free_50 : ~_GEN_146 & crat_free_50;
   wire        _GEN_255 =
-    io_rd_valid_1 ? ~(_GEN_201 | _GEN_147) & crat_51_free : ~_GEN_147 & crat_51_free;
+    io_rd_valid_1 ? ~(_GEN_201 | _GEN_147) & crat_free_51 : ~_GEN_147 & crat_free_51;
   wire        _GEN_256 =
-    io_rd_valid_1 ? ~(_GEN_202 | _GEN_148) & crat_52_free : ~_GEN_148 & crat_52_free;
+    io_rd_valid_1 ? ~(_GEN_202 | _GEN_148) & crat_free_52 : ~_GEN_148 & crat_free_52;
   wire        _GEN_257 =
-    io_rd_valid_1 ? ~(_GEN_203 | _GEN_149) & crat_53_free : ~_GEN_149 & crat_53_free;
+    io_rd_valid_1 ? ~(_GEN_203 | _GEN_149) & crat_free_53 : ~_GEN_149 & crat_free_53;
   wire        _GEN_258 = io_wake_valid_0 & io_prd_wake_0 == 6'h0;
   wire        _GEN_259 = io_wake_valid_0 & io_prd_wake_0 == 6'h1;
   wire        _GEN_260 = io_wake_valid_0 & io_prd_wake_0 == 6'h2;
@@ -1328,114 +1328,114 @@ module CRat(
   wire        _GEN_417 = io_wake_valid_2 & io_prd_wake_2 == 6'h33;
   wire        _GEN_418 = io_wake_valid_2 & io_prd_wake_2 == 6'h34;
   wire        _GEN_419 = io_wake_valid_2 & io_prd_wake_2 == 6'h35;
-  wire        _GEN_420 = (|io_pprd_0_0) & (_GEN_42 | crat_0_valid);
-  wire        _GEN_421 = io_pprd_0_0 != 6'h1 & (_GEN_43 | crat_1_valid);
-  wire        _GEN_422 = io_pprd_0_0 != 6'h2 & (_GEN_44 | crat_2_valid);
-  wire        _GEN_423 = io_pprd_0_0 != 6'h3 & (_GEN_45 | crat_3_valid);
-  wire        _GEN_424 = io_pprd_0_0 != 6'h4 & (_GEN_46 | crat_4_valid);
-  wire        _GEN_425 = io_pprd_0_0 != 6'h5 & (_GEN_47 | crat_5_valid);
-  wire        _GEN_426 = io_pprd_0_0 != 6'h6 & (_GEN_48 | crat_6_valid);
-  wire        _GEN_427 = io_pprd_0_0 != 6'h7 & (_GEN_49 | crat_7_valid);
-  wire        _GEN_428 = io_pprd_0_0 != 6'h8 & (_GEN_50 | crat_8_valid);
-  wire        _GEN_429 = io_pprd_0_0 != 6'h9 & (_GEN_51 | crat_9_valid);
-  wire        _GEN_430 = io_pprd_0_0 != 6'hA & (_GEN_52 | crat_10_valid);
-  wire        _GEN_431 = io_pprd_0_0 != 6'hB & (_GEN_53 | crat_11_valid);
-  wire        _GEN_432 = io_pprd_0_0 != 6'hC & (_GEN_54 | crat_12_valid);
-  wire        _GEN_433 = io_pprd_0_0 != 6'hD & (_GEN_55 | crat_13_valid);
-  wire        _GEN_434 = io_pprd_0_0 != 6'hE & (_GEN_56 | crat_14_valid);
-  wire        _GEN_435 = io_pprd_0_0 != 6'hF & (_GEN_57 | crat_15_valid);
-  wire        _GEN_436 = io_pprd_0_0 != 6'h10 & (_GEN_58 | crat_16_valid);
-  wire        _GEN_437 = io_pprd_0_0 != 6'h11 & (_GEN_59 | crat_17_valid);
-  wire        _GEN_438 = io_pprd_0_0 != 6'h12 & (_GEN_60 | crat_18_valid);
-  wire        _GEN_439 = io_pprd_0_0 != 6'h13 & (_GEN_61 | crat_19_valid);
-  wire        _GEN_440 = io_pprd_0_0 != 6'h14 & (_GEN_62 | crat_20_valid);
-  wire        _GEN_441 = io_pprd_0_0 != 6'h15 & (_GEN_63 | crat_21_valid);
-  wire        _GEN_442 = io_pprd_0_0 != 6'h16 & (_GEN_64 | crat_22_valid);
-  wire        _GEN_443 = io_pprd_0_0 != 6'h17 & (_GEN_65 | crat_23_valid);
-  wire        _GEN_444 = io_pprd_0_0 != 6'h18 & (_GEN_66 | crat_24_valid);
-  wire        _GEN_445 = io_pprd_0_0 != 6'h19 & (_GEN_67 | crat_25_valid);
-  wire        _GEN_446 = io_pprd_0_0 != 6'h1A & (_GEN_68 | crat_26_valid);
-  wire        _GEN_447 = io_pprd_0_0 != 6'h1B & (_GEN_69 | crat_27_valid);
-  wire        _GEN_448 = io_pprd_0_0 != 6'h1C & (_GEN_70 | crat_28_valid);
-  wire        _GEN_449 = io_pprd_0_0 != 6'h1D & (_GEN_71 | crat_29_valid);
-  wire        _GEN_450 = io_pprd_0_0 != 6'h1E & (_GEN_72 | crat_30_valid);
-  wire        _GEN_451 = io_pprd_0_0 != 6'h1F & (_GEN_73 | crat_31_valid);
-  wire        _GEN_452 = io_pprd_0_0 != 6'h20 & (_GEN_74 | crat_32_valid);
-  wire        _GEN_453 = io_pprd_0_0 != 6'h21 & (_GEN_75 | crat_33_valid);
-  wire        _GEN_454 = io_pprd_0_0 != 6'h22 & (_GEN_76 | crat_34_valid);
-  wire        _GEN_455 = io_pprd_0_0 != 6'h23 & (_GEN_77 | crat_35_valid);
-  wire        _GEN_456 = io_pprd_0_0 != 6'h24 & (_GEN_78 | crat_36_valid);
-  wire        _GEN_457 = io_pprd_0_0 != 6'h25 & (_GEN_79 | crat_37_valid);
-  wire        _GEN_458 = io_pprd_0_0 != 6'h26 & (_GEN_80 | crat_38_valid);
-  wire        _GEN_459 = io_pprd_0_0 != 6'h27 & (_GEN_81 | crat_39_valid);
-  wire        _GEN_460 = io_pprd_0_0 != 6'h28 & (_GEN_82 | crat_40_valid);
-  wire        _GEN_461 = io_pprd_0_0 != 6'h29 & (_GEN_83 | crat_41_valid);
-  wire        _GEN_462 = io_pprd_0_0 != 6'h2A & (_GEN_84 | crat_42_valid);
-  wire        _GEN_463 = io_pprd_0_0 != 6'h2B & (_GEN_85 | crat_43_valid);
-  wire        _GEN_464 = io_pprd_0_0 != 6'h2C & (_GEN_86 | crat_44_valid);
-  wire        _GEN_465 = io_pprd_0_0 != 6'h2D & (_GEN_87 | crat_45_valid);
-  wire        _GEN_466 = io_pprd_0_0 != 6'h2E & (_GEN_88 | crat_46_valid);
-  wire        _GEN_467 = io_pprd_0_0 != 6'h2F & (_GEN_89 | crat_47_valid);
-  wire        _GEN_468 = io_pprd_0_0 != 6'h30 & (_GEN_90 | crat_48_valid);
-  wire        _GEN_469 = io_pprd_0_0 != 6'h31 & (_GEN_91 | crat_49_valid);
-  wire        _GEN_470 = io_pprd_0_0 != 6'h32 & (_GEN_92 | crat_50_valid);
-  wire        _GEN_471 = io_pprd_0_0 != 6'h33 & (_GEN_93 | crat_51_valid);
-  wire        _GEN_472 = io_pprd_0_0 != 6'h34 & (_GEN_94 | crat_52_valid);
-  wire        _GEN_473 = io_pprd_0_0 != 6'h35 & (_GEN_95 | crat_53_valid);
-  wire        _GEN_474 = io_rd_valid_0 ? _GEN_420 : crat_0_valid;
-  wire        _GEN_475 = io_rd_valid_0 ? _GEN_421 : crat_1_valid;
-  wire        _GEN_476 = io_rd_valid_0 ? _GEN_422 : crat_2_valid;
-  wire        _GEN_477 = io_rd_valid_0 ? _GEN_423 : crat_3_valid;
-  wire        _GEN_478 = io_rd_valid_0 ? _GEN_424 : crat_4_valid;
-  wire        _GEN_479 = io_rd_valid_0 ? _GEN_425 : crat_5_valid;
-  wire        _GEN_480 = io_rd_valid_0 ? _GEN_426 : crat_6_valid;
-  wire        _GEN_481 = io_rd_valid_0 ? _GEN_427 : crat_7_valid;
-  wire        _GEN_482 = io_rd_valid_0 ? _GEN_428 : crat_8_valid;
-  wire        _GEN_483 = io_rd_valid_0 ? _GEN_429 : crat_9_valid;
-  wire        _GEN_484 = io_rd_valid_0 ? _GEN_430 : crat_10_valid;
-  wire        _GEN_485 = io_rd_valid_0 ? _GEN_431 : crat_11_valid;
-  wire        _GEN_486 = io_rd_valid_0 ? _GEN_432 : crat_12_valid;
-  wire        _GEN_487 = io_rd_valid_0 ? _GEN_433 : crat_13_valid;
-  wire        _GEN_488 = io_rd_valid_0 ? _GEN_434 : crat_14_valid;
-  wire        _GEN_489 = io_rd_valid_0 ? _GEN_435 : crat_15_valid;
-  wire        _GEN_490 = io_rd_valid_0 ? _GEN_436 : crat_16_valid;
-  wire        _GEN_491 = io_rd_valid_0 ? _GEN_437 : crat_17_valid;
-  wire        _GEN_492 = io_rd_valid_0 ? _GEN_438 : crat_18_valid;
-  wire        _GEN_493 = io_rd_valid_0 ? _GEN_439 : crat_19_valid;
-  wire        _GEN_494 = io_rd_valid_0 ? _GEN_440 : crat_20_valid;
-  wire        _GEN_495 = io_rd_valid_0 ? _GEN_441 : crat_21_valid;
-  wire        _GEN_496 = io_rd_valid_0 ? _GEN_442 : crat_22_valid;
-  wire        _GEN_497 = io_rd_valid_0 ? _GEN_443 : crat_23_valid;
-  wire        _GEN_498 = io_rd_valid_0 ? _GEN_444 : crat_24_valid;
-  wire        _GEN_499 = io_rd_valid_0 ? _GEN_445 : crat_25_valid;
-  wire        _GEN_500 = io_rd_valid_0 ? _GEN_446 : crat_26_valid;
-  wire        _GEN_501 = io_rd_valid_0 ? _GEN_447 : crat_27_valid;
-  wire        _GEN_502 = io_rd_valid_0 ? _GEN_448 : crat_28_valid;
-  wire        _GEN_503 = io_rd_valid_0 ? _GEN_449 : crat_29_valid;
-  wire        _GEN_504 = io_rd_valid_0 ? _GEN_450 : crat_30_valid;
-  wire        _GEN_505 = io_rd_valid_0 ? _GEN_451 : crat_31_valid;
-  wire        _GEN_506 = io_rd_valid_0 ? _GEN_452 : crat_32_valid;
-  wire        _GEN_507 = io_rd_valid_0 ? _GEN_453 : crat_33_valid;
-  wire        _GEN_508 = io_rd_valid_0 ? _GEN_454 : crat_34_valid;
-  wire        _GEN_509 = io_rd_valid_0 ? _GEN_455 : crat_35_valid;
-  wire        _GEN_510 = io_rd_valid_0 ? _GEN_456 : crat_36_valid;
-  wire        _GEN_511 = io_rd_valid_0 ? _GEN_457 : crat_37_valid;
-  wire        _GEN_512 = io_rd_valid_0 ? _GEN_458 : crat_38_valid;
-  wire        _GEN_513 = io_rd_valid_0 ? _GEN_459 : crat_39_valid;
-  wire        _GEN_514 = io_rd_valid_0 ? _GEN_460 : crat_40_valid;
-  wire        _GEN_515 = io_rd_valid_0 ? _GEN_461 : crat_41_valid;
-  wire        _GEN_516 = io_rd_valid_0 ? _GEN_462 : crat_42_valid;
-  wire        _GEN_517 = io_rd_valid_0 ? _GEN_463 : crat_43_valid;
-  wire        _GEN_518 = io_rd_valid_0 ? _GEN_464 : crat_44_valid;
-  wire        _GEN_519 = io_rd_valid_0 ? _GEN_465 : crat_45_valid;
-  wire        _GEN_520 = io_rd_valid_0 ? _GEN_466 : crat_46_valid;
-  wire        _GEN_521 = io_rd_valid_0 ? _GEN_467 : crat_47_valid;
-  wire        _GEN_522 = io_rd_valid_0 ? _GEN_468 : crat_48_valid;
-  wire        _GEN_523 = io_rd_valid_0 ? _GEN_469 : crat_49_valid;
-  wire        _GEN_524 = io_rd_valid_0 ? _GEN_470 : crat_50_valid;
-  wire        _GEN_525 = io_rd_valid_0 ? _GEN_471 : crat_51_valid;
-  wire        _GEN_526 = io_rd_valid_0 ? _GEN_472 : crat_52_valid;
-  wire        _GEN_527 = io_rd_valid_0 ? _GEN_473 : crat_53_valid;
+  wire        _GEN_420 = (|io_pprd_0_0) & (_GEN_42 | crat_valid_0);
+  wire        _GEN_421 = io_pprd_0_0 != 6'h1 & (_GEN_43 | crat_valid_1);
+  wire        _GEN_422 = io_pprd_0_0 != 6'h2 & (_GEN_44 | crat_valid_2);
+  wire        _GEN_423 = io_pprd_0_0 != 6'h3 & (_GEN_45 | crat_valid_3);
+  wire        _GEN_424 = io_pprd_0_0 != 6'h4 & (_GEN_46 | crat_valid_4);
+  wire        _GEN_425 = io_pprd_0_0 != 6'h5 & (_GEN_47 | crat_valid_5);
+  wire        _GEN_426 = io_pprd_0_0 != 6'h6 & (_GEN_48 | crat_valid_6);
+  wire        _GEN_427 = io_pprd_0_0 != 6'h7 & (_GEN_49 | crat_valid_7);
+  wire        _GEN_428 = io_pprd_0_0 != 6'h8 & (_GEN_50 | crat_valid_8);
+  wire        _GEN_429 = io_pprd_0_0 != 6'h9 & (_GEN_51 | crat_valid_9);
+  wire        _GEN_430 = io_pprd_0_0 != 6'hA & (_GEN_52 | crat_valid_10);
+  wire        _GEN_431 = io_pprd_0_0 != 6'hB & (_GEN_53 | crat_valid_11);
+  wire        _GEN_432 = io_pprd_0_0 != 6'hC & (_GEN_54 | crat_valid_12);
+  wire        _GEN_433 = io_pprd_0_0 != 6'hD & (_GEN_55 | crat_valid_13);
+  wire        _GEN_434 = io_pprd_0_0 != 6'hE & (_GEN_56 | crat_valid_14);
+  wire        _GEN_435 = io_pprd_0_0 != 6'hF & (_GEN_57 | crat_valid_15);
+  wire        _GEN_436 = io_pprd_0_0 != 6'h10 & (_GEN_58 | crat_valid_16);
+  wire        _GEN_437 = io_pprd_0_0 != 6'h11 & (_GEN_59 | crat_valid_17);
+  wire        _GEN_438 = io_pprd_0_0 != 6'h12 & (_GEN_60 | crat_valid_18);
+  wire        _GEN_439 = io_pprd_0_0 != 6'h13 & (_GEN_61 | crat_valid_19);
+  wire        _GEN_440 = io_pprd_0_0 != 6'h14 & (_GEN_62 | crat_valid_20);
+  wire        _GEN_441 = io_pprd_0_0 != 6'h15 & (_GEN_63 | crat_valid_21);
+  wire        _GEN_442 = io_pprd_0_0 != 6'h16 & (_GEN_64 | crat_valid_22);
+  wire        _GEN_443 = io_pprd_0_0 != 6'h17 & (_GEN_65 | crat_valid_23);
+  wire        _GEN_444 = io_pprd_0_0 != 6'h18 & (_GEN_66 | crat_valid_24);
+  wire        _GEN_445 = io_pprd_0_0 != 6'h19 & (_GEN_67 | crat_valid_25);
+  wire        _GEN_446 = io_pprd_0_0 != 6'h1A & (_GEN_68 | crat_valid_26);
+  wire        _GEN_447 = io_pprd_0_0 != 6'h1B & (_GEN_69 | crat_valid_27);
+  wire        _GEN_448 = io_pprd_0_0 != 6'h1C & (_GEN_70 | crat_valid_28);
+  wire        _GEN_449 = io_pprd_0_0 != 6'h1D & (_GEN_71 | crat_valid_29);
+  wire        _GEN_450 = io_pprd_0_0 != 6'h1E & (_GEN_72 | crat_valid_30);
+  wire        _GEN_451 = io_pprd_0_0 != 6'h1F & (_GEN_73 | crat_valid_31);
+  wire        _GEN_452 = io_pprd_0_0 != 6'h20 & (_GEN_74 | crat_valid_32);
+  wire        _GEN_453 = io_pprd_0_0 != 6'h21 & (_GEN_75 | crat_valid_33);
+  wire        _GEN_454 = io_pprd_0_0 != 6'h22 & (_GEN_76 | crat_valid_34);
+  wire        _GEN_455 = io_pprd_0_0 != 6'h23 & (_GEN_77 | crat_valid_35);
+  wire        _GEN_456 = io_pprd_0_0 != 6'h24 & (_GEN_78 | crat_valid_36);
+  wire        _GEN_457 = io_pprd_0_0 != 6'h25 & (_GEN_79 | crat_valid_37);
+  wire        _GEN_458 = io_pprd_0_0 != 6'h26 & (_GEN_80 | crat_valid_38);
+  wire        _GEN_459 = io_pprd_0_0 != 6'h27 & (_GEN_81 | crat_valid_39);
+  wire        _GEN_460 = io_pprd_0_0 != 6'h28 & (_GEN_82 | crat_valid_40);
+  wire        _GEN_461 = io_pprd_0_0 != 6'h29 & (_GEN_83 | crat_valid_41);
+  wire        _GEN_462 = io_pprd_0_0 != 6'h2A & (_GEN_84 | crat_valid_42);
+  wire        _GEN_463 = io_pprd_0_0 != 6'h2B & (_GEN_85 | crat_valid_43);
+  wire        _GEN_464 = io_pprd_0_0 != 6'h2C & (_GEN_86 | crat_valid_44);
+  wire        _GEN_465 = io_pprd_0_0 != 6'h2D & (_GEN_87 | crat_valid_45);
+  wire        _GEN_466 = io_pprd_0_0 != 6'h2E & (_GEN_88 | crat_valid_46);
+  wire        _GEN_467 = io_pprd_0_0 != 6'h2F & (_GEN_89 | crat_valid_47);
+  wire        _GEN_468 = io_pprd_0_0 != 6'h30 & (_GEN_90 | crat_valid_48);
+  wire        _GEN_469 = io_pprd_0_0 != 6'h31 & (_GEN_91 | crat_valid_49);
+  wire        _GEN_470 = io_pprd_0_0 != 6'h32 & (_GEN_92 | crat_valid_50);
+  wire        _GEN_471 = io_pprd_0_0 != 6'h33 & (_GEN_93 | crat_valid_51);
+  wire        _GEN_472 = io_pprd_0_0 != 6'h34 & (_GEN_94 | crat_valid_52);
+  wire        _GEN_473 = io_pprd_0_0 != 6'h35 & (_GEN_95 | crat_valid_53);
+  wire        _GEN_474 = io_rd_valid_0 ? _GEN_420 : crat_valid_0;
+  wire        _GEN_475 = io_rd_valid_0 ? _GEN_421 : crat_valid_1;
+  wire        _GEN_476 = io_rd_valid_0 ? _GEN_422 : crat_valid_2;
+  wire        _GEN_477 = io_rd_valid_0 ? _GEN_423 : crat_valid_3;
+  wire        _GEN_478 = io_rd_valid_0 ? _GEN_424 : crat_valid_4;
+  wire        _GEN_479 = io_rd_valid_0 ? _GEN_425 : crat_valid_5;
+  wire        _GEN_480 = io_rd_valid_0 ? _GEN_426 : crat_valid_6;
+  wire        _GEN_481 = io_rd_valid_0 ? _GEN_427 : crat_valid_7;
+  wire        _GEN_482 = io_rd_valid_0 ? _GEN_428 : crat_valid_8;
+  wire        _GEN_483 = io_rd_valid_0 ? _GEN_429 : crat_valid_9;
+  wire        _GEN_484 = io_rd_valid_0 ? _GEN_430 : crat_valid_10;
+  wire        _GEN_485 = io_rd_valid_0 ? _GEN_431 : crat_valid_11;
+  wire        _GEN_486 = io_rd_valid_0 ? _GEN_432 : crat_valid_12;
+  wire        _GEN_487 = io_rd_valid_0 ? _GEN_433 : crat_valid_13;
+  wire        _GEN_488 = io_rd_valid_0 ? _GEN_434 : crat_valid_14;
+  wire        _GEN_489 = io_rd_valid_0 ? _GEN_435 : crat_valid_15;
+  wire        _GEN_490 = io_rd_valid_0 ? _GEN_436 : crat_valid_16;
+  wire        _GEN_491 = io_rd_valid_0 ? _GEN_437 : crat_valid_17;
+  wire        _GEN_492 = io_rd_valid_0 ? _GEN_438 : crat_valid_18;
+  wire        _GEN_493 = io_rd_valid_0 ? _GEN_439 : crat_valid_19;
+  wire        _GEN_494 = io_rd_valid_0 ? _GEN_440 : crat_valid_20;
+  wire        _GEN_495 = io_rd_valid_0 ? _GEN_441 : crat_valid_21;
+  wire        _GEN_496 = io_rd_valid_0 ? _GEN_442 : crat_valid_22;
+  wire        _GEN_497 = io_rd_valid_0 ? _GEN_443 : crat_valid_23;
+  wire        _GEN_498 = io_rd_valid_0 ? _GEN_444 : crat_valid_24;
+  wire        _GEN_499 = io_rd_valid_0 ? _GEN_445 : crat_valid_25;
+  wire        _GEN_500 = io_rd_valid_0 ? _GEN_446 : crat_valid_26;
+  wire        _GEN_501 = io_rd_valid_0 ? _GEN_447 : crat_valid_27;
+  wire        _GEN_502 = io_rd_valid_0 ? _GEN_448 : crat_valid_28;
+  wire        _GEN_503 = io_rd_valid_0 ? _GEN_449 : crat_valid_29;
+  wire        _GEN_504 = io_rd_valid_0 ? _GEN_450 : crat_valid_30;
+  wire        _GEN_505 = io_rd_valid_0 ? _GEN_451 : crat_valid_31;
+  wire        _GEN_506 = io_rd_valid_0 ? _GEN_452 : crat_valid_32;
+  wire        _GEN_507 = io_rd_valid_0 ? _GEN_453 : crat_valid_33;
+  wire        _GEN_508 = io_rd_valid_0 ? _GEN_454 : crat_valid_34;
+  wire        _GEN_509 = io_rd_valid_0 ? _GEN_455 : crat_valid_35;
+  wire        _GEN_510 = io_rd_valid_0 ? _GEN_456 : crat_valid_36;
+  wire        _GEN_511 = io_rd_valid_0 ? _GEN_457 : crat_valid_37;
+  wire        _GEN_512 = io_rd_valid_0 ? _GEN_458 : crat_valid_38;
+  wire        _GEN_513 = io_rd_valid_0 ? _GEN_459 : crat_valid_39;
+  wire        _GEN_514 = io_rd_valid_0 ? _GEN_460 : crat_valid_40;
+  wire        _GEN_515 = io_rd_valid_0 ? _GEN_461 : crat_valid_41;
+  wire        _GEN_516 = io_rd_valid_0 ? _GEN_462 : crat_valid_42;
+  wire        _GEN_517 = io_rd_valid_0 ? _GEN_463 : crat_valid_43;
+  wire        _GEN_518 = io_rd_valid_0 ? _GEN_464 : crat_valid_44;
+  wire        _GEN_519 = io_rd_valid_0 ? _GEN_465 : crat_valid_45;
+  wire        _GEN_520 = io_rd_valid_0 ? _GEN_466 : crat_valid_46;
+  wire        _GEN_521 = io_rd_valid_0 ? _GEN_467 : crat_valid_47;
+  wire        _GEN_522 = io_rd_valid_0 ? _GEN_468 : crat_valid_48;
+  wire        _GEN_523 = io_rd_valid_0 ? _GEN_469 : crat_valid_49;
+  wire        _GEN_524 = io_rd_valid_0 ? _GEN_470 : crat_valid_50;
+  wire        _GEN_525 = io_rd_valid_0 ? _GEN_471 : crat_valid_51;
+  wire        _GEN_526 = io_rd_valid_0 ? _GEN_472 : crat_valid_52;
+  wire        _GEN_527 = io_rd_valid_0 ? _GEN_473 : crat_valid_53;
   wire        _GEN_528 =
     io_wake_valid_3 ? io_prd_wake_3 == 6'h0 | _GEN_366 | _GEN_312 : _GEN_366 | _GEN_312;
   wire        _GEN_529 =
@@ -1546,610 +1546,610 @@ module CRat(
     io_wake_valid_3 ? io_prd_wake_3 == 6'h35 | _GEN_419 | _GEN_365 : _GEN_419 | _GEN_365;
   always @(posedge clock) begin
     if (reset) begin
-      crat_0_valid <= 1'h0;
-      crat_0_lr <= 5'h0;
-      crat_0_free <= 1'h0;
-      crat_1_valid <= 1'h0;
-      crat_1_lr <= 5'h0;
-      crat_1_free <= 1'h0;
-      crat_2_valid <= 1'h0;
-      crat_2_lr <= 5'h0;
-      crat_2_free <= 1'h0;
-      crat_3_valid <= 1'h0;
-      crat_3_lr <= 5'h0;
-      crat_3_free <= 1'h0;
-      crat_4_valid <= 1'h0;
-      crat_4_lr <= 5'h0;
-      crat_4_free <= 1'h0;
-      crat_5_valid <= 1'h0;
-      crat_5_lr <= 5'h0;
-      crat_5_free <= 1'h0;
-      crat_6_valid <= 1'h0;
-      crat_6_lr <= 5'h0;
-      crat_6_free <= 1'h0;
-      crat_7_valid <= 1'h0;
-      crat_7_lr <= 5'h0;
-      crat_7_free <= 1'h0;
-      crat_8_valid <= 1'h0;
-      crat_8_lr <= 5'h0;
-      crat_8_free <= 1'h0;
-      crat_9_valid <= 1'h0;
-      crat_9_lr <= 5'h0;
-      crat_9_free <= 1'h0;
-      crat_10_valid <= 1'h0;
-      crat_10_lr <= 5'h0;
-      crat_10_free <= 1'h0;
-      crat_11_valid <= 1'h0;
-      crat_11_lr <= 5'h0;
-      crat_11_free <= 1'h0;
-      crat_12_valid <= 1'h0;
-      crat_12_lr <= 5'h0;
-      crat_12_free <= 1'h0;
-      crat_13_valid <= 1'h0;
-      crat_13_lr <= 5'h0;
-      crat_13_free <= 1'h0;
-      crat_14_valid <= 1'h0;
-      crat_14_lr <= 5'h0;
-      crat_14_free <= 1'h0;
-      crat_15_valid <= 1'h0;
-      crat_15_lr <= 5'h0;
-      crat_15_free <= 1'h0;
-      crat_16_valid <= 1'h0;
-      crat_16_lr <= 5'h0;
-      crat_16_free <= 1'h0;
-      crat_17_valid <= 1'h0;
-      crat_17_lr <= 5'h0;
-      crat_17_free <= 1'h0;
-      crat_18_valid <= 1'h0;
-      crat_18_lr <= 5'h0;
-      crat_18_free <= 1'h0;
-      crat_19_valid <= 1'h0;
-      crat_19_lr <= 5'h0;
-      crat_19_free <= 1'h0;
-      crat_20_valid <= 1'h0;
-      crat_20_lr <= 5'h0;
-      crat_20_free <= 1'h0;
-      crat_21_valid <= 1'h0;
-      crat_21_lr <= 5'h0;
-      crat_21_free <= 1'h0;
-      crat_22_valid <= 1'h0;
-      crat_22_lr <= 5'h0;
-      crat_22_free <= 1'h0;
-      crat_23_valid <= 1'h0;
-      crat_23_lr <= 5'h0;
-      crat_23_free <= 1'h0;
-      crat_24_valid <= 1'h0;
-      crat_24_lr <= 5'h0;
-      crat_24_free <= 1'h0;
-      crat_25_valid <= 1'h0;
-      crat_25_lr <= 5'h0;
-      crat_25_free <= 1'h0;
-      crat_26_valid <= 1'h0;
-      crat_26_lr <= 5'h0;
-      crat_26_free <= 1'h0;
-      crat_27_valid <= 1'h0;
-      crat_27_lr <= 5'h0;
-      crat_27_free <= 1'h0;
-      crat_28_valid <= 1'h0;
-      crat_28_lr <= 5'h0;
-      crat_28_free <= 1'h0;
-      crat_29_valid <= 1'h0;
-      crat_29_lr <= 5'h0;
-      crat_29_free <= 1'h0;
-      crat_30_valid <= 1'h0;
-      crat_30_lr <= 5'h0;
-      crat_30_free <= 1'h0;
-      crat_31_valid <= 1'h0;
-      crat_31_lr <= 5'h0;
-      crat_31_free <= 1'h0;
-      crat_32_valid <= 1'h0;
-      crat_32_lr <= 5'h0;
-      crat_32_free <= 1'h0;
-      crat_33_valid <= 1'h0;
-      crat_33_lr <= 5'h0;
-      crat_33_free <= 1'h0;
-      crat_34_valid <= 1'h0;
-      crat_34_lr <= 5'h0;
-      crat_34_free <= 1'h0;
-      crat_35_valid <= 1'h0;
-      crat_35_lr <= 5'h0;
-      crat_35_free <= 1'h0;
-      crat_36_valid <= 1'h0;
-      crat_36_lr <= 5'h0;
-      crat_36_free <= 1'h0;
-      crat_37_valid <= 1'h0;
-      crat_37_lr <= 5'h0;
-      crat_37_free <= 1'h0;
-      crat_38_valid <= 1'h0;
-      crat_38_lr <= 5'h0;
-      crat_38_free <= 1'h0;
-      crat_39_valid <= 1'h0;
-      crat_39_lr <= 5'h0;
-      crat_39_free <= 1'h0;
-      crat_40_valid <= 1'h0;
-      crat_40_lr <= 5'h0;
-      crat_40_free <= 1'h0;
-      crat_41_valid <= 1'h0;
-      crat_41_lr <= 5'h0;
-      crat_41_free <= 1'h0;
-      crat_42_valid <= 1'h0;
-      crat_42_lr <= 5'h0;
-      crat_42_free <= 1'h0;
-      crat_43_valid <= 1'h0;
-      crat_43_lr <= 5'h0;
-      crat_43_free <= 1'h0;
-      crat_44_valid <= 1'h0;
-      crat_44_lr <= 5'h0;
-      crat_44_free <= 1'h0;
-      crat_45_valid <= 1'h0;
-      crat_45_lr <= 5'h0;
-      crat_45_free <= 1'h0;
-      crat_46_valid <= 1'h0;
-      crat_46_lr <= 5'h0;
-      crat_46_free <= 1'h0;
-      crat_47_valid <= 1'h0;
-      crat_47_lr <= 5'h0;
-      crat_47_free <= 1'h0;
-      crat_48_valid <= 1'h0;
-      crat_48_lr <= 5'h0;
-      crat_48_free <= 1'h0;
-      crat_49_valid <= 1'h0;
-      crat_49_lr <= 5'h0;
-      crat_49_free <= 1'h0;
-      crat_50_valid <= 1'h0;
-      crat_50_lr <= 5'h0;
-      crat_50_free <= 1'h0;
-      crat_51_valid <= 1'h0;
-      crat_51_lr <= 5'h0;
-      crat_51_free <= 1'h0;
-      crat_52_valid <= 1'h0;
-      crat_52_lr <= 5'h0;
-      crat_52_free <= 1'h0;
-      crat_53_valid <= 1'h0;
-      crat_53_lr <= 5'h0;
-      crat_53_free <= 1'h0;
+      crat_valid_0 <= 1'h0;
+      crat_valid_1 <= 1'h0;
+      crat_valid_2 <= 1'h0;
+      crat_valid_3 <= 1'h0;
+      crat_valid_4 <= 1'h0;
+      crat_valid_5 <= 1'h0;
+      crat_valid_6 <= 1'h0;
+      crat_valid_7 <= 1'h0;
+      crat_valid_8 <= 1'h0;
+      crat_valid_9 <= 1'h0;
+      crat_valid_10 <= 1'h0;
+      crat_valid_11 <= 1'h0;
+      crat_valid_12 <= 1'h0;
+      crat_valid_13 <= 1'h0;
+      crat_valid_14 <= 1'h0;
+      crat_valid_15 <= 1'h0;
+      crat_valid_16 <= 1'h0;
+      crat_valid_17 <= 1'h0;
+      crat_valid_18 <= 1'h0;
+      crat_valid_19 <= 1'h0;
+      crat_valid_20 <= 1'h0;
+      crat_valid_21 <= 1'h0;
+      crat_valid_22 <= 1'h0;
+      crat_valid_23 <= 1'h0;
+      crat_valid_24 <= 1'h0;
+      crat_valid_25 <= 1'h0;
+      crat_valid_26 <= 1'h0;
+      crat_valid_27 <= 1'h0;
+      crat_valid_28 <= 1'h0;
+      crat_valid_29 <= 1'h0;
+      crat_valid_30 <= 1'h0;
+      crat_valid_31 <= 1'h0;
+      crat_valid_32 <= 1'h0;
+      crat_valid_33 <= 1'h0;
+      crat_valid_34 <= 1'h0;
+      crat_valid_35 <= 1'h0;
+      crat_valid_36 <= 1'h0;
+      crat_valid_37 <= 1'h0;
+      crat_valid_38 <= 1'h0;
+      crat_valid_39 <= 1'h0;
+      crat_valid_40 <= 1'h0;
+      crat_valid_41 <= 1'h0;
+      crat_valid_42 <= 1'h0;
+      crat_valid_43 <= 1'h0;
+      crat_valid_44 <= 1'h0;
+      crat_valid_45 <= 1'h0;
+      crat_valid_46 <= 1'h0;
+      crat_valid_47 <= 1'h0;
+      crat_valid_48 <= 1'h0;
+      crat_valid_49 <= 1'h0;
+      crat_valid_50 <= 1'h0;
+      crat_valid_51 <= 1'h0;
+      crat_valid_52 <= 1'h0;
+      crat_valid_53 <= 1'h0;
+      crat_lr_0 <= 5'h0;
+      crat_lr_1 <= 5'h0;
+      crat_lr_2 <= 5'h0;
+      crat_lr_3 <= 5'h0;
+      crat_lr_4 <= 5'h0;
+      crat_lr_5 <= 5'h0;
+      crat_lr_6 <= 5'h0;
+      crat_lr_7 <= 5'h0;
+      crat_lr_8 <= 5'h0;
+      crat_lr_9 <= 5'h0;
+      crat_lr_10 <= 5'h0;
+      crat_lr_11 <= 5'h0;
+      crat_lr_12 <= 5'h0;
+      crat_lr_13 <= 5'h0;
+      crat_lr_14 <= 5'h0;
+      crat_lr_15 <= 5'h0;
+      crat_lr_16 <= 5'h0;
+      crat_lr_17 <= 5'h0;
+      crat_lr_18 <= 5'h0;
+      crat_lr_19 <= 5'h0;
+      crat_lr_20 <= 5'h0;
+      crat_lr_21 <= 5'h0;
+      crat_lr_22 <= 5'h0;
+      crat_lr_23 <= 5'h0;
+      crat_lr_24 <= 5'h0;
+      crat_lr_25 <= 5'h0;
+      crat_lr_26 <= 5'h0;
+      crat_lr_27 <= 5'h0;
+      crat_lr_28 <= 5'h0;
+      crat_lr_29 <= 5'h0;
+      crat_lr_30 <= 5'h0;
+      crat_lr_31 <= 5'h0;
+      crat_lr_32 <= 5'h0;
+      crat_lr_33 <= 5'h0;
+      crat_lr_34 <= 5'h0;
+      crat_lr_35 <= 5'h0;
+      crat_lr_36 <= 5'h0;
+      crat_lr_37 <= 5'h0;
+      crat_lr_38 <= 5'h0;
+      crat_lr_39 <= 5'h0;
+      crat_lr_40 <= 5'h0;
+      crat_lr_41 <= 5'h0;
+      crat_lr_42 <= 5'h0;
+      crat_lr_43 <= 5'h0;
+      crat_lr_44 <= 5'h0;
+      crat_lr_45 <= 5'h0;
+      crat_lr_46 <= 5'h0;
+      crat_lr_47 <= 5'h0;
+      crat_lr_48 <= 5'h0;
+      crat_lr_49 <= 5'h0;
+      crat_lr_50 <= 5'h0;
+      crat_lr_51 <= 5'h0;
+      crat_lr_52 <= 5'h0;
+      crat_lr_53 <= 5'h0;
+      crat_free_0 <= 1'h0;
+      crat_free_1 <= 1'h0;
+      crat_free_2 <= 1'h0;
+      crat_free_3 <= 1'h0;
+      crat_free_4 <= 1'h0;
+      crat_free_5 <= 1'h0;
+      crat_free_6 <= 1'h0;
+      crat_free_7 <= 1'h0;
+      crat_free_8 <= 1'h0;
+      crat_free_9 <= 1'h0;
+      crat_free_10 <= 1'h0;
+      crat_free_11 <= 1'h0;
+      crat_free_12 <= 1'h0;
+      crat_free_13 <= 1'h0;
+      crat_free_14 <= 1'h0;
+      crat_free_15 <= 1'h0;
+      crat_free_16 <= 1'h0;
+      crat_free_17 <= 1'h0;
+      crat_free_18 <= 1'h0;
+      crat_free_19 <= 1'h0;
+      crat_free_20 <= 1'h0;
+      crat_free_21 <= 1'h0;
+      crat_free_22 <= 1'h0;
+      crat_free_23 <= 1'h0;
+      crat_free_24 <= 1'h0;
+      crat_free_25 <= 1'h0;
+      crat_free_26 <= 1'h0;
+      crat_free_27 <= 1'h0;
+      crat_free_28 <= 1'h0;
+      crat_free_29 <= 1'h0;
+      crat_free_30 <= 1'h0;
+      crat_free_31 <= 1'h0;
+      crat_free_32 <= 1'h0;
+      crat_free_33 <= 1'h0;
+      crat_free_34 <= 1'h0;
+      crat_free_35 <= 1'h0;
+      crat_free_36 <= 1'h0;
+      crat_free_37 <= 1'h0;
+      crat_free_38 <= 1'h0;
+      crat_free_39 <= 1'h0;
+      crat_free_40 <= 1'h0;
+      crat_free_41 <= 1'h0;
+      crat_free_42 <= 1'h0;
+      crat_free_43 <= 1'h0;
+      crat_free_44 <= 1'h0;
+      crat_free_45 <= 1'h0;
+      crat_free_46 <= 1'h0;
+      crat_free_47 <= 1'h0;
+      crat_free_48 <= 1'h0;
+      crat_free_49 <= 1'h0;
+      crat_free_50 <= 1'h0;
+      crat_free_51 <= 1'h0;
+      crat_free_52 <= 1'h0;
+      crat_free_53 <= 1'h0;
     end
     else begin
       if (io_predict_fail) begin
-        crat_0_valid <= io_arch_rat_0;
-        crat_1_valid <= io_arch_rat_1;
-        crat_2_valid <= io_arch_rat_2;
-        crat_3_valid <= io_arch_rat_3;
-        crat_4_valid <= io_arch_rat_4;
-        crat_5_valid <= io_arch_rat_5;
-        crat_6_valid <= io_arch_rat_6;
-        crat_7_valid <= io_arch_rat_7;
-        crat_8_valid <= io_arch_rat_8;
-        crat_9_valid <= io_arch_rat_9;
-        crat_10_valid <= io_arch_rat_10;
-        crat_11_valid <= io_arch_rat_11;
-        crat_12_valid <= io_arch_rat_12;
-        crat_13_valid <= io_arch_rat_13;
-        crat_14_valid <= io_arch_rat_14;
-        crat_15_valid <= io_arch_rat_15;
-        crat_16_valid <= io_arch_rat_16;
-        crat_17_valid <= io_arch_rat_17;
-        crat_18_valid <= io_arch_rat_18;
-        crat_19_valid <= io_arch_rat_19;
-        crat_20_valid <= io_arch_rat_20;
-        crat_21_valid <= io_arch_rat_21;
-        crat_22_valid <= io_arch_rat_22;
-        crat_23_valid <= io_arch_rat_23;
-        crat_24_valid <= io_arch_rat_24;
-        crat_25_valid <= io_arch_rat_25;
-        crat_26_valid <= io_arch_rat_26;
-        crat_27_valid <= io_arch_rat_27;
-        crat_28_valid <= io_arch_rat_28;
-        crat_29_valid <= io_arch_rat_29;
-        crat_30_valid <= io_arch_rat_30;
-        crat_31_valid <= io_arch_rat_31;
-        crat_32_valid <= io_arch_rat_32;
-        crat_33_valid <= io_arch_rat_33;
-        crat_34_valid <= io_arch_rat_34;
-        crat_35_valid <= io_arch_rat_35;
-        crat_36_valid <= io_arch_rat_36;
-        crat_37_valid <= io_arch_rat_37;
-        crat_38_valid <= io_arch_rat_38;
-        crat_39_valid <= io_arch_rat_39;
-        crat_40_valid <= io_arch_rat_40;
-        crat_41_valid <= io_arch_rat_41;
-        crat_42_valid <= io_arch_rat_42;
-        crat_43_valid <= io_arch_rat_43;
-        crat_44_valid <= io_arch_rat_44;
-        crat_45_valid <= io_arch_rat_45;
-        crat_46_valid <= io_arch_rat_46;
-        crat_47_valid <= io_arch_rat_47;
-        crat_48_valid <= io_arch_rat_48;
-        crat_49_valid <= io_arch_rat_49;
-        crat_50_valid <= io_arch_rat_50;
-        crat_51_valid <= io_arch_rat_51;
-        crat_52_valid <= io_arch_rat_52;
-        crat_53_valid <= io_arch_rat_53;
+        crat_valid_0 <= io_arch_rat_0;
+        crat_valid_1 <= io_arch_rat_1;
+        crat_valid_2 <= io_arch_rat_2;
+        crat_valid_3 <= io_arch_rat_3;
+        crat_valid_4 <= io_arch_rat_4;
+        crat_valid_5 <= io_arch_rat_5;
+        crat_valid_6 <= io_arch_rat_6;
+        crat_valid_7 <= io_arch_rat_7;
+        crat_valid_8 <= io_arch_rat_8;
+        crat_valid_9 <= io_arch_rat_9;
+        crat_valid_10 <= io_arch_rat_10;
+        crat_valid_11 <= io_arch_rat_11;
+        crat_valid_12 <= io_arch_rat_12;
+        crat_valid_13 <= io_arch_rat_13;
+        crat_valid_14 <= io_arch_rat_14;
+        crat_valid_15 <= io_arch_rat_15;
+        crat_valid_16 <= io_arch_rat_16;
+        crat_valid_17 <= io_arch_rat_17;
+        crat_valid_18 <= io_arch_rat_18;
+        crat_valid_19 <= io_arch_rat_19;
+        crat_valid_20 <= io_arch_rat_20;
+        crat_valid_21 <= io_arch_rat_21;
+        crat_valid_22 <= io_arch_rat_22;
+        crat_valid_23 <= io_arch_rat_23;
+        crat_valid_24 <= io_arch_rat_24;
+        crat_valid_25 <= io_arch_rat_25;
+        crat_valid_26 <= io_arch_rat_26;
+        crat_valid_27 <= io_arch_rat_27;
+        crat_valid_28 <= io_arch_rat_28;
+        crat_valid_29 <= io_arch_rat_29;
+        crat_valid_30 <= io_arch_rat_30;
+        crat_valid_31 <= io_arch_rat_31;
+        crat_valid_32 <= io_arch_rat_32;
+        crat_valid_33 <= io_arch_rat_33;
+        crat_valid_34 <= io_arch_rat_34;
+        crat_valid_35 <= io_arch_rat_35;
+        crat_valid_36 <= io_arch_rat_36;
+        crat_valid_37 <= io_arch_rat_37;
+        crat_valid_38 <= io_arch_rat_38;
+        crat_valid_39 <= io_arch_rat_39;
+        crat_valid_40 <= io_arch_rat_40;
+        crat_valid_41 <= io_arch_rat_41;
+        crat_valid_42 <= io_arch_rat_42;
+        crat_valid_43 <= io_arch_rat_43;
+        crat_valid_44 <= io_arch_rat_44;
+        crat_valid_45 <= io_arch_rat_45;
+        crat_valid_46 <= io_arch_rat_46;
+        crat_valid_47 <= io_arch_rat_47;
+        crat_valid_48 <= io_arch_rat_48;
+        crat_valid_49 <= io_arch_rat_49;
+        crat_valid_50 <= io_arch_rat_50;
+        crat_valid_51 <= io_arch_rat_51;
+        crat_valid_52 <= io_arch_rat_52;
+        crat_valid_53 <= io_arch_rat_53;
       end
       else begin
         if (io_rd_valid_1) begin
-          crat_0_valid <= (|io_pprd_1_0) & (_GEN_150 | _GEN_474);
-          crat_1_valid <= io_pprd_1_0 != 6'h1 & (_GEN_151 | _GEN_475);
-          crat_2_valid <= io_pprd_1_0 != 6'h2 & (_GEN_152 | _GEN_476);
-          crat_3_valid <= io_pprd_1_0 != 6'h3 & (_GEN_153 | _GEN_477);
-          crat_4_valid <= io_pprd_1_0 != 6'h4 & (_GEN_154 | _GEN_478);
-          crat_5_valid <= io_pprd_1_0 != 6'h5 & (_GEN_155 | _GEN_479);
-          crat_6_valid <= io_pprd_1_0 != 6'h6 & (_GEN_156 | _GEN_480);
-          crat_7_valid <= io_pprd_1_0 != 6'h7 & (_GEN_157 | _GEN_481);
-          crat_8_valid <= io_pprd_1_0 != 6'h8 & (_GEN_158 | _GEN_482);
-          crat_9_valid <= io_pprd_1_0 != 6'h9 & (_GEN_159 | _GEN_483);
-          crat_10_valid <= io_pprd_1_0 != 6'hA & (_GEN_160 | _GEN_484);
-          crat_11_valid <= io_pprd_1_0 != 6'hB & (_GEN_161 | _GEN_485);
-          crat_12_valid <= io_pprd_1_0 != 6'hC & (_GEN_162 | _GEN_486);
-          crat_13_valid <= io_pprd_1_0 != 6'hD & (_GEN_163 | _GEN_487);
-          crat_14_valid <= io_pprd_1_0 != 6'hE & (_GEN_164 | _GEN_488);
-          crat_15_valid <= io_pprd_1_0 != 6'hF & (_GEN_165 | _GEN_489);
-          crat_16_valid <= io_pprd_1_0 != 6'h10 & (_GEN_166 | _GEN_490);
-          crat_17_valid <= io_pprd_1_0 != 6'h11 & (_GEN_167 | _GEN_491);
-          crat_18_valid <= io_pprd_1_0 != 6'h12 & (_GEN_168 | _GEN_492);
-          crat_19_valid <= io_pprd_1_0 != 6'h13 & (_GEN_169 | _GEN_493);
-          crat_20_valid <= io_pprd_1_0 != 6'h14 & (_GEN_170 | _GEN_494);
-          crat_21_valid <= io_pprd_1_0 != 6'h15 & (_GEN_171 | _GEN_495);
-          crat_22_valid <= io_pprd_1_0 != 6'h16 & (_GEN_172 | _GEN_496);
-          crat_23_valid <= io_pprd_1_0 != 6'h17 & (_GEN_173 | _GEN_497);
-          crat_24_valid <= io_pprd_1_0 != 6'h18 & (_GEN_174 | _GEN_498);
-          crat_25_valid <= io_pprd_1_0 != 6'h19 & (_GEN_175 | _GEN_499);
-          crat_26_valid <= io_pprd_1_0 != 6'h1A & (_GEN_176 | _GEN_500);
-          crat_27_valid <= io_pprd_1_0 != 6'h1B & (_GEN_177 | _GEN_501);
-          crat_28_valid <= io_pprd_1_0 != 6'h1C & (_GEN_178 | _GEN_502);
-          crat_29_valid <= io_pprd_1_0 != 6'h1D & (_GEN_179 | _GEN_503);
-          crat_30_valid <= io_pprd_1_0 != 6'h1E & (_GEN_180 | _GEN_504);
-          crat_31_valid <= io_pprd_1_0 != 6'h1F & (_GEN_181 | _GEN_505);
-          crat_32_valid <= io_pprd_1_0 != 6'h20 & (_GEN_182 | _GEN_506);
-          crat_33_valid <= io_pprd_1_0 != 6'h21 & (_GEN_183 | _GEN_507);
-          crat_34_valid <= io_pprd_1_0 != 6'h22 & (_GEN_184 | _GEN_508);
-          crat_35_valid <= io_pprd_1_0 != 6'h23 & (_GEN_185 | _GEN_509);
-          crat_36_valid <= io_pprd_1_0 != 6'h24 & (_GEN_186 | _GEN_510);
-          crat_37_valid <= io_pprd_1_0 != 6'h25 & (_GEN_187 | _GEN_511);
-          crat_38_valid <= io_pprd_1_0 != 6'h26 & (_GEN_188 | _GEN_512);
-          crat_39_valid <= io_pprd_1_0 != 6'h27 & (_GEN_189 | _GEN_513);
-          crat_40_valid <= io_pprd_1_0 != 6'h28 & (_GEN_190 | _GEN_514);
-          crat_41_valid <= io_pprd_1_0 != 6'h29 & (_GEN_191 | _GEN_515);
-          crat_42_valid <= io_pprd_1_0 != 6'h2A & (_GEN_192 | _GEN_516);
-          crat_43_valid <= io_pprd_1_0 != 6'h2B & (_GEN_193 | _GEN_517);
-          crat_44_valid <= io_pprd_1_0 != 6'h2C & (_GEN_194 | _GEN_518);
-          crat_45_valid <= io_pprd_1_0 != 6'h2D & (_GEN_195 | _GEN_519);
-          crat_46_valid <= io_pprd_1_0 != 6'h2E & (_GEN_196 | _GEN_520);
-          crat_47_valid <= io_pprd_1_0 != 6'h2F & (_GEN_197 | _GEN_521);
-          crat_48_valid <= io_pprd_1_0 != 6'h30 & (_GEN_198 | _GEN_522);
-          crat_49_valid <= io_pprd_1_0 != 6'h31 & (_GEN_199 | _GEN_523);
-          crat_50_valid <= io_pprd_1_0 != 6'h32 & (_GEN_200 | _GEN_524);
-          crat_51_valid <= io_pprd_1_0 != 6'h33 & (_GEN_201 | _GEN_525);
-          crat_52_valid <= io_pprd_1_0 != 6'h34 & (_GEN_202 | _GEN_526);
-          crat_53_valid <= io_pprd_1_0 != 6'h35 & (_GEN_203 | _GEN_527);
+          crat_valid_0 <= (|io_pprd_1_0) & (_GEN_150 | _GEN_474);
+          crat_valid_1 <= io_pprd_1_0 != 6'h1 & (_GEN_151 | _GEN_475);
+          crat_valid_2 <= io_pprd_1_0 != 6'h2 & (_GEN_152 | _GEN_476);
+          crat_valid_3 <= io_pprd_1_0 != 6'h3 & (_GEN_153 | _GEN_477);
+          crat_valid_4 <= io_pprd_1_0 != 6'h4 & (_GEN_154 | _GEN_478);
+          crat_valid_5 <= io_pprd_1_0 != 6'h5 & (_GEN_155 | _GEN_479);
+          crat_valid_6 <= io_pprd_1_0 != 6'h6 & (_GEN_156 | _GEN_480);
+          crat_valid_7 <= io_pprd_1_0 != 6'h7 & (_GEN_157 | _GEN_481);
+          crat_valid_8 <= io_pprd_1_0 != 6'h8 & (_GEN_158 | _GEN_482);
+          crat_valid_9 <= io_pprd_1_0 != 6'h9 & (_GEN_159 | _GEN_483);
+          crat_valid_10 <= io_pprd_1_0 != 6'hA & (_GEN_160 | _GEN_484);
+          crat_valid_11 <= io_pprd_1_0 != 6'hB & (_GEN_161 | _GEN_485);
+          crat_valid_12 <= io_pprd_1_0 != 6'hC & (_GEN_162 | _GEN_486);
+          crat_valid_13 <= io_pprd_1_0 != 6'hD & (_GEN_163 | _GEN_487);
+          crat_valid_14 <= io_pprd_1_0 != 6'hE & (_GEN_164 | _GEN_488);
+          crat_valid_15 <= io_pprd_1_0 != 6'hF & (_GEN_165 | _GEN_489);
+          crat_valid_16 <= io_pprd_1_0 != 6'h10 & (_GEN_166 | _GEN_490);
+          crat_valid_17 <= io_pprd_1_0 != 6'h11 & (_GEN_167 | _GEN_491);
+          crat_valid_18 <= io_pprd_1_0 != 6'h12 & (_GEN_168 | _GEN_492);
+          crat_valid_19 <= io_pprd_1_0 != 6'h13 & (_GEN_169 | _GEN_493);
+          crat_valid_20 <= io_pprd_1_0 != 6'h14 & (_GEN_170 | _GEN_494);
+          crat_valid_21 <= io_pprd_1_0 != 6'h15 & (_GEN_171 | _GEN_495);
+          crat_valid_22 <= io_pprd_1_0 != 6'h16 & (_GEN_172 | _GEN_496);
+          crat_valid_23 <= io_pprd_1_0 != 6'h17 & (_GEN_173 | _GEN_497);
+          crat_valid_24 <= io_pprd_1_0 != 6'h18 & (_GEN_174 | _GEN_498);
+          crat_valid_25 <= io_pprd_1_0 != 6'h19 & (_GEN_175 | _GEN_499);
+          crat_valid_26 <= io_pprd_1_0 != 6'h1A & (_GEN_176 | _GEN_500);
+          crat_valid_27 <= io_pprd_1_0 != 6'h1B & (_GEN_177 | _GEN_501);
+          crat_valid_28 <= io_pprd_1_0 != 6'h1C & (_GEN_178 | _GEN_502);
+          crat_valid_29 <= io_pprd_1_0 != 6'h1D & (_GEN_179 | _GEN_503);
+          crat_valid_30 <= io_pprd_1_0 != 6'h1E & (_GEN_180 | _GEN_504);
+          crat_valid_31 <= io_pprd_1_0 != 6'h1F & (_GEN_181 | _GEN_505);
+          crat_valid_32 <= io_pprd_1_0 != 6'h20 & (_GEN_182 | _GEN_506);
+          crat_valid_33 <= io_pprd_1_0 != 6'h21 & (_GEN_183 | _GEN_507);
+          crat_valid_34 <= io_pprd_1_0 != 6'h22 & (_GEN_184 | _GEN_508);
+          crat_valid_35 <= io_pprd_1_0 != 6'h23 & (_GEN_185 | _GEN_509);
+          crat_valid_36 <= io_pprd_1_0 != 6'h24 & (_GEN_186 | _GEN_510);
+          crat_valid_37 <= io_pprd_1_0 != 6'h25 & (_GEN_187 | _GEN_511);
+          crat_valid_38 <= io_pprd_1_0 != 6'h26 & (_GEN_188 | _GEN_512);
+          crat_valid_39 <= io_pprd_1_0 != 6'h27 & (_GEN_189 | _GEN_513);
+          crat_valid_40 <= io_pprd_1_0 != 6'h28 & (_GEN_190 | _GEN_514);
+          crat_valid_41 <= io_pprd_1_0 != 6'h29 & (_GEN_191 | _GEN_515);
+          crat_valid_42 <= io_pprd_1_0 != 6'h2A & (_GEN_192 | _GEN_516);
+          crat_valid_43 <= io_pprd_1_0 != 6'h2B & (_GEN_193 | _GEN_517);
+          crat_valid_44 <= io_pprd_1_0 != 6'h2C & (_GEN_194 | _GEN_518);
+          crat_valid_45 <= io_pprd_1_0 != 6'h2D & (_GEN_195 | _GEN_519);
+          crat_valid_46 <= io_pprd_1_0 != 6'h2E & (_GEN_196 | _GEN_520);
+          crat_valid_47 <= io_pprd_1_0 != 6'h2F & (_GEN_197 | _GEN_521);
+          crat_valid_48 <= io_pprd_1_0 != 6'h30 & (_GEN_198 | _GEN_522);
+          crat_valid_49 <= io_pprd_1_0 != 6'h31 & (_GEN_199 | _GEN_523);
+          crat_valid_50 <= io_pprd_1_0 != 6'h32 & (_GEN_200 | _GEN_524);
+          crat_valid_51 <= io_pprd_1_0 != 6'h33 & (_GEN_201 | _GEN_525);
+          crat_valid_52 <= io_pprd_1_0 != 6'h34 & (_GEN_202 | _GEN_526);
+          crat_valid_53 <= io_pprd_1_0 != 6'h35 & (_GEN_203 | _GEN_527);
         end
         else if (io_rd_valid_0) begin
-          crat_0_valid <= _GEN_420;
-          crat_1_valid <= _GEN_421;
-          crat_2_valid <= _GEN_422;
-          crat_3_valid <= _GEN_423;
-          crat_4_valid <= _GEN_424;
-          crat_5_valid <= _GEN_425;
-          crat_6_valid <= _GEN_426;
-          crat_7_valid <= _GEN_427;
-          crat_8_valid <= _GEN_428;
-          crat_9_valid <= _GEN_429;
-          crat_10_valid <= _GEN_430;
-          crat_11_valid <= _GEN_431;
-          crat_12_valid <= _GEN_432;
-          crat_13_valid <= _GEN_433;
-          crat_14_valid <= _GEN_434;
-          crat_15_valid <= _GEN_435;
-          crat_16_valid <= _GEN_436;
-          crat_17_valid <= _GEN_437;
-          crat_18_valid <= _GEN_438;
-          crat_19_valid <= _GEN_439;
-          crat_20_valid <= _GEN_440;
-          crat_21_valid <= _GEN_441;
-          crat_22_valid <= _GEN_442;
-          crat_23_valid <= _GEN_443;
-          crat_24_valid <= _GEN_444;
-          crat_25_valid <= _GEN_445;
-          crat_26_valid <= _GEN_446;
-          crat_27_valid <= _GEN_447;
-          crat_28_valid <= _GEN_448;
-          crat_29_valid <= _GEN_449;
-          crat_30_valid <= _GEN_450;
-          crat_31_valid <= _GEN_451;
-          crat_32_valid <= _GEN_452;
-          crat_33_valid <= _GEN_453;
-          crat_34_valid <= _GEN_454;
-          crat_35_valid <= _GEN_455;
-          crat_36_valid <= _GEN_456;
-          crat_37_valid <= _GEN_457;
-          crat_38_valid <= _GEN_458;
-          crat_39_valid <= _GEN_459;
-          crat_40_valid <= _GEN_460;
-          crat_41_valid <= _GEN_461;
-          crat_42_valid <= _GEN_462;
-          crat_43_valid <= _GEN_463;
-          crat_44_valid <= _GEN_464;
-          crat_45_valid <= _GEN_465;
-          crat_46_valid <= _GEN_466;
-          crat_47_valid <= _GEN_467;
-          crat_48_valid <= _GEN_468;
-          crat_49_valid <= _GEN_469;
-          crat_50_valid <= _GEN_470;
-          crat_51_valid <= _GEN_471;
-          crat_52_valid <= _GEN_472;
-          crat_53_valid <= _GEN_473;
+          crat_valid_0 <= _GEN_420;
+          crat_valid_1 <= _GEN_421;
+          crat_valid_2 <= _GEN_422;
+          crat_valid_3 <= _GEN_423;
+          crat_valid_4 <= _GEN_424;
+          crat_valid_5 <= _GEN_425;
+          crat_valid_6 <= _GEN_426;
+          crat_valid_7 <= _GEN_427;
+          crat_valid_8 <= _GEN_428;
+          crat_valid_9 <= _GEN_429;
+          crat_valid_10 <= _GEN_430;
+          crat_valid_11 <= _GEN_431;
+          crat_valid_12 <= _GEN_432;
+          crat_valid_13 <= _GEN_433;
+          crat_valid_14 <= _GEN_434;
+          crat_valid_15 <= _GEN_435;
+          crat_valid_16 <= _GEN_436;
+          crat_valid_17 <= _GEN_437;
+          crat_valid_18 <= _GEN_438;
+          crat_valid_19 <= _GEN_439;
+          crat_valid_20 <= _GEN_440;
+          crat_valid_21 <= _GEN_441;
+          crat_valid_22 <= _GEN_442;
+          crat_valid_23 <= _GEN_443;
+          crat_valid_24 <= _GEN_444;
+          crat_valid_25 <= _GEN_445;
+          crat_valid_26 <= _GEN_446;
+          crat_valid_27 <= _GEN_447;
+          crat_valid_28 <= _GEN_448;
+          crat_valid_29 <= _GEN_449;
+          crat_valid_30 <= _GEN_450;
+          crat_valid_31 <= _GEN_451;
+          crat_valid_32 <= _GEN_452;
+          crat_valid_33 <= _GEN_453;
+          crat_valid_34 <= _GEN_454;
+          crat_valid_35 <= _GEN_455;
+          crat_valid_36 <= _GEN_456;
+          crat_valid_37 <= _GEN_457;
+          crat_valid_38 <= _GEN_458;
+          crat_valid_39 <= _GEN_459;
+          crat_valid_40 <= _GEN_460;
+          crat_valid_41 <= _GEN_461;
+          crat_valid_42 <= _GEN_462;
+          crat_valid_43 <= _GEN_463;
+          crat_valid_44 <= _GEN_464;
+          crat_valid_45 <= _GEN_465;
+          crat_valid_46 <= _GEN_466;
+          crat_valid_47 <= _GEN_467;
+          crat_valid_48 <= _GEN_468;
+          crat_valid_49 <= _GEN_469;
+          crat_valid_50 <= _GEN_470;
+          crat_valid_51 <= _GEN_471;
+          crat_valid_52 <= _GEN_472;
+          crat_valid_53 <= _GEN_473;
         end
         if (_GEN_150)
-          crat_0_lr <= io_rd_1;
+          crat_lr_0 <= io_rd_1;
         else if (_GEN_42)
-          crat_0_lr <= io_rd_0;
+          crat_lr_0 <= io_rd_0;
         if (_GEN_151)
-          crat_1_lr <= io_rd_1;
+          crat_lr_1 <= io_rd_1;
         else if (_GEN_43)
-          crat_1_lr <= io_rd_0;
+          crat_lr_1 <= io_rd_0;
         if (_GEN_152)
-          crat_2_lr <= io_rd_1;
+          crat_lr_2 <= io_rd_1;
         else if (_GEN_44)
-          crat_2_lr <= io_rd_0;
+          crat_lr_2 <= io_rd_0;
         if (_GEN_153)
-          crat_3_lr <= io_rd_1;
+          crat_lr_3 <= io_rd_1;
         else if (_GEN_45)
-          crat_3_lr <= io_rd_0;
+          crat_lr_3 <= io_rd_0;
         if (_GEN_154)
-          crat_4_lr <= io_rd_1;
+          crat_lr_4 <= io_rd_1;
         else if (_GEN_46)
-          crat_4_lr <= io_rd_0;
+          crat_lr_4 <= io_rd_0;
         if (_GEN_155)
-          crat_5_lr <= io_rd_1;
+          crat_lr_5 <= io_rd_1;
         else if (_GEN_47)
-          crat_5_lr <= io_rd_0;
+          crat_lr_5 <= io_rd_0;
         if (_GEN_156)
-          crat_6_lr <= io_rd_1;
+          crat_lr_6 <= io_rd_1;
         else if (_GEN_48)
-          crat_6_lr <= io_rd_0;
+          crat_lr_6 <= io_rd_0;
         if (_GEN_157)
-          crat_7_lr <= io_rd_1;
+          crat_lr_7 <= io_rd_1;
         else if (_GEN_49)
-          crat_7_lr <= io_rd_0;
+          crat_lr_7 <= io_rd_0;
         if (_GEN_158)
-          crat_8_lr <= io_rd_1;
+          crat_lr_8 <= io_rd_1;
         else if (_GEN_50)
-          crat_8_lr <= io_rd_0;
+          crat_lr_8 <= io_rd_0;
         if (_GEN_159)
-          crat_9_lr <= io_rd_1;
+          crat_lr_9 <= io_rd_1;
         else if (_GEN_51)
-          crat_9_lr <= io_rd_0;
+          crat_lr_9 <= io_rd_0;
         if (_GEN_160)
-          crat_10_lr <= io_rd_1;
+          crat_lr_10 <= io_rd_1;
         else if (_GEN_52)
-          crat_10_lr <= io_rd_0;
+          crat_lr_10 <= io_rd_0;
         if (_GEN_161)
-          crat_11_lr <= io_rd_1;
+          crat_lr_11 <= io_rd_1;
         else if (_GEN_53)
-          crat_11_lr <= io_rd_0;
+          crat_lr_11 <= io_rd_0;
         if (_GEN_162)
-          crat_12_lr <= io_rd_1;
+          crat_lr_12 <= io_rd_1;
         else if (_GEN_54)
-          crat_12_lr <= io_rd_0;
+          crat_lr_12 <= io_rd_0;
         if (_GEN_163)
-          crat_13_lr <= io_rd_1;
+          crat_lr_13 <= io_rd_1;
         else if (_GEN_55)
-          crat_13_lr <= io_rd_0;
+          crat_lr_13 <= io_rd_0;
         if (_GEN_164)
-          crat_14_lr <= io_rd_1;
+          crat_lr_14 <= io_rd_1;
         else if (_GEN_56)
-          crat_14_lr <= io_rd_0;
+          crat_lr_14 <= io_rd_0;
         if (_GEN_165)
-          crat_15_lr <= io_rd_1;
+          crat_lr_15 <= io_rd_1;
         else if (_GEN_57)
-          crat_15_lr <= io_rd_0;
+          crat_lr_15 <= io_rd_0;
         if (_GEN_166)
-          crat_16_lr <= io_rd_1;
+          crat_lr_16 <= io_rd_1;
         else if (_GEN_58)
-          crat_16_lr <= io_rd_0;
+          crat_lr_16 <= io_rd_0;
         if (_GEN_167)
-          crat_17_lr <= io_rd_1;
+          crat_lr_17 <= io_rd_1;
         else if (_GEN_59)
-          crat_17_lr <= io_rd_0;
+          crat_lr_17 <= io_rd_0;
         if (_GEN_168)
-          crat_18_lr <= io_rd_1;
+          crat_lr_18 <= io_rd_1;
         else if (_GEN_60)
-          crat_18_lr <= io_rd_0;
+          crat_lr_18 <= io_rd_0;
         if (_GEN_169)
-          crat_19_lr <= io_rd_1;
+          crat_lr_19 <= io_rd_1;
         else if (_GEN_61)
-          crat_19_lr <= io_rd_0;
+          crat_lr_19 <= io_rd_0;
         if (_GEN_170)
-          crat_20_lr <= io_rd_1;
+          crat_lr_20 <= io_rd_1;
         else if (_GEN_62)
-          crat_20_lr <= io_rd_0;
+          crat_lr_20 <= io_rd_0;
         if (_GEN_171)
-          crat_21_lr <= io_rd_1;
+          crat_lr_21 <= io_rd_1;
         else if (_GEN_63)
-          crat_21_lr <= io_rd_0;
+          crat_lr_21 <= io_rd_0;
         if (_GEN_172)
-          crat_22_lr <= io_rd_1;
+          crat_lr_22 <= io_rd_1;
         else if (_GEN_64)
-          crat_22_lr <= io_rd_0;
+          crat_lr_22 <= io_rd_0;
         if (_GEN_173)
-          crat_23_lr <= io_rd_1;
+          crat_lr_23 <= io_rd_1;
         else if (_GEN_65)
-          crat_23_lr <= io_rd_0;
+          crat_lr_23 <= io_rd_0;
         if (_GEN_174)
-          crat_24_lr <= io_rd_1;
+          crat_lr_24 <= io_rd_1;
         else if (_GEN_66)
-          crat_24_lr <= io_rd_0;
+          crat_lr_24 <= io_rd_0;
         if (_GEN_175)
-          crat_25_lr <= io_rd_1;
+          crat_lr_25 <= io_rd_1;
         else if (_GEN_67)
-          crat_25_lr <= io_rd_0;
+          crat_lr_25 <= io_rd_0;
         if (_GEN_176)
-          crat_26_lr <= io_rd_1;
+          crat_lr_26 <= io_rd_1;
         else if (_GEN_68)
-          crat_26_lr <= io_rd_0;
+          crat_lr_26 <= io_rd_0;
         if (_GEN_177)
-          crat_27_lr <= io_rd_1;
+          crat_lr_27 <= io_rd_1;
         else if (_GEN_69)
-          crat_27_lr <= io_rd_0;
+          crat_lr_27 <= io_rd_0;
         if (_GEN_178)
-          crat_28_lr <= io_rd_1;
+          crat_lr_28 <= io_rd_1;
         else if (_GEN_70)
-          crat_28_lr <= io_rd_0;
+          crat_lr_28 <= io_rd_0;
         if (_GEN_179)
-          crat_29_lr <= io_rd_1;
+          crat_lr_29 <= io_rd_1;
         else if (_GEN_71)
-          crat_29_lr <= io_rd_0;
+          crat_lr_29 <= io_rd_0;
         if (_GEN_180)
-          crat_30_lr <= io_rd_1;
+          crat_lr_30 <= io_rd_1;
         else if (_GEN_72)
-          crat_30_lr <= io_rd_0;
+          crat_lr_30 <= io_rd_0;
         if (_GEN_181)
-          crat_31_lr <= io_rd_1;
+          crat_lr_31 <= io_rd_1;
         else if (_GEN_73)
-          crat_31_lr <= io_rd_0;
+          crat_lr_31 <= io_rd_0;
         if (_GEN_182)
-          crat_32_lr <= io_rd_1;
+          crat_lr_32 <= io_rd_1;
         else if (_GEN_74)
-          crat_32_lr <= io_rd_0;
+          crat_lr_32 <= io_rd_0;
         if (_GEN_183)
-          crat_33_lr <= io_rd_1;
+          crat_lr_33 <= io_rd_1;
         else if (_GEN_75)
-          crat_33_lr <= io_rd_0;
+          crat_lr_33 <= io_rd_0;
         if (_GEN_184)
-          crat_34_lr <= io_rd_1;
+          crat_lr_34 <= io_rd_1;
         else if (_GEN_76)
-          crat_34_lr <= io_rd_0;
+          crat_lr_34 <= io_rd_0;
         if (_GEN_185)
-          crat_35_lr <= io_rd_1;
+          crat_lr_35 <= io_rd_1;
         else if (_GEN_77)
-          crat_35_lr <= io_rd_0;
+          crat_lr_35 <= io_rd_0;
         if (_GEN_186)
-          crat_36_lr <= io_rd_1;
+          crat_lr_36 <= io_rd_1;
         else if (_GEN_78)
-          crat_36_lr <= io_rd_0;
+          crat_lr_36 <= io_rd_0;
         if (_GEN_187)
-          crat_37_lr <= io_rd_1;
+          crat_lr_37 <= io_rd_1;
         else if (_GEN_79)
-          crat_37_lr <= io_rd_0;
+          crat_lr_37 <= io_rd_0;
         if (_GEN_188)
-          crat_38_lr <= io_rd_1;
+          crat_lr_38 <= io_rd_1;
         else if (_GEN_80)
-          crat_38_lr <= io_rd_0;
+          crat_lr_38 <= io_rd_0;
         if (_GEN_189)
-          crat_39_lr <= io_rd_1;
+          crat_lr_39 <= io_rd_1;
         else if (_GEN_81)
-          crat_39_lr <= io_rd_0;
+          crat_lr_39 <= io_rd_0;
         if (_GEN_190)
-          crat_40_lr <= io_rd_1;
+          crat_lr_40 <= io_rd_1;
         else if (_GEN_82)
-          crat_40_lr <= io_rd_0;
+          crat_lr_40 <= io_rd_0;
         if (_GEN_191)
-          crat_41_lr <= io_rd_1;
+          crat_lr_41 <= io_rd_1;
         else if (_GEN_83)
-          crat_41_lr <= io_rd_0;
+          crat_lr_41 <= io_rd_0;
         if (_GEN_192)
-          crat_42_lr <= io_rd_1;
+          crat_lr_42 <= io_rd_1;
         else if (_GEN_84)
-          crat_42_lr <= io_rd_0;
+          crat_lr_42 <= io_rd_0;
         if (_GEN_193)
-          crat_43_lr <= io_rd_1;
+          crat_lr_43 <= io_rd_1;
         else if (_GEN_85)
-          crat_43_lr <= io_rd_0;
+          crat_lr_43 <= io_rd_0;
         if (_GEN_194)
-          crat_44_lr <= io_rd_1;
+          crat_lr_44 <= io_rd_1;
         else if (_GEN_86)
-          crat_44_lr <= io_rd_0;
+          crat_lr_44 <= io_rd_0;
         if (_GEN_195)
-          crat_45_lr <= io_rd_1;
+          crat_lr_45 <= io_rd_1;
         else if (_GEN_87)
-          crat_45_lr <= io_rd_0;
+          crat_lr_45 <= io_rd_0;
         if (_GEN_196)
-          crat_46_lr <= io_rd_1;
+          crat_lr_46 <= io_rd_1;
         else if (_GEN_88)
-          crat_46_lr <= io_rd_0;
+          crat_lr_46 <= io_rd_0;
         if (_GEN_197)
-          crat_47_lr <= io_rd_1;
+          crat_lr_47 <= io_rd_1;
         else if (_GEN_89)
-          crat_47_lr <= io_rd_0;
+          crat_lr_47 <= io_rd_0;
         if (_GEN_198)
-          crat_48_lr <= io_rd_1;
+          crat_lr_48 <= io_rd_1;
         else if (_GEN_90)
-          crat_48_lr <= io_rd_0;
+          crat_lr_48 <= io_rd_0;
         if (_GEN_199)
-          crat_49_lr <= io_rd_1;
+          crat_lr_49 <= io_rd_1;
         else if (_GEN_91)
-          crat_49_lr <= io_rd_0;
+          crat_lr_49 <= io_rd_0;
         if (_GEN_200)
-          crat_50_lr <= io_rd_1;
+          crat_lr_50 <= io_rd_1;
         else if (_GEN_92)
-          crat_50_lr <= io_rd_0;
+          crat_lr_50 <= io_rd_0;
         if (_GEN_201)
-          crat_51_lr <= io_rd_1;
+          crat_lr_51 <= io_rd_1;
         else if (_GEN_93)
-          crat_51_lr <= io_rd_0;
+          crat_lr_51 <= io_rd_0;
         if (_GEN_202)
-          crat_52_lr <= io_rd_1;
+          crat_lr_52 <= io_rd_1;
         else if (_GEN_94)
-          crat_52_lr <= io_rd_0;
+          crat_lr_52 <= io_rd_0;
         if (_GEN_203)
-          crat_53_lr <= io_rd_1;
+          crat_lr_53 <= io_rd_1;
         else if (_GEN_95)
-          crat_53_lr <= io_rd_0;
+          crat_lr_53 <= io_rd_0;
       end
-      crat_0_free <= io_predict_fail | _GEN_528;
-      crat_1_free <= io_predict_fail | _GEN_529;
-      crat_2_free <= io_predict_fail | _GEN_530;
-      crat_3_free <= io_predict_fail | _GEN_531;
-      crat_4_free <= io_predict_fail | _GEN_532;
-      crat_5_free <= io_predict_fail | _GEN_533;
-      crat_6_free <= io_predict_fail | _GEN_534;
-      crat_7_free <= io_predict_fail | _GEN_535;
-      crat_8_free <= io_predict_fail | _GEN_536;
-      crat_9_free <= io_predict_fail | _GEN_537;
-      crat_10_free <= io_predict_fail | _GEN_538;
-      crat_11_free <= io_predict_fail | _GEN_539;
-      crat_12_free <= io_predict_fail | _GEN_540;
-      crat_13_free <= io_predict_fail | _GEN_541;
-      crat_14_free <= io_predict_fail | _GEN_542;
-      crat_15_free <= io_predict_fail | _GEN_543;
-      crat_16_free <= io_predict_fail | _GEN_544;
-      crat_17_free <= io_predict_fail | _GEN_545;
-      crat_18_free <= io_predict_fail | _GEN_546;
-      crat_19_free <= io_predict_fail | _GEN_547;
-      crat_20_free <= io_predict_fail | _GEN_548;
-      crat_21_free <= io_predict_fail | _GEN_549;
-      crat_22_free <= io_predict_fail | _GEN_550;
-      crat_23_free <= io_predict_fail | _GEN_551;
-      crat_24_free <= io_predict_fail | _GEN_552;
-      crat_25_free <= io_predict_fail | _GEN_553;
-      crat_26_free <= io_predict_fail | _GEN_554;
-      crat_27_free <= io_predict_fail | _GEN_555;
-      crat_28_free <= io_predict_fail | _GEN_556;
-      crat_29_free <= io_predict_fail | _GEN_557;
-      crat_30_free <= io_predict_fail | _GEN_558;
-      crat_31_free <= io_predict_fail | _GEN_559;
-      crat_32_free <= io_predict_fail | _GEN_560;
-      crat_33_free <= io_predict_fail | _GEN_561;
-      crat_34_free <= io_predict_fail | _GEN_562;
-      crat_35_free <= io_predict_fail | _GEN_563;
-      crat_36_free <= io_predict_fail | _GEN_564;
-      crat_37_free <= io_predict_fail | _GEN_565;
-      crat_38_free <= io_predict_fail | _GEN_566;
-      crat_39_free <= io_predict_fail | _GEN_567;
-      crat_40_free <= io_predict_fail | _GEN_568;
-      crat_41_free <= io_predict_fail | _GEN_569;
-      crat_42_free <= io_predict_fail | _GEN_570;
-      crat_43_free <= io_predict_fail | _GEN_571;
-      crat_44_free <= io_predict_fail | _GEN_572;
-      crat_45_free <= io_predict_fail | _GEN_573;
-      crat_46_free <= io_predict_fail | _GEN_574;
-      crat_47_free <= io_predict_fail | _GEN_575;
-      crat_48_free <= io_predict_fail | _GEN_576;
-      crat_49_free <= io_predict_fail | _GEN_577;
-      crat_50_free <= io_predict_fail | _GEN_578;
-      crat_51_free <= io_predict_fail | _GEN_579;
-      crat_52_free <= io_predict_fail | _GEN_580;
-      crat_53_free <= io_predict_fail | _GEN_581;
+      crat_free_0 <= io_predict_fail | _GEN_528;
+      crat_free_1 <= io_predict_fail | _GEN_529;
+      crat_free_2 <= io_predict_fail | _GEN_530;
+      crat_free_3 <= io_predict_fail | _GEN_531;
+      crat_free_4 <= io_predict_fail | _GEN_532;
+      crat_free_5 <= io_predict_fail | _GEN_533;
+      crat_free_6 <= io_predict_fail | _GEN_534;
+      crat_free_7 <= io_predict_fail | _GEN_535;
+      crat_free_8 <= io_predict_fail | _GEN_536;
+      crat_free_9 <= io_predict_fail | _GEN_537;
+      crat_free_10 <= io_predict_fail | _GEN_538;
+      crat_free_11 <= io_predict_fail | _GEN_539;
+      crat_free_12 <= io_predict_fail | _GEN_540;
+      crat_free_13 <= io_predict_fail | _GEN_541;
+      crat_free_14 <= io_predict_fail | _GEN_542;
+      crat_free_15 <= io_predict_fail | _GEN_543;
+      crat_free_16 <= io_predict_fail | _GEN_544;
+      crat_free_17 <= io_predict_fail | _GEN_545;
+      crat_free_18 <= io_predict_fail | _GEN_546;
+      crat_free_19 <= io_predict_fail | _GEN_547;
+      crat_free_20 <= io_predict_fail | _GEN_548;
+      crat_free_21 <= io_predict_fail | _GEN_549;
+      crat_free_22 <= io_predict_fail | _GEN_550;
+      crat_free_23 <= io_predict_fail | _GEN_551;
+      crat_free_24 <= io_predict_fail | _GEN_552;
+      crat_free_25 <= io_predict_fail | _GEN_553;
+      crat_free_26 <= io_predict_fail | _GEN_554;
+      crat_free_27 <= io_predict_fail | _GEN_555;
+      crat_free_28 <= io_predict_fail | _GEN_556;
+      crat_free_29 <= io_predict_fail | _GEN_557;
+      crat_free_30 <= io_predict_fail | _GEN_558;
+      crat_free_31 <= io_predict_fail | _GEN_559;
+      crat_free_32 <= io_predict_fail | _GEN_560;
+      crat_free_33 <= io_predict_fail | _GEN_561;
+      crat_free_34 <= io_predict_fail | _GEN_562;
+      crat_free_35 <= io_predict_fail | _GEN_563;
+      crat_free_36 <= io_predict_fail | _GEN_564;
+      crat_free_37 <= io_predict_fail | _GEN_565;
+      crat_free_38 <= io_predict_fail | _GEN_566;
+      crat_free_39 <= io_predict_fail | _GEN_567;
+      crat_free_40 <= io_predict_fail | _GEN_568;
+      crat_free_41 <= io_predict_fail | _GEN_569;
+      crat_free_42 <= io_predict_fail | _GEN_570;
+      crat_free_43 <= io_predict_fail | _GEN_571;
+      crat_free_44 <= io_predict_fail | _GEN_572;
+      crat_free_45 <= io_predict_fail | _GEN_573;
+      crat_free_46 <= io_predict_fail | _GEN_574;
+      crat_free_47 <= io_predict_fail | _GEN_575;
+      crat_free_48 <= io_predict_fail | _GEN_576;
+      crat_free_49 <= io_predict_fail | _GEN_577;
+      crat_free_50 <= io_predict_fail | _GEN_578;
+      crat_free_51 <= io_predict_fail | _GEN_579;
+      crat_free_52 <= io_predict_fail | _GEN_580;
+      crat_free_53 <= io_predict_fail | _GEN_581;
     end
   end // always @(posedge)
   assign io_prj_0 =
