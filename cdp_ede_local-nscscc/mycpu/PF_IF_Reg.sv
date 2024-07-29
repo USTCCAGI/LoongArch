@@ -4,164 +4,164 @@ module PF_IF_Reg(
                 reset,
                 io_flush,
                 io_stall,
-  input  [31:0] io_inst_pack_PF_pc_0,
-                io_inst_pack_PF_pc_1,
-  input         io_inst_pack_PF_inst_valid_0,
-                io_inst_pack_PF_inst_valid_1,
-                io_inst_pack_PF_predict_jump_0,
-                io_inst_pack_PF_predict_jump_1,
-  input  [31:0] io_inst_pack_PF_pred_npc_0,
-                io_inst_pack_PF_pred_npc_1,
-  input         io_inst_pack_PF_pred_valid_0,
-                io_inst_pack_PF_pred_valid_1,
-  input  [7:0]  io_inst_pack_PF_exception_0,
-                io_inst_pack_PF_exception_1,
-  input  [31:0] io_inst_pack_PF_pc_plus_1_28_0,
-                io_inst_pack_PF_pc_plus_1_28_1,
-                io_inst_pack_PF_pc_minus_1_28_0,
-                io_inst_pack_PF_pc_minus_1_28_1,
-                io_inst_pack_PF_pc_plus_1_18_0,
-                io_inst_pack_PF_pc_plus_1_18_1,
-                io_inst_pack_PF_pc_minus_1_18_0,
-                io_inst_pack_PF_pc_minus_1_18_1,
-  output [31:0] io_inst_pack_IF_pc_0,
-                io_inst_pack_IF_pc_1,
-  output        io_inst_pack_IF_inst_valid_0,
-                io_inst_pack_IF_inst_valid_1,
-                io_inst_pack_IF_predict_jump_0,
-                io_inst_pack_IF_predict_jump_1,
-  output [31:0] io_inst_pack_IF_pred_npc_0,
-                io_inst_pack_IF_pred_npc_1,
-  output        io_inst_pack_IF_pred_valid_0,
-                io_inst_pack_IF_pred_valid_1,
-  output [7:0]  io_inst_pack_IF_exception_0,
-                io_inst_pack_IF_exception_1,
-  output [31:0] io_inst_pack_IF_pc_plus_1_28_0,
-                io_inst_pack_IF_pc_plus_1_28_1,
-                io_inst_pack_IF_pc_minus_1_28_0,
-                io_inst_pack_IF_pc_minus_1_28_1,
-                io_inst_pack_IF_pc_plus_1_18_0,
-                io_inst_pack_IF_pc_plus_1_18_1,
-                io_inst_pack_IF_pc_minus_1_18_0,
-                io_inst_pack_IF_pc_minus_1_18_1
+  input  [31:0] io_inst_pack_PF_0_pc,
+  input         io_inst_pack_PF_0_inst_valid,
+                io_inst_pack_PF_0_predict_jump,
+  input  [31:0] io_inst_pack_PF_0_pred_npc,
+  input         io_inst_pack_PF_0_pred_valid,
+  input  [7:0]  io_inst_pack_PF_0_exception,
+  input  [31:0] io_inst_pack_PF_0_pc_plus_1_28,
+                io_inst_pack_PF_0_pc_minus_1_28,
+                io_inst_pack_PF_0_pc_plus_1_18,
+                io_inst_pack_PF_0_pc_minus_1_18,
+                io_inst_pack_PF_1_pc,
+  input         io_inst_pack_PF_1_inst_valid,
+                io_inst_pack_PF_1_predict_jump,
+  input  [31:0] io_inst_pack_PF_1_pred_npc,
+  input         io_inst_pack_PF_1_pred_valid,
+  input  [7:0]  io_inst_pack_PF_1_exception,
+  input  [31:0] io_inst_pack_PF_1_pc_plus_1_28,
+                io_inst_pack_PF_1_pc_minus_1_28,
+                io_inst_pack_PF_1_pc_plus_1_18,
+                io_inst_pack_PF_1_pc_minus_1_18,
+  output [31:0] io_inst_pack_IF_0_pc,
+  output        io_inst_pack_IF_0_inst_valid,
+                io_inst_pack_IF_0_predict_jump,
+  output [31:0] io_inst_pack_IF_0_pred_npc,
+  output        io_inst_pack_IF_0_pred_valid,
+  output [7:0]  io_inst_pack_IF_0_exception,
+  output [31:0] io_inst_pack_IF_0_pc_plus_1_28,
+                io_inst_pack_IF_0_pc_minus_1_28,
+                io_inst_pack_IF_0_pc_plus_1_18,
+                io_inst_pack_IF_0_pc_minus_1_18,
+                io_inst_pack_IF_1_pc,
+  output        io_inst_pack_IF_1_inst_valid,
+                io_inst_pack_IF_1_predict_jump,
+  output [31:0] io_inst_pack_IF_1_pred_npc,
+  output        io_inst_pack_IF_1_pred_valid,
+  output [7:0]  io_inst_pack_IF_1_exception,
+  output [31:0] io_inst_pack_IF_1_pc_plus_1_28,
+                io_inst_pack_IF_1_pc_minus_1_28,
+                io_inst_pack_IF_1_pc_plus_1_18,
+                io_inst_pack_IF_1_pc_minus_1_18
 );
 
-  reg  [31:0] inst_pack_reg_pc_0;
-  reg  [31:0] inst_pack_reg_pc_1;
-  reg         inst_pack_reg_inst_valid_0;
-  reg         inst_pack_reg_inst_valid_1;
-  reg         inst_pack_reg_predict_jump_0;
-  reg         inst_pack_reg_predict_jump_1;
-  reg  [31:0] inst_pack_reg_pred_npc_0;
-  reg  [31:0] inst_pack_reg_pred_npc_1;
-  reg         inst_pack_reg_pred_valid_0;
-  reg         inst_pack_reg_pred_valid_1;
-  reg  [7:0]  inst_pack_reg_exception_0;
-  reg  [7:0]  inst_pack_reg_exception_1;
-  reg  [31:0] inst_pack_reg_pc_plus_1_28_0;
-  reg  [31:0] inst_pack_reg_pc_plus_1_28_1;
-  reg  [31:0] inst_pack_reg_pc_minus_1_28_0;
-  reg  [31:0] inst_pack_reg_pc_minus_1_28_1;
-  reg  [31:0] inst_pack_reg_pc_plus_1_18_0;
-  reg  [31:0] inst_pack_reg_pc_plus_1_18_1;
-  reg  [31:0] inst_pack_reg_pc_minus_1_18_0;
-  reg  [31:0] inst_pack_reg_pc_minus_1_18_1;
-  wire        _GEN = io_stall ? inst_pack_reg_inst_valid_0 : io_inst_pack_PF_inst_valid_0;
+  reg  [31:0] inst_pack_reg_0_pc;
+  reg         inst_pack_reg_0_inst_valid;
+  reg         inst_pack_reg_0_predict_jump;
+  reg  [31:0] inst_pack_reg_0_pred_npc;
+  reg         inst_pack_reg_0_pred_valid;
+  reg  [7:0]  inst_pack_reg_0_exception;
+  reg  [31:0] inst_pack_reg_0_pc_plus_1_28;
+  reg  [31:0] inst_pack_reg_0_pc_minus_1_28;
+  reg  [31:0] inst_pack_reg_0_pc_plus_1_18;
+  reg  [31:0] inst_pack_reg_0_pc_minus_1_18;
+  reg  [31:0] inst_pack_reg_1_pc;
+  reg         inst_pack_reg_1_inst_valid;
+  reg         inst_pack_reg_1_predict_jump;
+  reg  [31:0] inst_pack_reg_1_pred_npc;
+  reg         inst_pack_reg_1_pred_valid;
+  reg  [7:0]  inst_pack_reg_1_exception;
+  reg  [31:0] inst_pack_reg_1_pc_plus_1_28;
+  reg  [31:0] inst_pack_reg_1_pc_minus_1_28;
+  reg  [31:0] inst_pack_reg_1_pc_plus_1_18;
+  reg  [31:0] inst_pack_reg_1_pc_minus_1_18;
+  wire        _GEN = io_stall ? inst_pack_reg_0_inst_valid : io_inst_pack_PF_0_inst_valid;
   wire        _GEN_0 =
-    io_stall ? inst_pack_reg_inst_valid_1 : io_inst_pack_PF_inst_valid_1;
+    io_stall ? inst_pack_reg_0_predict_jump : io_inst_pack_PF_0_predict_jump;
   wire        _GEN_1 =
-    io_stall ? inst_pack_reg_predict_jump_0 : io_inst_pack_PF_predict_jump_0;
+    io_stall ? inst_pack_reg_0_pred_valid : io_inst_pack_PF_0_pred_valid;
   wire        _GEN_2 =
-    io_stall ? inst_pack_reg_predict_jump_1 : io_inst_pack_PF_predict_jump_1;
+    io_stall ? inst_pack_reg_1_inst_valid : io_inst_pack_PF_1_inst_valid;
   wire        _GEN_3 =
-    io_stall ? inst_pack_reg_pred_valid_0 : io_inst_pack_PF_pred_valid_0;
+    io_stall ? inst_pack_reg_1_predict_jump : io_inst_pack_PF_1_predict_jump;
   wire        _GEN_4 =
-    io_stall ? inst_pack_reg_pred_valid_1 : io_inst_pack_PF_pred_valid_1;
+    io_stall ? inst_pack_reg_1_pred_valid : io_inst_pack_PF_1_pred_valid;
   always @(posedge clock) begin
     if (reset) begin
-      inst_pack_reg_pc_0 <= 32'h0;
-      inst_pack_reg_pc_1 <= 32'h0;
-      inst_pack_reg_inst_valid_0 <= 1'h0;
-      inst_pack_reg_inst_valid_1 <= 1'h0;
-      inst_pack_reg_predict_jump_0 <= 1'h0;
-      inst_pack_reg_predict_jump_1 <= 1'h0;
-      inst_pack_reg_pred_npc_0 <= 32'h0;
-      inst_pack_reg_pred_npc_1 <= 32'h0;
-      inst_pack_reg_pred_valid_0 <= 1'h0;
-      inst_pack_reg_pred_valid_1 <= 1'h0;
-      inst_pack_reg_exception_0 <= 8'h0;
-      inst_pack_reg_exception_1 <= 8'h0;
-      inst_pack_reg_pc_plus_1_28_0 <= 32'h0;
-      inst_pack_reg_pc_plus_1_28_1 <= 32'h0;
-      inst_pack_reg_pc_minus_1_28_0 <= 32'h0;
-      inst_pack_reg_pc_minus_1_28_1 <= 32'h0;
-      inst_pack_reg_pc_plus_1_18_0 <= 32'h0;
-      inst_pack_reg_pc_plus_1_18_1 <= 32'h0;
-      inst_pack_reg_pc_minus_1_18_0 <= 32'h0;
-      inst_pack_reg_pc_minus_1_18_1 <= 32'h0;
+      inst_pack_reg_0_pc <= 32'h0;
+      inst_pack_reg_0_inst_valid <= 1'h0;
+      inst_pack_reg_0_predict_jump <= 1'h0;
+      inst_pack_reg_0_pred_npc <= 32'h0;
+      inst_pack_reg_0_pred_valid <= 1'h0;
+      inst_pack_reg_0_exception <= 8'h0;
+      inst_pack_reg_0_pc_plus_1_28 <= 32'h0;
+      inst_pack_reg_0_pc_minus_1_28 <= 32'h0;
+      inst_pack_reg_0_pc_plus_1_18 <= 32'h0;
+      inst_pack_reg_0_pc_minus_1_18 <= 32'h0;
+      inst_pack_reg_1_pc <= 32'h0;
+      inst_pack_reg_1_inst_valid <= 1'h0;
+      inst_pack_reg_1_predict_jump <= 1'h0;
+      inst_pack_reg_1_pred_npc <= 32'h0;
+      inst_pack_reg_1_pred_valid <= 1'h0;
+      inst_pack_reg_1_exception <= 8'h0;
+      inst_pack_reg_1_pc_plus_1_28 <= 32'h0;
+      inst_pack_reg_1_pc_minus_1_28 <= 32'h0;
+      inst_pack_reg_1_pc_plus_1_18 <= 32'h0;
+      inst_pack_reg_1_pc_minus_1_18 <= 32'h0;
     end
     else begin
       if (io_flush) begin
-        inst_pack_reg_pc_0 <= 32'h0;
-        inst_pack_reg_pc_1 <= 32'h0;
-        inst_pack_reg_pred_npc_0 <= 32'h0;
-        inst_pack_reg_pred_npc_1 <= 32'h0;
-        inst_pack_reg_exception_0 <= 8'h0;
-        inst_pack_reg_exception_1 <= 8'h0;
-        inst_pack_reg_pc_plus_1_28_0 <= 32'h0;
-        inst_pack_reg_pc_plus_1_28_1 <= 32'h0;
-        inst_pack_reg_pc_minus_1_28_0 <= 32'h0;
-        inst_pack_reg_pc_minus_1_28_1 <= 32'h0;
-        inst_pack_reg_pc_plus_1_18_0 <= 32'h0;
-        inst_pack_reg_pc_plus_1_18_1 <= 32'h0;
-        inst_pack_reg_pc_minus_1_18_0 <= 32'h0;
-        inst_pack_reg_pc_minus_1_18_1 <= 32'h0;
+        inst_pack_reg_0_pc <= 32'h0;
+        inst_pack_reg_0_pred_npc <= 32'h0;
+        inst_pack_reg_0_exception <= 8'h0;
+        inst_pack_reg_0_pc_plus_1_28 <= 32'h0;
+        inst_pack_reg_0_pc_minus_1_28 <= 32'h0;
+        inst_pack_reg_0_pc_plus_1_18 <= 32'h0;
+        inst_pack_reg_0_pc_minus_1_18 <= 32'h0;
+        inst_pack_reg_1_pc <= 32'h0;
+        inst_pack_reg_1_pred_npc <= 32'h0;
+        inst_pack_reg_1_exception <= 8'h0;
+        inst_pack_reg_1_pc_plus_1_28 <= 32'h0;
+        inst_pack_reg_1_pc_minus_1_28 <= 32'h0;
+        inst_pack_reg_1_pc_plus_1_18 <= 32'h0;
+        inst_pack_reg_1_pc_minus_1_18 <= 32'h0;
       end
       else if (io_stall) begin
       end
       else begin
-        inst_pack_reg_pc_0 <= io_inst_pack_PF_pc_0;
-        inst_pack_reg_pc_1 <= io_inst_pack_PF_pc_1;
-        inst_pack_reg_pred_npc_0 <= io_inst_pack_PF_pred_npc_0;
-        inst_pack_reg_pred_npc_1 <= io_inst_pack_PF_pred_npc_1;
-        inst_pack_reg_exception_0 <= io_inst_pack_PF_exception_0;
-        inst_pack_reg_exception_1 <= io_inst_pack_PF_exception_1;
-        inst_pack_reg_pc_plus_1_28_0 <= io_inst_pack_PF_pc_plus_1_28_0;
-        inst_pack_reg_pc_plus_1_28_1 <= io_inst_pack_PF_pc_plus_1_28_1;
-        inst_pack_reg_pc_minus_1_28_0 <= io_inst_pack_PF_pc_minus_1_28_0;
-        inst_pack_reg_pc_minus_1_28_1 <= io_inst_pack_PF_pc_minus_1_28_1;
-        inst_pack_reg_pc_plus_1_18_0 <= io_inst_pack_PF_pc_plus_1_18_0;
-        inst_pack_reg_pc_plus_1_18_1 <= io_inst_pack_PF_pc_plus_1_18_1;
-        inst_pack_reg_pc_minus_1_18_0 <= io_inst_pack_PF_pc_minus_1_18_0;
-        inst_pack_reg_pc_minus_1_18_1 <= io_inst_pack_PF_pc_minus_1_18_1;
+        inst_pack_reg_0_pc <= io_inst_pack_PF_0_pc;
+        inst_pack_reg_0_pred_npc <= io_inst_pack_PF_0_pred_npc;
+        inst_pack_reg_0_exception <= io_inst_pack_PF_0_exception;
+        inst_pack_reg_0_pc_plus_1_28 <= io_inst_pack_PF_0_pc_plus_1_28;
+        inst_pack_reg_0_pc_minus_1_28 <= io_inst_pack_PF_0_pc_minus_1_28;
+        inst_pack_reg_0_pc_plus_1_18 <= io_inst_pack_PF_0_pc_plus_1_18;
+        inst_pack_reg_0_pc_minus_1_18 <= io_inst_pack_PF_0_pc_minus_1_18;
+        inst_pack_reg_1_pc <= io_inst_pack_PF_1_pc;
+        inst_pack_reg_1_pred_npc <= io_inst_pack_PF_1_pred_npc;
+        inst_pack_reg_1_exception <= io_inst_pack_PF_1_exception;
+        inst_pack_reg_1_pc_plus_1_28 <= io_inst_pack_PF_1_pc_plus_1_28;
+        inst_pack_reg_1_pc_minus_1_28 <= io_inst_pack_PF_1_pc_minus_1_28;
+        inst_pack_reg_1_pc_plus_1_18 <= io_inst_pack_PF_1_pc_plus_1_18;
+        inst_pack_reg_1_pc_minus_1_18 <= io_inst_pack_PF_1_pc_minus_1_18;
       end
-      inst_pack_reg_inst_valid_0 <= ~io_flush & _GEN;
-      inst_pack_reg_inst_valid_1 <= ~io_flush & _GEN_0;
-      inst_pack_reg_predict_jump_0 <= ~io_flush & _GEN_1;
-      inst_pack_reg_predict_jump_1 <= ~io_flush & _GEN_2;
-      inst_pack_reg_pred_valid_0 <= ~io_flush & _GEN_3;
-      inst_pack_reg_pred_valid_1 <= ~io_flush & _GEN_4;
+      inst_pack_reg_0_inst_valid <= ~io_flush & _GEN;
+      inst_pack_reg_0_predict_jump <= ~io_flush & _GEN_0;
+      inst_pack_reg_0_pred_valid <= ~io_flush & _GEN_1;
+      inst_pack_reg_1_inst_valid <= ~io_flush & _GEN_2;
+      inst_pack_reg_1_predict_jump <= ~io_flush & _GEN_3;
+      inst_pack_reg_1_pred_valid <= ~io_flush & _GEN_4;
     end
   end // always @(posedge)
-  assign io_inst_pack_IF_pc_0 = inst_pack_reg_pc_0;
-  assign io_inst_pack_IF_pc_1 = inst_pack_reg_pc_1;
-  assign io_inst_pack_IF_inst_valid_0 = inst_pack_reg_inst_valid_0;
-  assign io_inst_pack_IF_inst_valid_1 = inst_pack_reg_inst_valid_1;
-  assign io_inst_pack_IF_predict_jump_0 = inst_pack_reg_predict_jump_0;
-  assign io_inst_pack_IF_predict_jump_1 = inst_pack_reg_predict_jump_1;
-  assign io_inst_pack_IF_pred_npc_0 = inst_pack_reg_pred_npc_0;
-  assign io_inst_pack_IF_pred_npc_1 = inst_pack_reg_pred_npc_1;
-  assign io_inst_pack_IF_pred_valid_0 = inst_pack_reg_pred_valid_0;
-  assign io_inst_pack_IF_pred_valid_1 = inst_pack_reg_pred_valid_1;
-  assign io_inst_pack_IF_exception_0 = inst_pack_reg_exception_0;
-  assign io_inst_pack_IF_exception_1 = inst_pack_reg_exception_1;
-  assign io_inst_pack_IF_pc_plus_1_28_0 = inst_pack_reg_pc_plus_1_28_0;
-  assign io_inst_pack_IF_pc_plus_1_28_1 = inst_pack_reg_pc_plus_1_28_1;
-  assign io_inst_pack_IF_pc_minus_1_28_0 = inst_pack_reg_pc_minus_1_28_0;
-  assign io_inst_pack_IF_pc_minus_1_28_1 = inst_pack_reg_pc_minus_1_28_1;
-  assign io_inst_pack_IF_pc_plus_1_18_0 = inst_pack_reg_pc_plus_1_18_0;
-  assign io_inst_pack_IF_pc_plus_1_18_1 = inst_pack_reg_pc_plus_1_18_1;
-  assign io_inst_pack_IF_pc_minus_1_18_0 = inst_pack_reg_pc_minus_1_18_0;
-  assign io_inst_pack_IF_pc_minus_1_18_1 = inst_pack_reg_pc_minus_1_18_1;
+  assign io_inst_pack_IF_0_pc = inst_pack_reg_0_pc;
+  assign io_inst_pack_IF_0_inst_valid = inst_pack_reg_0_inst_valid;
+  assign io_inst_pack_IF_0_predict_jump = inst_pack_reg_0_predict_jump;
+  assign io_inst_pack_IF_0_pred_npc = inst_pack_reg_0_pred_npc;
+  assign io_inst_pack_IF_0_pred_valid = inst_pack_reg_0_pred_valid;
+  assign io_inst_pack_IF_0_exception = inst_pack_reg_0_exception;
+  assign io_inst_pack_IF_0_pc_plus_1_28 = inst_pack_reg_0_pc_plus_1_28;
+  assign io_inst_pack_IF_0_pc_minus_1_28 = inst_pack_reg_0_pc_minus_1_28;
+  assign io_inst_pack_IF_0_pc_plus_1_18 = inst_pack_reg_0_pc_plus_1_18;
+  assign io_inst_pack_IF_0_pc_minus_1_18 = inst_pack_reg_0_pc_minus_1_18;
+  assign io_inst_pack_IF_1_pc = inst_pack_reg_1_pc;
+  assign io_inst_pack_IF_1_inst_valid = inst_pack_reg_1_inst_valid;
+  assign io_inst_pack_IF_1_predict_jump = inst_pack_reg_1_predict_jump;
+  assign io_inst_pack_IF_1_pred_npc = inst_pack_reg_1_pred_npc;
+  assign io_inst_pack_IF_1_pred_valid = inst_pack_reg_1_pred_valid;
+  assign io_inst_pack_IF_1_exception = inst_pack_reg_1_exception;
+  assign io_inst_pack_IF_1_pc_plus_1_28 = inst_pack_reg_1_pc_plus_1_28;
+  assign io_inst_pack_IF_1_pc_minus_1_28 = inst_pack_reg_1_pc_minus_1_28;
+  assign io_inst_pack_IF_1_pc_plus_1_18 = inst_pack_reg_1_pc_plus_1_18;
+  assign io_inst_pack_IF_1_pc_minus_1_18 = inst_pack_reg_1_pc_minus_1_18;
 endmodule
 

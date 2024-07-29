@@ -8,21 +8,14 @@ module ICache(
   output        io_cache_miss_RM,
   output [31:0] io_rdata_RM_0,
                 io_rdata_RM_1,
-  input         io_exception_RM,
-                io_stall,
-                io_flush,
+  input         io_stall,
   output [31:0] io_i_araddr,
   output        io_i_rvalid,
   input         io_i_rready,
   input  [31:0] io_i_rdata,
   input         io_i_rlast,
-  output [2:0]  io_i_rsize,
-  output [1:0]  io_i_rburst,
-  output [7:0]  io_i_rlen,
   output        io_commit_icache_visit,
-                io_commit_icache_miss,
-  output [1:0]  io_pc_sign_RM_0,
-                io_pc_sign_RM_1
+                io_commit_icache_miss
 );
 
   wire              cache_miss_RM;
@@ -170,11 +163,11 @@ module ICache(
   reg               lrumem_125;
   reg               lrumem_126;
   reg               lrumem_127;
-  wire [6:0]        tagmem_addra_0 = addr_sel ? io_addr_IF[12:6] : paddr_IF_RM[12:6];
-  wire [19:0]       tagmem_dina_1 = {1'h1, paddr_IF_RM[31:13]};
-  wire [6:0]        tagmem_addra_1 = addr_sel ? io_addr_IF[12:6] : paddr_IF_RM[12:6];
-  wire [6:0]        instmem_addra_0 = addr_sel ? io_addr_IF[12:6] : paddr_IF_RM[12:6];
-  wire [6:0]        instmem_addra_1 = addr_sel ? io_addr_IF[12:6] : paddr_IF_RM[12:6];
+  wire [6:0]        tagmem_0_addra = addr_sel ? io_addr_IF[12:6] : paddr_IF_RM[12:6];
+  wire [19:0]       tagmem_1_dina = {1'h1, paddr_IF_RM[31:13]};
+  wire [6:0]        tagmem_1_addra = addr_sel ? io_addr_IF[12:6] : paddr_IF_RM[12:6];
+  wire [6:0]        instmem_0_addra = addr_sel ? io_addr_IF[12:6] : paddr_IF_RM[12:6];
+  wire [6:0]        instmem_1_addra = addr_sel ? io_addr_IF[12:6] : paddr_IF_RM[12:6];
   wire [511:0]      _inst_line_T =
     hit_0 ? _xilinx_single_port_ram_no_change_2_douta : 512'h0;
   wire [511:0]      _inst_line_T_1 =
@@ -348,16 +341,15 @@ module ICache(
   wire              _GEN_4 = _GEN_3[paddr_IF_RM[12:6]];
   reg  [1:0]        cs;
   wire              _GEN_5 = cs == 2'h0;
-  wire              _GEN_6 = ~io_exception_RM & rvalid_IF_RM & ~(|_cache_hit_RM_T);
-  assign data_sel = _GEN_5 & ~io_exception_RM & rvalid_IF_RM;
+  wire              _GEN_6 = _GEN_5 & rvalid_IF_RM;
+  assign data_sel = _GEN_5 & rvalid_IF_RM;
   wire              _GEN_7 = cs == 2'h1;
   wire              _GEN_8 = _GEN_5 | _GEN_7;
   wire              lru_miss_upd = ~_GEN_8 & (&cs);
   wire              tag_we_0 = ~_GEN_8 & (&cs) & ~_GEN_4;
   wire              tag_we_1 = ~_GEN_8 & (&cs) & _GEN_4;
-  assign addr_sel =
-    _GEN_5 ? io_exception_RM | ~rvalid_IF_RM | ~io_stall : ~_GEN_7 & ~(&cs);
-  assign cache_miss_RM = _GEN_5 ? _GEN_6 : _GEN_7 | (&cs);
+  assign addr_sel = _GEN_5 ? ~rvalid_IF_RM | ~io_stall : ~_GEN_7 & ~(&cs);
+  assign cache_miss_RM = _GEN_5 ? rvalid_IF_RM & ~(|_cache_hit_RM_T) : _GEN_7 | (&cs);
   wire              _GEN_9 = paddr_IF_RM[12:6] == 7'h0;
   wire              _GEN_10 = paddr_IF_RM[12:6] == 7'h1;
   wire              _GEN_11 = paddr_IF_RM[12:6] == 7'h2;
@@ -486,9 +478,8 @@ module ICache(
   wire              _GEN_134 = paddr_IF_RM[12:6] == 7'h7D;
   wire              _GEN_135 = paddr_IF_RM[12:6] == 7'h7E;
   wire [1:0]        _GEN_136 = rvalid_IF_RM ? {1'h0, ~(|_cache_hit_RM_T)} : cs;
-  wire [1:0]        _GEN_137 = io_exception_RM ? 2'h0 : _GEN_136;
-  wire [3:0][1:0]   _GEN_138 =
-    {{2'h2}, {{io_stall, 1'h0}}, {{io_i_rready & io_i_rlast, 1'h1}}, {_GEN_137}};
+  wire [3:0][1:0]   _GEN_137 =
+    {{2'h2}, {{io_stall, 1'h0}}, {{io_i_rready & io_i_rlast, 1'h1}}, {_GEN_136}};
   always @(posedge clock) begin
     if (reset) begin
       paddr_IF_RM <= 32'h0;
@@ -631,7 +622,7 @@ module ICache(
       end
       if (io_i_rready)
         rbuf <= {io_i_rdata, rbuf[511:32]};
-      if (_GEN_5 & ~io_exception_RM & rvalid_IF_RM & (|_cache_hit_RM_T)) begin
+      if (_GEN_6 & (|_cache_hit_RM_T)) begin
         if (_GEN_9)
           lrumem_0 <= ~hit_1;
         if (_GEN_10)
@@ -1147,15 +1138,15 @@ module ICache(
         if (lru_miss_upd & (&(paddr_IF_RM[12:6])))
           lrumem_127 <= ~_GEN_4;
       end
-      cs <= _GEN_138[cs];
+      cs <= _GEN_137[cs];
     end
   end // always @(posedge)
   xilinx_single_port_ram_no_change #(
     .RAM_DEPTH(128),
     .RAM_WIDTH(20)
   ) xilinx_single_port_ram_no_change (
-    .addra (tagmem_addra_0),
-    .dina  (tagmem_dina_1),
+    .addra (tagmem_0_addra),
+    .dina  (tagmem_1_dina),
     .clka  (clock),
     .wea   (tag_we_0),
     .douta (_xilinx_single_port_ram_no_change_douta)
@@ -1164,8 +1155,8 @@ module ICache(
     .RAM_DEPTH(128),
     .RAM_WIDTH(20)
   ) xilinx_single_port_ram_no_change_1 (
-    .addra (tagmem_addra_1),
-    .dina  (tagmem_dina_1),
+    .addra (tagmem_1_addra),
+    .dina  (tagmem_1_dina),
     .clka  (clock),
     .wea   (tag_we_1),
     .douta (_xilinx_single_port_ram_no_change_1_douta)
@@ -1174,7 +1165,7 @@ module ICache(
     .RAM_DEPTH(128),
     .RAM_WIDTH(512)
   ) xilinx_single_port_ram_no_change_2 (
-    .addra (instmem_addra_0),
+    .addra (instmem_0_addra),
     .dina  (rbuf),
     .clka  (clock),
     .wea   (tag_we_0),
@@ -1184,7 +1175,7 @@ module ICache(
     .RAM_DEPTH(128),
     .RAM_WIDTH(512)
   ) xilinx_single_port_ram_no_change_3 (
-    .addra (instmem_addra_1),
+    .addra (instmem_1_addra),
     .dina  (rbuf),
     .clka  (clock),
     .wea   (tag_we_1),
@@ -1194,13 +1185,8 @@ module ICache(
   assign io_rdata_RM_0 = data_sel ? _GEN_0[31:0] : _GEN_2[31:0];
   assign io_rdata_RM_1 = data_sel ? _GEN_0[63:32] : _GEN_2[63:32];
   assign io_i_araddr = {paddr_IF_RM[31:6], 6'h0};
-  assign io_i_rvalid = _GEN_5 ? ~io_exception_RM & rvalid_IF_RM & cache_miss_RM : _GEN_7;
-  assign io_i_rsize = 3'h2;
-  assign io_i_rburst = 2'h1;
-  assign io_i_rlen = 8'hF;
-  assign io_commit_icache_visit = _GEN_5 & ~io_exception_RM & rvalid_IF_RM & ~io_stall;
-  assign io_commit_icache_miss = _GEN_5 & _GEN_6;
-  assign io_pc_sign_RM_0 = 2'h0;
-  assign io_pc_sign_RM_1 = 2'h0;
+  assign io_i_rvalid = _GEN_5 ? rvalid_IF_RM & cache_miss_RM : _GEN_7;
+  assign io_commit_icache_visit = _GEN_6 & ~io_stall;
+  assign io_commit_icache_miss = _GEN_6 & ~(|_cache_hit_RM_T);
 endmodule
 

@@ -4,22 +4,22 @@ module Order_Issue_Queue_1(
                 reset,
                 io_insts_disp_valid_0,
                 io_insts_disp_valid_1,
-  input  [5:0]  io_insts_dispatch_prj_0,
-                io_insts_dispatch_prj_1,
-                io_insts_dispatch_prk_0,
-                io_insts_dispatch_prk_1,
-  input         io_insts_dispatch_rd_valid_0,
-                io_insts_dispatch_rd_valid_1,
-  input  [5:0]  io_insts_dispatch_prd_0,
-                io_insts_dispatch_prd_1,
-  input  [31:0] io_insts_dispatch_imm_0,
-                io_insts_dispatch_imm_1,
-  input  [4:0]  io_insts_dispatch_rob_index_0,
-                io_insts_dispatch_rob_index_1,
-                io_insts_dispatch_mem_type_0,
-                io_insts_dispatch_mem_type_1,
-  input  [2:0]  io_insts_dispatch_priv_vec_0,
-                io_insts_dispatch_priv_vec_1,
+  input  [5:0]  io_insts_dispatch_0_prj,
+                io_insts_dispatch_0_prk,
+  input         io_insts_dispatch_0_rd_valid,
+  input  [5:0]  io_insts_dispatch_0_prd,
+  input  [31:0] io_insts_dispatch_0_imm,
+  input  [4:0]  io_insts_dispatch_0_rob_index,
+                io_insts_dispatch_0_mem_type,
+  input  [2:0]  io_insts_dispatch_0_priv_vec,
+  input  [5:0]  io_insts_dispatch_1_prj,
+                io_insts_dispatch_1_prk,
+  input         io_insts_dispatch_1_rd_valid,
+  input  [5:0]  io_insts_dispatch_1_prd,
+  input  [31:0] io_insts_dispatch_1_imm,
+  input  [4:0]  io_insts_dispatch_1_rob_index,
+                io_insts_dispatch_1_mem_type,
+  input  [2:0]  io_insts_dispatch_1_priv_vec,
   input         io_prj_ready_0,
                 io_prj_ready_1,
                 io_prk_ready_0,
@@ -45,86 +45,86 @@ module Order_Issue_Queue_1(
                 io_flush
 );
 
-  reg  [5:0]  queue_inst_prj_0;
-  reg  [5:0]  queue_inst_prj_1;
-  reg  [5:0]  queue_inst_prj_2;
-  reg  [5:0]  queue_inst_prj_3;
-  reg  [5:0]  queue_inst_prj_4;
-  reg  [5:0]  queue_inst_prj_5;
-  reg  [5:0]  queue_inst_prj_6;
-  reg  [5:0]  queue_inst_prj_7;
-  reg  [5:0]  queue_inst_prk_0;
-  reg  [5:0]  queue_inst_prk_1;
-  reg  [5:0]  queue_inst_prk_2;
-  reg  [5:0]  queue_inst_prk_3;
-  reg  [5:0]  queue_inst_prk_4;
-  reg  [5:0]  queue_inst_prk_5;
-  reg  [5:0]  queue_inst_prk_6;
-  reg  [5:0]  queue_inst_prk_7;
-  reg         queue_inst_rd_valid_0;
-  reg         queue_inst_rd_valid_1;
-  reg         queue_inst_rd_valid_2;
-  reg         queue_inst_rd_valid_3;
-  reg         queue_inst_rd_valid_4;
-  reg         queue_inst_rd_valid_5;
-  reg         queue_inst_rd_valid_6;
-  reg         queue_inst_rd_valid_7;
-  reg  [5:0]  queue_inst_prd_0;
-  reg  [5:0]  queue_inst_prd_1;
-  reg  [5:0]  queue_inst_prd_2;
-  reg  [5:0]  queue_inst_prd_3;
-  reg  [5:0]  queue_inst_prd_4;
-  reg  [5:0]  queue_inst_prd_5;
-  reg  [5:0]  queue_inst_prd_6;
-  reg  [5:0]  queue_inst_prd_7;
-  reg  [31:0] queue_inst_imm_0;
-  reg  [31:0] queue_inst_imm_1;
-  reg  [31:0] queue_inst_imm_2;
-  reg  [31:0] queue_inst_imm_3;
-  reg  [31:0] queue_inst_imm_4;
-  reg  [31:0] queue_inst_imm_5;
-  reg  [31:0] queue_inst_imm_6;
-  reg  [31:0] queue_inst_imm_7;
-  reg  [4:0]  queue_inst_rob_index_0;
-  reg  [4:0]  queue_inst_rob_index_1;
-  reg  [4:0]  queue_inst_rob_index_2;
-  reg  [4:0]  queue_inst_rob_index_3;
-  reg  [4:0]  queue_inst_rob_index_4;
-  reg  [4:0]  queue_inst_rob_index_5;
-  reg  [4:0]  queue_inst_rob_index_6;
-  reg  [4:0]  queue_inst_rob_index_7;
-  reg  [4:0]  queue_inst_mem_type_0;
-  reg  [4:0]  queue_inst_mem_type_1;
-  reg  [4:0]  queue_inst_mem_type_2;
-  reg  [4:0]  queue_inst_mem_type_3;
-  reg  [4:0]  queue_inst_mem_type_4;
-  reg  [4:0]  queue_inst_mem_type_5;
-  reg  [4:0]  queue_inst_mem_type_6;
-  reg  [4:0]  queue_inst_mem_type_7;
-  reg  [2:0]  queue_inst_priv_vec_0;
-  reg  [2:0]  queue_inst_priv_vec_1;
-  reg  [2:0]  queue_inst_priv_vec_2;
-  reg  [2:0]  queue_inst_priv_vec_3;
-  reg  [2:0]  queue_inst_priv_vec_4;
-  reg  [2:0]  queue_inst_priv_vec_5;
-  reg  [2:0]  queue_inst_priv_vec_6;
-  reg  [2:0]  queue_inst_priv_vec_7;
-  reg         queue_prj_waked_0;
-  reg         queue_prj_waked_1;
-  reg         queue_prj_waked_2;
-  reg         queue_prj_waked_3;
-  reg         queue_prj_waked_4;
-  reg         queue_prj_waked_5;
-  reg         queue_prj_waked_6;
-  reg         queue_prj_waked_7;
-  reg         queue_prk_waked_0;
-  reg         queue_prk_waked_1;
-  reg         queue_prk_waked_2;
-  reg         queue_prk_waked_3;
-  reg         queue_prk_waked_4;
-  reg         queue_prk_waked_5;
-  reg         queue_prk_waked_6;
-  reg         queue_prk_waked_7;
+  reg  [5:0]  queue_0_inst_prj;
+  reg  [5:0]  queue_0_inst_prk;
+  reg         queue_0_inst_rd_valid;
+  reg  [5:0]  queue_0_inst_prd;
+  reg  [31:0] queue_0_inst_imm;
+  reg  [4:0]  queue_0_inst_rob_index;
+  reg  [4:0]  queue_0_inst_mem_type;
+  reg  [2:0]  queue_0_inst_priv_vec;
+  reg         queue_0_prj_waked;
+  reg         queue_0_prk_waked;
+  reg  [5:0]  queue_1_inst_prj;
+  reg  [5:0]  queue_1_inst_prk;
+  reg         queue_1_inst_rd_valid;
+  reg  [5:0]  queue_1_inst_prd;
+  reg  [31:0] queue_1_inst_imm;
+  reg  [4:0]  queue_1_inst_rob_index;
+  reg  [4:0]  queue_1_inst_mem_type;
+  reg  [2:0]  queue_1_inst_priv_vec;
+  reg         queue_1_prj_waked;
+  reg         queue_1_prk_waked;
+  reg  [5:0]  queue_2_inst_prj;
+  reg  [5:0]  queue_2_inst_prk;
+  reg         queue_2_inst_rd_valid;
+  reg  [5:0]  queue_2_inst_prd;
+  reg  [31:0] queue_2_inst_imm;
+  reg  [4:0]  queue_2_inst_rob_index;
+  reg  [4:0]  queue_2_inst_mem_type;
+  reg  [2:0]  queue_2_inst_priv_vec;
+  reg         queue_2_prj_waked;
+  reg         queue_2_prk_waked;
+  reg  [5:0]  queue_3_inst_prj;
+  reg  [5:0]  queue_3_inst_prk;
+  reg         queue_3_inst_rd_valid;
+  reg  [5:0]  queue_3_inst_prd;
+  reg  [31:0] queue_3_inst_imm;
+  reg  [4:0]  queue_3_inst_rob_index;
+  reg  [4:0]  queue_3_inst_mem_type;
+  reg  [2:0]  queue_3_inst_priv_vec;
+  reg         queue_3_prj_waked;
+  reg         queue_3_prk_waked;
+  reg  [5:0]  queue_4_inst_prj;
+  reg  [5:0]  queue_4_inst_prk;
+  reg         queue_4_inst_rd_valid;
+  reg  [5:0]  queue_4_inst_prd;
+  reg  [31:0] queue_4_inst_imm;
+  reg  [4:0]  queue_4_inst_rob_index;
+  reg  [4:0]  queue_4_inst_mem_type;
+  reg  [2:0]  queue_4_inst_priv_vec;
+  reg         queue_4_prj_waked;
+  reg         queue_4_prk_waked;
+  reg  [5:0]  queue_5_inst_prj;
+  reg  [5:0]  queue_5_inst_prk;
+  reg         queue_5_inst_rd_valid;
+  reg  [5:0]  queue_5_inst_prd;
+  reg  [31:0] queue_5_inst_imm;
+  reg  [4:0]  queue_5_inst_rob_index;
+  reg  [4:0]  queue_5_inst_mem_type;
+  reg  [2:0]  queue_5_inst_priv_vec;
+  reg         queue_5_prj_waked;
+  reg         queue_5_prk_waked;
+  reg  [5:0]  queue_6_inst_prj;
+  reg  [5:0]  queue_6_inst_prk;
+  reg         queue_6_inst_rd_valid;
+  reg  [5:0]  queue_6_inst_prd;
+  reg  [31:0] queue_6_inst_imm;
+  reg  [4:0]  queue_6_inst_rob_index;
+  reg  [4:0]  queue_6_inst_mem_type;
+  reg  [2:0]  queue_6_inst_priv_vec;
+  reg         queue_6_prj_waked;
+  reg         queue_6_prk_waked;
+  reg  [5:0]  queue_7_inst_prj;
+  reg  [5:0]  queue_7_inst_prk;
+  reg         queue_7_inst_rd_valid;
+  reg  [5:0]  queue_7_inst_prd;
+  reg  [31:0] queue_7_inst_imm;
+  reg  [4:0]  queue_7_inst_rob_index;
+  reg  [4:0]  queue_7_inst_mem_type;
+  reg  [2:0]  queue_7_inst_priv_vec;
+  reg         queue_7_prj_waked;
+  reg         queue_7_prk_waked;
   reg  [3:0]  num;
   reg  [7:0]  qvalid;
   reg  [1:0]  store_buf;
@@ -132,213 +132,213 @@ module Order_Issue_Queue_1(
   wire [3:0]  _num_pop_T_1 = 4'(num - {3'h0, io_issue_ack});
   wire        _GEN = io_insts_disp_valid_0 & ~io_insts_disp_valid_1;
   wire        _GEN_0 = _GEN | 1'(1'h0 - _num_pop_T_1[0]);
-  wire [5:0]  _GEN_1 = _GEN_0 ? io_insts_dispatch_prj_1 : io_insts_dispatch_prj_0;
-  wire [5:0]  _queue_next_T_inst_prj = io_issue_ack ? queue_inst_prj_1 : queue_inst_prj_0;
+  wire [5:0]  _GEN_1 = _GEN_0 ? io_insts_dispatch_1_prj : io_insts_dispatch_0_prj;
+  wire [5:0]  _queue_next_T_inst_prj = io_issue_ack ? queue_1_inst_prj : queue_0_inst_prj;
   wire [5:0]  queue_next_inst_prj = qvalid[0] ? _queue_next_T_inst_prj : _GEN_1;
-  wire [5:0]  _GEN_2 = _GEN_0 ? io_insts_dispatch_prk_1 : io_insts_dispatch_prk_0;
-  wire [5:0]  _queue_next_T_inst_prk = io_issue_ack ? queue_inst_prk_1 : queue_inst_prk_0;
+  wire [5:0]  _GEN_2 = _GEN_0 ? io_insts_dispatch_1_prk : io_insts_dispatch_0_prk;
+  wire [5:0]  _queue_next_T_inst_prk = io_issue_ack ? queue_1_inst_prk : queue_0_inst_prk;
   wire [5:0]  queue_next_inst_prk = qvalid[0] ? _queue_next_T_inst_prk : _GEN_2;
   wire        _GEN_3 = _GEN | 1'(1'h1 - _num_pop_T_1[0]);
-  wire [5:0]  _GEN_4 = _GEN_3 ? io_insts_dispatch_prj_1 : io_insts_dispatch_prj_0;
+  wire [5:0]  _GEN_4 = _GEN_3 ? io_insts_dispatch_1_prj : io_insts_dispatch_0_prj;
   wire [5:0]  _queue_next_T_1_inst_prj =
-    io_issue_ack ? queue_inst_prj_2 : queue_inst_prj_1;
+    io_issue_ack ? queue_2_inst_prj : queue_1_inst_prj;
   wire [5:0]  queue_next_1_inst_prj = qvalid[1] ? _queue_next_T_1_inst_prj : _GEN_4;
-  wire [5:0]  _GEN_5 = _GEN_3 ? io_insts_dispatch_prk_1 : io_insts_dispatch_prk_0;
+  wire [5:0]  _GEN_5 = _GEN_3 ? io_insts_dispatch_1_prk : io_insts_dispatch_0_prk;
   wire [5:0]  _queue_next_T_1_inst_prk =
-    io_issue_ack ? queue_inst_prk_2 : queue_inst_prk_1;
+    io_issue_ack ? queue_2_inst_prk : queue_1_inst_prk;
   wire [5:0]  queue_next_1_inst_prk = qvalid[1] ? _queue_next_T_1_inst_prk : _GEN_5;
   wire        _GEN_6 = _GEN | 1'(1'h0 - _num_pop_T_1[0]);
-  wire [5:0]  _GEN_7 = _GEN_6 ? io_insts_dispatch_prj_1 : io_insts_dispatch_prj_0;
+  wire [5:0]  _GEN_7 = _GEN_6 ? io_insts_dispatch_1_prj : io_insts_dispatch_0_prj;
   wire [5:0]  _queue_next_T_2_inst_prj =
-    io_issue_ack ? queue_inst_prj_3 : queue_inst_prj_2;
+    io_issue_ack ? queue_3_inst_prj : queue_2_inst_prj;
   wire [5:0]  queue_next_2_inst_prj = qvalid[2] ? _queue_next_T_2_inst_prj : _GEN_7;
-  wire [5:0]  _GEN_8 = _GEN_6 ? io_insts_dispatch_prk_1 : io_insts_dispatch_prk_0;
+  wire [5:0]  _GEN_8 = _GEN_6 ? io_insts_dispatch_1_prk : io_insts_dispatch_0_prk;
   wire [5:0]  _queue_next_T_2_inst_prk =
-    io_issue_ack ? queue_inst_prk_3 : queue_inst_prk_2;
+    io_issue_ack ? queue_3_inst_prk : queue_2_inst_prk;
   wire [5:0]  queue_next_2_inst_prk = qvalid[2] ? _queue_next_T_2_inst_prk : _GEN_8;
   wire        _GEN_9 = _GEN | 1'(1'h1 - _num_pop_T_1[0]);
-  wire [5:0]  _GEN_10 = _GEN_9 ? io_insts_dispatch_prj_1 : io_insts_dispatch_prj_0;
+  wire [5:0]  _GEN_10 = _GEN_9 ? io_insts_dispatch_1_prj : io_insts_dispatch_0_prj;
   wire [5:0]  _queue_next_T_3_inst_prj =
-    io_issue_ack ? queue_inst_prj_4 : queue_inst_prj_3;
+    io_issue_ack ? queue_4_inst_prj : queue_3_inst_prj;
   wire [5:0]  queue_next_3_inst_prj = qvalid[3] ? _queue_next_T_3_inst_prj : _GEN_10;
-  wire [5:0]  _GEN_11 = _GEN_9 ? io_insts_dispatch_prk_1 : io_insts_dispatch_prk_0;
+  wire [5:0]  _GEN_11 = _GEN_9 ? io_insts_dispatch_1_prk : io_insts_dispatch_0_prk;
   wire [5:0]  _queue_next_T_3_inst_prk =
-    io_issue_ack ? queue_inst_prk_4 : queue_inst_prk_3;
+    io_issue_ack ? queue_4_inst_prk : queue_3_inst_prk;
   wire [5:0]  queue_next_3_inst_prk = qvalid[3] ? _queue_next_T_3_inst_prk : _GEN_11;
   wire        _GEN_12 = _GEN | 1'(1'h0 - _num_pop_T_1[0]);
-  wire [5:0]  _GEN_13 = _GEN_12 ? io_insts_dispatch_prj_1 : io_insts_dispatch_prj_0;
+  wire [5:0]  _GEN_13 = _GEN_12 ? io_insts_dispatch_1_prj : io_insts_dispatch_0_prj;
   wire [5:0]  _queue_next_T_4_inst_prj =
-    io_issue_ack ? queue_inst_prj_5 : queue_inst_prj_4;
+    io_issue_ack ? queue_5_inst_prj : queue_4_inst_prj;
   wire [5:0]  queue_next_4_inst_prj = qvalid[4] ? _queue_next_T_4_inst_prj : _GEN_13;
-  wire [5:0]  _GEN_14 = _GEN_12 ? io_insts_dispatch_prk_1 : io_insts_dispatch_prk_0;
+  wire [5:0]  _GEN_14 = _GEN_12 ? io_insts_dispatch_1_prk : io_insts_dispatch_0_prk;
   wire [5:0]  _queue_next_T_4_inst_prk =
-    io_issue_ack ? queue_inst_prk_5 : queue_inst_prk_4;
+    io_issue_ack ? queue_5_inst_prk : queue_4_inst_prk;
   wire [5:0]  queue_next_4_inst_prk = qvalid[4] ? _queue_next_T_4_inst_prk : _GEN_14;
   wire        _GEN_15 = _GEN | 1'(1'h1 - _num_pop_T_1[0]);
-  wire [5:0]  _GEN_16 = _GEN_15 ? io_insts_dispatch_prj_1 : io_insts_dispatch_prj_0;
+  wire [5:0]  _GEN_16 = _GEN_15 ? io_insts_dispatch_1_prj : io_insts_dispatch_0_prj;
   wire [5:0]  _queue_next_T_5_inst_prj =
-    io_issue_ack ? queue_inst_prj_6 : queue_inst_prj_5;
+    io_issue_ack ? queue_6_inst_prj : queue_5_inst_prj;
   wire [5:0]  queue_next_5_inst_prj = qvalid[5] ? _queue_next_T_5_inst_prj : _GEN_16;
-  wire [5:0]  _GEN_17 = _GEN_15 ? io_insts_dispatch_prk_1 : io_insts_dispatch_prk_0;
+  wire [5:0]  _GEN_17 = _GEN_15 ? io_insts_dispatch_1_prk : io_insts_dispatch_0_prk;
   wire [5:0]  _queue_next_T_5_inst_prk =
-    io_issue_ack ? queue_inst_prk_6 : queue_inst_prk_5;
+    io_issue_ack ? queue_6_inst_prk : queue_5_inst_prk;
   wire [5:0]  queue_next_5_inst_prk = qvalid[5] ? _queue_next_T_5_inst_prk : _GEN_17;
   wire        _GEN_18 = _GEN | 1'(1'h0 - _num_pop_T_1[0]);
-  wire [5:0]  _GEN_19 = _GEN_18 ? io_insts_dispatch_prj_1 : io_insts_dispatch_prj_0;
+  wire [5:0]  _GEN_19 = _GEN_18 ? io_insts_dispatch_1_prj : io_insts_dispatch_0_prj;
   wire [5:0]  _queue_next_T_6_inst_prj =
-    io_issue_ack ? queue_inst_prj_7 : queue_inst_prj_6;
+    io_issue_ack ? queue_7_inst_prj : queue_6_inst_prj;
   wire [5:0]  queue_next_6_inst_prj = qvalid[6] ? _queue_next_T_6_inst_prj : _GEN_19;
-  wire [5:0]  _GEN_20 = _GEN_18 ? io_insts_dispatch_prk_1 : io_insts_dispatch_prk_0;
+  wire [5:0]  _GEN_20 = _GEN_18 ? io_insts_dispatch_1_prk : io_insts_dispatch_0_prk;
   wire [5:0]  _queue_next_T_6_inst_prk =
-    io_issue_ack ? queue_inst_prk_7 : queue_inst_prk_6;
+    io_issue_ack ? queue_7_inst_prk : queue_6_inst_prk;
   wire [5:0]  queue_next_6_inst_prk = qvalid[6] ? _queue_next_T_6_inst_prk : _GEN_20;
   wire        _GEN_21 = _GEN | 1'(1'h1 - _num_pop_T_1[0]);
-  wire [5:0]  _GEN_22 = _GEN_21 ? io_insts_dispatch_prj_1 : io_insts_dispatch_prj_0;
-  wire [5:0]  queue_next_7_inst_prj = qvalid[7] ? queue_inst_prj_7 : _GEN_22;
-  wire [5:0]  _GEN_23 = _GEN_21 ? io_insts_dispatch_prk_1 : io_insts_dispatch_prk_0;
-  wire [5:0]  queue_next_7_inst_prk = qvalid[7] ? queue_inst_prk_7 : _GEN_23;
+  wire [5:0]  _GEN_22 = _GEN_21 ? io_insts_dispatch_1_prj : io_insts_dispatch_0_prj;
+  wire [5:0]  queue_next_7_inst_prj = qvalid[7] ? queue_7_inst_prj : _GEN_22;
+  wire [5:0]  _GEN_23 = _GEN_21 ? io_insts_dispatch_1_prk : io_insts_dispatch_0_prk;
+  wire [5:0]  queue_next_7_inst_prk = qvalid[7] ? queue_7_inst_prk : _GEN_23;
   wire        _GEN_24 = _GEN_0 ? io_prj_ready_1 : io_prj_ready_0;
   wire        _queue_next_T_prj_waked =
-    io_issue_ack ? queue_prj_waked_1 : queue_prj_waked_0;
+    io_issue_ack ? queue_1_prj_waked : queue_0_prj_waked;
   wire        queue_next_prj_waked = qvalid[0] ? _queue_next_T_prj_waked : _GEN_24;
-  wire        _GEN_25 = _GEN_3 ? io_prj_ready_1 : io_prj_ready_0;
-  wire        _queue_next_T_1_prj_waked =
-    io_issue_ack ? queue_prj_waked_2 : queue_prj_waked_1;
-  wire        queue_next_1_prj_waked = qvalid[1] ? _queue_next_T_1_prj_waked : _GEN_25;
-  wire        _GEN_26 = _GEN_6 ? io_prj_ready_1 : io_prj_ready_0;
-  wire        _queue_next_T_2_prj_waked =
-    io_issue_ack ? queue_prj_waked_3 : queue_prj_waked_2;
-  wire        queue_next_2_prj_waked = qvalid[2] ? _queue_next_T_2_prj_waked : _GEN_26;
-  wire        _GEN_27 = _GEN_9 ? io_prj_ready_1 : io_prj_ready_0;
-  wire        _queue_next_T_3_prj_waked =
-    io_issue_ack ? queue_prj_waked_4 : queue_prj_waked_3;
-  wire        queue_next_3_prj_waked = qvalid[3] ? _queue_next_T_3_prj_waked : _GEN_27;
-  wire        _GEN_28 = _GEN_12 ? io_prj_ready_1 : io_prj_ready_0;
-  wire        _queue_next_T_4_prj_waked =
-    io_issue_ack ? queue_prj_waked_5 : queue_prj_waked_4;
-  wire        queue_next_4_prj_waked = qvalid[4] ? _queue_next_T_4_prj_waked : _GEN_28;
-  wire        _GEN_29 = _GEN_15 ? io_prj_ready_1 : io_prj_ready_0;
-  wire        _queue_next_T_5_prj_waked =
-    io_issue_ack ? queue_prj_waked_6 : queue_prj_waked_5;
-  wire        queue_next_5_prj_waked = qvalid[5] ? _queue_next_T_5_prj_waked : _GEN_29;
-  wire        _GEN_30 = _GEN_18 ? io_prj_ready_1 : io_prj_ready_0;
-  wire        _queue_next_T_6_prj_waked =
-    io_issue_ack ? queue_prj_waked_7 : queue_prj_waked_6;
-  wire        queue_next_6_prj_waked = qvalid[6] ? _queue_next_T_6_prj_waked : _GEN_30;
-  wire        _GEN_31 = _GEN_21 ? io_prj_ready_1 : io_prj_ready_0;
-  wire        queue_next_7_prj_waked = qvalid[7] ? queue_prj_waked_7 : _GEN_31;
-  wire        _GEN_32 = _GEN_0 ? io_prk_ready_1 : io_prk_ready_0;
+  wire        _GEN_25 = _GEN_0 ? io_prk_ready_1 : io_prk_ready_0;
   wire        _queue_next_T_prk_waked =
-    io_issue_ack ? queue_prk_waked_1 : queue_prk_waked_0;
-  wire        queue_next_prk_waked = qvalid[0] ? _queue_next_T_prk_waked : _GEN_32;
-  wire        _GEN_33 = _GEN_3 ? io_prk_ready_1 : io_prk_ready_0;
+    io_issue_ack ? queue_1_prk_waked : queue_0_prk_waked;
+  wire        queue_next_prk_waked = qvalid[0] ? _queue_next_T_prk_waked : _GEN_25;
+  wire        _GEN_26 = _GEN_3 ? io_prj_ready_1 : io_prj_ready_0;
+  wire        _queue_next_T_1_prj_waked =
+    io_issue_ack ? queue_2_prj_waked : queue_1_prj_waked;
+  wire        queue_next_1_prj_waked = qvalid[1] ? _queue_next_T_1_prj_waked : _GEN_26;
+  wire        _GEN_27 = _GEN_3 ? io_prk_ready_1 : io_prk_ready_0;
   wire        _queue_next_T_1_prk_waked =
-    io_issue_ack ? queue_prk_waked_2 : queue_prk_waked_1;
-  wire        queue_next_1_prk_waked = qvalid[1] ? _queue_next_T_1_prk_waked : _GEN_33;
-  wire        _GEN_34 = _GEN_6 ? io_prk_ready_1 : io_prk_ready_0;
+    io_issue_ack ? queue_2_prk_waked : queue_1_prk_waked;
+  wire        queue_next_1_prk_waked = qvalid[1] ? _queue_next_T_1_prk_waked : _GEN_27;
+  wire        _GEN_28 = _GEN_6 ? io_prj_ready_1 : io_prj_ready_0;
+  wire        _queue_next_T_2_prj_waked =
+    io_issue_ack ? queue_3_prj_waked : queue_2_prj_waked;
+  wire        queue_next_2_prj_waked = qvalid[2] ? _queue_next_T_2_prj_waked : _GEN_28;
+  wire        _GEN_29 = _GEN_6 ? io_prk_ready_1 : io_prk_ready_0;
   wire        _queue_next_T_2_prk_waked =
-    io_issue_ack ? queue_prk_waked_3 : queue_prk_waked_2;
-  wire        queue_next_2_prk_waked = qvalid[2] ? _queue_next_T_2_prk_waked : _GEN_34;
-  wire        _GEN_35 = _GEN_9 ? io_prk_ready_1 : io_prk_ready_0;
+    io_issue_ack ? queue_3_prk_waked : queue_2_prk_waked;
+  wire        queue_next_2_prk_waked = qvalid[2] ? _queue_next_T_2_prk_waked : _GEN_29;
+  wire        _GEN_30 = _GEN_9 ? io_prj_ready_1 : io_prj_ready_0;
+  wire        _queue_next_T_3_prj_waked =
+    io_issue_ack ? queue_4_prj_waked : queue_3_prj_waked;
+  wire        queue_next_3_prj_waked = qvalid[3] ? _queue_next_T_3_prj_waked : _GEN_30;
+  wire        _GEN_31 = _GEN_9 ? io_prk_ready_1 : io_prk_ready_0;
   wire        _queue_next_T_3_prk_waked =
-    io_issue_ack ? queue_prk_waked_4 : queue_prk_waked_3;
-  wire        queue_next_3_prk_waked = qvalid[3] ? _queue_next_T_3_prk_waked : _GEN_35;
-  wire        _GEN_36 = _GEN_12 ? io_prk_ready_1 : io_prk_ready_0;
+    io_issue_ack ? queue_4_prk_waked : queue_3_prk_waked;
+  wire        queue_next_3_prk_waked = qvalid[3] ? _queue_next_T_3_prk_waked : _GEN_31;
+  wire        _GEN_32 = _GEN_12 ? io_prj_ready_1 : io_prj_ready_0;
+  wire        _queue_next_T_4_prj_waked =
+    io_issue_ack ? queue_5_prj_waked : queue_4_prj_waked;
+  wire        queue_next_4_prj_waked = qvalid[4] ? _queue_next_T_4_prj_waked : _GEN_32;
+  wire        _GEN_33 = _GEN_12 ? io_prk_ready_1 : io_prk_ready_0;
   wire        _queue_next_T_4_prk_waked =
-    io_issue_ack ? queue_prk_waked_5 : queue_prk_waked_4;
-  wire        queue_next_4_prk_waked = qvalid[4] ? _queue_next_T_4_prk_waked : _GEN_36;
-  wire        _GEN_37 = _GEN_15 ? io_prk_ready_1 : io_prk_ready_0;
+    io_issue_ack ? queue_5_prk_waked : queue_4_prk_waked;
+  wire        queue_next_4_prk_waked = qvalid[4] ? _queue_next_T_4_prk_waked : _GEN_33;
+  wire        _GEN_34 = _GEN_15 ? io_prj_ready_1 : io_prj_ready_0;
+  wire        _queue_next_T_5_prj_waked =
+    io_issue_ack ? queue_6_prj_waked : queue_5_prj_waked;
+  wire        queue_next_5_prj_waked = qvalid[5] ? _queue_next_T_5_prj_waked : _GEN_34;
+  wire        _GEN_35 = _GEN_15 ? io_prk_ready_1 : io_prk_ready_0;
   wire        _queue_next_T_5_prk_waked =
-    io_issue_ack ? queue_prk_waked_6 : queue_prk_waked_5;
-  wire        queue_next_5_prk_waked = qvalid[5] ? _queue_next_T_5_prk_waked : _GEN_37;
-  wire        _GEN_38 = _GEN_18 ? io_prk_ready_1 : io_prk_ready_0;
+    io_issue_ack ? queue_6_prk_waked : queue_5_prk_waked;
+  wire        queue_next_5_prk_waked = qvalid[5] ? _queue_next_T_5_prk_waked : _GEN_35;
+  wire        _GEN_36 = _GEN_18 ? io_prj_ready_1 : io_prj_ready_0;
+  wire        _queue_next_T_6_prj_waked =
+    io_issue_ack ? queue_7_prj_waked : queue_6_prj_waked;
+  wire        queue_next_6_prj_waked = qvalid[6] ? _queue_next_T_6_prj_waked : _GEN_36;
+  wire        _GEN_37 = _GEN_18 ? io_prk_ready_1 : io_prk_ready_0;
   wire        _queue_next_T_6_prk_waked =
-    io_issue_ack ? queue_prk_waked_7 : queue_prk_waked_6;
-  wire        queue_next_6_prk_waked = qvalid[6] ? _queue_next_T_6_prk_waked : _GEN_38;
+    io_issue_ack ? queue_7_prk_waked : queue_6_prk_waked;
+  wire        queue_next_6_prk_waked = qvalid[6] ? _queue_next_T_6_prk_waked : _GEN_37;
+  wire        _GEN_38 = _GEN_21 ? io_prj_ready_1 : io_prj_ready_0;
+  wire        queue_next_7_prj_waked = qvalid[7] ? queue_7_prj_waked : _GEN_38;
   wire        _GEN_39 = _GEN_21 ? io_prk_ready_1 : io_prk_ready_0;
-  wire        queue_next_7_prk_waked = qvalid[7] ? queue_prk_waked_7 : _GEN_39;
+  wire        queue_next_7_prk_waked = qvalid[7] ? queue_7_prk_waked : _GEN_39;
   always @(posedge clock) begin
     if (reset) begin
-      queue_inst_prj_0 <= 6'h0;
-      queue_inst_prj_1 <= 6'h0;
-      queue_inst_prj_2 <= 6'h0;
-      queue_inst_prj_3 <= 6'h0;
-      queue_inst_prj_4 <= 6'h0;
-      queue_inst_prj_5 <= 6'h0;
-      queue_inst_prj_6 <= 6'h0;
-      queue_inst_prj_7 <= 6'h0;
-      queue_inst_prk_0 <= 6'h0;
-      queue_inst_prk_1 <= 6'h0;
-      queue_inst_prk_2 <= 6'h0;
-      queue_inst_prk_3 <= 6'h0;
-      queue_inst_prk_4 <= 6'h0;
-      queue_inst_prk_5 <= 6'h0;
-      queue_inst_prk_6 <= 6'h0;
-      queue_inst_prk_7 <= 6'h0;
-      queue_inst_rd_valid_0 <= 1'h0;
-      queue_inst_rd_valid_1 <= 1'h0;
-      queue_inst_rd_valid_2 <= 1'h0;
-      queue_inst_rd_valid_3 <= 1'h0;
-      queue_inst_rd_valid_4 <= 1'h0;
-      queue_inst_rd_valid_5 <= 1'h0;
-      queue_inst_rd_valid_6 <= 1'h0;
-      queue_inst_rd_valid_7 <= 1'h0;
-      queue_inst_prd_0 <= 6'h0;
-      queue_inst_prd_1 <= 6'h0;
-      queue_inst_prd_2 <= 6'h0;
-      queue_inst_prd_3 <= 6'h0;
-      queue_inst_prd_4 <= 6'h0;
-      queue_inst_prd_5 <= 6'h0;
-      queue_inst_prd_6 <= 6'h0;
-      queue_inst_prd_7 <= 6'h0;
-      queue_inst_imm_0 <= 32'h0;
-      queue_inst_imm_1 <= 32'h0;
-      queue_inst_imm_2 <= 32'h0;
-      queue_inst_imm_3 <= 32'h0;
-      queue_inst_imm_4 <= 32'h0;
-      queue_inst_imm_5 <= 32'h0;
-      queue_inst_imm_6 <= 32'h0;
-      queue_inst_imm_7 <= 32'h0;
-      queue_inst_rob_index_0 <= 5'h0;
-      queue_inst_rob_index_1 <= 5'h0;
-      queue_inst_rob_index_2 <= 5'h0;
-      queue_inst_rob_index_3 <= 5'h0;
-      queue_inst_rob_index_4 <= 5'h0;
-      queue_inst_rob_index_5 <= 5'h0;
-      queue_inst_rob_index_6 <= 5'h0;
-      queue_inst_rob_index_7 <= 5'h0;
-      queue_inst_mem_type_0 <= 5'h0;
-      queue_inst_mem_type_1 <= 5'h0;
-      queue_inst_mem_type_2 <= 5'h0;
-      queue_inst_mem_type_3 <= 5'h0;
-      queue_inst_mem_type_4 <= 5'h0;
-      queue_inst_mem_type_5 <= 5'h0;
-      queue_inst_mem_type_6 <= 5'h0;
-      queue_inst_mem_type_7 <= 5'h0;
-      queue_inst_priv_vec_0 <= 3'h0;
-      queue_inst_priv_vec_1 <= 3'h0;
-      queue_inst_priv_vec_2 <= 3'h0;
-      queue_inst_priv_vec_3 <= 3'h0;
-      queue_inst_priv_vec_4 <= 3'h0;
-      queue_inst_priv_vec_5 <= 3'h0;
-      queue_inst_priv_vec_6 <= 3'h0;
-      queue_inst_priv_vec_7 <= 3'h0;
-      queue_prj_waked_0 <= 1'h0;
-      queue_prj_waked_1 <= 1'h0;
-      queue_prj_waked_2 <= 1'h0;
-      queue_prj_waked_3 <= 1'h0;
-      queue_prj_waked_4 <= 1'h0;
-      queue_prj_waked_5 <= 1'h0;
-      queue_prj_waked_6 <= 1'h0;
-      queue_prj_waked_7 <= 1'h0;
-      queue_prk_waked_0 <= 1'h0;
-      queue_prk_waked_1 <= 1'h0;
-      queue_prk_waked_2 <= 1'h0;
-      queue_prk_waked_3 <= 1'h0;
-      queue_prk_waked_4 <= 1'h0;
-      queue_prk_waked_5 <= 1'h0;
-      queue_prk_waked_6 <= 1'h0;
-      queue_prk_waked_7 <= 1'h0;
+      queue_0_inst_prj <= 6'h0;
+      queue_0_inst_prk <= 6'h0;
+      queue_0_inst_rd_valid <= 1'h0;
+      queue_0_inst_prd <= 6'h0;
+      queue_0_inst_imm <= 32'h0;
+      queue_0_inst_rob_index <= 5'h0;
+      queue_0_inst_mem_type <= 5'h0;
+      queue_0_inst_priv_vec <= 3'h0;
+      queue_0_prj_waked <= 1'h0;
+      queue_0_prk_waked <= 1'h0;
+      queue_1_inst_prj <= 6'h0;
+      queue_1_inst_prk <= 6'h0;
+      queue_1_inst_rd_valid <= 1'h0;
+      queue_1_inst_prd <= 6'h0;
+      queue_1_inst_imm <= 32'h0;
+      queue_1_inst_rob_index <= 5'h0;
+      queue_1_inst_mem_type <= 5'h0;
+      queue_1_inst_priv_vec <= 3'h0;
+      queue_1_prj_waked <= 1'h0;
+      queue_1_prk_waked <= 1'h0;
+      queue_2_inst_prj <= 6'h0;
+      queue_2_inst_prk <= 6'h0;
+      queue_2_inst_rd_valid <= 1'h0;
+      queue_2_inst_prd <= 6'h0;
+      queue_2_inst_imm <= 32'h0;
+      queue_2_inst_rob_index <= 5'h0;
+      queue_2_inst_mem_type <= 5'h0;
+      queue_2_inst_priv_vec <= 3'h0;
+      queue_2_prj_waked <= 1'h0;
+      queue_2_prk_waked <= 1'h0;
+      queue_3_inst_prj <= 6'h0;
+      queue_3_inst_prk <= 6'h0;
+      queue_3_inst_rd_valid <= 1'h0;
+      queue_3_inst_prd <= 6'h0;
+      queue_3_inst_imm <= 32'h0;
+      queue_3_inst_rob_index <= 5'h0;
+      queue_3_inst_mem_type <= 5'h0;
+      queue_3_inst_priv_vec <= 3'h0;
+      queue_3_prj_waked <= 1'h0;
+      queue_3_prk_waked <= 1'h0;
+      queue_4_inst_prj <= 6'h0;
+      queue_4_inst_prk <= 6'h0;
+      queue_4_inst_rd_valid <= 1'h0;
+      queue_4_inst_prd <= 6'h0;
+      queue_4_inst_imm <= 32'h0;
+      queue_4_inst_rob_index <= 5'h0;
+      queue_4_inst_mem_type <= 5'h0;
+      queue_4_inst_priv_vec <= 3'h0;
+      queue_4_prj_waked <= 1'h0;
+      queue_4_prk_waked <= 1'h0;
+      queue_5_inst_prj <= 6'h0;
+      queue_5_inst_prk <= 6'h0;
+      queue_5_inst_rd_valid <= 1'h0;
+      queue_5_inst_prd <= 6'h0;
+      queue_5_inst_imm <= 32'h0;
+      queue_5_inst_rob_index <= 5'h0;
+      queue_5_inst_mem_type <= 5'h0;
+      queue_5_inst_priv_vec <= 3'h0;
+      queue_5_prj_waked <= 1'h0;
+      queue_5_prk_waked <= 1'h0;
+      queue_6_inst_prj <= 6'h0;
+      queue_6_inst_prk <= 6'h0;
+      queue_6_inst_rd_valid <= 1'h0;
+      queue_6_inst_prd <= 6'h0;
+      queue_6_inst_imm <= 32'h0;
+      queue_6_inst_rob_index <= 5'h0;
+      queue_6_inst_mem_type <= 5'h0;
+      queue_6_inst_priv_vec <= 3'h0;
+      queue_6_prj_waked <= 1'h0;
+      queue_6_prk_waked <= 1'h0;
+      queue_7_inst_prj <= 6'h0;
+      queue_7_inst_prk <= 6'h0;
+      queue_7_inst_rd_valid <= 1'h0;
+      queue_7_inst_prd <= 6'h0;
+      queue_7_inst_imm <= 32'h0;
+      queue_7_inst_rob_index <= 5'h0;
+      queue_7_inst_mem_type <= 5'h0;
+      queue_7_inst_priv_vec <= 3'h0;
+      queue_7_prj_waked <= 1'h0;
+      queue_7_prk_waked <= 1'h0;
       num <= 4'h0;
       qvalid <= 8'h0;
       store_buf <= 2'h0;
@@ -346,293 +346,293 @@ module Order_Issue_Queue_1(
     else begin
       if (qvalid[0]) begin
         if (io_issue_ack) begin
-          queue_inst_prj_0 <= queue_inst_prj_1;
-          queue_inst_prk_0 <= queue_inst_prk_1;
-          queue_inst_rd_valid_0 <= queue_inst_rd_valid_1;
-          queue_inst_prd_0 <= queue_inst_prd_1;
-          queue_inst_imm_0 <= queue_inst_imm_1;
-          queue_inst_rob_index_0 <= queue_inst_rob_index_1;
-          queue_inst_mem_type_0 <= queue_inst_mem_type_1;
-          queue_inst_priv_vec_0 <= queue_inst_priv_vec_1;
+          queue_0_inst_prj <= queue_1_inst_prj;
+          queue_0_inst_prk <= queue_1_inst_prk;
+          queue_0_inst_rd_valid <= queue_1_inst_rd_valid;
+          queue_0_inst_prd <= queue_1_inst_prd;
+          queue_0_inst_imm <= queue_1_inst_imm;
+          queue_0_inst_rob_index <= queue_1_inst_rob_index;
+          queue_0_inst_mem_type <= queue_1_inst_mem_type;
+          queue_0_inst_priv_vec <= queue_1_inst_priv_vec;
         end
       end
       else begin
-        queue_inst_prj_0 <= _GEN_1;
-        queue_inst_prk_0 <= _GEN_2;
-        queue_inst_rd_valid_0 <=
-          _GEN_0 ? io_insts_dispatch_rd_valid_1 : io_insts_dispatch_rd_valid_0;
-        queue_inst_prd_0 <= _GEN_0 ? io_insts_dispatch_prd_1 : io_insts_dispatch_prd_0;
-        queue_inst_imm_0 <= _GEN_0 ? io_insts_dispatch_imm_1 : io_insts_dispatch_imm_0;
-        queue_inst_rob_index_0 <=
-          _GEN_0 ? io_insts_dispatch_rob_index_1 : io_insts_dispatch_rob_index_0;
-        queue_inst_mem_type_0 <=
-          _GEN_0 ? io_insts_dispatch_mem_type_1 : io_insts_dispatch_mem_type_0;
-        queue_inst_priv_vec_0 <=
-          _GEN_0 ? io_insts_dispatch_priv_vec_1 : io_insts_dispatch_priv_vec_0;
+        queue_0_inst_prj <= _GEN_1;
+        queue_0_inst_prk <= _GEN_2;
+        queue_0_inst_rd_valid <=
+          _GEN_0 ? io_insts_dispatch_1_rd_valid : io_insts_dispatch_0_rd_valid;
+        queue_0_inst_prd <= _GEN_0 ? io_insts_dispatch_1_prd : io_insts_dispatch_0_prd;
+        queue_0_inst_imm <= _GEN_0 ? io_insts_dispatch_1_imm : io_insts_dispatch_0_imm;
+        queue_0_inst_rob_index <=
+          _GEN_0 ? io_insts_dispatch_1_rob_index : io_insts_dispatch_0_rob_index;
+        queue_0_inst_mem_type <=
+          _GEN_0 ? io_insts_dispatch_1_mem_type : io_insts_dispatch_0_mem_type;
+        queue_0_inst_priv_vec <=
+          _GEN_0 ? io_insts_dispatch_1_priv_vec : io_insts_dispatch_0_priv_vec;
       end
-      if (qvalid[1]) begin
-        if (io_issue_ack) begin
-          queue_inst_prj_1 <= queue_inst_prj_2;
-          queue_inst_prk_1 <= queue_inst_prk_2;
-          queue_inst_rd_valid_1 <= queue_inst_rd_valid_2;
-          queue_inst_prd_1 <= queue_inst_prd_2;
-          queue_inst_imm_1 <= queue_inst_imm_2;
-          queue_inst_rob_index_1 <= queue_inst_rob_index_2;
-          queue_inst_mem_type_1 <= queue_inst_mem_type_2;
-          queue_inst_priv_vec_1 <= queue_inst_priv_vec_2;
-        end
-      end
-      else begin
-        queue_inst_prj_1 <= _GEN_4;
-        queue_inst_prk_1 <= _GEN_5;
-        queue_inst_rd_valid_1 <=
-          _GEN_3 ? io_insts_dispatch_rd_valid_1 : io_insts_dispatch_rd_valid_0;
-        queue_inst_prd_1 <= _GEN_3 ? io_insts_dispatch_prd_1 : io_insts_dispatch_prd_0;
-        queue_inst_imm_1 <= _GEN_3 ? io_insts_dispatch_imm_1 : io_insts_dispatch_imm_0;
-        queue_inst_rob_index_1 <=
-          _GEN_3 ? io_insts_dispatch_rob_index_1 : io_insts_dispatch_rob_index_0;
-        queue_inst_mem_type_1 <=
-          _GEN_3 ? io_insts_dispatch_mem_type_1 : io_insts_dispatch_mem_type_0;
-        queue_inst_priv_vec_1 <=
-          _GEN_3 ? io_insts_dispatch_priv_vec_1 : io_insts_dispatch_priv_vec_0;
-      end
-      if (qvalid[2]) begin
-        if (io_issue_ack) begin
-          queue_inst_prj_2 <= queue_inst_prj_3;
-          queue_inst_prk_2 <= queue_inst_prk_3;
-          queue_inst_rd_valid_2 <= queue_inst_rd_valid_3;
-          queue_inst_prd_2 <= queue_inst_prd_3;
-          queue_inst_imm_2 <= queue_inst_imm_3;
-          queue_inst_rob_index_2 <= queue_inst_rob_index_3;
-          queue_inst_mem_type_2 <= queue_inst_mem_type_3;
-          queue_inst_priv_vec_2 <= queue_inst_priv_vec_3;
-        end
-      end
-      else begin
-        queue_inst_prj_2 <= _GEN_7;
-        queue_inst_prk_2 <= _GEN_8;
-        queue_inst_rd_valid_2 <=
-          _GEN_6 ? io_insts_dispatch_rd_valid_1 : io_insts_dispatch_rd_valid_0;
-        queue_inst_prd_2 <= _GEN_6 ? io_insts_dispatch_prd_1 : io_insts_dispatch_prd_0;
-        queue_inst_imm_2 <= _GEN_6 ? io_insts_dispatch_imm_1 : io_insts_dispatch_imm_0;
-        queue_inst_rob_index_2 <=
-          _GEN_6 ? io_insts_dispatch_rob_index_1 : io_insts_dispatch_rob_index_0;
-        queue_inst_mem_type_2 <=
-          _GEN_6 ? io_insts_dispatch_mem_type_1 : io_insts_dispatch_mem_type_0;
-        queue_inst_priv_vec_2 <=
-          _GEN_6 ? io_insts_dispatch_priv_vec_1 : io_insts_dispatch_priv_vec_0;
-      end
-      if (qvalid[3]) begin
-        if (io_issue_ack) begin
-          queue_inst_prj_3 <= queue_inst_prj_4;
-          queue_inst_prk_3 <= queue_inst_prk_4;
-          queue_inst_rd_valid_3 <= queue_inst_rd_valid_4;
-          queue_inst_prd_3 <= queue_inst_prd_4;
-          queue_inst_imm_3 <= queue_inst_imm_4;
-          queue_inst_rob_index_3 <= queue_inst_rob_index_4;
-          queue_inst_mem_type_3 <= queue_inst_mem_type_4;
-          queue_inst_priv_vec_3 <= queue_inst_priv_vec_4;
-        end
-      end
-      else begin
-        queue_inst_prj_3 <= _GEN_10;
-        queue_inst_prk_3 <= _GEN_11;
-        queue_inst_rd_valid_3 <=
-          _GEN_9 ? io_insts_dispatch_rd_valid_1 : io_insts_dispatch_rd_valid_0;
-        queue_inst_prd_3 <= _GEN_9 ? io_insts_dispatch_prd_1 : io_insts_dispatch_prd_0;
-        queue_inst_imm_3 <= _GEN_9 ? io_insts_dispatch_imm_1 : io_insts_dispatch_imm_0;
-        queue_inst_rob_index_3 <=
-          _GEN_9 ? io_insts_dispatch_rob_index_1 : io_insts_dispatch_rob_index_0;
-        queue_inst_mem_type_3 <=
-          _GEN_9 ? io_insts_dispatch_mem_type_1 : io_insts_dispatch_mem_type_0;
-        queue_inst_priv_vec_3 <=
-          _GEN_9 ? io_insts_dispatch_priv_vec_1 : io_insts_dispatch_priv_vec_0;
-      end
-      if (qvalid[4]) begin
-        if (io_issue_ack) begin
-          queue_inst_prj_4 <= queue_inst_prj_5;
-          queue_inst_prk_4 <= queue_inst_prk_5;
-          queue_inst_rd_valid_4 <= queue_inst_rd_valid_5;
-          queue_inst_prd_4 <= queue_inst_prd_5;
-          queue_inst_imm_4 <= queue_inst_imm_5;
-          queue_inst_rob_index_4 <= queue_inst_rob_index_5;
-          queue_inst_mem_type_4 <= queue_inst_mem_type_5;
-          queue_inst_priv_vec_4 <= queue_inst_priv_vec_5;
-        end
-      end
-      else begin
-        queue_inst_prj_4 <= _GEN_13;
-        queue_inst_prk_4 <= _GEN_14;
-        queue_inst_rd_valid_4 <=
-          _GEN_12 ? io_insts_dispatch_rd_valid_1 : io_insts_dispatch_rd_valid_0;
-        queue_inst_prd_4 <= _GEN_12 ? io_insts_dispatch_prd_1 : io_insts_dispatch_prd_0;
-        queue_inst_imm_4 <= _GEN_12 ? io_insts_dispatch_imm_1 : io_insts_dispatch_imm_0;
-        queue_inst_rob_index_4 <=
-          _GEN_12 ? io_insts_dispatch_rob_index_1 : io_insts_dispatch_rob_index_0;
-        queue_inst_mem_type_4 <=
-          _GEN_12 ? io_insts_dispatch_mem_type_1 : io_insts_dispatch_mem_type_0;
-        queue_inst_priv_vec_4 <=
-          _GEN_12 ? io_insts_dispatch_priv_vec_1 : io_insts_dispatch_priv_vec_0;
-      end
-      if (qvalid[5]) begin
-        if (io_issue_ack) begin
-          queue_inst_prj_5 <= queue_inst_prj_6;
-          queue_inst_prk_5 <= queue_inst_prk_6;
-          queue_inst_rd_valid_5 <= queue_inst_rd_valid_6;
-          queue_inst_prd_5 <= queue_inst_prd_6;
-          queue_inst_imm_5 <= queue_inst_imm_6;
-          queue_inst_rob_index_5 <= queue_inst_rob_index_6;
-          queue_inst_mem_type_5 <= queue_inst_mem_type_6;
-          queue_inst_priv_vec_5 <= queue_inst_priv_vec_6;
-        end
-      end
-      else begin
-        queue_inst_prj_5 <= _GEN_16;
-        queue_inst_prk_5 <= _GEN_17;
-        queue_inst_rd_valid_5 <=
-          _GEN_15 ? io_insts_dispatch_rd_valid_1 : io_insts_dispatch_rd_valid_0;
-        queue_inst_prd_5 <= _GEN_15 ? io_insts_dispatch_prd_1 : io_insts_dispatch_prd_0;
-        queue_inst_imm_5 <= _GEN_15 ? io_insts_dispatch_imm_1 : io_insts_dispatch_imm_0;
-        queue_inst_rob_index_5 <=
-          _GEN_15 ? io_insts_dispatch_rob_index_1 : io_insts_dispatch_rob_index_0;
-        queue_inst_mem_type_5 <=
-          _GEN_15 ? io_insts_dispatch_mem_type_1 : io_insts_dispatch_mem_type_0;
-        queue_inst_priv_vec_5 <=
-          _GEN_15 ? io_insts_dispatch_priv_vec_1 : io_insts_dispatch_priv_vec_0;
-      end
-      if (qvalid[6]) begin
-        if (io_issue_ack) begin
-          queue_inst_prj_6 <= queue_inst_prj_7;
-          queue_inst_prk_6 <= queue_inst_prk_7;
-          queue_inst_rd_valid_6 <= queue_inst_rd_valid_7;
-          queue_inst_prd_6 <= queue_inst_prd_7;
-          queue_inst_imm_6 <= queue_inst_imm_7;
-          queue_inst_rob_index_6 <= queue_inst_rob_index_7;
-          queue_inst_mem_type_6 <= queue_inst_mem_type_7;
-          queue_inst_priv_vec_6 <= queue_inst_priv_vec_7;
-        end
-      end
-      else begin
-        queue_inst_prj_6 <= _GEN_19;
-        queue_inst_prk_6 <= _GEN_20;
-        queue_inst_rd_valid_6 <=
-          _GEN_18 ? io_insts_dispatch_rd_valid_1 : io_insts_dispatch_rd_valid_0;
-        queue_inst_prd_6 <= _GEN_18 ? io_insts_dispatch_prd_1 : io_insts_dispatch_prd_0;
-        queue_inst_imm_6 <= _GEN_18 ? io_insts_dispatch_imm_1 : io_insts_dispatch_imm_0;
-        queue_inst_rob_index_6 <=
-          _GEN_18 ? io_insts_dispatch_rob_index_1 : io_insts_dispatch_rob_index_0;
-        queue_inst_mem_type_6 <=
-          _GEN_18 ? io_insts_dispatch_mem_type_1 : io_insts_dispatch_mem_type_0;
-        queue_inst_priv_vec_6 <=
-          _GEN_18 ? io_insts_dispatch_priv_vec_1 : io_insts_dispatch_priv_vec_0;
-      end
-      if (qvalid[7]) begin
-      end
-      else begin
-        queue_inst_prj_7 <= _GEN_22;
-        queue_inst_prk_7 <= _GEN_23;
-        queue_inst_rd_valid_7 <=
-          _GEN_21 ? io_insts_dispatch_rd_valid_1 : io_insts_dispatch_rd_valid_0;
-        queue_inst_prd_7 <= _GEN_21 ? io_insts_dispatch_prd_1 : io_insts_dispatch_prd_0;
-        queue_inst_imm_7 <= _GEN_21 ? io_insts_dispatch_imm_1 : io_insts_dispatch_imm_0;
-        queue_inst_rob_index_7 <=
-          _GEN_21 ? io_insts_dispatch_rob_index_1 : io_insts_dispatch_rob_index_0;
-        queue_inst_mem_type_7 <=
-          _GEN_21 ? io_insts_dispatch_mem_type_1 : io_insts_dispatch_mem_type_0;
-        queue_inst_priv_vec_7 <=
-          _GEN_21 ? io_insts_dispatch_priv_vec_1 : io_insts_dispatch_priv_vec_0;
-      end
-      queue_prj_waked_0 <=
+      queue_0_prj_waked <=
         queue_next_prj_waked
         | (|{(queue_next_inst_prj ^ io_wake_preg_3) == 6'h0,
              (queue_next_inst_prj ^ io_wake_preg_2) == 6'h0,
              (queue_next_inst_prj ^ io_wake_preg_1) == 6'h0,
              (queue_next_inst_prj ^ io_wake_preg_0) == 6'h0});
-      queue_prj_waked_1 <=
-        queue_next_1_prj_waked
-        | (|{(queue_next_1_inst_prj ^ io_wake_preg_3) == 6'h0,
-             (queue_next_1_inst_prj ^ io_wake_preg_2) == 6'h0,
-             (queue_next_1_inst_prj ^ io_wake_preg_1) == 6'h0,
-             (queue_next_1_inst_prj ^ io_wake_preg_0) == 6'h0});
-      queue_prj_waked_2 <=
-        queue_next_2_prj_waked
-        | (|{(queue_next_2_inst_prj ^ io_wake_preg_3) == 6'h0,
-             (queue_next_2_inst_prj ^ io_wake_preg_2) == 6'h0,
-             (queue_next_2_inst_prj ^ io_wake_preg_1) == 6'h0,
-             (queue_next_2_inst_prj ^ io_wake_preg_0) == 6'h0});
-      queue_prj_waked_3 <=
-        queue_next_3_prj_waked
-        | (|{(queue_next_3_inst_prj ^ io_wake_preg_3) == 6'h0,
-             (queue_next_3_inst_prj ^ io_wake_preg_2) == 6'h0,
-             (queue_next_3_inst_prj ^ io_wake_preg_1) == 6'h0,
-             (queue_next_3_inst_prj ^ io_wake_preg_0) == 6'h0});
-      queue_prj_waked_4 <=
-        queue_next_4_prj_waked
-        | (|{(queue_next_4_inst_prj ^ io_wake_preg_3) == 6'h0,
-             (queue_next_4_inst_prj ^ io_wake_preg_2) == 6'h0,
-             (queue_next_4_inst_prj ^ io_wake_preg_1) == 6'h0,
-             (queue_next_4_inst_prj ^ io_wake_preg_0) == 6'h0});
-      queue_prj_waked_5 <=
-        queue_next_5_prj_waked
-        | (|{(queue_next_5_inst_prj ^ io_wake_preg_3) == 6'h0,
-             (queue_next_5_inst_prj ^ io_wake_preg_2) == 6'h0,
-             (queue_next_5_inst_prj ^ io_wake_preg_1) == 6'h0,
-             (queue_next_5_inst_prj ^ io_wake_preg_0) == 6'h0});
-      queue_prj_waked_6 <=
-        queue_next_6_prj_waked
-        | (|{(queue_next_6_inst_prj ^ io_wake_preg_3) == 6'h0,
-             (queue_next_6_inst_prj ^ io_wake_preg_2) == 6'h0,
-             (queue_next_6_inst_prj ^ io_wake_preg_1) == 6'h0,
-             (queue_next_6_inst_prj ^ io_wake_preg_0) == 6'h0});
-      queue_prj_waked_7 <=
-        queue_next_7_prj_waked
-        | (|{(queue_next_7_inst_prj ^ io_wake_preg_3) == 6'h0,
-             (queue_next_7_inst_prj ^ io_wake_preg_2) == 6'h0,
-             (queue_next_7_inst_prj ^ io_wake_preg_1) == 6'h0,
-             (queue_next_7_inst_prj ^ io_wake_preg_0) == 6'h0});
-      queue_prk_waked_0 <=
+      queue_0_prk_waked <=
         queue_next_prk_waked
         | (|{(queue_next_inst_prk ^ io_wake_preg_3) == 6'h0,
              (queue_next_inst_prk ^ io_wake_preg_2) == 6'h0,
              (queue_next_inst_prk ^ io_wake_preg_1) == 6'h0,
              (queue_next_inst_prk ^ io_wake_preg_0) == 6'h0});
-      queue_prk_waked_1 <=
+      if (qvalid[1]) begin
+        if (io_issue_ack) begin
+          queue_1_inst_prj <= queue_2_inst_prj;
+          queue_1_inst_prk <= queue_2_inst_prk;
+          queue_1_inst_rd_valid <= queue_2_inst_rd_valid;
+          queue_1_inst_prd <= queue_2_inst_prd;
+          queue_1_inst_imm <= queue_2_inst_imm;
+          queue_1_inst_rob_index <= queue_2_inst_rob_index;
+          queue_1_inst_mem_type <= queue_2_inst_mem_type;
+          queue_1_inst_priv_vec <= queue_2_inst_priv_vec;
+        end
+      end
+      else begin
+        queue_1_inst_prj <= _GEN_4;
+        queue_1_inst_prk <= _GEN_5;
+        queue_1_inst_rd_valid <=
+          _GEN_3 ? io_insts_dispatch_1_rd_valid : io_insts_dispatch_0_rd_valid;
+        queue_1_inst_prd <= _GEN_3 ? io_insts_dispatch_1_prd : io_insts_dispatch_0_prd;
+        queue_1_inst_imm <= _GEN_3 ? io_insts_dispatch_1_imm : io_insts_dispatch_0_imm;
+        queue_1_inst_rob_index <=
+          _GEN_3 ? io_insts_dispatch_1_rob_index : io_insts_dispatch_0_rob_index;
+        queue_1_inst_mem_type <=
+          _GEN_3 ? io_insts_dispatch_1_mem_type : io_insts_dispatch_0_mem_type;
+        queue_1_inst_priv_vec <=
+          _GEN_3 ? io_insts_dispatch_1_priv_vec : io_insts_dispatch_0_priv_vec;
+      end
+      queue_1_prj_waked <=
+        queue_next_1_prj_waked
+        | (|{(queue_next_1_inst_prj ^ io_wake_preg_3) == 6'h0,
+             (queue_next_1_inst_prj ^ io_wake_preg_2) == 6'h0,
+             (queue_next_1_inst_prj ^ io_wake_preg_1) == 6'h0,
+             (queue_next_1_inst_prj ^ io_wake_preg_0) == 6'h0});
+      queue_1_prk_waked <=
         queue_next_1_prk_waked
         | (|{(queue_next_1_inst_prk ^ io_wake_preg_3) == 6'h0,
              (queue_next_1_inst_prk ^ io_wake_preg_2) == 6'h0,
              (queue_next_1_inst_prk ^ io_wake_preg_1) == 6'h0,
              (queue_next_1_inst_prk ^ io_wake_preg_0) == 6'h0});
-      queue_prk_waked_2 <=
+      if (qvalid[2]) begin
+        if (io_issue_ack) begin
+          queue_2_inst_prj <= queue_3_inst_prj;
+          queue_2_inst_prk <= queue_3_inst_prk;
+          queue_2_inst_rd_valid <= queue_3_inst_rd_valid;
+          queue_2_inst_prd <= queue_3_inst_prd;
+          queue_2_inst_imm <= queue_3_inst_imm;
+          queue_2_inst_rob_index <= queue_3_inst_rob_index;
+          queue_2_inst_mem_type <= queue_3_inst_mem_type;
+          queue_2_inst_priv_vec <= queue_3_inst_priv_vec;
+        end
+      end
+      else begin
+        queue_2_inst_prj <= _GEN_7;
+        queue_2_inst_prk <= _GEN_8;
+        queue_2_inst_rd_valid <=
+          _GEN_6 ? io_insts_dispatch_1_rd_valid : io_insts_dispatch_0_rd_valid;
+        queue_2_inst_prd <= _GEN_6 ? io_insts_dispatch_1_prd : io_insts_dispatch_0_prd;
+        queue_2_inst_imm <= _GEN_6 ? io_insts_dispatch_1_imm : io_insts_dispatch_0_imm;
+        queue_2_inst_rob_index <=
+          _GEN_6 ? io_insts_dispatch_1_rob_index : io_insts_dispatch_0_rob_index;
+        queue_2_inst_mem_type <=
+          _GEN_6 ? io_insts_dispatch_1_mem_type : io_insts_dispatch_0_mem_type;
+        queue_2_inst_priv_vec <=
+          _GEN_6 ? io_insts_dispatch_1_priv_vec : io_insts_dispatch_0_priv_vec;
+      end
+      queue_2_prj_waked <=
+        queue_next_2_prj_waked
+        | (|{(queue_next_2_inst_prj ^ io_wake_preg_3) == 6'h0,
+             (queue_next_2_inst_prj ^ io_wake_preg_2) == 6'h0,
+             (queue_next_2_inst_prj ^ io_wake_preg_1) == 6'h0,
+             (queue_next_2_inst_prj ^ io_wake_preg_0) == 6'h0});
+      queue_2_prk_waked <=
         queue_next_2_prk_waked
         | (|{(queue_next_2_inst_prk ^ io_wake_preg_3) == 6'h0,
              (queue_next_2_inst_prk ^ io_wake_preg_2) == 6'h0,
              (queue_next_2_inst_prk ^ io_wake_preg_1) == 6'h0,
              (queue_next_2_inst_prk ^ io_wake_preg_0) == 6'h0});
-      queue_prk_waked_3 <=
+      if (qvalid[3]) begin
+        if (io_issue_ack) begin
+          queue_3_inst_prj <= queue_4_inst_prj;
+          queue_3_inst_prk <= queue_4_inst_prk;
+          queue_3_inst_rd_valid <= queue_4_inst_rd_valid;
+          queue_3_inst_prd <= queue_4_inst_prd;
+          queue_3_inst_imm <= queue_4_inst_imm;
+          queue_3_inst_rob_index <= queue_4_inst_rob_index;
+          queue_3_inst_mem_type <= queue_4_inst_mem_type;
+          queue_3_inst_priv_vec <= queue_4_inst_priv_vec;
+        end
+      end
+      else begin
+        queue_3_inst_prj <= _GEN_10;
+        queue_3_inst_prk <= _GEN_11;
+        queue_3_inst_rd_valid <=
+          _GEN_9 ? io_insts_dispatch_1_rd_valid : io_insts_dispatch_0_rd_valid;
+        queue_3_inst_prd <= _GEN_9 ? io_insts_dispatch_1_prd : io_insts_dispatch_0_prd;
+        queue_3_inst_imm <= _GEN_9 ? io_insts_dispatch_1_imm : io_insts_dispatch_0_imm;
+        queue_3_inst_rob_index <=
+          _GEN_9 ? io_insts_dispatch_1_rob_index : io_insts_dispatch_0_rob_index;
+        queue_3_inst_mem_type <=
+          _GEN_9 ? io_insts_dispatch_1_mem_type : io_insts_dispatch_0_mem_type;
+        queue_3_inst_priv_vec <=
+          _GEN_9 ? io_insts_dispatch_1_priv_vec : io_insts_dispatch_0_priv_vec;
+      end
+      queue_3_prj_waked <=
+        queue_next_3_prj_waked
+        | (|{(queue_next_3_inst_prj ^ io_wake_preg_3) == 6'h0,
+             (queue_next_3_inst_prj ^ io_wake_preg_2) == 6'h0,
+             (queue_next_3_inst_prj ^ io_wake_preg_1) == 6'h0,
+             (queue_next_3_inst_prj ^ io_wake_preg_0) == 6'h0});
+      queue_3_prk_waked <=
         queue_next_3_prk_waked
         | (|{(queue_next_3_inst_prk ^ io_wake_preg_3) == 6'h0,
              (queue_next_3_inst_prk ^ io_wake_preg_2) == 6'h0,
              (queue_next_3_inst_prk ^ io_wake_preg_1) == 6'h0,
              (queue_next_3_inst_prk ^ io_wake_preg_0) == 6'h0});
-      queue_prk_waked_4 <=
+      if (qvalid[4]) begin
+        if (io_issue_ack) begin
+          queue_4_inst_prj <= queue_5_inst_prj;
+          queue_4_inst_prk <= queue_5_inst_prk;
+          queue_4_inst_rd_valid <= queue_5_inst_rd_valid;
+          queue_4_inst_prd <= queue_5_inst_prd;
+          queue_4_inst_imm <= queue_5_inst_imm;
+          queue_4_inst_rob_index <= queue_5_inst_rob_index;
+          queue_4_inst_mem_type <= queue_5_inst_mem_type;
+          queue_4_inst_priv_vec <= queue_5_inst_priv_vec;
+        end
+      end
+      else begin
+        queue_4_inst_prj <= _GEN_13;
+        queue_4_inst_prk <= _GEN_14;
+        queue_4_inst_rd_valid <=
+          _GEN_12 ? io_insts_dispatch_1_rd_valid : io_insts_dispatch_0_rd_valid;
+        queue_4_inst_prd <= _GEN_12 ? io_insts_dispatch_1_prd : io_insts_dispatch_0_prd;
+        queue_4_inst_imm <= _GEN_12 ? io_insts_dispatch_1_imm : io_insts_dispatch_0_imm;
+        queue_4_inst_rob_index <=
+          _GEN_12 ? io_insts_dispatch_1_rob_index : io_insts_dispatch_0_rob_index;
+        queue_4_inst_mem_type <=
+          _GEN_12 ? io_insts_dispatch_1_mem_type : io_insts_dispatch_0_mem_type;
+        queue_4_inst_priv_vec <=
+          _GEN_12 ? io_insts_dispatch_1_priv_vec : io_insts_dispatch_0_priv_vec;
+      end
+      queue_4_prj_waked <=
+        queue_next_4_prj_waked
+        | (|{(queue_next_4_inst_prj ^ io_wake_preg_3) == 6'h0,
+             (queue_next_4_inst_prj ^ io_wake_preg_2) == 6'h0,
+             (queue_next_4_inst_prj ^ io_wake_preg_1) == 6'h0,
+             (queue_next_4_inst_prj ^ io_wake_preg_0) == 6'h0});
+      queue_4_prk_waked <=
         queue_next_4_prk_waked
         | (|{(queue_next_4_inst_prk ^ io_wake_preg_3) == 6'h0,
              (queue_next_4_inst_prk ^ io_wake_preg_2) == 6'h0,
              (queue_next_4_inst_prk ^ io_wake_preg_1) == 6'h0,
              (queue_next_4_inst_prk ^ io_wake_preg_0) == 6'h0});
-      queue_prk_waked_5 <=
+      if (qvalid[5]) begin
+        if (io_issue_ack) begin
+          queue_5_inst_prj <= queue_6_inst_prj;
+          queue_5_inst_prk <= queue_6_inst_prk;
+          queue_5_inst_rd_valid <= queue_6_inst_rd_valid;
+          queue_5_inst_prd <= queue_6_inst_prd;
+          queue_5_inst_imm <= queue_6_inst_imm;
+          queue_5_inst_rob_index <= queue_6_inst_rob_index;
+          queue_5_inst_mem_type <= queue_6_inst_mem_type;
+          queue_5_inst_priv_vec <= queue_6_inst_priv_vec;
+        end
+      end
+      else begin
+        queue_5_inst_prj <= _GEN_16;
+        queue_5_inst_prk <= _GEN_17;
+        queue_5_inst_rd_valid <=
+          _GEN_15 ? io_insts_dispatch_1_rd_valid : io_insts_dispatch_0_rd_valid;
+        queue_5_inst_prd <= _GEN_15 ? io_insts_dispatch_1_prd : io_insts_dispatch_0_prd;
+        queue_5_inst_imm <= _GEN_15 ? io_insts_dispatch_1_imm : io_insts_dispatch_0_imm;
+        queue_5_inst_rob_index <=
+          _GEN_15 ? io_insts_dispatch_1_rob_index : io_insts_dispatch_0_rob_index;
+        queue_5_inst_mem_type <=
+          _GEN_15 ? io_insts_dispatch_1_mem_type : io_insts_dispatch_0_mem_type;
+        queue_5_inst_priv_vec <=
+          _GEN_15 ? io_insts_dispatch_1_priv_vec : io_insts_dispatch_0_priv_vec;
+      end
+      queue_5_prj_waked <=
+        queue_next_5_prj_waked
+        | (|{(queue_next_5_inst_prj ^ io_wake_preg_3) == 6'h0,
+             (queue_next_5_inst_prj ^ io_wake_preg_2) == 6'h0,
+             (queue_next_5_inst_prj ^ io_wake_preg_1) == 6'h0,
+             (queue_next_5_inst_prj ^ io_wake_preg_0) == 6'h0});
+      queue_5_prk_waked <=
         queue_next_5_prk_waked
         | (|{(queue_next_5_inst_prk ^ io_wake_preg_3) == 6'h0,
              (queue_next_5_inst_prk ^ io_wake_preg_2) == 6'h0,
              (queue_next_5_inst_prk ^ io_wake_preg_1) == 6'h0,
              (queue_next_5_inst_prk ^ io_wake_preg_0) == 6'h0});
-      queue_prk_waked_6 <=
+      if (qvalid[6]) begin
+        if (io_issue_ack) begin
+          queue_6_inst_prj <= queue_7_inst_prj;
+          queue_6_inst_prk <= queue_7_inst_prk;
+          queue_6_inst_rd_valid <= queue_7_inst_rd_valid;
+          queue_6_inst_prd <= queue_7_inst_prd;
+          queue_6_inst_imm <= queue_7_inst_imm;
+          queue_6_inst_rob_index <= queue_7_inst_rob_index;
+          queue_6_inst_mem_type <= queue_7_inst_mem_type;
+          queue_6_inst_priv_vec <= queue_7_inst_priv_vec;
+        end
+      end
+      else begin
+        queue_6_inst_prj <= _GEN_19;
+        queue_6_inst_prk <= _GEN_20;
+        queue_6_inst_rd_valid <=
+          _GEN_18 ? io_insts_dispatch_1_rd_valid : io_insts_dispatch_0_rd_valid;
+        queue_6_inst_prd <= _GEN_18 ? io_insts_dispatch_1_prd : io_insts_dispatch_0_prd;
+        queue_6_inst_imm <= _GEN_18 ? io_insts_dispatch_1_imm : io_insts_dispatch_0_imm;
+        queue_6_inst_rob_index <=
+          _GEN_18 ? io_insts_dispatch_1_rob_index : io_insts_dispatch_0_rob_index;
+        queue_6_inst_mem_type <=
+          _GEN_18 ? io_insts_dispatch_1_mem_type : io_insts_dispatch_0_mem_type;
+        queue_6_inst_priv_vec <=
+          _GEN_18 ? io_insts_dispatch_1_priv_vec : io_insts_dispatch_0_priv_vec;
+      end
+      queue_6_prj_waked <=
+        queue_next_6_prj_waked
+        | (|{(queue_next_6_inst_prj ^ io_wake_preg_3) == 6'h0,
+             (queue_next_6_inst_prj ^ io_wake_preg_2) == 6'h0,
+             (queue_next_6_inst_prj ^ io_wake_preg_1) == 6'h0,
+             (queue_next_6_inst_prj ^ io_wake_preg_0) == 6'h0});
+      queue_6_prk_waked <=
         queue_next_6_prk_waked
         | (|{(queue_next_6_inst_prk ^ io_wake_preg_3) == 6'h0,
              (queue_next_6_inst_prk ^ io_wake_preg_2) == 6'h0,
              (queue_next_6_inst_prk ^ io_wake_preg_1) == 6'h0,
              (queue_next_6_inst_prk ^ io_wake_preg_0) == 6'h0});
-      queue_prk_waked_7 <=
+      if (qvalid[7]) begin
+      end
+      else begin
+        queue_7_inst_prj <= _GEN_22;
+        queue_7_inst_prk <= _GEN_23;
+        queue_7_inst_rd_valid <=
+          _GEN_21 ? io_insts_dispatch_1_rd_valid : io_insts_dispatch_0_rd_valid;
+        queue_7_inst_prd <= _GEN_21 ? io_insts_dispatch_1_prd : io_insts_dispatch_0_prd;
+        queue_7_inst_imm <= _GEN_21 ? io_insts_dispatch_1_imm : io_insts_dispatch_0_imm;
+        queue_7_inst_rob_index <=
+          _GEN_21 ? io_insts_dispatch_1_rob_index : io_insts_dispatch_0_rob_index;
+        queue_7_inst_mem_type <=
+          _GEN_21 ? io_insts_dispatch_1_mem_type : io_insts_dispatch_0_mem_type;
+        queue_7_inst_priv_vec <=
+          _GEN_21 ? io_insts_dispatch_1_priv_vec : io_insts_dispatch_0_priv_vec;
+      end
+      queue_7_prj_waked <=
+        queue_next_7_prj_waked
+        | (|{(queue_next_7_inst_prj ^ io_wake_preg_3) == 6'h0,
+             (queue_next_7_inst_prj ^ io_wake_preg_2) == 6'h0,
+             (queue_next_7_inst_prj ^ io_wake_preg_1) == 6'h0,
+             (queue_next_7_inst_prj ^ io_wake_preg_0) == 6'h0});
+      queue_7_prk_waked <=
         queue_next_7_prk_waked
         | (|{(queue_next_7_inst_prk ^ io_wake_preg_3) == 6'h0,
              (queue_next_7_inst_prk ^ io_wake_preg_2) == 6'h0,
@@ -655,23 +655,23 @@ module Order_Issue_Queue_1(
         else if (ins_num == 2'h1)
           qvalid <= {qvalid[6:0], 1'h1};
         store_buf <=
-          2'(2'(store_buf + {1'h0, io_issue_ack & queue_inst_mem_type_0[4]})
+          2'(2'(store_buf + {1'h0, io_issue_ack & queue_0_inst_mem_type[4]})
              - io_is_store_cmt_num);
       end
     end
   end // always @(posedge)
-  assign io_insts_issue_inst_prj = queue_inst_prj_0;
-  assign io_insts_issue_inst_prk = queue_inst_prk_0;
-  assign io_insts_issue_inst_rd_valid = queue_inst_rd_valid_0;
-  assign io_insts_issue_inst_prd = queue_inst_prd_0;
-  assign io_insts_issue_inst_imm = queue_inst_imm_0;
-  assign io_insts_issue_inst_rob_index = queue_inst_rob_index_0;
-  assign io_insts_issue_inst_mem_type = queue_inst_mem_type_0;
-  assign io_insts_issue_inst_priv_vec = queue_inst_priv_vec_0;
+  assign io_insts_issue_inst_prj = queue_0_inst_prj;
+  assign io_insts_issue_inst_prk = queue_0_inst_prk;
+  assign io_insts_issue_inst_rd_valid = queue_0_inst_rd_valid;
+  assign io_insts_issue_inst_prd = queue_0_inst_prd;
+  assign io_insts_issue_inst_imm = queue_0_inst_imm;
+  assign io_insts_issue_inst_rob_index = queue_0_inst_rob_index;
+  assign io_insts_issue_inst_mem_type = queue_0_inst_mem_type;
+  assign io_insts_issue_inst_priv_vec = queue_0_inst_priv_vec;
   assign io_issue_req =
-    qvalid[0] & queue_prj_waked_0 & queue_prk_waked_0
-    & ~(queue_inst_priv_vec_0[0]
-        & ((|store_buf) | queue_inst_rob_index_0 != io_rob_index_cmt));
+    qvalid[0] & queue_0_prj_waked & queue_0_prk_waked
+    & ~(queue_0_inst_priv_vec[0]
+        & ((|store_buf) | queue_0_inst_rob_index != io_rob_index_cmt));
   assign io_full = qvalid[6];
 endmodule
 

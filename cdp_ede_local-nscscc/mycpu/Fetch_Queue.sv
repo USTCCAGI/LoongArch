@@ -2,253 +2,253 @@
 module Fetch_Queue(
   input         clock,
                 reset,
-  input  [31:0] io_insts_pack_pc_0,
-                io_insts_pack_pc_1,
-                io_insts_pack_inst_0,
-                io_insts_pack_inst_1,
-  input         io_insts_pack_inst_valid_0,
-                io_insts_pack_inst_valid_1,
-                io_insts_pack_predict_jump_0,
-                io_insts_pack_predict_jump_1,
-  input  [31:0] io_insts_pack_pred_npc_0,
-                io_insts_pack_pred_npc_1,
-  input  [7:0]  io_insts_pack_exception_0,
-                io_insts_pack_exception_1,
+  input  [31:0] io_insts_pack_0_pc,
+                io_insts_pack_0_inst,
+  input         io_insts_pack_0_inst_valid,
+                io_insts_pack_0_predict_jump,
+  input  [31:0] io_insts_pack_0_pred_npc,
+  input  [7:0]  io_insts_pack_0_exception,
+  input  [31:0] io_insts_pack_1_pc,
+                io_insts_pack_1_inst,
+  input         io_insts_pack_1_inst_valid,
+                io_insts_pack_1_predict_jump,
+  input  [31:0] io_insts_pack_1_pred_npc,
+  input  [7:0]  io_insts_pack_1_exception,
   input         io_next_ready,
                 io_flush,
   output        io_insts_valid_decode_0,
                 io_insts_valid_decode_1,
-  output [31:0] io_insts_pack_id_pc_0,
-                io_insts_pack_id_pc_1,
-                io_insts_pack_id_inst_0,
-                io_insts_pack_id_inst_1,
-  output        io_insts_pack_id_predict_jump_0,
-                io_insts_pack_id_predict_jump_1,
-  output [31:0] io_insts_pack_id_pred_npc_0,
-                io_insts_pack_id_pred_npc_1,
-  output [7:0]  io_insts_pack_id_exception_0,
-                io_insts_pack_id_exception_1,
+  output [31:0] io_insts_pack_id_0_pc,
+                io_insts_pack_id_0_inst,
+  output        io_insts_pack_id_0_predict_jump,
+  output [31:0] io_insts_pack_id_0_pred_npc,
+  output [7:0]  io_insts_pack_id_0_exception,
+  output [31:0] io_insts_pack_id_1_pc,
+                io_insts_pack_id_1_inst,
+  output        io_insts_pack_id_1_predict_jump,
+  output [31:0] io_insts_pack_id_1_pred_npc,
+  output [7:0]  io_insts_pack_id_1_exception,
   output        io_full
 );
 
-  reg  [31:0] queue_pc_0_0;
-  reg  [31:0] queue_pc_0_1;
-  reg  [31:0] queue_pc_0_2;
-  reg  [31:0] queue_pc_0_3;
-  reg  [31:0] queue_pc_1_0;
-  reg  [31:0] queue_pc_1_1;
-  reg  [31:0] queue_pc_1_2;
-  reg  [31:0] queue_pc_1_3;
-  reg  [31:0] queue_inst_0_0;
-  reg  [31:0] queue_inst_0_1;
-  reg  [31:0] queue_inst_0_2;
-  reg  [31:0] queue_inst_0_3;
-  reg  [31:0] queue_inst_1_0;
-  reg  [31:0] queue_inst_1_1;
-  reg  [31:0] queue_inst_1_2;
-  reg  [31:0] queue_inst_1_3;
-  reg         queue_predict_jump_0_0;
-  reg         queue_predict_jump_0_1;
-  reg         queue_predict_jump_0_2;
-  reg         queue_predict_jump_0_3;
-  reg         queue_predict_jump_1_0;
-  reg         queue_predict_jump_1_1;
-  reg         queue_predict_jump_1_2;
-  reg         queue_predict_jump_1_3;
-  reg  [31:0] queue_pred_npc_0_0;
-  reg  [31:0] queue_pred_npc_0_1;
-  reg  [31:0] queue_pred_npc_0_2;
-  reg  [31:0] queue_pred_npc_0_3;
-  reg  [31:0] queue_pred_npc_1_0;
-  reg  [31:0] queue_pred_npc_1_1;
-  reg  [31:0] queue_pred_npc_1_2;
-  reg  [31:0] queue_pred_npc_1_3;
-  reg  [7:0]  queue_exception_0_0;
-  reg  [7:0]  queue_exception_0_1;
-  reg  [7:0]  queue_exception_0_2;
-  reg  [7:0]  queue_exception_0_3;
-  reg  [7:0]  queue_exception_1_0;
-  reg  [7:0]  queue_exception_1_1;
-  reg  [7:0]  queue_exception_1_2;
-  reg  [7:0]  queue_exception_1_3;
+  reg  [31:0] queue_0_0_pc;
+  reg  [31:0] queue_0_0_inst;
+  reg         queue_0_0_predict_jump;
+  reg  [31:0] queue_0_0_pred_npc;
+  reg  [7:0]  queue_0_0_exception;
+  reg  [31:0] queue_0_1_pc;
+  reg  [31:0] queue_0_1_inst;
+  reg         queue_0_1_predict_jump;
+  reg  [31:0] queue_0_1_pred_npc;
+  reg  [7:0]  queue_0_1_exception;
+  reg  [31:0] queue_0_2_pc;
+  reg  [31:0] queue_0_2_inst;
+  reg         queue_0_2_predict_jump;
+  reg  [31:0] queue_0_2_pred_npc;
+  reg  [7:0]  queue_0_2_exception;
+  reg  [31:0] queue_0_3_pc;
+  reg  [31:0] queue_0_3_inst;
+  reg         queue_0_3_predict_jump;
+  reg  [31:0] queue_0_3_pred_npc;
+  reg  [7:0]  queue_0_3_exception;
+  reg  [31:0] queue_1_0_pc;
+  reg  [31:0] queue_1_0_inst;
+  reg         queue_1_0_predict_jump;
+  reg  [31:0] queue_1_0_pred_npc;
+  reg  [7:0]  queue_1_0_exception;
+  reg  [31:0] queue_1_1_pc;
+  reg  [31:0] queue_1_1_inst;
+  reg         queue_1_1_predict_jump;
+  reg  [31:0] queue_1_1_pred_npc;
+  reg  [7:0]  queue_1_1_exception;
+  reg  [31:0] queue_1_2_pc;
+  reg  [31:0] queue_1_2_inst;
+  reg         queue_1_2_predict_jump;
+  reg  [31:0] queue_1_2_pred_npc;
+  reg  [7:0]  queue_1_2_exception;
+  reg  [31:0] queue_1_3_pc;
+  reg  [31:0] queue_1_3_inst;
+  reg         queue_1_3_predict_jump;
+  reg  [31:0] queue_1_3_pred_npc;
+  reg  [7:0]  queue_1_3_exception;
   reg  [7:0]  mask;
   wire [3:0]  mask_0 = {mask[6], mask[4], mask[2], mask[0]};
   reg  [3:0]  head;
   wire [3:0]  rear = mask_0 | {mask[7], mask[5], mask[3], mask[1]};
   wire        full = head == {rear[2:0], rear[3]};
   wire        io_insts_valid_decode_1_0 = head != rear;
-  wire [7:0]  _io_insts_pack_id_0_T_4 = head[0] ? queue_exception_0_0 : 8'h0;
-  wire [7:0]  _io_insts_pack_id_0_T_5 = head[1] ? queue_exception_0_1 : 8'h0;
-  wire [7:0]  _io_insts_pack_id_0_T_6 = head[2] ? queue_exception_0_2 : 8'h0;
-  wire [7:0]  _io_insts_pack_id_0_T_7 = head[3] ? queue_exception_0_3 : 8'h0;
-  wire [31:0] _io_insts_pack_id_0_T_11 = head[0] ? queue_pred_npc_0_0 : 32'h0;
-  wire [31:0] _io_insts_pack_id_0_T_12 = head[1] ? queue_pred_npc_0_1 : 32'h0;
-  wire [31:0] _io_insts_pack_id_0_T_13 = head[2] ? queue_pred_npc_0_2 : 32'h0;
-  wire [31:0] _io_insts_pack_id_0_T_14 = head[3] ? queue_pred_npc_0_3 : 32'h0;
-  wire [31:0] _io_insts_pack_id_0_T_32 = head[0] ? queue_inst_0_0 : 32'h0;
-  wire [31:0] _io_insts_pack_id_0_T_33 = head[1] ? queue_inst_0_1 : 32'h0;
-  wire [31:0] _io_insts_pack_id_0_T_34 = head[2] ? queue_inst_0_2 : 32'h0;
-  wire [31:0] _io_insts_pack_id_0_T_35 = head[3] ? queue_inst_0_3 : 32'h0;
-  wire [31:0] _io_insts_pack_id_0_T_39 = head[0] ? queue_pc_0_0 : 32'h0;
-  wire [31:0] _io_insts_pack_id_0_T_40 = head[1] ? queue_pc_0_1 : 32'h0;
-  wire [31:0] _io_insts_pack_id_0_T_41 = head[2] ? queue_pc_0_2 : 32'h0;
-  wire [31:0] _io_insts_pack_id_0_T_42 = head[3] ? queue_pc_0_3 : 32'h0;
-  wire [7:0]  _io_insts_pack_id_1_T_4 = head[0] ? queue_exception_1_0 : 8'h0;
-  wire [7:0]  _io_insts_pack_id_1_T_5 = head[1] ? queue_exception_1_1 : 8'h0;
-  wire [7:0]  _io_insts_pack_id_1_T_6 = head[2] ? queue_exception_1_2 : 8'h0;
-  wire [7:0]  _io_insts_pack_id_1_T_7 = head[3] ? queue_exception_1_3 : 8'h0;
-  wire [31:0] _io_insts_pack_id_1_T_11 = head[0] ? queue_pred_npc_1_0 : 32'h0;
-  wire [31:0] _io_insts_pack_id_1_T_12 = head[1] ? queue_pred_npc_1_1 : 32'h0;
-  wire [31:0] _io_insts_pack_id_1_T_13 = head[2] ? queue_pred_npc_1_2 : 32'h0;
-  wire [31:0] _io_insts_pack_id_1_T_14 = head[3] ? queue_pred_npc_1_3 : 32'h0;
-  wire [31:0] _io_insts_pack_id_1_T_32 = head[0] ? queue_inst_1_0 : 32'h0;
-  wire [31:0] _io_insts_pack_id_1_T_33 = head[1] ? queue_inst_1_1 : 32'h0;
-  wire [31:0] _io_insts_pack_id_1_T_34 = head[2] ? queue_inst_1_2 : 32'h0;
-  wire [31:0] _io_insts_pack_id_1_T_35 = head[3] ? queue_inst_1_3 : 32'h0;
-  wire [31:0] _io_insts_pack_id_1_T_39 = head[0] ? queue_pc_1_0 : 32'h0;
-  wire [31:0] _io_insts_pack_id_1_T_40 = head[1] ? queue_pc_1_1 : 32'h0;
-  wire [31:0] _io_insts_pack_id_1_T_41 = head[2] ? queue_pc_1_2 : 32'h0;
-  wire [31:0] _io_insts_pack_id_1_T_42 = head[3] ? queue_pc_1_3 : 32'h0;
+  wire [7:0]  _io_insts_pack_id_0_T_4 = head[0] ? queue_0_0_exception : 8'h0;
+  wire [7:0]  _io_insts_pack_id_0_T_5 = head[1] ? queue_0_1_exception : 8'h0;
+  wire [7:0]  _io_insts_pack_id_0_T_6 = head[2] ? queue_0_2_exception : 8'h0;
+  wire [7:0]  _io_insts_pack_id_0_T_7 = head[3] ? queue_0_3_exception : 8'h0;
+  wire [31:0] _io_insts_pack_id_0_T_11 = head[0] ? queue_0_0_pred_npc : 32'h0;
+  wire [31:0] _io_insts_pack_id_0_T_12 = head[1] ? queue_0_1_pred_npc : 32'h0;
+  wire [31:0] _io_insts_pack_id_0_T_13 = head[2] ? queue_0_2_pred_npc : 32'h0;
+  wire [31:0] _io_insts_pack_id_0_T_14 = head[3] ? queue_0_3_pred_npc : 32'h0;
+  wire [31:0] _io_insts_pack_id_0_T_32 = head[0] ? queue_0_0_inst : 32'h0;
+  wire [31:0] _io_insts_pack_id_0_T_33 = head[1] ? queue_0_1_inst : 32'h0;
+  wire [31:0] _io_insts_pack_id_0_T_34 = head[2] ? queue_0_2_inst : 32'h0;
+  wire [31:0] _io_insts_pack_id_0_T_35 = head[3] ? queue_0_3_inst : 32'h0;
+  wire [31:0] _io_insts_pack_id_0_T_39 = head[0] ? queue_0_0_pc : 32'h0;
+  wire [31:0] _io_insts_pack_id_0_T_40 = head[1] ? queue_0_1_pc : 32'h0;
+  wire [31:0] _io_insts_pack_id_0_T_41 = head[2] ? queue_0_2_pc : 32'h0;
+  wire [31:0] _io_insts_pack_id_0_T_42 = head[3] ? queue_0_3_pc : 32'h0;
+  wire [7:0]  _io_insts_pack_id_1_T_4 = head[0] ? queue_1_0_exception : 8'h0;
+  wire [7:0]  _io_insts_pack_id_1_T_5 = head[1] ? queue_1_1_exception : 8'h0;
+  wire [7:0]  _io_insts_pack_id_1_T_6 = head[2] ? queue_1_2_exception : 8'h0;
+  wire [7:0]  _io_insts_pack_id_1_T_7 = head[3] ? queue_1_3_exception : 8'h0;
+  wire [31:0] _io_insts_pack_id_1_T_11 = head[0] ? queue_1_0_pred_npc : 32'h0;
+  wire [31:0] _io_insts_pack_id_1_T_12 = head[1] ? queue_1_1_pred_npc : 32'h0;
+  wire [31:0] _io_insts_pack_id_1_T_13 = head[2] ? queue_1_2_pred_npc : 32'h0;
+  wire [31:0] _io_insts_pack_id_1_T_14 = head[3] ? queue_1_3_pred_npc : 32'h0;
+  wire [31:0] _io_insts_pack_id_1_T_32 = head[0] ? queue_1_0_inst : 32'h0;
+  wire [31:0] _io_insts_pack_id_1_T_33 = head[1] ? queue_1_1_inst : 32'h0;
+  wire [31:0] _io_insts_pack_id_1_T_34 = head[2] ? queue_1_2_inst : 32'h0;
+  wire [31:0] _io_insts_pack_id_1_T_35 = head[3] ? queue_1_3_inst : 32'h0;
+  wire [31:0] _io_insts_pack_id_1_T_39 = head[0] ? queue_1_0_pc : 32'h0;
+  wire [31:0] _io_insts_pack_id_1_T_40 = head[1] ? queue_1_1_pc : 32'h0;
+  wire [31:0] _io_insts_pack_id_1_T_41 = head[2] ? queue_1_2_pc : 32'h0;
+  wire [31:0] _io_insts_pack_id_1_T_42 = head[3] ? queue_1_3_pc : 32'h0;
   wire        _queue_0_0_T_1 = mask_0 == 4'h0;
   wire        _queue_0_1_T_1 = mask_0 == 4'h0;
   wire        _queue_0_2_T_1 = mask_0 == 4'h0;
   wire        _queue_0_3_T_1 = mask_0 == 4'h0;
   wire [7:0]  enqueue_mask =
-    mask & {8{io_insts_pack_inst_valid_0}} | {mask[6:0], mask[7]}
-    & {8{io_insts_pack_inst_valid_1}};
+    mask & {8{io_insts_pack_0_inst_valid}} | {mask[6:0], mask[7]}
+    & {8{io_insts_pack_1_inst_valid}};
   always @(posedge clock) begin
     if (reset) begin
-      queue_pc_0_0 <= 32'h0;
-      queue_pc_0_1 <= 32'h0;
-      queue_pc_0_2 <= 32'h0;
-      queue_pc_0_3 <= 32'h0;
-      queue_pc_1_0 <= 32'h0;
-      queue_pc_1_1 <= 32'h0;
-      queue_pc_1_2 <= 32'h0;
-      queue_pc_1_3 <= 32'h0;
-      queue_inst_0_0 <= 32'h0;
-      queue_inst_0_1 <= 32'h0;
-      queue_inst_0_2 <= 32'h0;
-      queue_inst_0_3 <= 32'h0;
-      queue_inst_1_0 <= 32'h0;
-      queue_inst_1_1 <= 32'h0;
-      queue_inst_1_2 <= 32'h0;
-      queue_inst_1_3 <= 32'h0;
-      queue_predict_jump_0_0 <= 1'h0;
-      queue_predict_jump_0_1 <= 1'h0;
-      queue_predict_jump_0_2 <= 1'h0;
-      queue_predict_jump_0_3 <= 1'h0;
-      queue_predict_jump_1_0 <= 1'h0;
-      queue_predict_jump_1_1 <= 1'h0;
-      queue_predict_jump_1_2 <= 1'h0;
-      queue_predict_jump_1_3 <= 1'h0;
-      queue_pred_npc_0_0 <= 32'h0;
-      queue_pred_npc_0_1 <= 32'h0;
-      queue_pred_npc_0_2 <= 32'h0;
-      queue_pred_npc_0_3 <= 32'h0;
-      queue_pred_npc_1_0 <= 32'h0;
-      queue_pred_npc_1_1 <= 32'h0;
-      queue_pred_npc_1_2 <= 32'h0;
-      queue_pred_npc_1_3 <= 32'h0;
-      queue_exception_0_0 <= 8'h0;
-      queue_exception_0_1 <= 8'h0;
-      queue_exception_0_2 <= 8'h0;
-      queue_exception_0_3 <= 8'h0;
-      queue_exception_1_0 <= 8'h0;
-      queue_exception_1_1 <= 8'h0;
-      queue_exception_1_2 <= 8'h0;
-      queue_exception_1_3 <= 8'h0;
+      queue_0_0_pc <= 32'h0;
+      queue_0_0_inst <= 32'h0;
+      queue_0_0_predict_jump <= 1'h0;
+      queue_0_0_pred_npc <= 32'h0;
+      queue_0_0_exception <= 8'h0;
+      queue_0_1_pc <= 32'h0;
+      queue_0_1_inst <= 32'h0;
+      queue_0_1_predict_jump <= 1'h0;
+      queue_0_1_pred_npc <= 32'h0;
+      queue_0_1_exception <= 8'h0;
+      queue_0_2_pc <= 32'h0;
+      queue_0_2_inst <= 32'h0;
+      queue_0_2_predict_jump <= 1'h0;
+      queue_0_2_pred_npc <= 32'h0;
+      queue_0_2_exception <= 8'h0;
+      queue_0_3_pc <= 32'h0;
+      queue_0_3_inst <= 32'h0;
+      queue_0_3_predict_jump <= 1'h0;
+      queue_0_3_pred_npc <= 32'h0;
+      queue_0_3_exception <= 8'h0;
+      queue_1_0_pc <= 32'h0;
+      queue_1_0_inst <= 32'h0;
+      queue_1_0_predict_jump <= 1'h0;
+      queue_1_0_pred_npc <= 32'h0;
+      queue_1_0_exception <= 8'h0;
+      queue_1_1_pc <= 32'h0;
+      queue_1_1_inst <= 32'h0;
+      queue_1_1_predict_jump <= 1'h0;
+      queue_1_1_pred_npc <= 32'h0;
+      queue_1_1_exception <= 8'h0;
+      queue_1_2_pc <= 32'h0;
+      queue_1_2_inst <= 32'h0;
+      queue_1_2_predict_jump <= 1'h0;
+      queue_1_2_pred_npc <= 32'h0;
+      queue_1_2_exception <= 8'h0;
+      queue_1_3_pc <= 32'h0;
+      queue_1_3_inst <= 32'h0;
+      queue_1_3_predict_jump <= 1'h0;
+      queue_1_3_pred_npc <= 32'h0;
+      queue_1_3_exception <= 8'h0;
       mask <= 8'h1;
       head <= 4'h1;
     end
     else begin
       if (~full & enqueue_mask[0]) begin
-        queue_pc_0_0 <= _queue_0_0_T_1 ? io_insts_pack_pc_1 : io_insts_pack_pc_0;
-        queue_inst_0_0 <= _queue_0_0_T_1 ? io_insts_pack_inst_1 : io_insts_pack_inst_0;
-        queue_predict_jump_0_0 <=
-          _queue_0_0_T_1 ? io_insts_pack_predict_jump_1 : io_insts_pack_predict_jump_0;
-        queue_pred_npc_0_0 <=
-          _queue_0_0_T_1 ? io_insts_pack_pred_npc_1 : io_insts_pack_pred_npc_0;
-        queue_exception_0_0 <=
-          _queue_0_0_T_1 ? io_insts_pack_exception_1 : io_insts_pack_exception_0;
+        queue_0_0_pc <= _queue_0_0_T_1 ? io_insts_pack_1_pc : io_insts_pack_0_pc;
+        queue_0_0_inst <= _queue_0_0_T_1 ? io_insts_pack_1_inst : io_insts_pack_0_inst;
+        queue_0_0_predict_jump <=
+          _queue_0_0_T_1 ? io_insts_pack_1_predict_jump : io_insts_pack_0_predict_jump;
+        queue_0_0_pred_npc <=
+          _queue_0_0_T_1 ? io_insts_pack_1_pred_npc : io_insts_pack_0_pred_npc;
+        queue_0_0_exception <=
+          _queue_0_0_T_1 ? io_insts_pack_1_exception : io_insts_pack_0_exception;
       end
       if (~full & enqueue_mask[2]) begin
-        queue_pc_0_1 <= _queue_0_1_T_1 ? io_insts_pack_pc_1 : io_insts_pack_pc_0;
-        queue_inst_0_1 <= _queue_0_1_T_1 ? io_insts_pack_inst_1 : io_insts_pack_inst_0;
-        queue_predict_jump_0_1 <=
-          _queue_0_1_T_1 ? io_insts_pack_predict_jump_1 : io_insts_pack_predict_jump_0;
-        queue_pred_npc_0_1 <=
-          _queue_0_1_T_1 ? io_insts_pack_pred_npc_1 : io_insts_pack_pred_npc_0;
-        queue_exception_0_1 <=
-          _queue_0_1_T_1 ? io_insts_pack_exception_1 : io_insts_pack_exception_0;
+        queue_0_1_pc <= _queue_0_1_T_1 ? io_insts_pack_1_pc : io_insts_pack_0_pc;
+        queue_0_1_inst <= _queue_0_1_T_1 ? io_insts_pack_1_inst : io_insts_pack_0_inst;
+        queue_0_1_predict_jump <=
+          _queue_0_1_T_1 ? io_insts_pack_1_predict_jump : io_insts_pack_0_predict_jump;
+        queue_0_1_pred_npc <=
+          _queue_0_1_T_1 ? io_insts_pack_1_pred_npc : io_insts_pack_0_pred_npc;
+        queue_0_1_exception <=
+          _queue_0_1_T_1 ? io_insts_pack_1_exception : io_insts_pack_0_exception;
       end
       if (~full & enqueue_mask[4]) begin
-        queue_pc_0_2 <= _queue_0_2_T_1 ? io_insts_pack_pc_1 : io_insts_pack_pc_0;
-        queue_inst_0_2 <= _queue_0_2_T_1 ? io_insts_pack_inst_1 : io_insts_pack_inst_0;
-        queue_predict_jump_0_2 <=
-          _queue_0_2_T_1 ? io_insts_pack_predict_jump_1 : io_insts_pack_predict_jump_0;
-        queue_pred_npc_0_2 <=
-          _queue_0_2_T_1 ? io_insts_pack_pred_npc_1 : io_insts_pack_pred_npc_0;
-        queue_exception_0_2 <=
-          _queue_0_2_T_1 ? io_insts_pack_exception_1 : io_insts_pack_exception_0;
+        queue_0_2_pc <= _queue_0_2_T_1 ? io_insts_pack_1_pc : io_insts_pack_0_pc;
+        queue_0_2_inst <= _queue_0_2_T_1 ? io_insts_pack_1_inst : io_insts_pack_0_inst;
+        queue_0_2_predict_jump <=
+          _queue_0_2_T_1 ? io_insts_pack_1_predict_jump : io_insts_pack_0_predict_jump;
+        queue_0_2_pred_npc <=
+          _queue_0_2_T_1 ? io_insts_pack_1_pred_npc : io_insts_pack_0_pred_npc;
+        queue_0_2_exception <=
+          _queue_0_2_T_1 ? io_insts_pack_1_exception : io_insts_pack_0_exception;
       end
       if (~full & enqueue_mask[6]) begin
-        queue_pc_0_3 <= _queue_0_3_T_1 ? io_insts_pack_pc_1 : io_insts_pack_pc_0;
-        queue_inst_0_3 <= _queue_0_3_T_1 ? io_insts_pack_inst_1 : io_insts_pack_inst_0;
-        queue_predict_jump_0_3 <=
-          _queue_0_3_T_1 ? io_insts_pack_predict_jump_1 : io_insts_pack_predict_jump_0;
-        queue_pred_npc_0_3 <=
-          _queue_0_3_T_1 ? io_insts_pack_pred_npc_1 : io_insts_pack_pred_npc_0;
-        queue_exception_0_3 <=
-          _queue_0_3_T_1 ? io_insts_pack_exception_1 : io_insts_pack_exception_0;
+        queue_0_3_pc <= _queue_0_3_T_1 ? io_insts_pack_1_pc : io_insts_pack_0_pc;
+        queue_0_3_inst <= _queue_0_3_T_1 ? io_insts_pack_1_inst : io_insts_pack_0_inst;
+        queue_0_3_predict_jump <=
+          _queue_0_3_T_1 ? io_insts_pack_1_predict_jump : io_insts_pack_0_predict_jump;
+        queue_0_3_pred_npc <=
+          _queue_0_3_T_1 ? io_insts_pack_1_pred_npc : io_insts_pack_0_pred_npc;
+        queue_0_3_exception <=
+          _queue_0_3_T_1 ? io_insts_pack_1_exception : io_insts_pack_0_exception;
       end
       if (~full & enqueue_mask[1]) begin
-        queue_pc_1_0 <= (|mask_0) ? io_insts_pack_pc_1 : io_insts_pack_pc_0;
-        queue_inst_1_0 <= (|mask_0) ? io_insts_pack_inst_1 : io_insts_pack_inst_0;
-        queue_predict_jump_1_0 <=
-          (|mask_0) ? io_insts_pack_predict_jump_1 : io_insts_pack_predict_jump_0;
-        queue_pred_npc_1_0 <=
-          (|mask_0) ? io_insts_pack_pred_npc_1 : io_insts_pack_pred_npc_0;
-        queue_exception_1_0 <=
-          (|mask_0) ? io_insts_pack_exception_1 : io_insts_pack_exception_0;
+        queue_1_0_pc <= (|mask_0) ? io_insts_pack_1_pc : io_insts_pack_0_pc;
+        queue_1_0_inst <= (|mask_0) ? io_insts_pack_1_inst : io_insts_pack_0_inst;
+        queue_1_0_predict_jump <=
+          (|mask_0) ? io_insts_pack_1_predict_jump : io_insts_pack_0_predict_jump;
+        queue_1_0_pred_npc <=
+          (|mask_0) ? io_insts_pack_1_pred_npc : io_insts_pack_0_pred_npc;
+        queue_1_0_exception <=
+          (|mask_0) ? io_insts_pack_1_exception : io_insts_pack_0_exception;
       end
       if (~full & enqueue_mask[3]) begin
-        queue_pc_1_1 <= (|mask_0) ? io_insts_pack_pc_1 : io_insts_pack_pc_0;
-        queue_inst_1_1 <= (|mask_0) ? io_insts_pack_inst_1 : io_insts_pack_inst_0;
-        queue_predict_jump_1_1 <=
-          (|mask_0) ? io_insts_pack_predict_jump_1 : io_insts_pack_predict_jump_0;
-        queue_pred_npc_1_1 <=
-          (|mask_0) ? io_insts_pack_pred_npc_1 : io_insts_pack_pred_npc_0;
-        queue_exception_1_1 <=
-          (|mask_0) ? io_insts_pack_exception_1 : io_insts_pack_exception_0;
+        queue_1_1_pc <= (|mask_0) ? io_insts_pack_1_pc : io_insts_pack_0_pc;
+        queue_1_1_inst <= (|mask_0) ? io_insts_pack_1_inst : io_insts_pack_0_inst;
+        queue_1_1_predict_jump <=
+          (|mask_0) ? io_insts_pack_1_predict_jump : io_insts_pack_0_predict_jump;
+        queue_1_1_pred_npc <=
+          (|mask_0) ? io_insts_pack_1_pred_npc : io_insts_pack_0_pred_npc;
+        queue_1_1_exception <=
+          (|mask_0) ? io_insts_pack_1_exception : io_insts_pack_0_exception;
       end
       if (~full & enqueue_mask[5]) begin
-        queue_pc_1_2 <= (|mask_0) ? io_insts_pack_pc_1 : io_insts_pack_pc_0;
-        queue_inst_1_2 <= (|mask_0) ? io_insts_pack_inst_1 : io_insts_pack_inst_0;
-        queue_predict_jump_1_2 <=
-          (|mask_0) ? io_insts_pack_predict_jump_1 : io_insts_pack_predict_jump_0;
-        queue_pred_npc_1_2 <=
-          (|mask_0) ? io_insts_pack_pred_npc_1 : io_insts_pack_pred_npc_0;
-        queue_exception_1_2 <=
-          (|mask_0) ? io_insts_pack_exception_1 : io_insts_pack_exception_0;
+        queue_1_2_pc <= (|mask_0) ? io_insts_pack_1_pc : io_insts_pack_0_pc;
+        queue_1_2_inst <= (|mask_0) ? io_insts_pack_1_inst : io_insts_pack_0_inst;
+        queue_1_2_predict_jump <=
+          (|mask_0) ? io_insts_pack_1_predict_jump : io_insts_pack_0_predict_jump;
+        queue_1_2_pred_npc <=
+          (|mask_0) ? io_insts_pack_1_pred_npc : io_insts_pack_0_pred_npc;
+        queue_1_2_exception <=
+          (|mask_0) ? io_insts_pack_1_exception : io_insts_pack_0_exception;
       end
       if (~full & enqueue_mask[7]) begin
-        queue_pc_1_3 <= (|mask_0) ? io_insts_pack_pc_1 : io_insts_pack_pc_0;
-        queue_inst_1_3 <= (|mask_0) ? io_insts_pack_inst_1 : io_insts_pack_inst_0;
-        queue_predict_jump_1_3 <=
-          (|mask_0) ? io_insts_pack_predict_jump_1 : io_insts_pack_predict_jump_0;
-        queue_pred_npc_1_3 <=
-          (|mask_0) ? io_insts_pack_pred_npc_1 : io_insts_pack_pred_npc_0;
-        queue_exception_1_3 <=
-          (|mask_0) ? io_insts_pack_exception_1 : io_insts_pack_exception_0;
+        queue_1_3_pc <= (|mask_0) ? io_insts_pack_1_pc : io_insts_pack_0_pc;
+        queue_1_3_inst <= (|mask_0) ? io_insts_pack_1_inst : io_insts_pack_0_inst;
+        queue_1_3_predict_jump <=
+          (|mask_0) ? io_insts_pack_1_predict_jump : io_insts_pack_0_predict_jump;
+        queue_1_3_pred_npc <=
+          (|mask_0) ? io_insts_pack_1_pred_npc : io_insts_pack_0_pred_npc;
+        queue_1_3_exception <=
+          (|mask_0) ? io_insts_pack_1_exception : io_insts_pack_0_exception;
       end
       if (io_flush) begin
         mask <= 8'h1;
         head <= 4'h1;
       end
       else begin
-        if (~full & io_insts_pack_inst_valid_0) begin
-          if (io_insts_pack_inst_valid_1)
+        if (~full & io_insts_pack_0_inst_valid) begin
+          if (io_insts_pack_1_inst_valid)
             mask <= {mask[5:0], mask[7:6]};
           else
             mask <= {mask[6:0], mask[7]};
@@ -260,34 +260,34 @@ module Fetch_Queue(
   end // always @(posedge)
   assign io_insts_valid_decode_0 = io_insts_valid_decode_1_0;
   assign io_insts_valid_decode_1 = io_insts_valid_decode_1_0;
-  assign io_insts_pack_id_pc_0 =
+  assign io_insts_pack_id_0_pc =
     _io_insts_pack_id_0_T_39 | _io_insts_pack_id_0_T_40 | _io_insts_pack_id_0_T_41
     | _io_insts_pack_id_0_T_42;
-  assign io_insts_pack_id_pc_1 =
-    _io_insts_pack_id_1_T_39 | _io_insts_pack_id_1_T_40 | _io_insts_pack_id_1_T_41
-    | _io_insts_pack_id_1_T_42;
-  assign io_insts_pack_id_inst_0 =
+  assign io_insts_pack_id_0_inst =
     _io_insts_pack_id_0_T_32 | _io_insts_pack_id_0_T_33 | _io_insts_pack_id_0_T_34
     | _io_insts_pack_id_0_T_35;
-  assign io_insts_pack_id_inst_1 =
-    _io_insts_pack_id_1_T_32 | _io_insts_pack_id_1_T_33 | _io_insts_pack_id_1_T_34
-    | _io_insts_pack_id_1_T_35;
-  assign io_insts_pack_id_predict_jump_0 =
-    head[0] & queue_predict_jump_0_0 | head[1] & queue_predict_jump_0_1 | head[2]
-    & queue_predict_jump_0_2 | head[3] & queue_predict_jump_0_3;
-  assign io_insts_pack_id_predict_jump_1 =
-    head[0] & queue_predict_jump_1_0 | head[1] & queue_predict_jump_1_1 | head[2]
-    & queue_predict_jump_1_2 | head[3] & queue_predict_jump_1_3;
-  assign io_insts_pack_id_pred_npc_0 =
+  assign io_insts_pack_id_0_predict_jump =
+    head[0] & queue_0_0_predict_jump | head[1] & queue_0_1_predict_jump | head[2]
+    & queue_0_2_predict_jump | head[3] & queue_0_3_predict_jump;
+  assign io_insts_pack_id_0_pred_npc =
     _io_insts_pack_id_0_T_11 | _io_insts_pack_id_0_T_12 | _io_insts_pack_id_0_T_13
     | _io_insts_pack_id_0_T_14;
-  assign io_insts_pack_id_pred_npc_1 =
-    _io_insts_pack_id_1_T_11 | _io_insts_pack_id_1_T_12 | _io_insts_pack_id_1_T_13
-    | _io_insts_pack_id_1_T_14;
-  assign io_insts_pack_id_exception_0 =
+  assign io_insts_pack_id_0_exception =
     _io_insts_pack_id_0_T_4 | _io_insts_pack_id_0_T_5 | _io_insts_pack_id_0_T_6
     | _io_insts_pack_id_0_T_7;
-  assign io_insts_pack_id_exception_1 =
+  assign io_insts_pack_id_1_pc =
+    _io_insts_pack_id_1_T_39 | _io_insts_pack_id_1_T_40 | _io_insts_pack_id_1_T_41
+    | _io_insts_pack_id_1_T_42;
+  assign io_insts_pack_id_1_inst =
+    _io_insts_pack_id_1_T_32 | _io_insts_pack_id_1_T_33 | _io_insts_pack_id_1_T_34
+    | _io_insts_pack_id_1_T_35;
+  assign io_insts_pack_id_1_predict_jump =
+    head[0] & queue_1_0_predict_jump | head[1] & queue_1_1_predict_jump | head[2]
+    & queue_1_2_predict_jump | head[3] & queue_1_3_predict_jump;
+  assign io_insts_pack_id_1_pred_npc =
+    _io_insts_pack_id_1_T_11 | _io_insts_pack_id_1_T_12 | _io_insts_pack_id_1_T_13
+    | _io_insts_pack_id_1_T_14;
+  assign io_insts_pack_id_1_exception =
     _io_insts_pack_id_1_T_4 | _io_insts_pack_id_1_T_5 | _io_insts_pack_id_1_T_6
     | _io_insts_pack_id_1_T_7;
   assign io_full = full;

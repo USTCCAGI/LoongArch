@@ -15,7 +15,8 @@ module Divide2(
                 io_busy_17,
                 io_busy_18,
                 io_busy_19,
-                io_busy_20
+                io_busy_20,
+                io_busy_21
 );
 
   reg  [5:0]  cnt_0;
@@ -32,6 +33,7 @@ module Divide2(
   reg  [5:0]  cnt_18;
   reg  [5:0]  cnt_19;
   reg  [5:0]  cnt_20;
+  reg  [5:0]  cnt_21;
   reg         en_reg1;
   reg  [4:0]  high_reg1;
   reg  [31:0] num1_reg1;
@@ -105,6 +107,7 @@ module Divide2(
       cnt_18 <= 6'h0;
       cnt_19 <= 6'h0;
       cnt_20 <= 6'h0;
+      cnt_21 <= 6'h0;
       num2_reg2 <= 32'h0;
       op_reg2 <= 5'h0;
       sign_reg2 <= 1'h0;
@@ -174,6 +177,10 @@ module Divide2(
         cnt_20 <= 6'(cnt_20 - 6'h1);
       else if (en_reg1)
         cnt_20 <= 6'(6'h21 - _GEN_3);
+      if (|cnt_21)
+        cnt_21 <= 6'(cnt_21 - 6'h1);
+      else if (en_reg1)
+        cnt_21 <= 6'(6'h21 - _GEN_3);
       if (en_reg1 & ~(|cnt_1)) begin
         num2_reg2 <= num2_reg1;
         op_reg2 <= op_reg1;
@@ -204,5 +211,6 @@ module Divide2(
   assign io_busy_18 = |cnt_18;
   assign io_busy_19 = |cnt_19;
   assign io_busy_20 = |cnt_20;
+  assign io_busy_21 = |cnt_21;
 endmodule
 

@@ -10,13 +10,15 @@ module LS_EX2_WB_Reg(
   input  [31:0] io_vaddr_EX2,
   input  [7:0]  io_exception_EX2,
   input  [31:0] io_mem_rdata_EX2,
+  input         io_is_ucread_EX2,
   output        io_inst_pack_WB_rd_valid,
   output [5:0]  io_inst_pack_WB_prd,
   output [4:0]  io_inst_pack_WB_rob_index,
   output        io_inst_pack_WB_inst_valid,
   output [31:0] io_vaddr_WB,
   output [7:0]  io_exception_WB,
-  output [31:0] io_mem_rdata_WB
+  output [31:0] io_mem_rdata_WB,
+  output        io_is_ucread_WB
 );
 
   reg        inst_pack_reg_rd_valid;
@@ -26,6 +28,7 @@ module LS_EX2_WB_Reg(
   reg [31:0] vaddr_reg;
   reg [7:0]  exception_reg;
   reg [31:0] mem_rdata_reg;
+  reg        is_ucread_reg;
   always @(posedge clock) begin
     if (reset) begin
       inst_pack_reg_rd_valid <= 1'h0;
@@ -35,6 +38,7 @@ module LS_EX2_WB_Reg(
       vaddr_reg <= 32'h0;
       exception_reg <= 8'h0;
       mem_rdata_reg <= 32'h0;
+      is_ucread_reg <= 1'h0;
     end
     else begin
       inst_pack_reg_rd_valid <= ~io_flush & io_inst_pack_EX2_rd_valid;
@@ -47,6 +51,7 @@ module LS_EX2_WB_Reg(
         vaddr_reg <= io_vaddr_EX2;
         exception_reg <= io_exception_EX2;
         mem_rdata_reg <= io_mem_rdata_EX2;
+        is_ucread_reg <= io_is_ucread_EX2;
       end
     end
   end // always @(posedge)
@@ -57,5 +62,6 @@ module LS_EX2_WB_Reg(
   assign io_vaddr_WB = vaddr_reg;
   assign io_exception_WB = exception_reg;
   assign io_mem_rdata_WB = mem_rdata_reg;
+  assign io_is_ucread_WB = is_ucread_reg;
 endmodule
 
