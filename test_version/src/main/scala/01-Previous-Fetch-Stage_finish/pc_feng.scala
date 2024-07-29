@@ -35,8 +35,13 @@ class PC(reset_val:Int) extends Module{
     val pc = RegInit(VecInit.fill(10)(reset_val.U(32.W)))
     val run = RegInit(false.B)
 
-    run := Mux(io.has_intr, false.B, Mux(!run, io.is_idle_cmt, run))
-
+    //run := Mux(io.has_intr, false.B, Mux(!run, io.is_idle_cmt, run))
+    
+    when(io.has_intr){//出现中断
+        run := false.B
+    }.elsewhen(!run){//？
+        run := io.is_idle_cmt
+    }
     for(i<-0 until 10){
         when(run || io.has_csr_change ||io.pc_stall){
             io.npc(i) := pc(i)

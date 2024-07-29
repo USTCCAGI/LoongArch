@@ -122,7 +122,7 @@ reg [31:0] ref_wb_rf_wdata;
 always @(posedge soc_clk)
 begin 
     #1;
-    if(|debug_wb_rf_we0 && debug_wb_rf_wnum0!=5'd0 && !debug_end && `CONFREG_OPEN_TRACE)
+    if(|debug_wb_rf_we0 && debug_wb_rf_wnum0!=5'd0&& (|debug_wb_rf_we1) && debug_wb_rf_wnum1!=5'd0 && !debug_end && `CONFREG_OPEN_TRACE)
     begin
         trace_cmp_flag=1'b0;
         while (!trace_cmp_flag && !($feof(trace_ref)))
@@ -136,14 +136,19 @@ end
 //wdata[i*8+7 : i*8] is valid, only wehile wen[i] is valid
 wire [31:0] debug_wb_rf_wdata_v0;
 wire [31:0] ref_wb_rf_wdata_v;
-assign debug_wb_rf_wdata_v0[31:24] = debug_wb_rf_wdata0[31:24] & {8{debug_wb_rf_we0}};
-assign debug_wb_rf_wdata_v0[23:16] = debug_wb_rf_wdata0[23:16] & {8{debug_wb_rf_we0}};
-assign debug_wb_rf_wdata_v0[15: 8] = debug_wb_rf_wdata0[15: 8] & {8{debug_wb_rf_we0}};
-assign debug_wb_rf_wdata_v0[7 : 0] = debug_wb_rf_wdata0[7 : 0] & {8{debug_wb_rf_we0}};
-assign   ref_wb_rf_wdata_v[31:24] =   ref_wb_rf_wdata[31:24] & {8{debug_wb_rf_we0}};
-assign   ref_wb_rf_wdata_v[23:16] =   ref_wb_rf_wdata[23:16] & {8{debug_wb_rf_we0}};
-assign   ref_wb_rf_wdata_v[15: 8] =   ref_wb_rf_wdata[15: 8] & {8{debug_wb_rf_we0}};
-assign   ref_wb_rf_wdata_v[7 : 0] =   ref_wb_rf_wdata[7 : 0] & {8{debug_wb_rf_we0}};
+assign debug_wb_rf_wdata_v0[31:24] = debug_wb_rf_wdata0[31:24] & {8{debug_wb_rf_we0[0]}};
+assign debug_wb_rf_wdata_v0[23:16] = debug_wb_rf_wdata0[23:16] & {8{debug_wb_rf_we0[0]}};
+assign debug_wb_rf_wdata_v0[15: 8] = debug_wb_rf_wdata0[15: 8] & {8{debug_wb_rf_we0[0]}};
+assign debug_wb_rf_wdata_v0[7 : 0] = debug_wb_rf_wdata0[7 : 0] & {8{debug_wb_rf_we0[0]}};
+assign   ref_wb_rf_wdata_v[31:24] =   ref_wb_rf_wdata[31:24] & {8{debug_wb_rf_we0[0]}};
+assign   ref_wb_rf_wdata_v[23:16] =   ref_wb_rf_wdata[23:16] & {8{debug_wb_rf_we0[0]}};
+assign   ref_wb_rf_wdata_v[15: 8] =   ref_wb_rf_wdata[15: 8] & {8{debug_wb_rf_we0[0]}};
+assign   ref_wb_rf_wdata_v[7 : 0] =   ref_wb_rf_wdata[7 : 0] & {8{debug_wb_rf_we0[0]}};
+wire [31:0] debug_wb_rf_wdata_v1;
+assign debug_wb_rf_wdata_v1[31:24] = debug_wb_rf_wdata1[31:24] & {8{debug_wb_rf_we1[0]}};
+assign debug_wb_rf_wdata_v1[23:16] = debug_wb_rf_wdata1[23:16] & {8{debug_wb_rf_we1[0]}};
+assign debug_wb_rf_wdata_v1[15: 8] = debug_wb_rf_wdata1[15: 8] & {8{debug_wb_rf_we1[0]}};
+assign debug_wb_rf_wdata_v1[7 : 0] = debug_wb_rf_wdata1[7 : 0] & {8{debug_wb_rf_we1[0]}};
 
 
 //compare result in rsing edge 
@@ -155,17 +160,19 @@ begin
     begin
         debug_wb_err <= 1'b0;
     end
-    else if(|debug_wb_rf_we0 && debug_wb_rf_wnum0!=5'd0 && !debug_end && `CONFREG_OPEN_TRACE)
+    else if(|debug_wb_rf_we0 && debug_wb_rf_wnum0!=5'd0&&(|debug_wb_rf_we1 && debug_wb_rf_wnum1!=5'd0) && !debug_end && `CONFREG_OPEN_TRACE)
     begin
-        if (  (debug_wb_pc0!==ref_wb_pc) || (debug_wb_rf_wnum0!==ref_wb_rf_wnum)
-            ||(debug_wb_rf_wdata_v0!==ref_wb_rf_wdata_v) )
+        if (  (debug_wb_pc0!==ref_wb_pc && debug_wb_pc1!==ref_wb_pc) || (debug_wb_rf_wnum0!==ref_wb_rf_wnum && debug_wb_rf_wnum1!==ref_wb_rf_wnum)
+            ||(debug_wb_rf_wdata_v0!==ref_wb_rf_wdata_v && debug_wb_rf_wdata_v1!==ref_wb_rf_wdata_v) )
         begin
             $display("--------------------------------------------------------------");
             $display("[%t] Error!!!",$time);
             $display("    reference: PC = 0x%8h, wb_rf_wnum = 0x%2h, wb_rf_wdata = 0x%8h",
                       ref_wb_pc, ref_wb_rf_wnum, ref_wb_rf_wdata_v);
-            $display("    mycpu    : PC = 0x%8h, wb_rf_wnum = 0x%2h, wb_rf_wdata = 0x%8h",
+            $display("    mycpu    : PC0 = 0x%8h, wb_rf_wnum0 = 0x%2h, wb_rf_wdata0 = 0x%8h",
                       debug_wb_pc0, debug_wb_rf_wnum0, debug_wb_rf_wdata_v0);
+            $display("    mycpu    : PC1 = 0x%8h, wb_rf_wnum1 = 0x%2h, wb_rf_wdata1 = 0x%8h",
+                      debug_wb_pc1, debug_wb_rf_wnum1, debug_wb_rf_wdata_v1);
             $display("--------------------------------------------------------------");
             debug_wb_err <= 1'b1;
             #40;
@@ -248,7 +255,7 @@ end
 
 //test end
 wire global_err = debug_wb_err || (err_count!=8'd0);
-wire test_end = (debug_wb_pc0==`END_PC) || (uart_display && uart_data==8'hff);
+wire test_end = (debug_wb_pc0==`END_PC || debug_wb_pc1 == `END_PC) || (uart_display && uart_data==8'hff);
 always @(posedge soc_clk)
 begin
     if (!resetn)
