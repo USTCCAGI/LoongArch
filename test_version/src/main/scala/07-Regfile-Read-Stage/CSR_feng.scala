@@ -270,7 +270,7 @@ class CSR_Regfile(PALEN: 32, TIMER_INIT_WIDTH: 30) extends Module{
         timer_reg := true.B
         clr := 0.U(32.W)
     }
-
+    io.interrupt_vec := 0.U(12.W)
     io.interrupt_vec := Mux(!crmd(2), 0.U(12.W), (estat(12, 11) & ecfg(12, 11)) ## (estat(9, 0) & ecfg(9, 0)))  
 
     

@@ -42,6 +42,9 @@ class PC(reset_val:Int) extends Module{
     }.elsewhen(!run){//？
         run := io.is_idle_cmt
     }
+    io.npc := VecInit.fill(10)(reset_val.U(32.W))
+    io.pc_PF := VecInit.fill(10)(reset_val.U(32.W))
+    
     for(i<-0 until 10){
         when(run || io.has_csr_change ||io.pc_stall){
             io.npc(i) := pc(i)

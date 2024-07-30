@@ -69,7 +69,7 @@ class Multiply2 extends Module{
         output_1(2*i+1) := input_1(i)(131,66)
     }
     //二级，22个输入，15个输出,多余1条线(21_input)
-    val input_2 =  Wire(Vec(7, UInt(132.W)))
+    val input_2 =  Wire(Vec(7,UInt(132.W)))
     val output_2 = Wire(Vec(15, UInt(66.W)))
     for(i<-0 until 7){
         input_2(i) := CSA(output_1(3*i), output_1(3*i+1), output_1(3*i+2))
@@ -86,7 +86,7 @@ class Multiply2 extends Module{
         output_3(2*i+1) := input_3(i)(131,66)
     }
     //四级，10个输入，7个输出
-    val input_4 =  Wire(Vec(3, UInt(132.W)))
+    val input_4 =  Wire(Vec(3,UInt(132.W)))
     val output_4 = Wire(Vec(7, UInt(66.W)))
     for(i<-0 until 3){
         input_4(i) := CSA(output_3(3*i), output_3(3*i+1), output_3(3*i+2))

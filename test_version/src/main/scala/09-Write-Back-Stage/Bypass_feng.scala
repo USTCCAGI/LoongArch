@@ -22,6 +22,10 @@ class Bypass_3 extends Module{
     val prj = io.prj_ex
     val prk = io.prk_ex
     val prf = io.prf_wdata_wb
+    io.forward_prj_en := VecInit(Seq.fill(3)(false.B))
+    io.forward_prk_en := VecInit(Seq.fill(3)(false.B))
+    io.forward_prj_data := VecInit(Seq.fill(3)(0.U))
+    io.forward_prk_data := VecInit(Seq.fill(3)(0.U))
 
     for(i <- 0 until 2){
         when(rd_valid(0) || rd_valid(1)){ //出现写

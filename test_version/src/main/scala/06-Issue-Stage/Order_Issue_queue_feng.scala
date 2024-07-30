@@ -135,6 +135,7 @@ class Order_Issue_Queue[T <: inst_pack_DP_t](n: Int, inst_pack_t: T) extends Mod
     }
     
     //req逻辑
+    io.issue_req:=false.B
     if(inst_pack_t.isInstanceOf[inst_pack_DP_LS_t]){//第四路
         io.issue_req := (qvalid(0) && queue(0).prj_waked && queue(0).prk_waked 
                         && (!(queue(0).inst.asInstanceOf[inst_pack_DP_LS_t].priv_vec(0) && (store_buf =/= 0.U || queue(0).inst.asInstanceOf[inst_pack_DP_LS_t].rob_index =/= io.rob_index_cmt))))

@@ -21,6 +21,9 @@ class Physical_Regfile(n: Int) extends Module{
     //寄存器堆
     val rf = RegInit(VecInit.fill(n)(0.U(32.W)))
     
+    io.prj_data := VecInit(Seq.fill(4)(0.U(32.W)))
+    io.prk_data := VecInit(Seq.fill(4)(0.U(32.W)))
+    
     //
     val rf_we = io.rf_we
     val wdata = io.wdata

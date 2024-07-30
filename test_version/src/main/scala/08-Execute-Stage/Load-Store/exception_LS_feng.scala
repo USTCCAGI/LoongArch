@@ -14,6 +14,7 @@ class Exception_LS extends Module {
   val mem_type = io.mem_type_EX
 
   val exception_ls = Wire(UInt(8.W))
+  exception_ls := 0.U(8.W)
   val check = WireDefault(0.U(4.W))
 
   switch(mem_type(1, 0)) {
