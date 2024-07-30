@@ -17,7 +17,7 @@ class Dispatch_IO(n: Int) extends Bundle{
 class Dispatch extends Module{
     val io = IO(new Dispatch_IO(8))
 
-    val issue_queue = Wire(Vec(2, UInt(4.W)))
+    val issue_queue = WireDefault(VecInit.fill(2)(0.U(4.W)))
     val inst_packs = io.inst_packs
     val fu1_num = io.elem_num(0)
     val fu2_num = io.elem_num(1)

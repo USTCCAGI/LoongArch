@@ -27,7 +27,7 @@ class Prev_Decode extends Module {
     val insts_opcode    = VecInit(inst_pack_IF.map(_.inst(31, 30)))
     val br_type         = VecInit(inst_pack_IF.map(_.inst(29, 26)))
 
-    val inst_pack_pd    = Wire(Vec(2, new inst_pack_IF_t))
+    val inst_pack_pd    = WireDefault(VecInit.fill(2)(0.U.asTypeOf(new inst_pack_IF_t)))
     inst_pack_pd        := inst_pack_IF
     val inst            = VecInit(inst_pack_IF.map(_.inst))
 

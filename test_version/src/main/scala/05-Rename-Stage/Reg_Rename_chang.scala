@@ -42,7 +42,7 @@ class Reg_Rename(n: Int) extends Module{
     io.prd := io.alloc_preg 
 
     //CRAT
-    val rd_valid_temp = Wire(Vec(2, Bool()))
+    val rd_valid_temp = WireDefault(VecInit.fill(2)(false.B))
     rd_valid_temp(1) := io.rd_valid(1)
     rd_valid_temp(0) := io.rd_valid(0) && !((io.rd(0) === io.rd(1)) && io.rd_valid(1))
 

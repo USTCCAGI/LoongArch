@@ -247,7 +247,7 @@ class ROB(n: Int) extends Module{
     
     // cmt stage
     val interrupt_vec           = interrupt_buffer(11, 0).orR 
-    val cmt_en                  = Wire(Vec(2, Bool()))
+    val cmt_en                  = WireDefault(VecInit.fill(2)(false.B))
     val rob_commit_items        = VecInit.tabulate(2)(i => rob(head_select_index(i))(head_index(i)))
 
     cmt_en(0)                   := rob_commit_items(0).complete && !empty(head_select_index(0))

@@ -48,7 +48,7 @@ class Free_List(n: Int) extends Module{
     io.empty := empty
 
     //Dequeue -- allocate new physical register
-    val head_pre    = Wire(Vec(2, UInt(n.W)))
+    val head_pre    = WireDefault(VecInit.fill(2)(0.U(n.W)))
     var head_cur    = head
     io.alloc_preg  := VecInit.fill(2)(0.U(log2Ceil(n).W))
     for(i <- 0 until 2){
@@ -62,7 +62,7 @@ class Free_List(n: Int) extends Module{
     head := head_cur
 
     //Enqueue -- push retired physical register to free list
-    val rear_prev = Wire(Vec(2, UInt(n.W)))
+    val rear_prev = WireDefault(VecInit.fill(2)(0.U(n.W)))
     var rear_curr = rear
     for(i <- 0 until 2){
         rear_prev(i) := rear_curr

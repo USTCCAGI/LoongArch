@@ -66,7 +66,7 @@ class Decode extends Module{
     io.fu_id := control_signal(8)
     io.exception := control_signal(13)
 
-    val imm = Wire(UInt(32.W))
+    val imm = WireDefault(0.U(32.W))
     imm := DontCare
     switch(control_signal(11)){
         is(IMM_00U){imm := 0.U(32.W)}
