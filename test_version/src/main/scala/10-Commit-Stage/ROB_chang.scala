@@ -212,17 +212,16 @@ class ROB(n: Int) extends Module{
     }
 
         // Handle interrupt
-    val new_interrupt = Mux(io.cmt_en(0), 0.U(1.W) ## io.interrupt_vec, 
+    interrupt_buffer := Mux(io.cmt_en(0), 0.U(1.W) ## io.interrupt_vec, 
                         Mux(!interrupt_buffer(12), 1.U(1.W) ## io.interrupt_vec, interrupt_buffer))
-    interrupt_buffer := new_interrupt
 
     // wb stage
     for(i <- 0 until 4){
         when(io.inst_valid_wb(i)){
-            val column_index = io.rob_index_wb(i)(FRONT_LOG2-1, 0)
-            val row_index = io.rob_index_wb(i)(log2Ceil(n)-1, FRONT_LOG2)
+            val column_index = io.rob_index_wb(i)(FRONT_INST_NUM_LOG2-1, 0)
+            val row_index = io.rob_index_wb(i)(log2Ceil(n)-1, FRONT_INST_NUM_LOG2)
             val rob_entry = rob(column_index)(row_index)
-            
+
             rob_entry.complete := true.B
             rob_entry.rf_wdata := io.rf_wdata_wb(i)
             rob_entry.is_ucread := io.is_ucread_wb(i)
@@ -250,7 +249,7 @@ class ROB(n: Int) extends Module{
     
     // cmt stage
     val interrupt_vec           = interrupt_buffer(11, 0).orR 
-    val cmt_en                  = WireDefault(VecInit.fill(2)(false.B))
+    val cmt_en                  = Wire(Vec(2, Bool()))
     val rob_commit_items        = VecInit.tabulate(2)(i => rob(head_select_index(i))(head_index(i)))
 
     cmt_en(0)                   := rob_commit_items(0).complete && !empty(head_select_index(0))
