@@ -257,14 +257,13 @@ class ROB(n: Int) extends Module{
     io.rob_index_cmt            := ShiftRegister(VecInit.fill(4)(head), 1)
 
     val eentry_global           = ShiftRegister(io.eentry_global, 1);
-    val tlbreentry_global       = ShiftRegister(io.tlbreentry_global, 1);
     val interrupt               = interrupt_vec && cmt_en(0)
 
     // update predict and ras
     val rob_update_item         = Mux(cmt_en(0), Mux(cmt_en(1), rob_commit_items(1), rob_commit_items(0)), 0.U.asTypeOf(new rob_t))
 
     val predict_fail_cmt        = rob_update_item.predict_fail || rob_update_item.is_priv_wrt || rob_update_item.is_priv_ls || rob_update_item.exception(7) || interrupt
-    val branch_target_cmt       = Mux(rob_update_item.exception(7) || interrupt_vec, Mux(rob_update_item.exception(5, 0) === 0x3f.U, tlbreentry_global, eentry_global), 
+    val branch_target_cmt       = Mux(rob_update_item.exception(7) || interrupt_vec, eentry_global, 
                                   Mux(rob_update_item.is_priv_wrt && priv_buffer.priv_vec(3) || rob_update_item.pred_update_en && rob_update_item.real_jump, rob_update_item.branch_target, rob_update_item.pc))
     val pred_update_en_cmt      = rob_update_item.pred_update_en
     val pred_branch_target_cmt  = rob_update_item.branch_target
@@ -300,18 +299,18 @@ class ROB(n: Int) extends Module{
     val csr_we_cmt              = rob_update_item.is_priv_wrt && priv_buffer.priv_vec(2, 1).orR
     val is_eret_cmt             = rob_update_item.is_priv_wrt && priv_buffer.priv_vec(3)
     val badv_cmt                = rob_update_item.branch_target - 4.U
-    val tlbrd_en_cmt            = rob_update_item.is_priv_wrt && priv_buffer.priv_vec(4)
-    val tlbwr_en_cmt            = rob_update_item.is_priv_wrt && priv_buffer.priv_vec(5)
-    val tlbfill_en_cmt          = rob_update_item.is_priv_wrt && priv_buffer.priv_vec(6)
-    val tlbsrch_en_cmt          = rob_update_item.is_priv_wrt && priv_buffer.priv_vec(7)
+    val tlbrd_en_cmt            = 0.U
+    val tlbwr_en_cmt            = 0.U
+    val tlbfill_en_cmt          = 0.U
+    val tlbsrch_en_cmt          = 0.U
     val tlbentry_cmt            = priv_buffer.tlb_entry
-    val invtlb_en_cmt           = rob_update_item.is_priv_wrt && priv_buffer.priv_vec(8)
+    val invtlb_en_cmt           = 0.U
     val idle_en_cmt             = rob_update_item.is_priv_wrt && priv_buffer.priv_vec(9)
-    val invtlb_op_cmt           = priv_buffer.inv_op
-    val invtlb_vaddr_cmt        = priv_buffer.inv_vaddr
-    val invtlb_asid_cmt         = priv_buffer.inv_asid
-    val llbit_set_cmt           = rob_update_item.is_priv_ls && priv_ls_buffer.priv_vec(1)
-    val llbit_clear_cmt         = rob_update_item.is_priv_ls && priv_ls_buffer.priv_vec(2)
+    val invtlb_op_cmt           = 0.U
+    val invtlb_vaddr_cmt        = 0.U
+    val invtlb_asid_cmt         = 0.U
+    val llbit_set_cmt           = 0.U
+    val llbit_clear_cmt         = 0.U
 
     io.csr_addr_cmt             := ShiftRegister(csr_addr_cmt, 1)
     io.csr_wdata_cmt            := ShiftRegister(csr_wdata_cmt, 1)
@@ -367,7 +366,7 @@ class ROB(n: Int) extends Module{
     val rd_valid_cmt             = VecInit.tabulate(2)(i => rob_commit_items(i).rd_valid && !rob_commit_items(i).exception(7))
     val prd_cmt                  = VecInit.tabulate(2)(i => rob_commit_items(i).prd)
     val pprd_cmt                 = VecInit.tabulate(2)(i => rob_commit_items(i).pprd)
-    val pc_cmt                   = VecInit.tabulate(2)(i => Mux(rob_commit_items(i).exception(7) || interrupt, Mux(rob_commit_items(i).exception(5, 0) === 0x3f.U, tlbreentry_global, eentry_global), 
+    val pc_cmt                   = VecInit.tabulate(2)(i => Mux(rob_commit_items(i).exception(7) || interrupt, eentry_global, 
                                                             Mux(rob_commit_items(i).is_priv_wrt && priv_buffer.priv_vec(3) || rob_commit_items(i).pred_update_en && rob_commit_items(i).real_jump, rob_commit_items(i).branch_target, rob_commit_items(i).pc)))
     val rf_wdata_cmt             = VecInit.tabulate(2)(i => rob_commit_items(i).rf_wdata)
     val is_ucread_cmt            = VecInit.tabulate(2)(i => rob_commit_items(i).is_ucread && cmt_en(i))
