@@ -5,22 +5,49 @@ module DCache(
   input  [31:0] io_addr_RF,
   input  [4:0]  io_mem_type_RF,
   input  [31:0] io_wdata_RF,
-  output        io_cache_miss_MEM_3,
+  input         io_store_cmt_RF,
+  input  [4:0]  io_rob_index_EX,
+  input  [31:0] io_paddr_EX,
+  input         io_uncache_EX,
+  output        io_cache_miss_MEM_0,
+                io_cache_miss_MEM_1,
+                io_cache_miss_MEM_2,
+                io_cache_miss_MEM_3,
                 io_cache_miss_MEM_4,
   output [31:0] io_rdata_MEM,
-  output        io_cache_miss_iq_2,
+  input         io_exception_MEM,
+  output        io_cache_miss_iq_0,
+                io_cache_miss_iq_1,
+                io_cache_miss_iq_2,
+                io_cache_miss_iq_3,
+                io_cache_miss_iq_4,
+  input  [4:0]  io_rob_index_CMT,
+  input         io_cacop_en,
+  input  [1:0]  io_cacop_op,
+  input         io_stall,
+                io_flush,
+  output        io_has_store,
   output [31:0] io_d_araddr,
   output        io_d_rvalid,
   input         io_d_rready,
   input  [31:0] io_d_rdata,
   input         io_d_rlast,
+  output [2:0]  io_d_rsize,
+  output [1:0]  io_d_rburst,
+  output [7:0]  io_d_rlen,
   output [31:0] io_d_awaddr,
                 io_d_wdata,
   output        io_d_wvalid,
   input         io_d_wready,
   output        io_d_wlast,
+  output [3:0]  io_d_wstrb,
+  output [2:0]  io_d_wsize,
+  output [1:0]  io_d_wburst,
+  output [7:0]  io_d_wlen,
   input         io_d_bvalid,
-  output        io_d_bready
+  output        io_d_bready,
+                io_commit_dcache_visit,
+                io_commit_dcache_miss
 );
 
   wire            w_finish;
@@ -52,7 +79,11 @@ module DCache(
   reg  [21:0]     tag_r_EX_MEM_1;
   reg  [255:0]    data_r_EX_MEM_0;
   reg  [255:0]    data_r_EX_MEM_1;
+  reg  [4:0]      mem_type_EX_MEM_backup_0;
+  reg  [4:0]      mem_type_EX_MEM_backup_1;
   reg  [4:0]      mem_type_EX_MEM_backup_2;
+  reg  [4:0]      mem_type_EX_MEM_backup_3;
+  reg  [4:0]      mem_type_EX_MEM_backup_4;
   reg             lrumem_0;
   reg             lrumem_1;
   reg             lrumem_2;
@@ -237,36 +268,40 @@ module DCache(
      {lrumem_0}};
   wire            _GEN_4 = _GEN_3[addr_EX_MEM[9:5]];
   reg  [1:0]      cs;
+  reg  [1:0]      cs_backup_0;
+  reg  [1:0]      cs_backup_1;
+  reg  [1:0]      cs_backup_2;
   reg  [1:0]      cs_backup_3;
   reg  [1:0]      cs_backup_4;
   assign _GEN = cs == 2'h0;
   assign _mem_type_EX_MEM_4to3 = mem_type_EX_MEM[4:3];
+  wire            _GEN_5 = _GEN & (|_mem_type_EX_MEM_4to3);
   wire            _data_we_T_1 = mem_type_EX_MEM[4] & (|hit_EX_MEM_1);
-  wire [31:0]     _GEN_5 =
-    (|_mem_type_EX_MEM_4to3) & ~(hit_EX_MEM_2[1]) & _data_we_T_1 ? wmask_byte : 32'h0;
   wire [31:0]     _GEN_6 =
+    (|_mem_type_EX_MEM_4to3) & ~(hit_EX_MEM_2[1]) & _data_we_T_1 ? wmask_byte : 32'h0;
+  wire [31:0]     _GEN_7 =
     (|_mem_type_EX_MEM_4to3) & hit_EX_MEM_2[1] & _data_we_T_1 ? wmask_byte : 32'h0;
-  wire            _GEN_7 = cs == 2'h1;
-  wire            _GEN_8 = cs == 2'h2;
-  wire            _GEN_9 = _GEN | _GEN_7;
-  wire            lru_miss_upd = ~_GEN_9 & _GEN_8;
-  wire [31:0]     _GEN_10 = _GEN_7 ? 32'h0 : {32{_GEN_8 & ~_GEN_4}};
-  wire [31:0]     data_we_0 = _GEN ? _GEN_5 : _GEN_10;
-  wire [31:0]     _GEN_11 = _GEN_7 ? 32'h0 : {32{_GEN_8 & _GEN_4}};
-  wire [31:0]     data_we_1 = _GEN ? _GEN_6 : _GEN_11;
-  wire            dt_cln = ~_GEN_9 & _GEN_8 & mem_type_EX_MEM[3];
-  wire            _GEN_12 = _GEN_7 | _GEN_8;
-  assign addr_sel = ~_GEN & (_GEN_12 | (&cs) & ~w_finish);
+  wire            _GEN_8 = cs == 2'h1;
+  wire            _GEN_9 = cs == 2'h2;
+  wire            _GEN_10 = _GEN | _GEN_8;
+  wire            lru_miss_upd = ~_GEN_10 & _GEN_9;
+  wire [31:0]     _GEN_11 = _GEN_8 ? 32'h0 : {32{_GEN_9 & ~_GEN_4}};
+  wire [31:0]     data_we_0 = _GEN ? _GEN_6 : _GEN_11;
+  wire [31:0]     _GEN_12 = _GEN_8 ? 32'h0 : {32{_GEN_9 & _GEN_4}};
+  wire [31:0]     data_we_1 = _GEN ? _GEN_7 : _GEN_12;
+  wire            dt_cln = ~_GEN_10 & _GEN_9 & mem_type_EX_MEM[3];
+  wire            _GEN_13 = _GEN_8 | _GEN_9;
+  assign addr_sel = ~_GEN & (_GEN_13 | (&cs) & ~w_finish);
   wire            cache_miss_4 =
     cs_backup_4 == 2'h0
       ? (|_mem_type_EX_MEM_4to3) & ~(|hit_EX_MEM_4)
       : cs_backup_4 == 2'h1 | cs_backup_4 == 2'h2 | (&cs_backup_4) & ~w_finish;
   reg  [7:0]      w_count;
   reg  [1:0]      wcs;
-  wire            _GEN_13 = wcs == 2'h1;
-  wire            d_wvalid = (|wcs) & _GEN_13 & w_count != 8'hFF;
-  wire            _GEN_14 = wcs == 2'h2;
-  assign w_finish = ~(~(|wcs) | _GEN_13) & _GEN_14;
+  wire            _GEN_14 = wcs == 2'h1;
+  wire            d_wvalid = (|wcs) & _GEN_14 & w_count != 8'hFF;
+  wire            _GEN_15 = wcs == 2'h2;
+  assign w_finish = ~(~(|wcs) | _GEN_14) & _GEN_15 & ~io_stall;
   wire [1:0]      hit_EX =
     {_xilinx_simple_dual_port_1_clock_ram_no_change_1_doutb[22]
        & (_xilinx_simple_dual_port_1_clock_ram_no_change_1_doutb[21:0]
@@ -274,10 +309,10 @@ module DCache(
      _xilinx_simple_dual_port_1_clock_ram_no_change_doutb[22]
        & (_xilinx_simple_dual_port_1_clock_ram_no_change_doutb[21:0]
           ^ addr_RF_EX[31:10]) == 22'h0};
-  wire [21:0]     _GEN_15 = _GEN_4 ? tag_r_EX_MEM_1 : tag_r_EX_MEM_0;
-  wire [255:0]    _GEN_16 = _GEN_4 ? data_r_EX_MEM_1 : data_r_EX_MEM_0;
+  wire [21:0]     _GEN_16 = _GEN_4 ? tag_r_EX_MEM_1 : tag_r_EX_MEM_0;
+  wire [255:0]    _GEN_17 = _GEN_4 ? data_r_EX_MEM_1 : data_r_EX_MEM_0;
   wire            write_way = (|hit_EX_MEM_2) ? hit_EX_MEM_2[1] : _GEN_4;
-  wire [31:0]     _GEN_17 =
+  wire [31:0]     _GEN_18 =
     _GEN_4
       ? {{dt_1_31},
          {dt_1_30},
@@ -343,77 +378,92 @@ module DCache(
          {dt_0_2},
          {dt_0_1},
          {dt_0_0}};
-  wire            _GEN_18 = addr_EX_MEM[9:5] == 5'h0;
-  wire            _GEN_19 = addr_EX_MEM[9:5] == 5'h1;
-  wire            _GEN_20 = addr_EX_MEM[9:5] == 5'h2;
-  wire            _GEN_21 = addr_EX_MEM[9:5] == 5'h3;
-  wire            _GEN_22 = addr_EX_MEM[9:5] == 5'h4;
-  wire            _GEN_23 = addr_EX_MEM[9:5] == 5'h5;
-  wire            _GEN_24 = addr_EX_MEM[9:5] == 5'h6;
-  wire            _GEN_25 = addr_EX_MEM[9:5] == 5'h7;
-  wire            _GEN_26 = addr_EX_MEM[9:5] == 5'h8;
-  wire            _GEN_27 = addr_EX_MEM[9:5] == 5'h9;
-  wire            _GEN_28 = addr_EX_MEM[9:5] == 5'hA;
-  wire            _GEN_29 = addr_EX_MEM[9:5] == 5'hB;
-  wire            _GEN_30 = addr_EX_MEM[9:5] == 5'hC;
-  wire            _GEN_31 = addr_EX_MEM[9:5] == 5'hD;
-  wire            _GEN_32 = addr_EX_MEM[9:5] == 5'hE;
-  wire            _GEN_33 = addr_EX_MEM[9:5] == 5'hF;
-  wire            _GEN_34 = addr_EX_MEM[9:5] == 5'h10;
-  wire            _GEN_35 = addr_EX_MEM[9:5] == 5'h11;
-  wire            _GEN_36 = addr_EX_MEM[9:5] == 5'h12;
-  wire            _GEN_37 = addr_EX_MEM[9:5] == 5'h13;
-  wire            _GEN_38 = addr_EX_MEM[9:5] == 5'h14;
-  wire            _GEN_39 = addr_EX_MEM[9:5] == 5'h15;
-  wire            _GEN_40 = addr_EX_MEM[9:5] == 5'h16;
-  wire            _GEN_41 = addr_EX_MEM[9:5] == 5'h17;
-  wire            _GEN_42 = addr_EX_MEM[9:5] == 5'h18;
-  wire            _GEN_43 = addr_EX_MEM[9:5] == 5'h19;
-  wire            _GEN_44 = addr_EX_MEM[9:5] == 5'h1A;
-  wire            _GEN_45 = addr_EX_MEM[9:5] == 5'h1B;
-  wire            _GEN_46 = addr_EX_MEM[9:5] == 5'h1C;
-  wire            _GEN_47 = addr_EX_MEM[9:5] == 5'h1D;
-  wire            _GEN_48 = addr_EX_MEM[9:5] == 5'h1E;
-  wire            _GEN_49 = _GEN & (|_mem_type_EX_MEM_4to3);
+  wire            _GEN_19 = addr_EX_MEM[9:5] == 5'h0;
+  wire            _GEN_20 = addr_EX_MEM[9:5] == 5'h1;
+  wire            _GEN_21 = addr_EX_MEM[9:5] == 5'h2;
+  wire            _GEN_22 = addr_EX_MEM[9:5] == 5'h3;
+  wire            _GEN_23 = addr_EX_MEM[9:5] == 5'h4;
+  wire            _GEN_24 = addr_EX_MEM[9:5] == 5'h5;
+  wire            _GEN_25 = addr_EX_MEM[9:5] == 5'h6;
+  wire            _GEN_26 = addr_EX_MEM[9:5] == 5'h7;
+  wire            _GEN_27 = addr_EX_MEM[9:5] == 5'h8;
+  wire            _GEN_28 = addr_EX_MEM[9:5] == 5'h9;
+  wire            _GEN_29 = addr_EX_MEM[9:5] == 5'hA;
+  wire            _GEN_30 = addr_EX_MEM[9:5] == 5'hB;
+  wire            _GEN_31 = addr_EX_MEM[9:5] == 5'hC;
+  wire            _GEN_32 = addr_EX_MEM[9:5] == 5'hD;
+  wire            _GEN_33 = addr_EX_MEM[9:5] == 5'hE;
+  wire            _GEN_34 = addr_EX_MEM[9:5] == 5'hF;
+  wire            _GEN_35 = addr_EX_MEM[9:5] == 5'h10;
+  wire            _GEN_36 = addr_EX_MEM[9:5] == 5'h11;
+  wire            _GEN_37 = addr_EX_MEM[9:5] == 5'h12;
+  wire            _GEN_38 = addr_EX_MEM[9:5] == 5'h13;
+  wire            _GEN_39 = addr_EX_MEM[9:5] == 5'h14;
+  wire            _GEN_40 = addr_EX_MEM[9:5] == 5'h15;
+  wire            _GEN_41 = addr_EX_MEM[9:5] == 5'h16;
+  wire            _GEN_42 = addr_EX_MEM[9:5] == 5'h17;
+  wire            _GEN_43 = addr_EX_MEM[9:5] == 5'h18;
+  wire            _GEN_44 = addr_EX_MEM[9:5] == 5'h19;
+  wire            _GEN_45 = addr_EX_MEM[9:5] == 5'h1A;
+  wire            _GEN_46 = addr_EX_MEM[9:5] == 5'h1B;
+  wire            _GEN_47 = addr_EX_MEM[9:5] == 5'h1C;
+  wire            _GEN_48 = addr_EX_MEM[9:5] == 5'h1D;
+  wire            _GEN_49 = addr_EX_MEM[9:5] == 5'h1E;
   wire            dt_we =
     _GEN
       ? (|_mem_type_EX_MEM_4to3) & mem_type_EX_MEM[4]
-      : ~_GEN_7 & _GEN_8 & mem_type_EX_MEM[4];
+      : ~_GEN_8 & _GEN_9 & mem_type_EX_MEM[4];
   wire [1:0]      _cs_T_3 = w_finish ? 2'h0 : 2'h3;
   wire [1:0]      _cs_T_2 = io_d_rready & io_d_rlast ? 2'h2 : 2'h1;
-  wire [1:0]      _GEN_50 = (|_mem_type_EX_MEM_4to3) ? {1'h0, hit_EX_MEM_0 == 2'h0} : cs;
+  wire [1:0]      _GEN_50 = (|_mem_type_EX_MEM_4to3) ? {1'h0, ~(|hit_EX_MEM_0)} : cs;
   wire [3:0][1:0] _GEN_51 = {{_cs_T_3}, {2'h3}, {_cs_T_2}, {_GEN_50}};
+  wire [1:0]      _cs_backup_0_T_3 = w_finish ? 2'h0 : 2'h3;
+  wire [1:0]      _cs_backup_0_T_2 = io_d_rready & io_d_rlast ? 2'h2 : 2'h1;
+  wire [1:0]      _GEN_52 =
+    (|_mem_type_EX_MEM_4to3) ? {1'h0, ~(|hit_EX_MEM_0)} : cs_backup_0;
+  wire [3:0][1:0] _GEN_53 = {{_cs_backup_0_T_3}, {2'h3}, {_cs_backup_0_T_2}, {_GEN_52}};
+  wire [1:0]      _cs_backup_1_T_3 = w_finish ? 2'h0 : 2'h3;
+  wire [1:0]      _cs_backup_1_T_2 = io_d_rready & io_d_rlast ? 2'h2 : 2'h1;
+  wire [1:0]      _GEN_54 =
+    (|_mem_type_EX_MEM_4to3) ? {1'h0, ~(|hit_EX_MEM_1)} : cs_backup_1;
+  wire [3:0][1:0] _GEN_55 = {{_cs_backup_1_T_3}, {2'h3}, {_cs_backup_1_T_2}, {_GEN_54}};
+  wire [1:0]      _cs_backup_2_T_3 = w_finish ? 2'h0 : 2'h3;
+  wire [1:0]      _cs_backup_2_T_2 = io_d_rready & io_d_rlast ? 2'h2 : 2'h1;
+  wire [1:0]      _GEN_56 =
+    (|_mem_type_EX_MEM_4to3) ? {1'h0, ~(|hit_EX_MEM_2)} : cs_backup_2;
+  wire [3:0][1:0] _GEN_57 = {{_cs_backup_2_T_3}, {2'h3}, {_cs_backup_2_T_2}, {_GEN_56}};
   wire [1:0]      _cs_backup_3_T_3 = w_finish ? 2'h0 : 2'h3;
   wire [1:0]      _cs_backup_3_T_2 = io_d_rready & io_d_rlast ? 2'h2 : 2'h1;
-  wire [1:0]      _GEN_52 =
+  wire [1:0]      _GEN_58 =
     (|_mem_type_EX_MEM_4to3) ? {1'h0, ~(|hit_EX_MEM_3)} : cs_backup_3;
-  wire [3:0][1:0] _GEN_53 = {{_cs_backup_3_T_3}, {2'h3}, {_cs_backup_3_T_2}, {_GEN_52}};
+  wire [3:0][1:0] _GEN_59 = {{_cs_backup_3_T_3}, {2'h3}, {_cs_backup_3_T_2}, {_GEN_58}};
   wire [1:0]      _cs_backup_4_T_3 = w_finish ? 2'h0 : 2'h3;
   wire [1:0]      _cs_backup_4_T_2 = io_d_rready & io_d_rlast ? 2'h2 : 2'h1;
-  wire [1:0]      _GEN_54 =
+  wire [1:0]      _GEN_60 =
     (|_mem_type_EX_MEM_4to3) ? {1'h0, ~(|hit_EX_MEM_4)} : cs_backup_4;
-  wire [3:0][1:0] _GEN_55 = {{_cs_backup_4_T_3}, {2'h3}, {_cs_backup_4_T_2}, {_GEN_54}};
+  wire [3:0][1:0] _GEN_61 = {{_cs_backup_4_T_3}, {2'h3}, {_cs_backup_4_T_2}, {_GEN_60}};
   always @(posedge clock) begin
-    if (~cache_miss_4) begin
-      addr_RF_EX <= io_addr_RF;
-      mem_type_RF_EX <= io_mem_type_RF;
-      wdata_RF_EX <= io_wdata_RF;
-      addr_EX_MEM <= addr_RF_EX;
-      mem_type_EX_MEM <= mem_type_RF_EX[3] ? mem_type_RF_EX : 5'h0;
-      wdata_EX_MEM <= wdata_RF_EX;
-      hit_EX_MEM_0 <= hit_EX;
-      hit_EX_MEM_1 <= hit_EX;
-      hit_EX_MEM_2 <= hit_EX;
-      hit_EX_MEM_3 <= hit_EX;
-      hit_EX_MEM_4 <= hit_EX;
-      tag_r_EX_MEM_0 <= _xilinx_simple_dual_port_1_clock_ram_no_change_doutb[21:0];
-      tag_r_EX_MEM_1 <= _xilinx_simple_dual_port_1_clock_ram_no_change_1_doutb[21:0];
-      data_r_EX_MEM_0 <= _xilinx_simple_dual_port_byte_write_1_clock_ram_read_first_doutb;
-      data_r_EX_MEM_1 <=
-        _xilinx_simple_dual_port_byte_write_1_clock_ram_read_first_1_doutb;
-      mem_type_EX_MEM_backup_2 <= mem_type_RF_EX[3] ? mem_type_RF_EX : 5'h0;
-    end
     if (reset) begin
+      addr_RF_EX <= 32'h0;
+      mem_type_RF_EX <= 5'h0;
+      wdata_RF_EX <= 32'h0;
+      addr_EX_MEM <= 32'h0;
+      mem_type_EX_MEM <= 5'h0;
+      wdata_EX_MEM <= 32'h0;
+      hit_EX_MEM_0 <= 2'h0;
+      hit_EX_MEM_1 <= 2'h0;
+      hit_EX_MEM_2 <= 2'h0;
+      hit_EX_MEM_3 <= 2'h0;
+      hit_EX_MEM_4 <= 2'h0;
+      tag_r_EX_MEM_0 <= 22'h0;
+      tag_r_EX_MEM_1 <= 22'h0;
+      data_r_EX_MEM_0 <= 256'h0;
+      data_r_EX_MEM_1 <= 256'h0;
+      mem_type_EX_MEM_backup_0 <= 5'h0;
+      mem_type_EX_MEM_backup_1 <= 5'h0;
+      mem_type_EX_MEM_backup_2 <= 5'h0;
+      mem_type_EX_MEM_backup_3 <= 5'h0;
+      mem_type_EX_MEM_backup_4 <= 5'h0;
       lrumem_0 <= 1'h0;
       lrumem_1 <= 1'h0;
       lrumem_2 <= 1'h0;
@@ -513,302 +563,332 @@ module DCache(
       dt_1_30 <= 1'h0;
       dt_1_31 <= 1'h0;
       cs <= 2'h0;
+      cs_backup_0 <= 2'h0;
+      cs_backup_1 <= 2'h0;
+      cs_backup_2 <= 2'h0;
       cs_backup_3 <= 2'h0;
       cs_backup_4 <= 2'h0;
       w_count <= 8'h0;
       wcs <= 2'h0;
     end
     else begin
-      if (_GEN_49 & (|hit_EX_MEM_1)) begin
-        if (_GEN_18)
-          lrumem_0 <= ~(hit_EX_MEM_1[1]);
+      if (~(io_stall | cache_miss_4)) begin
+        addr_RF_EX <= io_addr_RF;
+        mem_type_RF_EX <= io_mem_type_RF;
+        wdata_RF_EX <= io_wdata_RF;
+        addr_EX_MEM <= addr_RF_EX;
+        mem_type_EX_MEM <= mem_type_RF_EX[3] ? mem_type_RF_EX : 5'h0;
+        wdata_EX_MEM <= wdata_RF_EX;
+        hit_EX_MEM_0 <= hit_EX;
+        hit_EX_MEM_1 <= hit_EX;
+        hit_EX_MEM_2 <= hit_EX;
+        hit_EX_MEM_3 <= hit_EX;
+        hit_EX_MEM_4 <= hit_EX;
+        tag_r_EX_MEM_0 <= _xilinx_simple_dual_port_1_clock_ram_no_change_doutb[21:0];
+        tag_r_EX_MEM_1 <= _xilinx_simple_dual_port_1_clock_ram_no_change_1_doutb[21:0];
+        data_r_EX_MEM_0 <=
+          _xilinx_simple_dual_port_byte_write_1_clock_ram_read_first_doutb;
+        data_r_EX_MEM_1 <=
+          _xilinx_simple_dual_port_byte_write_1_clock_ram_read_first_1_doutb;
+        mem_type_EX_MEM_backup_0 <= mem_type_RF_EX[3] ? mem_type_RF_EX : 5'h0;
+        mem_type_EX_MEM_backup_1 <= mem_type_RF_EX[3] ? mem_type_RF_EX : 5'h0;
+        mem_type_EX_MEM_backup_2 <= mem_type_RF_EX[3] ? mem_type_RF_EX : 5'h0;
+        mem_type_EX_MEM_backup_3 <= mem_type_RF_EX[3] ? mem_type_RF_EX : 5'h0;
+        mem_type_EX_MEM_backup_4 <= mem_type_RF_EX[3] ? mem_type_RF_EX : 5'h0;
+      end
+      if (_GEN_5 & (|hit_EX_MEM_1)) begin
         if (_GEN_19)
-          lrumem_1 <= ~(hit_EX_MEM_1[1]);
+          lrumem_0 <= ~(hit_EX_MEM_1[1]);
         if (_GEN_20)
-          lrumem_2 <= ~(hit_EX_MEM_1[1]);
+          lrumem_1 <= ~(hit_EX_MEM_1[1]);
         if (_GEN_21)
-          lrumem_3 <= ~(hit_EX_MEM_1[1]);
+          lrumem_2 <= ~(hit_EX_MEM_1[1]);
         if (_GEN_22)
-          lrumem_4 <= ~(hit_EX_MEM_1[1]);
+          lrumem_3 <= ~(hit_EX_MEM_1[1]);
         if (_GEN_23)
-          lrumem_5 <= ~(hit_EX_MEM_1[1]);
+          lrumem_4 <= ~(hit_EX_MEM_1[1]);
         if (_GEN_24)
-          lrumem_6 <= ~(hit_EX_MEM_1[1]);
+          lrumem_5 <= ~(hit_EX_MEM_1[1]);
         if (_GEN_25)
-          lrumem_7 <= ~(hit_EX_MEM_1[1]);
+          lrumem_6 <= ~(hit_EX_MEM_1[1]);
         if (_GEN_26)
-          lrumem_8 <= ~(hit_EX_MEM_1[1]);
+          lrumem_7 <= ~(hit_EX_MEM_1[1]);
         if (_GEN_27)
-          lrumem_9 <= ~(hit_EX_MEM_1[1]);
+          lrumem_8 <= ~(hit_EX_MEM_1[1]);
         if (_GEN_28)
-          lrumem_10 <= ~(hit_EX_MEM_1[1]);
+          lrumem_9 <= ~(hit_EX_MEM_1[1]);
         if (_GEN_29)
-          lrumem_11 <= ~(hit_EX_MEM_1[1]);
+          lrumem_10 <= ~(hit_EX_MEM_1[1]);
         if (_GEN_30)
-          lrumem_12 <= ~(hit_EX_MEM_1[1]);
+          lrumem_11 <= ~(hit_EX_MEM_1[1]);
         if (_GEN_31)
-          lrumem_13 <= ~(hit_EX_MEM_1[1]);
+          lrumem_12 <= ~(hit_EX_MEM_1[1]);
         if (_GEN_32)
-          lrumem_14 <= ~(hit_EX_MEM_1[1]);
+          lrumem_13 <= ~(hit_EX_MEM_1[1]);
         if (_GEN_33)
-          lrumem_15 <= ~(hit_EX_MEM_1[1]);
+          lrumem_14 <= ~(hit_EX_MEM_1[1]);
         if (_GEN_34)
-          lrumem_16 <= ~(hit_EX_MEM_1[1]);
+          lrumem_15 <= ~(hit_EX_MEM_1[1]);
         if (_GEN_35)
-          lrumem_17 <= ~(hit_EX_MEM_1[1]);
+          lrumem_16 <= ~(hit_EX_MEM_1[1]);
         if (_GEN_36)
-          lrumem_18 <= ~(hit_EX_MEM_1[1]);
+          lrumem_17 <= ~(hit_EX_MEM_1[1]);
         if (_GEN_37)
-          lrumem_19 <= ~(hit_EX_MEM_1[1]);
+          lrumem_18 <= ~(hit_EX_MEM_1[1]);
         if (_GEN_38)
-          lrumem_20 <= ~(hit_EX_MEM_1[1]);
+          lrumem_19 <= ~(hit_EX_MEM_1[1]);
         if (_GEN_39)
-          lrumem_21 <= ~(hit_EX_MEM_1[1]);
+          lrumem_20 <= ~(hit_EX_MEM_1[1]);
         if (_GEN_40)
-          lrumem_22 <= ~(hit_EX_MEM_1[1]);
+          lrumem_21 <= ~(hit_EX_MEM_1[1]);
         if (_GEN_41)
-          lrumem_23 <= ~(hit_EX_MEM_1[1]);
+          lrumem_22 <= ~(hit_EX_MEM_1[1]);
         if (_GEN_42)
-          lrumem_24 <= ~(hit_EX_MEM_1[1]);
+          lrumem_23 <= ~(hit_EX_MEM_1[1]);
         if (_GEN_43)
-          lrumem_25 <= ~(hit_EX_MEM_1[1]);
+          lrumem_24 <= ~(hit_EX_MEM_1[1]);
         if (_GEN_44)
-          lrumem_26 <= ~(hit_EX_MEM_1[1]);
+          lrumem_25 <= ~(hit_EX_MEM_1[1]);
         if (_GEN_45)
-          lrumem_27 <= ~(hit_EX_MEM_1[1]);
+          lrumem_26 <= ~(hit_EX_MEM_1[1]);
         if (_GEN_46)
-          lrumem_28 <= ~(hit_EX_MEM_1[1]);
+          lrumem_27 <= ~(hit_EX_MEM_1[1]);
         if (_GEN_47)
-          lrumem_29 <= ~(hit_EX_MEM_1[1]);
+          lrumem_28 <= ~(hit_EX_MEM_1[1]);
         if (_GEN_48)
+          lrumem_29 <= ~(hit_EX_MEM_1[1]);
+        if (_GEN_49)
           lrumem_30 <= ~(hit_EX_MEM_1[1]);
         if (&(addr_EX_MEM[9:5]))
           lrumem_31 <= ~(hit_EX_MEM_1[1]);
       end
       else begin
-        if (lru_miss_upd & _GEN_18)
-          lrumem_0 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_19)
-          lrumem_1 <= ~_GEN_4;
+          lrumem_0 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_20)
-          lrumem_2 <= ~_GEN_4;
+          lrumem_1 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_21)
-          lrumem_3 <= ~_GEN_4;
+          lrumem_2 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_22)
-          lrumem_4 <= ~_GEN_4;
+          lrumem_3 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_23)
-          lrumem_5 <= ~_GEN_4;
+          lrumem_4 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_24)
-          lrumem_6 <= ~_GEN_4;
+          lrumem_5 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_25)
-          lrumem_7 <= ~_GEN_4;
+          lrumem_6 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_26)
-          lrumem_8 <= ~_GEN_4;
+          lrumem_7 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_27)
-          lrumem_9 <= ~_GEN_4;
+          lrumem_8 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_28)
-          lrumem_10 <= ~_GEN_4;
+          lrumem_9 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_29)
-          lrumem_11 <= ~_GEN_4;
+          lrumem_10 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_30)
-          lrumem_12 <= ~_GEN_4;
+          lrumem_11 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_31)
-          lrumem_13 <= ~_GEN_4;
+          lrumem_12 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_32)
-          lrumem_14 <= ~_GEN_4;
+          lrumem_13 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_33)
-          lrumem_15 <= ~_GEN_4;
+          lrumem_14 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_34)
-          lrumem_16 <= ~_GEN_4;
+          lrumem_15 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_35)
-          lrumem_17 <= ~_GEN_4;
+          lrumem_16 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_36)
-          lrumem_18 <= ~_GEN_4;
+          lrumem_17 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_37)
-          lrumem_19 <= ~_GEN_4;
+          lrumem_18 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_38)
-          lrumem_20 <= ~_GEN_4;
+          lrumem_19 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_39)
-          lrumem_21 <= ~_GEN_4;
+          lrumem_20 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_40)
-          lrumem_22 <= ~_GEN_4;
+          lrumem_21 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_41)
-          lrumem_23 <= ~_GEN_4;
+          lrumem_22 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_42)
-          lrumem_24 <= ~_GEN_4;
+          lrumem_23 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_43)
-          lrumem_25 <= ~_GEN_4;
+          lrumem_24 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_44)
-          lrumem_26 <= ~_GEN_4;
+          lrumem_25 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_45)
-          lrumem_27 <= ~_GEN_4;
+          lrumem_26 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_46)
-          lrumem_28 <= ~_GEN_4;
+          lrumem_27 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_47)
-          lrumem_29 <= ~_GEN_4;
+          lrumem_28 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_48)
+          lrumem_29 <= ~_GEN_4;
+        if (lru_miss_upd & _GEN_49)
           lrumem_30 <= ~_GEN_4;
         if (lru_miss_upd & (&(addr_EX_MEM[9:5])))
           lrumem_31 <= ~_GEN_4;
       end
       if (io_d_rready)
         rbuf <= {io_d_rdata, rbuf[255:32]};
-      if (_GEN_49 & ~(|hit_EX_MEM_2))
-        wbuf <= {_GEN_16, _GEN_15, addr_EX_MEM[9:5], 5'h0};
+      if (_GEN_5 & ~(|hit_EX_MEM_2))
+        wbuf <= {_GEN_17, _GEN_16, addr_EX_MEM[9:5], 5'h0};
       else if (io_d_wready & d_wvalid)
         wbuf <= {32'h0, wbuf[287:64], wbuf[31:0]};
       if (dt_we) begin
-        dt_0_0 <= ~write_way & _GEN_18 | dt_0_0;
-        dt_0_1 <= ~write_way & _GEN_19 | dt_0_1;
-        dt_0_2 <= ~write_way & _GEN_20 | dt_0_2;
-        dt_0_3 <= ~write_way & _GEN_21 | dt_0_3;
-        dt_0_4 <= ~write_way & _GEN_22 | dt_0_4;
-        dt_0_5 <= ~write_way & _GEN_23 | dt_0_5;
-        dt_0_6 <= ~write_way & _GEN_24 | dt_0_6;
-        dt_0_7 <= ~write_way & _GEN_25 | dt_0_7;
-        dt_0_8 <= ~write_way & _GEN_26 | dt_0_8;
-        dt_0_9 <= ~write_way & _GEN_27 | dt_0_9;
-        dt_0_10 <= ~write_way & _GEN_28 | dt_0_10;
-        dt_0_11 <= ~write_way & _GEN_29 | dt_0_11;
-        dt_0_12 <= ~write_way & _GEN_30 | dt_0_12;
-        dt_0_13 <= ~write_way & _GEN_31 | dt_0_13;
-        dt_0_14 <= ~write_way & _GEN_32 | dt_0_14;
-        dt_0_15 <= ~write_way & _GEN_33 | dt_0_15;
-        dt_0_16 <= ~write_way & _GEN_34 | dt_0_16;
-        dt_0_17 <= ~write_way & _GEN_35 | dt_0_17;
-        dt_0_18 <= ~write_way & _GEN_36 | dt_0_18;
-        dt_0_19 <= ~write_way & _GEN_37 | dt_0_19;
-        dt_0_20 <= ~write_way & _GEN_38 | dt_0_20;
-        dt_0_21 <= ~write_way & _GEN_39 | dt_0_21;
-        dt_0_22 <= ~write_way & _GEN_40 | dt_0_22;
-        dt_0_23 <= ~write_way & _GEN_41 | dt_0_23;
-        dt_0_24 <= ~write_way & _GEN_42 | dt_0_24;
-        dt_0_25 <= ~write_way & _GEN_43 | dt_0_25;
-        dt_0_26 <= ~write_way & _GEN_44 | dt_0_26;
-        dt_0_27 <= ~write_way & _GEN_45 | dt_0_27;
-        dt_0_28 <= ~write_way & _GEN_46 | dt_0_28;
-        dt_0_29 <= ~write_way & _GEN_47 | dt_0_29;
-        dt_0_30 <= ~write_way & _GEN_48 | dt_0_30;
+        dt_0_0 <= ~write_way & _GEN_19 | dt_0_0;
+        dt_0_1 <= ~write_way & _GEN_20 | dt_0_1;
+        dt_0_2 <= ~write_way & _GEN_21 | dt_0_2;
+        dt_0_3 <= ~write_way & _GEN_22 | dt_0_3;
+        dt_0_4 <= ~write_way & _GEN_23 | dt_0_4;
+        dt_0_5 <= ~write_way & _GEN_24 | dt_0_5;
+        dt_0_6 <= ~write_way & _GEN_25 | dt_0_6;
+        dt_0_7 <= ~write_way & _GEN_26 | dt_0_7;
+        dt_0_8 <= ~write_way & _GEN_27 | dt_0_8;
+        dt_0_9 <= ~write_way & _GEN_28 | dt_0_9;
+        dt_0_10 <= ~write_way & _GEN_29 | dt_0_10;
+        dt_0_11 <= ~write_way & _GEN_30 | dt_0_11;
+        dt_0_12 <= ~write_way & _GEN_31 | dt_0_12;
+        dt_0_13 <= ~write_way & _GEN_32 | dt_0_13;
+        dt_0_14 <= ~write_way & _GEN_33 | dt_0_14;
+        dt_0_15 <= ~write_way & _GEN_34 | dt_0_15;
+        dt_0_16 <= ~write_way & _GEN_35 | dt_0_16;
+        dt_0_17 <= ~write_way & _GEN_36 | dt_0_17;
+        dt_0_18 <= ~write_way & _GEN_37 | dt_0_18;
+        dt_0_19 <= ~write_way & _GEN_38 | dt_0_19;
+        dt_0_20 <= ~write_way & _GEN_39 | dt_0_20;
+        dt_0_21 <= ~write_way & _GEN_40 | dt_0_21;
+        dt_0_22 <= ~write_way & _GEN_41 | dt_0_22;
+        dt_0_23 <= ~write_way & _GEN_42 | dt_0_23;
+        dt_0_24 <= ~write_way & _GEN_43 | dt_0_24;
+        dt_0_25 <= ~write_way & _GEN_44 | dt_0_25;
+        dt_0_26 <= ~write_way & _GEN_45 | dt_0_26;
+        dt_0_27 <= ~write_way & _GEN_46 | dt_0_27;
+        dt_0_28 <= ~write_way & _GEN_47 | dt_0_28;
+        dt_0_29 <= ~write_way & _GEN_48 | dt_0_29;
+        dt_0_30 <= ~write_way & _GEN_49 | dt_0_30;
         dt_0_31 <= ~write_way & (&(addr_EX_MEM[9:5])) | dt_0_31;
-        dt_1_0 <= write_way & _GEN_18 | dt_1_0;
-        dt_1_1 <= write_way & _GEN_19 | dt_1_1;
-        dt_1_2 <= write_way & _GEN_20 | dt_1_2;
-        dt_1_3 <= write_way & _GEN_21 | dt_1_3;
-        dt_1_4 <= write_way & _GEN_22 | dt_1_4;
-        dt_1_5 <= write_way & _GEN_23 | dt_1_5;
-        dt_1_6 <= write_way & _GEN_24 | dt_1_6;
-        dt_1_7 <= write_way & _GEN_25 | dt_1_7;
-        dt_1_8 <= write_way & _GEN_26 | dt_1_8;
-        dt_1_9 <= write_way & _GEN_27 | dt_1_9;
-        dt_1_10 <= write_way & _GEN_28 | dt_1_10;
-        dt_1_11 <= write_way & _GEN_29 | dt_1_11;
-        dt_1_12 <= write_way & _GEN_30 | dt_1_12;
-        dt_1_13 <= write_way & _GEN_31 | dt_1_13;
-        dt_1_14 <= write_way & _GEN_32 | dt_1_14;
-        dt_1_15 <= write_way & _GEN_33 | dt_1_15;
-        dt_1_16 <= write_way & _GEN_34 | dt_1_16;
-        dt_1_17 <= write_way & _GEN_35 | dt_1_17;
-        dt_1_18 <= write_way & _GEN_36 | dt_1_18;
-        dt_1_19 <= write_way & _GEN_37 | dt_1_19;
-        dt_1_20 <= write_way & _GEN_38 | dt_1_20;
-        dt_1_21 <= write_way & _GEN_39 | dt_1_21;
-        dt_1_22 <= write_way & _GEN_40 | dt_1_22;
-        dt_1_23 <= write_way & _GEN_41 | dt_1_23;
-        dt_1_24 <= write_way & _GEN_42 | dt_1_24;
-        dt_1_25 <= write_way & _GEN_43 | dt_1_25;
-        dt_1_26 <= write_way & _GEN_44 | dt_1_26;
-        dt_1_27 <= write_way & _GEN_45 | dt_1_27;
-        dt_1_28 <= write_way & _GEN_46 | dt_1_28;
-        dt_1_29 <= write_way & _GEN_47 | dt_1_29;
-        dt_1_30 <= write_way & _GEN_48 | dt_1_30;
+        dt_1_0 <= write_way & _GEN_19 | dt_1_0;
+        dt_1_1 <= write_way & _GEN_20 | dt_1_1;
+        dt_1_2 <= write_way & _GEN_21 | dt_1_2;
+        dt_1_3 <= write_way & _GEN_22 | dt_1_3;
+        dt_1_4 <= write_way & _GEN_23 | dt_1_4;
+        dt_1_5 <= write_way & _GEN_24 | dt_1_5;
+        dt_1_6 <= write_way & _GEN_25 | dt_1_6;
+        dt_1_7 <= write_way & _GEN_26 | dt_1_7;
+        dt_1_8 <= write_way & _GEN_27 | dt_1_8;
+        dt_1_9 <= write_way & _GEN_28 | dt_1_9;
+        dt_1_10 <= write_way & _GEN_29 | dt_1_10;
+        dt_1_11 <= write_way & _GEN_30 | dt_1_11;
+        dt_1_12 <= write_way & _GEN_31 | dt_1_12;
+        dt_1_13 <= write_way & _GEN_32 | dt_1_13;
+        dt_1_14 <= write_way & _GEN_33 | dt_1_14;
+        dt_1_15 <= write_way & _GEN_34 | dt_1_15;
+        dt_1_16 <= write_way & _GEN_35 | dt_1_16;
+        dt_1_17 <= write_way & _GEN_36 | dt_1_17;
+        dt_1_18 <= write_way & _GEN_37 | dt_1_18;
+        dt_1_19 <= write_way & _GEN_38 | dt_1_19;
+        dt_1_20 <= write_way & _GEN_39 | dt_1_20;
+        dt_1_21 <= write_way & _GEN_40 | dt_1_21;
+        dt_1_22 <= write_way & _GEN_41 | dt_1_22;
+        dt_1_23 <= write_way & _GEN_42 | dt_1_23;
+        dt_1_24 <= write_way & _GEN_43 | dt_1_24;
+        dt_1_25 <= write_way & _GEN_44 | dt_1_25;
+        dt_1_26 <= write_way & _GEN_45 | dt_1_26;
+        dt_1_27 <= write_way & _GEN_46 | dt_1_27;
+        dt_1_28 <= write_way & _GEN_47 | dt_1_28;
+        dt_1_29 <= write_way & _GEN_48 | dt_1_29;
+        dt_1_30 <= write_way & _GEN_49 | dt_1_30;
         dt_1_31 <= write_way & (&(addr_EX_MEM[9:5])) | dt_1_31;
       end
       else begin
-        dt_0_0 <= ~(dt_cln & ~_GEN_4 & _GEN_18) & dt_0_0;
-        dt_0_1 <= ~(dt_cln & ~_GEN_4 & _GEN_19) & dt_0_1;
-        dt_0_2 <= ~(dt_cln & ~_GEN_4 & _GEN_20) & dt_0_2;
-        dt_0_3 <= ~(dt_cln & ~_GEN_4 & _GEN_21) & dt_0_3;
-        dt_0_4 <= ~(dt_cln & ~_GEN_4 & _GEN_22) & dt_0_4;
-        dt_0_5 <= ~(dt_cln & ~_GEN_4 & _GEN_23) & dt_0_5;
-        dt_0_6 <= ~(dt_cln & ~_GEN_4 & _GEN_24) & dt_0_6;
-        dt_0_7 <= ~(dt_cln & ~_GEN_4 & _GEN_25) & dt_0_7;
-        dt_0_8 <= ~(dt_cln & ~_GEN_4 & _GEN_26) & dt_0_8;
-        dt_0_9 <= ~(dt_cln & ~_GEN_4 & _GEN_27) & dt_0_9;
-        dt_0_10 <= ~(dt_cln & ~_GEN_4 & _GEN_28) & dt_0_10;
-        dt_0_11 <= ~(dt_cln & ~_GEN_4 & _GEN_29) & dt_0_11;
-        dt_0_12 <= ~(dt_cln & ~_GEN_4 & _GEN_30) & dt_0_12;
-        dt_0_13 <= ~(dt_cln & ~_GEN_4 & _GEN_31) & dt_0_13;
-        dt_0_14 <= ~(dt_cln & ~_GEN_4 & _GEN_32) & dt_0_14;
-        dt_0_15 <= ~(dt_cln & ~_GEN_4 & _GEN_33) & dt_0_15;
-        dt_0_16 <= ~(dt_cln & ~_GEN_4 & _GEN_34) & dt_0_16;
-        dt_0_17 <= ~(dt_cln & ~_GEN_4 & _GEN_35) & dt_0_17;
-        dt_0_18 <= ~(dt_cln & ~_GEN_4 & _GEN_36) & dt_0_18;
-        dt_0_19 <= ~(dt_cln & ~_GEN_4 & _GEN_37) & dt_0_19;
-        dt_0_20 <= ~(dt_cln & ~_GEN_4 & _GEN_38) & dt_0_20;
-        dt_0_21 <= ~(dt_cln & ~_GEN_4 & _GEN_39) & dt_0_21;
-        dt_0_22 <= ~(dt_cln & ~_GEN_4 & _GEN_40) & dt_0_22;
-        dt_0_23 <= ~(dt_cln & ~_GEN_4 & _GEN_41) & dt_0_23;
-        dt_0_24 <= ~(dt_cln & ~_GEN_4 & _GEN_42) & dt_0_24;
-        dt_0_25 <= ~(dt_cln & ~_GEN_4 & _GEN_43) & dt_0_25;
-        dt_0_26 <= ~(dt_cln & ~_GEN_4 & _GEN_44) & dt_0_26;
-        dt_0_27 <= ~(dt_cln & ~_GEN_4 & _GEN_45) & dt_0_27;
-        dt_0_28 <= ~(dt_cln & ~_GEN_4 & _GEN_46) & dt_0_28;
-        dt_0_29 <= ~(dt_cln & ~_GEN_4 & _GEN_47) & dt_0_29;
-        dt_0_30 <= ~(dt_cln & ~_GEN_4 & _GEN_48) & dt_0_30;
+        dt_0_0 <= ~(dt_cln & ~_GEN_4 & _GEN_19) & dt_0_0;
+        dt_0_1 <= ~(dt_cln & ~_GEN_4 & _GEN_20) & dt_0_1;
+        dt_0_2 <= ~(dt_cln & ~_GEN_4 & _GEN_21) & dt_0_2;
+        dt_0_3 <= ~(dt_cln & ~_GEN_4 & _GEN_22) & dt_0_3;
+        dt_0_4 <= ~(dt_cln & ~_GEN_4 & _GEN_23) & dt_0_4;
+        dt_0_5 <= ~(dt_cln & ~_GEN_4 & _GEN_24) & dt_0_5;
+        dt_0_6 <= ~(dt_cln & ~_GEN_4 & _GEN_25) & dt_0_6;
+        dt_0_7 <= ~(dt_cln & ~_GEN_4 & _GEN_26) & dt_0_7;
+        dt_0_8 <= ~(dt_cln & ~_GEN_4 & _GEN_27) & dt_0_8;
+        dt_0_9 <= ~(dt_cln & ~_GEN_4 & _GEN_28) & dt_0_9;
+        dt_0_10 <= ~(dt_cln & ~_GEN_4 & _GEN_29) & dt_0_10;
+        dt_0_11 <= ~(dt_cln & ~_GEN_4 & _GEN_30) & dt_0_11;
+        dt_0_12 <= ~(dt_cln & ~_GEN_4 & _GEN_31) & dt_0_12;
+        dt_0_13 <= ~(dt_cln & ~_GEN_4 & _GEN_32) & dt_0_13;
+        dt_0_14 <= ~(dt_cln & ~_GEN_4 & _GEN_33) & dt_0_14;
+        dt_0_15 <= ~(dt_cln & ~_GEN_4 & _GEN_34) & dt_0_15;
+        dt_0_16 <= ~(dt_cln & ~_GEN_4 & _GEN_35) & dt_0_16;
+        dt_0_17 <= ~(dt_cln & ~_GEN_4 & _GEN_36) & dt_0_17;
+        dt_0_18 <= ~(dt_cln & ~_GEN_4 & _GEN_37) & dt_0_18;
+        dt_0_19 <= ~(dt_cln & ~_GEN_4 & _GEN_38) & dt_0_19;
+        dt_0_20 <= ~(dt_cln & ~_GEN_4 & _GEN_39) & dt_0_20;
+        dt_0_21 <= ~(dt_cln & ~_GEN_4 & _GEN_40) & dt_0_21;
+        dt_0_22 <= ~(dt_cln & ~_GEN_4 & _GEN_41) & dt_0_22;
+        dt_0_23 <= ~(dt_cln & ~_GEN_4 & _GEN_42) & dt_0_23;
+        dt_0_24 <= ~(dt_cln & ~_GEN_4 & _GEN_43) & dt_0_24;
+        dt_0_25 <= ~(dt_cln & ~_GEN_4 & _GEN_44) & dt_0_25;
+        dt_0_26 <= ~(dt_cln & ~_GEN_4 & _GEN_45) & dt_0_26;
+        dt_0_27 <= ~(dt_cln & ~_GEN_4 & _GEN_46) & dt_0_27;
+        dt_0_28 <= ~(dt_cln & ~_GEN_4 & _GEN_47) & dt_0_28;
+        dt_0_29 <= ~(dt_cln & ~_GEN_4 & _GEN_48) & dt_0_29;
+        dt_0_30 <= ~(dt_cln & ~_GEN_4 & _GEN_49) & dt_0_30;
         dt_0_31 <= ~(dt_cln & ~_GEN_4 & (&(addr_EX_MEM[9:5]))) & dt_0_31;
-        dt_1_0 <= ~(dt_cln & _GEN_4 & _GEN_18) & dt_1_0;
-        dt_1_1 <= ~(dt_cln & _GEN_4 & _GEN_19) & dt_1_1;
-        dt_1_2 <= ~(dt_cln & _GEN_4 & _GEN_20) & dt_1_2;
-        dt_1_3 <= ~(dt_cln & _GEN_4 & _GEN_21) & dt_1_3;
-        dt_1_4 <= ~(dt_cln & _GEN_4 & _GEN_22) & dt_1_4;
-        dt_1_5 <= ~(dt_cln & _GEN_4 & _GEN_23) & dt_1_5;
-        dt_1_6 <= ~(dt_cln & _GEN_4 & _GEN_24) & dt_1_6;
-        dt_1_7 <= ~(dt_cln & _GEN_4 & _GEN_25) & dt_1_7;
-        dt_1_8 <= ~(dt_cln & _GEN_4 & _GEN_26) & dt_1_8;
-        dt_1_9 <= ~(dt_cln & _GEN_4 & _GEN_27) & dt_1_9;
-        dt_1_10 <= ~(dt_cln & _GEN_4 & _GEN_28) & dt_1_10;
-        dt_1_11 <= ~(dt_cln & _GEN_4 & _GEN_29) & dt_1_11;
-        dt_1_12 <= ~(dt_cln & _GEN_4 & _GEN_30) & dt_1_12;
-        dt_1_13 <= ~(dt_cln & _GEN_4 & _GEN_31) & dt_1_13;
-        dt_1_14 <= ~(dt_cln & _GEN_4 & _GEN_32) & dt_1_14;
-        dt_1_15 <= ~(dt_cln & _GEN_4 & _GEN_33) & dt_1_15;
-        dt_1_16 <= ~(dt_cln & _GEN_4 & _GEN_34) & dt_1_16;
-        dt_1_17 <= ~(dt_cln & _GEN_4 & _GEN_35) & dt_1_17;
-        dt_1_18 <= ~(dt_cln & _GEN_4 & _GEN_36) & dt_1_18;
-        dt_1_19 <= ~(dt_cln & _GEN_4 & _GEN_37) & dt_1_19;
-        dt_1_20 <= ~(dt_cln & _GEN_4 & _GEN_38) & dt_1_20;
-        dt_1_21 <= ~(dt_cln & _GEN_4 & _GEN_39) & dt_1_21;
-        dt_1_22 <= ~(dt_cln & _GEN_4 & _GEN_40) & dt_1_22;
-        dt_1_23 <= ~(dt_cln & _GEN_4 & _GEN_41) & dt_1_23;
-        dt_1_24 <= ~(dt_cln & _GEN_4 & _GEN_42) & dt_1_24;
-        dt_1_25 <= ~(dt_cln & _GEN_4 & _GEN_43) & dt_1_25;
-        dt_1_26 <= ~(dt_cln & _GEN_4 & _GEN_44) & dt_1_26;
-        dt_1_27 <= ~(dt_cln & _GEN_4 & _GEN_45) & dt_1_27;
-        dt_1_28 <= ~(dt_cln & _GEN_4 & _GEN_46) & dt_1_28;
-        dt_1_29 <= ~(dt_cln & _GEN_4 & _GEN_47) & dt_1_29;
-        dt_1_30 <= ~(dt_cln & _GEN_4 & _GEN_48) & dt_1_30;
+        dt_1_0 <= ~(dt_cln & _GEN_4 & _GEN_19) & dt_1_0;
+        dt_1_1 <= ~(dt_cln & _GEN_4 & _GEN_20) & dt_1_1;
+        dt_1_2 <= ~(dt_cln & _GEN_4 & _GEN_21) & dt_1_2;
+        dt_1_3 <= ~(dt_cln & _GEN_4 & _GEN_22) & dt_1_3;
+        dt_1_4 <= ~(dt_cln & _GEN_4 & _GEN_23) & dt_1_4;
+        dt_1_5 <= ~(dt_cln & _GEN_4 & _GEN_24) & dt_1_5;
+        dt_1_6 <= ~(dt_cln & _GEN_4 & _GEN_25) & dt_1_6;
+        dt_1_7 <= ~(dt_cln & _GEN_4 & _GEN_26) & dt_1_7;
+        dt_1_8 <= ~(dt_cln & _GEN_4 & _GEN_27) & dt_1_8;
+        dt_1_9 <= ~(dt_cln & _GEN_4 & _GEN_28) & dt_1_9;
+        dt_1_10 <= ~(dt_cln & _GEN_4 & _GEN_29) & dt_1_10;
+        dt_1_11 <= ~(dt_cln & _GEN_4 & _GEN_30) & dt_1_11;
+        dt_1_12 <= ~(dt_cln & _GEN_4 & _GEN_31) & dt_1_12;
+        dt_1_13 <= ~(dt_cln & _GEN_4 & _GEN_32) & dt_1_13;
+        dt_1_14 <= ~(dt_cln & _GEN_4 & _GEN_33) & dt_1_14;
+        dt_1_15 <= ~(dt_cln & _GEN_4 & _GEN_34) & dt_1_15;
+        dt_1_16 <= ~(dt_cln & _GEN_4 & _GEN_35) & dt_1_16;
+        dt_1_17 <= ~(dt_cln & _GEN_4 & _GEN_36) & dt_1_17;
+        dt_1_18 <= ~(dt_cln & _GEN_4 & _GEN_37) & dt_1_18;
+        dt_1_19 <= ~(dt_cln & _GEN_4 & _GEN_38) & dt_1_19;
+        dt_1_20 <= ~(dt_cln & _GEN_4 & _GEN_39) & dt_1_20;
+        dt_1_21 <= ~(dt_cln & _GEN_4 & _GEN_40) & dt_1_21;
+        dt_1_22 <= ~(dt_cln & _GEN_4 & _GEN_41) & dt_1_22;
+        dt_1_23 <= ~(dt_cln & _GEN_4 & _GEN_42) & dt_1_23;
+        dt_1_24 <= ~(dt_cln & _GEN_4 & _GEN_43) & dt_1_24;
+        dt_1_25 <= ~(dt_cln & _GEN_4 & _GEN_44) & dt_1_25;
+        dt_1_26 <= ~(dt_cln & _GEN_4 & _GEN_45) & dt_1_26;
+        dt_1_27 <= ~(dt_cln & _GEN_4 & _GEN_46) & dt_1_27;
+        dt_1_28 <= ~(dt_cln & _GEN_4 & _GEN_47) & dt_1_28;
+        dt_1_29 <= ~(dt_cln & _GEN_4 & _GEN_48) & dt_1_29;
+        dt_1_30 <= ~(dt_cln & _GEN_4 & _GEN_49) & dt_1_30;
         dt_1_31 <= ~(dt_cln & _GEN_4 & (&(addr_EX_MEM[9:5]))) & dt_1_31;
       end
       cs <= _GEN_51[cs];
-      cs_backup_3 <= _GEN_53[cs_backup_3];
-      cs_backup_4 <= _GEN_55[cs_backup_4];
+      cs_backup_0 <= _GEN_53[cs_backup_0];
+      cs_backup_1 <= _GEN_55[cs_backup_1];
+      cs_backup_2 <= _GEN_57[cs_backup_2];
+      cs_backup_3 <= _GEN_59[cs_backup_3];
+      cs_backup_4 <= _GEN_61[cs_backup_4];
       if (|wcs) begin
         if (d_wvalid & io_d_wready)
           w_count <= 8'(w_count - 8'h1);
-        if (_GEN_13)
+        if (_GEN_14)
           wcs <= io_d_bvalid ? 2'h2 : 2'h1;
-        else if (_GEN_14)
-          wcs <= {~(~(_GEN | _GEN_12) & (&cs)), 1'h0};
+        else if (_GEN_15)
+          wcs <= {~(~(_GEN | _GEN_13) & (&cs) & ~io_stall), 1'h0};
       end
       else begin
         w_count <= 8'h7;
-        if (_GEN_49 & ~(|hit_EX_MEM_3))
-          wcs <= _GEN_17[addr_EX_MEM[9:5]] ? 2'h1 : 2'h2;
+        if (_GEN_5 & ~(|hit_EX_MEM_3))
+          wcs <= _GEN_18[addr_EX_MEM[9:5]] ? 2'h1 : 2'h2;
       end
     end
   end // always @(posedge)
   assign _xilinx_simple_dual_port_1_clock_ram_no_change_addra = addr_EX_MEM[9:5];
-  assign _xilinx_simple_dual_port_1_clock_ram_no_change_wea = ~_GEN_9 & _GEN_8 & ~_GEN_4;
+  assign _xilinx_simple_dual_port_1_clock_ram_no_change_wea = ~_GEN_10 & _GEN_9 & ~_GEN_4;
   xilinx_simple_dual_port_1_clock_ram_no_change #(
     .RAM_DEPTH(32),
     .RAM_WIDTH(23)
@@ -821,7 +901,8 @@ module DCache(
     .doutb (_xilinx_simple_dual_port_1_clock_ram_no_change_doutb)
   );
   assign _xilinx_simple_dual_port_1_clock_ram_no_change_1_addra = addr_EX_MEM[9:5];
-  assign _xilinx_simple_dual_port_1_clock_ram_no_change_1_wea = ~_GEN_9 & _GEN_8 & _GEN_4;
+  assign _xilinx_simple_dual_port_1_clock_ram_no_change_1_wea =
+    ~_GEN_10 & _GEN_9 & _GEN_4;
   xilinx_simple_dual_port_1_clock_ram_no_change #(
     .RAM_DEPTH(32),
     .RAM_WIDTH(23)
@@ -861,19 +942,45 @@ module DCache(
     .wea   (data_we_1),
     .doutb (_xilinx_simple_dual_port_byte_write_1_clock_ram_read_first_1_doutb)
   );
+  assign io_cache_miss_MEM_0 =
+    cs_backup_0 == 2'h0
+      ? (|_mem_type_EX_MEM_4to3) & ~(|hit_EX_MEM_0)
+      : cs_backup_0 == 2'h1 | cs_backup_0 == 2'h2 | (&cs_backup_0) & ~w_finish;
+  assign io_cache_miss_MEM_1 =
+    cs_backup_1 == 2'h0
+      ? (|_mem_type_EX_MEM_4to3) & ~(|hit_EX_MEM_1)
+      : cs_backup_1 == 2'h1 | cs_backup_1 == 2'h2 | (&cs_backup_1) & ~w_finish;
+  assign io_cache_miss_MEM_2 =
+    cs_backup_2 == 2'h0
+      ? (|_mem_type_EX_MEM_4to3) & ~(|hit_EX_MEM_2)
+      : cs_backup_2 == 2'h1 | cs_backup_2 == 2'h2 | (&cs_backup_2) & ~w_finish;
   assign io_cache_miss_MEM_3 =
     cs_backup_3 == 2'h0
       ? (|_mem_type_EX_MEM_4to3) & ~(|hit_EX_MEM_3)
       : cs_backup_3 == 2'h1 | cs_backup_3 == 2'h2 | (&cs_backup_3) & ~w_finish;
   assign io_cache_miss_MEM_4 = cache_miss_4;
   assign io_rdata_MEM = _read_mask_T_1 & data_read;
+  assign io_cache_miss_iq_0 = (|(mem_type_EX_MEM_backup_0[4:3])) & ~(|hit_EX_MEM_0);
+  assign io_cache_miss_iq_1 = (|(mem_type_EX_MEM_backup_1[4:3])) & ~(|hit_EX_MEM_1);
   assign io_cache_miss_iq_2 = (|(mem_type_EX_MEM_backup_2[4:3])) & ~(|hit_EX_MEM_2);
+  assign io_cache_miss_iq_3 = (|(mem_type_EX_MEM_backup_3[4:3])) & ~(|hit_EX_MEM_3);
+  assign io_cache_miss_iq_4 = (|(mem_type_EX_MEM_backup_4[4:3])) & ~(|hit_EX_MEM_4);
+  assign io_has_store = io_mem_type_RF[4] | mem_type_RF_EX[4];
   assign io_d_araddr = {addr_EX_MEM[31:5], 5'h0};
-  assign io_d_rvalid = ~_GEN & _GEN_7;
+  assign io_d_rvalid = ~_GEN & _GEN_8;
+  assign io_d_rsize = 3'h2;
+  assign io_d_rburst = 2'h1;
+  assign io_d_rlen = 8'h7;
   assign io_d_awaddr = wbuf[31:0];
   assign io_d_wdata = wbuf[63:32];
   assign io_d_wvalid = d_wvalid;
-  assign io_d_wlast = (|wcs) & _GEN_13 & w_count == 8'h0;
-  assign io_d_bready = (|wcs) & _GEN_13;
+  assign io_d_wlast = (|wcs) & _GEN_14 & w_count == 8'h0;
+  assign io_d_wstrb = 4'hF;
+  assign io_d_wsize = 3'h2;
+  assign io_d_wburst = 2'h1;
+  assign io_d_wlen = 8'h7;
+  assign io_d_bready = (|wcs) & _GEN_14;
+  assign io_commit_dcache_visit = _GEN & (|_mem_type_EX_MEM_4to3);
+  assign io_commit_dcache_miss = _GEN_5 & ~(|hit_EX_MEM_4);
 endmodule
 
