@@ -2,6 +2,7 @@ import chisel3._
 import chisel3.util._
 import Predict_Config._
 import Predict_Struct._
+import java.{util => ju}
 
 class Predict_IO extends Bundle{
     // check
@@ -56,7 +57,7 @@ class Predict extends Module{
     val cmt_col         = pc_cmt(2)
     
     val btb_rindex      = VecInit.tabulate(2)(i => npc(i)(3+BTB_INDEX_WIDTH-1, 3))
-    val btb_rdata       = Reg(Vec(2,Vec(2, new btb_t)))
+    val btb_rdata = RegInit(VecInit(Seq.fill(2)(VecInit(Seq.fill(2)(0.U.asTypeOf(new btb_t))))))
 
     val bht_rindex      = VecInit.tabulate(2)(i => pc(i)(3+BHT_INDEX_WIDTH-1, 3))
     val bht_rdata       = VecInit.tabulate(2)(i => bht(i)(bht_rindex(i)))
@@ -75,6 +76,21 @@ class Predict extends Module{
 
     val pred_hit_index  = !pred_hit(0)
 
+     // 创建临时的 Wire 以进行初始化
+    val init_predict_jump = Wire(Vec(2, Bool()))
+    val init_pred_npc = Wire(UInt(32.W))
+    val init_pred_valid = Wire(Vec(2, Bool()))
+  
+    // 对临时 Wire 进行初始化
+    init_predict_jump := VecInit(Seq.fill(2)(false.B))
+    init_pred_npc := 0.U
+    init_pred_valid := VecInit(Seq.fill(2)(false.B))
+  
+    // 将初始化值赋给 io 端口
+    io.predict_jump := init_predict_jump
+    io.pred_npc := init_pred_npc
+    io.pred_valid := init_pred_valid
+
     io.predict_jump     := (pred_hit(1) ## Mux(pc(6)(2), pred_hit(1), pred_hit(0))).asBools
     io.pred_valid       := (pred_valid_hit(1) ## Mux(pc(6)(2), pred_valid_hit(1), pred_valid_hit(0))).asBools
     io.pred_npc         := Mux(btb_rdata(btb_rsel)(pred_hit_index).typ === RET, ras(top-1.U) + 4.U, btb_rdata(btb_rsel)(pred_hit_index).target ## 0.U(2.W)) 
@@ -84,6 +100,14 @@ class Predict extends Module{
     // btb
     val mask            = UIntToOH(cmt_col)
     val btb_wdata       = Wire(Vec(2, new btb_t))
+
+    for(i <- 0 until 2){
+        btb_wdata(i).valid  := false.B
+        btb_wdata(i).target := 0.U
+        btb_wdata(i).tag    := 0.U
+        btb_wdata(i).typ    := 0.U
+    }
+    
     val btb_windex      = pc_cmt(3-1+BTB_INDEX_WIDTH, 3)
 
     // way_sel reg

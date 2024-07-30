@@ -46,18 +46,20 @@ class PC(reset_val:Int) extends Module{
     io.pc_PF := VecInit.fill(10)(reset_val.U(32.W))
 
     for(i<-0 until 10){
-        when(run || io.has_csr_change ||io.pc_stall){
+        when(run || io.has_csr_change){
             io.npc(i) := pc(i)
         }.elsewhen(io.predict_fail){//分支预测失败
             io.npc(i) := io.branch_target
         }.elsewhen(io.flush_by_pd){//分支预测修改
             io.npc(i) := io.flush_pd_target
-        }.otherwise{//pc不停
+        }.elsewhen(!io.pc_stall){//pc不停
             when(io.pred_jump.asUInt.orR){//强制jump信号
                 io.npc(i) := io.pred_npc
             }.otherwise{//pc+8
                 io.npc(i) := (pc(i) + 8.U)(31, 3) ## 0.U(3.W)
             }
+        }.otherwise{
+            io.npc(i) := pc(i)
         }
 
         io.pc_PF(i) := pc(i)//取指用
@@ -66,7 +68,7 @@ class PC(reset_val:Int) extends Module{
 
     io.inst_valid_PF(0) := false.B
     io.inst_valid_PF(1) := false.B
-    
+
     when(run || io.has_csr_change){
         io.inst_valid_PF(0) := false.B
         io.inst_valid_PF(1) := false.B
