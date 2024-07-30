@@ -44,7 +44,7 @@ class PC(reset_val:Int) extends Module{
     }
     io.npc := VecInit.fill(10)(reset_val.U(32.W))
     io.pc_PF := VecInit.fill(10)(reset_val.U(32.W))
-    
+
     for(i<-0 until 10){
         when(run || io.has_csr_change ||io.pc_stall){
             io.npc(i) := pc(i)
@@ -63,6 +63,10 @@ class PC(reset_val:Int) extends Module{
         io.pc_PF(i) := pc(i)//取指用
         pc(i) := io.npc(i)
     }
+
+    io.inst_valid_PF(0) := false.B
+    io.inst_valid_PF(1) := false.B
+    
     when(run || io.has_csr_change){
         io.inst_valid_PF(0) := false.B
         io.inst_valid_PF(1) := false.B
