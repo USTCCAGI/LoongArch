@@ -153,7 +153,7 @@ class ROB(n: Int) extends Module{
     }
 
 
-    // for dp stage
+    // for rn stage
         // Define allow_next_cmt based on various conditions
     val allow_next_cmt = VecInit.tabulate(2) { i =>
         (
@@ -163,23 +163,25 @@ class ROB(n: Int) extends Module{
         )
     }
 
-    when(!full(0) && io.inst_valid_dp(0)){
+    when(!full(0)){
         for(i <- 0 until 2){
-            rob(i)(tail).rd              := io.rd_dp(i)
-            rob(i)(tail).rd_valid        := io.rd_valid_dp(i)
-            rob(i)(tail).prd             := io.prd_dp(i)
-            rob(i)(tail).pprd            := io.pprd_dp(i)
-            rob(i)(tail).pc              := io.pc_dp(i) + 4.U
-            rob(i)(tail).is_store        := io.is_store_dp(i)
-            rob(i)(tail).br_type_pred    := io.br_type_pred_dp(i)
-            rob(i)(tail).pred_update_en  := io.pred_update_en_dp(i)
-            rob(i)(tail).predict_fail    := false.B
-            rob(i)(tail).complete        := false.B
-            rob(i)(tail).is_priv_wrt     := io.priv_vec_dp(i)(0) && io.priv_vec_dp(i)(9, 1).orR
-            rob(i)(tail).is_priv_ls      := io.priv_vec_dp(i)(12, 10).orR
-            rob(i)(tail).exception       := io.exception_dp(i)
-            rob(i)(tail).inst            := io.inst_dp(i)
-            rob(i)(tail).allow_next_cmt  := allow_next_cmt(i)
+            when(io.inst_valid_dp(0)){
+                rob(i)(tail).rd              := io.rd_dp(i)
+                rob(i)(tail).rd_valid        := io.rd_valid_dp(i)
+                rob(i)(tail).prd             := io.prd_dp(i)
+                rob(i)(tail).pprd            := io.pprd_dp(i)
+                rob(i)(tail).pc              := io.pc_dp(i) + 4.U
+                rob(i)(tail).is_store        := io.is_store_dp(i)
+                rob(i)(tail).br_type_pred    := io.br_type_pred_dp(i)
+                rob(i)(tail).pred_update_en  := io.pred_update_en_dp(i)
+                rob(i)(tail).predict_fail    := false.B
+                rob(i)(tail).complete        := false.B
+                rob(i)(tail).is_priv_wrt     := io.priv_vec_dp(i)(0) && io.priv_vec_dp(i)(9, 1).orR
+                rob(i)(tail).is_priv_ls      := io.priv_vec_dp(i)(12, 10).orR
+                rob(i)(tail).exception       := io.exception_dp(i)
+                rob(i)(tail).inst            := io.inst_dp(i)
+                rob(i)(tail).allow_next_cmt  := allow_next_cmt(i)
+            }
         }
     }
     io.rob_index_dp := VecInit.tabulate(2)(i => tail ## i.U(FRONT_INST_NUM_LOG2.W))
@@ -215,11 +217,12 @@ class ROB(n: Int) extends Module{
     interrupt_buffer := new_interrupt
 
     // wb stage
-    val column_index = VecInit.tabulate(4)(i => io.rob_index_wb(i)(FRONT_INST_NUM_LOG2-1, 0))
-    val row_index = VecInit.tabulate(4)(i => io.rob_index_wb(i)(log2Ceil(n)-1, FRONT_INST_NUM_LOG2))
     for(i <- 0 until 4){
         when(io.inst_valid_wb(i)){
-            val rob_entry = rob(column_index(i))(row_index(i))
+            val column_index = io.rob_index_wb(i)(FRONT_LOG2-1, 0)
+            val row_index = io.rob_index_wb(i)(log2Ceil(n)-1, FRONT_LOG2)
+            val rob_entry = rob(column_index)(row_index)
+            
             rob_entry.complete := true.B
             rob_entry.rf_wdata := io.rf_wdata_wb(i)
             rob_entry.is_ucread := io.is_ucread_wb(i)
