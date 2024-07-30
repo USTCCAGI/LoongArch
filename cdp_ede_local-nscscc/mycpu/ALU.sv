@@ -7,20 +7,19 @@ module ALU(
 );
 
   wire [62:0]       _result_T_12 = {31'h0, io_src1} << io_src2[4:0];
-  wire [31:0]       _result_T_17 = io_src1 | io_src2;
   wire [15:0][31:0] _GEN =
-    {{~_result_T_17},
-     {~_result_T_17},
-     {~_result_T_17},
-     {~_result_T_17},
-     {~_result_T_17},
+    {{32'h0},
+     {32'h0},
+     {32'h0},
+     {32'h0},
+     {32'h0},
      {io_src1 >> io_src2[4:0]},
      {io_src1 >> io_src2[4:0]},
      {_result_T_12[31:0]},
      {io_src1 ^ io_src2},
      {io_src1 | io_src2},
      {io_src1 & io_src2},
-     {~_result_T_17},
+     {~(io_src1 | io_src2)},
      {{31'h0, io_src1 < io_src2}},
      {{31'h0, $signed(io_src1) < $signed(io_src2)}},
      {32'(io_src1 - io_src2)},

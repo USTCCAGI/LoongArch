@@ -34,22 +34,6 @@ module Predict(
   input  [31:0] io_pd_pc_plus_4
 );
 
-  wire [1:0]       btb_rdata_typ_1_1;
-  wire [29:0]      btb_rdata_target_1_1;
-  wire [20:0]      btb_rdata_tag_1_1;
-  wire             btb_rdata_valid_1_1;
-  wire [1:0]       btb_rdata_typ_1_0;
-  wire [29:0]      btb_rdata_target_1_0;
-  wire [20:0]      btb_rdata_tag_1_0;
-  wire             btb_rdata_valid_1_0;
-  wire [1:0]       btb_rdata_typ_0_1;
-  wire [29:0]      btb_rdata_target_0_1;
-  wire [20:0]      btb_rdata_tag_0_1;
-  wire             btb_rdata_valid_0_1;
-  wire [1:0]       btb_rdata_typ_0_0;
-  wire [29:0]      btb_rdata_target_0_0;
-  wire [20:0]      btb_rdata_tag_0_0;
-  wire             btb_rdata_valid_0_0;
   wire [6:0]       _xilinx_simple_dual_port_1_clock_ram_read_first_7_addra;
   wire [6:0]       _xilinx_simple_dual_port_1_clock_ram_read_first_7_addrb;
   wire             _xilinx_simple_dual_port_1_clock_ram_read_first_7_wea;
@@ -347,6 +331,22 @@ module Predict(
   reg  [31:0]      ras_6;
   reg  [31:0]      ras_7;
   reg  [2:0]       top;
+  reg              btb_rdata_valid_0_0;
+  reg              btb_rdata_valid_0_1;
+  reg              btb_rdata_valid_1_0;
+  reg              btb_rdata_valid_1_1;
+  reg  [29:0]      btb_rdata_target_0_0;
+  reg  [29:0]      btb_rdata_target_0_1;
+  reg  [29:0]      btb_rdata_target_1_0;
+  reg  [29:0]      btb_rdata_target_1_1;
+  reg  [20:0]      btb_rdata_tag_0_0;
+  reg  [20:0]      btb_rdata_tag_0_1;
+  reg  [20:0]      btb_rdata_tag_1_0;
+  reg  [20:0]      btb_rdata_tag_1_1;
+  reg  [1:0]       btb_rdata_typ_0_0;
+  reg  [1:0]       btb_rdata_typ_0_1;
+  reg  [1:0]       btb_rdata_typ_1_0;
+  reg  [1:0]       btb_rdata_typ_1_1;
   wire [63:0][3:0] _GEN =
     {{bht_0_63},
      {bht_0_62},
@@ -609,16 +609,16 @@ module Predict(
      {lpht_1_2},
      {lpht_1_1},
      {lpht_1_0}};
-  wire             btb_rsel =
-    (btb_rdata_tag_1_0 ^ io_pc_4[31:11] | btb_rdata_tag_1_1 ^ io_pc_5[31:11]) == 21'h0;
-  wire             _GEN_3 = btb_rsel ? btb_rdata_valid_1_0 : btb_rdata_valid_0_0;
-  wire             _GEN_4 = btb_rsel ? btb_rdata_valid_1_1 : btb_rdata_valid_0_1;
-  wire [29:0]      _GEN_5 = btb_rsel ? btb_rdata_target_1_0 : btb_rdata_target_0_0;
-  wire [29:0]      _GEN_6 = btb_rsel ? btb_rdata_target_1_1 : btb_rdata_target_0_1;
-  wire [20:0]      _GEN_7 = btb_rsel ? btb_rdata_tag_1_0 : btb_rdata_tag_0_0;
-  wire [20:0]      _GEN_8 = btb_rsel ? btb_rdata_tag_1_1 : btb_rdata_tag_0_1;
-  wire [1:0]       _GEN_9 = btb_rsel ? btb_rdata_typ_1_0 : btb_rdata_typ_0_0;
-  wire [1:0]       _GEN_10 = btb_rsel ? btb_rdata_typ_1_1 : btb_rdata_typ_0_1;
+  wire             _btb_rsel_T_6 =
+    (|(btb_rdata_tag_1_0 ^ io_pc_4[31:11])) & (|(btb_rdata_tag_1_1 ^ io_pc_5[31:11]));
+  wire             _GEN_3 = _btb_rsel_T_6 ? btb_rdata_valid_0_0 : btb_rdata_valid_1_0;
+  wire             _GEN_4 = _btb_rsel_T_6 ? btb_rdata_valid_0_1 : btb_rdata_valid_1_1;
+  wire [29:0]      _GEN_5 = _btb_rsel_T_6 ? btb_rdata_target_0_0 : btb_rdata_target_1_0;
+  wire [29:0]      _GEN_6 = _btb_rsel_T_6 ? btb_rdata_target_0_1 : btb_rdata_target_1_1;
+  wire [20:0]      _GEN_7 = _btb_rsel_T_6 ? btb_rdata_tag_0_0 : btb_rdata_tag_1_0;
+  wire [20:0]      _GEN_8 = _btb_rsel_T_6 ? btb_rdata_tag_0_1 : btb_rdata_tag_1_1;
+  wire [1:0]       _GEN_9 = _btb_rsel_T_6 ? btb_rdata_typ_0_0 : btb_rdata_typ_1_0;
+  wire [1:0]       _GEN_10 = _btb_rsel_T_6 ? btb_rdata_typ_0_1 : btb_rdata_typ_1_1;
   wire             predict_valid_0 = _GEN_3 & (_GEN_7 ^ io_pc_4[31:11]) == 21'h0;
   wire             predict_valid_1 = _GEN_4 & (_GEN_8 ^ io_pc_5[31:11]) == 21'h0;
   wire             pred_hit_1 =
@@ -893,32 +893,6 @@ module Predict(
   wire             _GEN_15 = _GEN_14[io_pc_cmt[9:3]];
   wire [21:0]      btb_tagv_dina_1_0 = {1'h1, io_pc_cmt[31:11]};
   wire [21:0]      btb_tagv_dina_1_1 = {1'h1, io_pc_cmt[31:11]};
-  assign btb_rdata_valid_0_0 = _xilinx_simple_dual_port_1_clock_ram_read_first_doutb[21];
-  assign btb_rdata_tag_0_0 = _xilinx_simple_dual_port_1_clock_ram_read_first_doutb[20:0];
-  assign btb_rdata_target_0_0 =
-    _xilinx_simple_dual_port_1_clock_ram_read_first_4_doutb[31:2];
-  assign btb_rdata_typ_0_0 = _xilinx_simple_dual_port_1_clock_ram_read_first_4_doutb[1:0];
-  assign btb_rdata_valid_0_1 =
-    _xilinx_simple_dual_port_1_clock_ram_read_first_1_doutb[21];
-  assign btb_rdata_tag_0_1 =
-    _xilinx_simple_dual_port_1_clock_ram_read_first_1_doutb[20:0];
-  assign btb_rdata_target_0_1 =
-    _xilinx_simple_dual_port_1_clock_ram_read_first_5_doutb[31:2];
-  assign btb_rdata_typ_0_1 = _xilinx_simple_dual_port_1_clock_ram_read_first_5_doutb[1:0];
-  assign btb_rdata_valid_1_0 =
-    _xilinx_simple_dual_port_1_clock_ram_read_first_2_doutb[21];
-  assign btb_rdata_tag_1_0 =
-    _xilinx_simple_dual_port_1_clock_ram_read_first_2_doutb[20:0];
-  assign btb_rdata_target_1_0 =
-    _xilinx_simple_dual_port_1_clock_ram_read_first_6_doutb[31:2];
-  assign btb_rdata_typ_1_0 = _xilinx_simple_dual_port_1_clock_ram_read_first_6_doutb[1:0];
-  assign btb_rdata_valid_1_1 =
-    _xilinx_simple_dual_port_1_clock_ram_read_first_3_doutb[21];
-  assign btb_rdata_tag_1_1 =
-    _xilinx_simple_dual_port_1_clock_ram_read_first_3_doutb[20:0];
-  assign btb_rdata_target_1_1 =
-    _xilinx_simple_dual_port_1_clock_ram_read_first_7_doutb[31:2];
-  assign btb_rdata_typ_1_1 = _xilinx_simple_dual_port_1_clock_ram_read_first_7_doutb[1:0];
   wire [31:0]      btb_targ_dina_1_0 = {io_branch_target[31:2], io_br_type};
   wire [31:0]      btb_targ_dina_1_1 = {io_branch_target[31:2], io_br_type};
   wire [2:0]       _top_T = 3'(top + 3'h1);
@@ -1329,6 +1303,22 @@ module Predict(
       ras_6 <= 32'h1C000000;
       ras_7 <= 32'h1C000000;
       top <= 3'h7;
+      btb_rdata_valid_0_0 <= 1'h0;
+      btb_rdata_valid_0_1 <= 1'h0;
+      btb_rdata_valid_1_0 <= 1'h0;
+      btb_rdata_valid_1_1 <= 1'h0;
+      btb_rdata_target_0_0 <= 30'h0;
+      btb_rdata_target_0_1 <= 30'h0;
+      btb_rdata_target_1_0 <= 30'h0;
+      btb_rdata_target_1_1 <= 30'h0;
+      btb_rdata_tag_0_0 <= 21'h0;
+      btb_rdata_tag_0_1 <= 21'h0;
+      btb_rdata_tag_1_0 <= 21'h0;
+      btb_rdata_tag_1_1 <= 21'h0;
+      btb_rdata_typ_0_0 <= 2'h0;
+      btb_rdata_typ_0_1 <= 2'h0;
+      btb_rdata_typ_1_0 <= 2'h0;
+      btb_rdata_typ_1_1 <= 2'h0;
       way_sel_0 <= 1'h0;
       way_sel_1 <= 1'h0;
       way_sel_2 <= 1'h0;
@@ -2536,6 +2526,26 @@ module Predict(
         else if (_io_pred_npc_T & _GEN_16)
           top <= _top_T_4;
       end
+      btb_rdata_valid_0_0 <= _xilinx_simple_dual_port_1_clock_ram_read_first_doutb[21];
+      btb_rdata_valid_0_1 <= _xilinx_simple_dual_port_1_clock_ram_read_first_1_doutb[21];
+      btb_rdata_valid_1_0 <= _xilinx_simple_dual_port_1_clock_ram_read_first_2_doutb[21];
+      btb_rdata_valid_1_1 <= _xilinx_simple_dual_port_1_clock_ram_read_first_3_doutb[21];
+      btb_rdata_target_0_0 <=
+        _xilinx_simple_dual_port_1_clock_ram_read_first_4_doutb[31:2];
+      btb_rdata_target_0_1 <=
+        _xilinx_simple_dual_port_1_clock_ram_read_first_5_doutb[31:2];
+      btb_rdata_target_1_0 <=
+        _xilinx_simple_dual_port_1_clock_ram_read_first_6_doutb[31:2];
+      btb_rdata_target_1_1 <=
+        _xilinx_simple_dual_port_1_clock_ram_read_first_7_doutb[31:2];
+      btb_rdata_tag_0_0 <= _xilinx_simple_dual_port_1_clock_ram_read_first_doutb[20:0];
+      btb_rdata_tag_0_1 <= _xilinx_simple_dual_port_1_clock_ram_read_first_1_doutb[20:0];
+      btb_rdata_tag_1_0 <= _xilinx_simple_dual_port_1_clock_ram_read_first_2_doutb[20:0];
+      btb_rdata_tag_1_1 <= _xilinx_simple_dual_port_1_clock_ram_read_first_3_doutb[20:0];
+      btb_rdata_typ_0_0 <= _xilinx_simple_dual_port_1_clock_ram_read_first_4_doutb[1:0];
+      btb_rdata_typ_0_1 <= _xilinx_simple_dual_port_1_clock_ram_read_first_5_doutb[1:0];
+      btb_rdata_typ_1_0 <= _xilinx_simple_dual_port_1_clock_ram_read_first_6_doutb[1:0];
+      btb_rdata_typ_1_1 <= _xilinx_simple_dual_port_1_clock_ram_read_first_7_doutb[1:0];
       if (io_update_en & io_pc_cmt[9:3] == 7'h0)
         way_sel_0 <= ~_GEN_15;
       if (io_update_en & io_pc_cmt[9:3] == 7'h1)

@@ -42,18 +42,19 @@ module PC(
   reg  [31:0] pc_9;
   reg         run;
   wire        _GEN = run | io_has_csr_change;
-  wire        _GEN_0 = _GEN | io_pc_stall;
-  wire [1:0]  _GEN_1 = {io_pred_jump_1, io_pred_jump_0};
+  wire [1:0]  _GEN_0 = {io_pred_jump_1, io_pred_jump_0};
   wire [31:0] _io_npc_0_T = 32'(pc_0 + 32'h8);
   wire [31:0] _io_npc_0_T_3 = {_io_npc_0_T[31:3], 3'h0};
-  wire [31:0] _GEN_2 = (|_GEN_1) ? io_pred_npc : _io_npc_0_T_3;
+  wire [31:0] _GEN_1 = (|_GEN_0) ? io_pred_npc : _io_npc_0_T_3;
+  wire [31:0] _GEN_2 = io_pc_stall ? pc_0 : _GEN_1;
   wire [31:0] _GEN_3 = io_flush_by_pd ? io_flush_pd_target : _GEN_2;
   wire [31:0] _GEN_4 = io_predict_fail ? io_branch_target : _GEN_3;
   wire [31:0] _io_npc_1_T = 32'(pc_1 + 32'h8);
   wire [31:0] _io_npc_1_T_3 = {_io_npc_1_T[31:3], 3'h0};
-  wire [31:0] _GEN_5 = (|_GEN_1) ? io_pred_npc : _io_npc_1_T_3;
-  wire [31:0] _GEN_6 = io_flush_by_pd ? io_flush_pd_target : _GEN_5;
-  wire [31:0] _GEN_7 = io_predict_fail ? io_branch_target : _GEN_6;
+  wire [31:0] _GEN_5 = (|_GEN_0) ? io_pred_npc : _io_npc_1_T_3;
+  wire [31:0] _GEN_6 = io_pc_stall ? pc_1 : _GEN_5;
+  wire [31:0] _GEN_7 = io_flush_by_pd ? io_flush_pd_target : _GEN_6;
+  wire [31:0] _GEN_8 = io_predict_fail ? io_branch_target : _GEN_7;
   wire [31:0] _io_npc_2_T = 32'(pc_2 + 32'h8);
   wire [31:0] _io_npc_3_T = 32'(pc_3 + 32'h8);
   wire [31:0] _io_npc_4_T = 32'(pc_4 + 32'h8);
@@ -62,7 +63,7 @@ module PC(
   wire [31:0] _io_npc_7_T = 32'(pc_7 + 32'h8);
   wire [31:0] _io_npc_8_T = 32'(pc_8 + 32'h8);
   wire [31:0] _io_npc_9_T = 32'(pc_9 + 32'h8);
-  wire        _run_T_1 = run ? run : io_is_idle_cmt;
+  wire        _GEN_9 = run ? run : io_is_idle_cmt;
   always @(posedge clock) begin
     if (reset) begin
       pc_0 <= 32'h1C000000;
@@ -78,7 +79,7 @@ module PC(
       run <= 1'h0;
     end
     else begin
-      if (~_GEN_0) begin
+      if (~_GEN) begin
         if (io_predict_fail) begin
           pc_0 <= io_branch_target;
           pc_1 <= io_branch_target;
@@ -103,7 +104,9 @@ module PC(
           pc_8 <= io_flush_pd_target;
           pc_9 <= io_flush_pd_target;
         end
-        else if (|_GEN_1) begin
+        else if (io_pc_stall) begin
+        end
+        else if (|_GEN_0) begin
           pc_0 <= io_pred_npc;
           pc_1 <= io_pred_npc;
           pc_2 <= io_pred_npc;
@@ -128,7 +131,7 @@ module PC(
           pc_9 <= {_io_npc_9_T[31:3], 3'h0};
         end
       end
-      run <= ~io_has_intr & _run_T_1;
+      run <= ~io_has_intr & _GEN_9;
     end
   end // always @(posedge)
   assign io_pc_PF_0 = pc_0;
@@ -141,8 +144,8 @@ module PC(
   assign io_pc_PF_7 = pc_7;
   assign io_pc_PF_8 = pc_8;
   assign io_pc_PF_9 = pc_9;
-  assign io_npc_0 = _GEN_0 ? pc_0 : _GEN_4;
-  assign io_npc_1 = _GEN_0 ? pc_1 : _GEN_7;
+  assign io_npc_0 = _GEN ? pc_0 : _GEN_4;
+  assign io_npc_1 = _GEN ? pc_1 : _GEN_8;
   assign io_inst_valid_PF_0 = ~_GEN;
   assign io_inst_valid_PF_1 = ~_GEN & ~io_pred_jump_0 & ~(pc_1[2]);
   assign io_exception_PF = pc_1[1:0] == 2'h0 ? 8'h0 : 8'h88;

@@ -65,8 +65,7 @@ module ROB(
   output [7:0]  io_exception_cmt,
   output        io_is_eret_cmt,
   input  [12:0] io_interrupt_vec,
-  output        io_tlbrd_en_cmt,
-                io_idle_en_cmt,
+  output        io_idle_en_cmt,
   input  [9:0]  io_priv_vec_ex,
   input  [13:0] io_csr_addr_ex,
   output [31:0] io_branch_target_cmt
@@ -518,7 +517,6 @@ module ROB(
   reg               r_1;
   reg  [4:0]        r_1_0;
   reg  [31:0]       eentry_global;
-  reg  [31:0]       tlbreentry_global;
   reg  [9:0]        io_predict_fail_cmt_r;
   reg  [31:0]       io_branch_target_cmt_r;
   reg               io_pred_update_en_cmt_r;
@@ -535,7 +533,6 @@ module ROB(
   reg               io_csr_we_cmt_r;
   reg               io_is_eret_cmt_r;
   reg  [31:0]       io_badv_cmt_r;
-  reg               io_tlbrd_en_cmt_r;
   reg               io_idle_en_cmt_r;
   wire              head_chosen_0 = head_next[0] ? ~(head[0]) & cmt_en_0 : cmt_en_1;
   reg               r_2_0;
@@ -559,205 +556,203 @@ module ROB(
     ~io_pred_update_en_dp_1 | io_priv_vec_dp_1[0] & (|(io_priv_vec_dp_1[12:1]))
     | io_exception_dp_1[7];
   wire              _GEN_13 = {elem_num_0_1 == 5'hC, elem_num_0_0 == 5'hC} == 2'h0;
-  wire              _GEN_14 = _GEN_13 & io_inst_valid_dp_0;
-  wire              _GEN_15 = _GEN_14 & tail == 4'h0;
-  wire              _GEN_16 = _GEN_14 & tail == 4'h1;
-  wire              _GEN_17 = _GEN_14 & tail == 4'h2;
-  wire              _GEN_18 = _GEN_14 & tail == 4'h3;
-  wire              _GEN_19 = _GEN_14 & tail == 4'h4;
-  wire              _GEN_20 = _GEN_14 & tail == 4'h5;
-  wire              _GEN_21 = _GEN_14 & tail == 4'h6;
-  wire              _GEN_22 = _GEN_14 & tail == 4'h7;
-  wire              _GEN_23 = _GEN_14 & tail == 4'h8;
-  wire              _GEN_24 = _GEN_14 & tail == 4'h9;
-  wire              _GEN_25 = _GEN_14 & tail == 4'hA;
-  wire              _GEN_26 = _GEN_14 & tail == 4'hB;
+  wire              _GEN_14 = _GEN_13 & io_inst_valid_dp_0 & tail == 4'h0;
+  wire              _GEN_15 = _GEN_13 & io_inst_valid_dp_0 & tail == 4'h1;
+  wire              _GEN_16 = _GEN_13 & io_inst_valid_dp_0 & tail == 4'h2;
+  wire              _GEN_17 = _GEN_13 & io_inst_valid_dp_0 & tail == 4'h3;
+  wire              _GEN_18 = _GEN_13 & io_inst_valid_dp_0 & tail == 4'h4;
+  wire              _GEN_19 = _GEN_13 & io_inst_valid_dp_0 & tail == 4'h5;
+  wire              _GEN_20 = _GEN_13 & io_inst_valid_dp_0 & tail == 4'h6;
+  wire              _GEN_21 = _GEN_13 & io_inst_valid_dp_0 & tail == 4'h7;
+  wire              _GEN_22 = _GEN_13 & io_inst_valid_dp_0 & tail == 4'h8;
+  wire              _GEN_23 = _GEN_13 & io_inst_valid_dp_0 & tail == 4'h9;
+  wire              _GEN_24 = _GEN_13 & io_inst_valid_dp_0 & tail == 4'hA;
+  wire              _GEN_25 = _GEN_13 & io_inst_valid_dp_0 & tail == 4'hB;
   wire [31:0]       _rob_0_pc_T = 32'(io_pc_dp_0 + 32'h4);
-  wire              _GEN_27 = ~_GEN_15 & rob_complete_0_0;
-  wire              _GEN_28 = ~_GEN_16 & rob_complete_0_1;
-  wire              _GEN_29 = ~_GEN_17 & rob_complete_0_2;
-  wire              _GEN_30 = ~_GEN_18 & rob_complete_0_3;
-  wire              _GEN_31 = ~_GEN_19 & rob_complete_0_4;
-  wire              _GEN_32 = ~_GEN_20 & rob_complete_0_5;
-  wire              _GEN_33 = ~_GEN_21 & rob_complete_0_6;
-  wire              _GEN_34 = ~_GEN_22 & rob_complete_0_7;
-  wire              _GEN_35 = ~_GEN_23 & rob_complete_0_8;
-  wire              _GEN_36 = ~_GEN_24 & rob_complete_0_9;
-  wire              _GEN_37 = ~_GEN_25 & rob_complete_0_10;
-  wire              _GEN_38 = ~_GEN_26 & rob_complete_0_11;
+  wire              _GEN_26 = ~_GEN_14 & rob_complete_0_0;
+  wire              _GEN_27 = ~_GEN_15 & rob_complete_0_1;
+  wire              _GEN_28 = ~_GEN_16 & rob_complete_0_2;
+  wire              _GEN_29 = ~_GEN_17 & rob_complete_0_3;
+  wire              _GEN_30 = ~_GEN_18 & rob_complete_0_4;
+  wire              _GEN_31 = ~_GEN_19 & rob_complete_0_5;
+  wire              _GEN_32 = ~_GEN_20 & rob_complete_0_6;
+  wire              _GEN_33 = ~_GEN_21 & rob_complete_0_7;
+  wire              _GEN_34 = ~_GEN_22 & rob_complete_0_8;
+  wire              _GEN_35 = ~_GEN_23 & rob_complete_0_9;
+  wire              _GEN_36 = ~_GEN_24 & rob_complete_0_10;
+  wire              _GEN_37 = ~_GEN_25 & rob_complete_0_11;
   wire              _rob_0_is_priv_wrt_T_3 =
     io_priv_vec_dp_0[0] & (|(io_priv_vec_dp_0[9:1]));
   wire [31:0]       _rob_1_pc_T = 32'(io_pc_dp_1 + 32'h4);
-  wire              _GEN_39 = ~_GEN_15 & rob_complete_1_0;
-  wire              _GEN_40 = ~_GEN_16 & rob_complete_1_1;
-  wire              _GEN_41 = ~_GEN_17 & rob_complete_1_2;
-  wire              _GEN_42 = ~_GEN_18 & rob_complete_1_3;
-  wire              _GEN_43 = ~_GEN_19 & rob_complete_1_4;
-  wire              _GEN_44 = ~_GEN_20 & rob_complete_1_5;
-  wire              _GEN_45 = ~_GEN_21 & rob_complete_1_6;
-  wire              _GEN_46 = ~_GEN_22 & rob_complete_1_7;
-  wire              _GEN_47 = ~_GEN_23 & rob_complete_1_8;
-  wire              _GEN_48 = ~_GEN_24 & rob_complete_1_9;
-  wire              _GEN_49 = ~_GEN_25 & rob_complete_1_10;
-  wire              _GEN_50 = ~_GEN_26 & rob_complete_1_11;
+  wire              _GEN_38 = ~_GEN_14 & rob_complete_1_0;
+  wire              _GEN_39 = ~_GEN_15 & rob_complete_1_1;
+  wire              _GEN_40 = ~_GEN_16 & rob_complete_1_2;
+  wire              _GEN_41 = ~_GEN_17 & rob_complete_1_3;
+  wire              _GEN_42 = ~_GEN_18 & rob_complete_1_4;
+  wire              _GEN_43 = ~_GEN_19 & rob_complete_1_5;
+  wire              _GEN_44 = ~_GEN_20 & rob_complete_1_6;
+  wire              _GEN_45 = ~_GEN_21 & rob_complete_1_7;
+  wire              _GEN_46 = ~_GEN_22 & rob_complete_1_8;
+  wire              _GEN_47 = ~_GEN_23 & rob_complete_1_9;
+  wire              _GEN_48 = ~_GEN_24 & rob_complete_1_10;
+  wire              _GEN_49 = ~_GEN_25 & rob_complete_1_11;
   wire              _rob_1_is_priv_wrt_T_3 =
     io_priv_vec_dp_1[0] & (|(io_priv_vec_dp_1[9:1]));
   wire              priv_valid =
     ~priv_buffer_valid & io_priv_vec_ex[0] & (|(io_priv_vec_ex[9:1]));
-  wire              _GEN_51 = io_rob_index_wb_0[4:1] == 4'h0;
-  wire              _GEN_52 = io_inst_valid_wb_0 & ~(io_rob_index_wb_0[0]) & _GEN_51;
-  wire              _GEN_53 = io_rob_index_wb_0[4:1] == 4'h1;
-  wire              _GEN_54 = io_inst_valid_wb_0 & ~(io_rob_index_wb_0[0]) & _GEN_53;
-  wire              _GEN_55 = io_rob_index_wb_0[4:1] == 4'h2;
-  wire              _GEN_56 = io_inst_valid_wb_0 & ~(io_rob_index_wb_0[0]) & _GEN_55;
-  wire              _GEN_57 = io_rob_index_wb_0[4:1] == 4'h3;
-  wire              _GEN_58 = io_inst_valid_wb_0 & ~(io_rob_index_wb_0[0]) & _GEN_57;
-  wire              _GEN_59 = io_rob_index_wb_0[4:1] == 4'h4;
-  wire              _GEN_60 = io_inst_valid_wb_0 & ~(io_rob_index_wb_0[0]) & _GEN_59;
-  wire              _GEN_61 = io_rob_index_wb_0[4:1] == 4'h5;
-  wire              _GEN_62 = io_inst_valid_wb_0 & ~(io_rob_index_wb_0[0]) & _GEN_61;
-  wire              _GEN_63 = io_rob_index_wb_0[4:1] == 4'h6;
-  wire              _GEN_64 = io_inst_valid_wb_0 & ~(io_rob_index_wb_0[0]) & _GEN_63;
-  wire              _GEN_65 = io_rob_index_wb_0[4:1] == 4'h7;
-  wire              _GEN_66 = io_inst_valid_wb_0 & ~(io_rob_index_wb_0[0]) & _GEN_65;
-  wire              _GEN_67 = io_rob_index_wb_0[4:1] == 4'h8;
-  wire              _GEN_68 = io_inst_valid_wb_0 & ~(io_rob_index_wb_0[0]) & _GEN_67;
-  wire              _GEN_69 = io_rob_index_wb_0[4:1] == 4'h9;
-  wire              _GEN_70 = io_inst_valid_wb_0 & ~(io_rob_index_wb_0[0]) & _GEN_69;
-  wire              _GEN_71 = io_rob_index_wb_0[4:1] == 4'hA;
-  wire              _GEN_72 = io_inst_valid_wb_0 & ~(io_rob_index_wb_0[0]) & _GEN_71;
-  wire              _GEN_73 = io_rob_index_wb_0[4:1] == 4'hB;
-  wire              _GEN_74 = io_inst_valid_wb_0 & ~(io_rob_index_wb_0[0]) & _GEN_73;
-  wire              _GEN_75 = io_inst_valid_wb_0 & io_rob_index_wb_0[0] & _GEN_51;
-  wire              _GEN_76 = io_inst_valid_wb_0 & io_rob_index_wb_0[0] & _GEN_53;
-  wire              _GEN_77 = io_inst_valid_wb_0 & io_rob_index_wb_0[0] & _GEN_55;
-  wire              _GEN_78 = io_inst_valid_wb_0 & io_rob_index_wb_0[0] & _GEN_57;
-  wire              _GEN_79 = io_inst_valid_wb_0 & io_rob_index_wb_0[0] & _GEN_59;
-  wire              _GEN_80 = io_inst_valid_wb_0 & io_rob_index_wb_0[0] & _GEN_61;
-  wire              _GEN_81 = io_inst_valid_wb_0 & io_rob_index_wb_0[0] & _GEN_63;
-  wire              _GEN_82 = io_inst_valid_wb_0 & io_rob_index_wb_0[0] & _GEN_65;
-  wire              _GEN_83 = io_inst_valid_wb_0 & io_rob_index_wb_0[0] & _GEN_67;
-  wire              _GEN_84 = io_inst_valid_wb_0 & io_rob_index_wb_0[0] & _GEN_69;
-  wire              _GEN_85 = io_inst_valid_wb_0 & io_rob_index_wb_0[0] & _GEN_71;
-  wire              _GEN_86 = io_inst_valid_wb_0 & io_rob_index_wb_0[0] & _GEN_73;
-  wire              _GEN_87 = io_rob_index_wb_1[4:1] == 4'h0;
-  wire              _GEN_88 = io_inst_valid_wb_1 & ~(io_rob_index_wb_1[0]);
-  wire              _GEN_89 = _GEN_88 ? _GEN_87 | _GEN_52 | _GEN_27 : _GEN_52 | _GEN_27;
-  wire              _GEN_90 = io_rob_index_wb_1[4:1] == 4'h1;
-  wire              _GEN_91 = _GEN_88 ? _GEN_90 | _GEN_54 | _GEN_28 : _GEN_54 | _GEN_28;
-  wire              _GEN_92 = io_rob_index_wb_1[4:1] == 4'h2;
-  wire              _GEN_93 = _GEN_88 ? _GEN_92 | _GEN_56 | _GEN_29 : _GEN_56 | _GEN_29;
-  wire              _GEN_94 = io_rob_index_wb_1[4:1] == 4'h3;
-  wire              _GEN_95 = _GEN_88 ? _GEN_94 | _GEN_58 | _GEN_30 : _GEN_58 | _GEN_30;
-  wire              _GEN_96 = io_rob_index_wb_1[4:1] == 4'h4;
-  wire              _GEN_97 = _GEN_88 ? _GEN_96 | _GEN_60 | _GEN_31 : _GEN_60 | _GEN_31;
-  wire              _GEN_98 = io_rob_index_wb_1[4:1] == 4'h5;
-  wire              _GEN_99 = _GEN_88 ? _GEN_98 | _GEN_62 | _GEN_32 : _GEN_62 | _GEN_32;
-  wire              _GEN_100 = io_rob_index_wb_1[4:1] == 4'h6;
-  wire              _GEN_101 = _GEN_88 ? _GEN_100 | _GEN_64 | _GEN_33 : _GEN_64 | _GEN_33;
-  wire              _GEN_102 = io_rob_index_wb_1[4:1] == 4'h7;
-  wire              _GEN_103 = _GEN_88 ? _GEN_102 | _GEN_66 | _GEN_34 : _GEN_66 | _GEN_34;
-  wire              _GEN_104 = io_rob_index_wb_1[4:1] == 4'h8;
-  wire              _GEN_105 = _GEN_88 ? _GEN_104 | _GEN_68 | _GEN_35 : _GEN_68 | _GEN_35;
-  wire              _GEN_106 = io_rob_index_wb_1[4:1] == 4'h9;
-  wire              _GEN_107 = _GEN_88 ? _GEN_106 | _GEN_70 | _GEN_36 : _GEN_70 | _GEN_36;
-  wire              _GEN_108 = io_rob_index_wb_1[4:1] == 4'hA;
-  wire              _GEN_109 = _GEN_88 ? _GEN_108 | _GEN_72 | _GEN_37 : _GEN_72 | _GEN_37;
-  wire              _GEN_110 = io_rob_index_wb_1[4:1] == 4'hB;
-  wire              _GEN_111 = _GEN_88 ? _GEN_110 | _GEN_74 | _GEN_38 : _GEN_74 | _GEN_38;
-  wire              _GEN_112 = io_inst_valid_wb_1 & io_rob_index_wb_1[0];
-  wire              _GEN_113 = _GEN_112 ? _GEN_87 | _GEN_75 | _GEN_39 : _GEN_75 | _GEN_39;
-  wire              _GEN_114 = _GEN_112 ? _GEN_90 | _GEN_76 | _GEN_40 : _GEN_76 | _GEN_40;
-  wire              _GEN_115 = _GEN_112 ? _GEN_92 | _GEN_77 | _GEN_41 : _GEN_77 | _GEN_41;
-  wire              _GEN_116 = _GEN_112 ? _GEN_94 | _GEN_78 | _GEN_42 : _GEN_78 | _GEN_42;
-  wire              _GEN_117 = _GEN_112 ? _GEN_96 | _GEN_79 | _GEN_43 : _GEN_79 | _GEN_43;
-  wire              _GEN_118 = _GEN_112 ? _GEN_98 | _GEN_80 | _GEN_44 : _GEN_80 | _GEN_44;
+  wire              _GEN_50 = io_rob_index_wb_0[4:1] == 4'h0;
+  wire              _GEN_51 = io_inst_valid_wb_0 & ~(io_rob_index_wb_0[0]) & _GEN_50;
+  wire              _GEN_52 = io_rob_index_wb_0[4:1] == 4'h1;
+  wire              _GEN_53 = io_inst_valid_wb_0 & ~(io_rob_index_wb_0[0]) & _GEN_52;
+  wire              _GEN_54 = io_rob_index_wb_0[4:1] == 4'h2;
+  wire              _GEN_55 = io_inst_valid_wb_0 & ~(io_rob_index_wb_0[0]) & _GEN_54;
+  wire              _GEN_56 = io_rob_index_wb_0[4:1] == 4'h3;
+  wire              _GEN_57 = io_inst_valid_wb_0 & ~(io_rob_index_wb_0[0]) & _GEN_56;
+  wire              _GEN_58 = io_rob_index_wb_0[4:1] == 4'h4;
+  wire              _GEN_59 = io_inst_valid_wb_0 & ~(io_rob_index_wb_0[0]) & _GEN_58;
+  wire              _GEN_60 = io_rob_index_wb_0[4:1] == 4'h5;
+  wire              _GEN_61 = io_inst_valid_wb_0 & ~(io_rob_index_wb_0[0]) & _GEN_60;
+  wire              _GEN_62 = io_rob_index_wb_0[4:1] == 4'h6;
+  wire              _GEN_63 = io_inst_valid_wb_0 & ~(io_rob_index_wb_0[0]) & _GEN_62;
+  wire              _GEN_64 = io_rob_index_wb_0[4:1] == 4'h7;
+  wire              _GEN_65 = io_inst_valid_wb_0 & ~(io_rob_index_wb_0[0]) & _GEN_64;
+  wire              _GEN_66 = io_rob_index_wb_0[4:1] == 4'h8;
+  wire              _GEN_67 = io_inst_valid_wb_0 & ~(io_rob_index_wb_0[0]) & _GEN_66;
+  wire              _GEN_68 = io_rob_index_wb_0[4:1] == 4'h9;
+  wire              _GEN_69 = io_inst_valid_wb_0 & ~(io_rob_index_wb_0[0]) & _GEN_68;
+  wire              _GEN_70 = io_rob_index_wb_0[4:1] == 4'hA;
+  wire              _GEN_71 = io_inst_valid_wb_0 & ~(io_rob_index_wb_0[0]) & _GEN_70;
+  wire              _GEN_72 = io_rob_index_wb_0[4:1] == 4'hB;
+  wire              _GEN_73 = io_inst_valid_wb_0 & ~(io_rob_index_wb_0[0]) & _GEN_72;
+  wire              _GEN_74 = io_inst_valid_wb_0 & io_rob_index_wb_0[0] & _GEN_50;
+  wire              _GEN_75 = io_inst_valid_wb_0 & io_rob_index_wb_0[0] & _GEN_52;
+  wire              _GEN_76 = io_inst_valid_wb_0 & io_rob_index_wb_0[0] & _GEN_54;
+  wire              _GEN_77 = io_inst_valid_wb_0 & io_rob_index_wb_0[0] & _GEN_56;
+  wire              _GEN_78 = io_inst_valid_wb_0 & io_rob_index_wb_0[0] & _GEN_58;
+  wire              _GEN_79 = io_inst_valid_wb_0 & io_rob_index_wb_0[0] & _GEN_60;
+  wire              _GEN_80 = io_inst_valid_wb_0 & io_rob_index_wb_0[0] & _GEN_62;
+  wire              _GEN_81 = io_inst_valid_wb_0 & io_rob_index_wb_0[0] & _GEN_64;
+  wire              _GEN_82 = io_inst_valid_wb_0 & io_rob_index_wb_0[0] & _GEN_66;
+  wire              _GEN_83 = io_inst_valid_wb_0 & io_rob_index_wb_0[0] & _GEN_68;
+  wire              _GEN_84 = io_inst_valid_wb_0 & io_rob_index_wb_0[0] & _GEN_70;
+  wire              _GEN_85 = io_inst_valid_wb_0 & io_rob_index_wb_0[0] & _GEN_72;
+  wire              _GEN_86 = io_rob_index_wb_1[4:1] == 4'h0;
+  wire              _GEN_87 = io_inst_valid_wb_1 & ~(io_rob_index_wb_1[0]);
+  wire              _GEN_88 = _GEN_87 ? _GEN_86 | _GEN_51 | _GEN_26 : _GEN_51 | _GEN_26;
+  wire              _GEN_89 = io_rob_index_wb_1[4:1] == 4'h1;
+  wire              _GEN_90 = _GEN_87 ? _GEN_89 | _GEN_53 | _GEN_27 : _GEN_53 | _GEN_27;
+  wire              _GEN_91 = io_rob_index_wb_1[4:1] == 4'h2;
+  wire              _GEN_92 = _GEN_87 ? _GEN_91 | _GEN_55 | _GEN_28 : _GEN_55 | _GEN_28;
+  wire              _GEN_93 = io_rob_index_wb_1[4:1] == 4'h3;
+  wire              _GEN_94 = _GEN_87 ? _GEN_93 | _GEN_57 | _GEN_29 : _GEN_57 | _GEN_29;
+  wire              _GEN_95 = io_rob_index_wb_1[4:1] == 4'h4;
+  wire              _GEN_96 = _GEN_87 ? _GEN_95 | _GEN_59 | _GEN_30 : _GEN_59 | _GEN_30;
+  wire              _GEN_97 = io_rob_index_wb_1[4:1] == 4'h5;
+  wire              _GEN_98 = _GEN_87 ? _GEN_97 | _GEN_61 | _GEN_31 : _GEN_61 | _GEN_31;
+  wire              _GEN_99 = io_rob_index_wb_1[4:1] == 4'h6;
+  wire              _GEN_100 = _GEN_87 ? _GEN_99 | _GEN_63 | _GEN_32 : _GEN_63 | _GEN_32;
+  wire              _GEN_101 = io_rob_index_wb_1[4:1] == 4'h7;
+  wire              _GEN_102 = _GEN_87 ? _GEN_101 | _GEN_65 | _GEN_33 : _GEN_65 | _GEN_33;
+  wire              _GEN_103 = io_rob_index_wb_1[4:1] == 4'h8;
+  wire              _GEN_104 = _GEN_87 ? _GEN_103 | _GEN_67 | _GEN_34 : _GEN_67 | _GEN_34;
+  wire              _GEN_105 = io_rob_index_wb_1[4:1] == 4'h9;
+  wire              _GEN_106 = _GEN_87 ? _GEN_105 | _GEN_69 | _GEN_35 : _GEN_69 | _GEN_35;
+  wire              _GEN_107 = io_rob_index_wb_1[4:1] == 4'hA;
+  wire              _GEN_108 = _GEN_87 ? _GEN_107 | _GEN_71 | _GEN_36 : _GEN_71 | _GEN_36;
+  wire              _GEN_109 = io_rob_index_wb_1[4:1] == 4'hB;
+  wire              _GEN_110 = _GEN_87 ? _GEN_109 | _GEN_73 | _GEN_37 : _GEN_73 | _GEN_37;
+  wire              _GEN_111 = io_inst_valid_wb_1 & io_rob_index_wb_1[0];
+  wire              _GEN_112 = _GEN_111 ? _GEN_86 | _GEN_74 | _GEN_38 : _GEN_74 | _GEN_38;
+  wire              _GEN_113 = _GEN_111 ? _GEN_89 | _GEN_75 | _GEN_39 : _GEN_75 | _GEN_39;
+  wire              _GEN_114 = _GEN_111 ? _GEN_91 | _GEN_76 | _GEN_40 : _GEN_76 | _GEN_40;
+  wire              _GEN_115 = _GEN_111 ? _GEN_93 | _GEN_77 | _GEN_41 : _GEN_77 | _GEN_41;
+  wire              _GEN_116 = _GEN_111 ? _GEN_95 | _GEN_78 | _GEN_42 : _GEN_78 | _GEN_42;
+  wire              _GEN_117 = _GEN_111 ? _GEN_97 | _GEN_79 | _GEN_43 : _GEN_79 | _GEN_43;
+  wire              _GEN_118 = _GEN_111 ? _GEN_99 | _GEN_80 | _GEN_44 : _GEN_80 | _GEN_44;
   wire              _GEN_119 =
-    _GEN_112 ? _GEN_100 | _GEN_81 | _GEN_45 : _GEN_81 | _GEN_45;
+    _GEN_111 ? _GEN_101 | _GEN_81 | _GEN_45 : _GEN_81 | _GEN_45;
   wire              _GEN_120 =
-    _GEN_112 ? _GEN_102 | _GEN_82 | _GEN_46 : _GEN_82 | _GEN_46;
+    _GEN_111 ? _GEN_103 | _GEN_82 | _GEN_46 : _GEN_82 | _GEN_46;
   wire              _GEN_121 =
-    _GEN_112 ? _GEN_104 | _GEN_83 | _GEN_47 : _GEN_83 | _GEN_47;
+    _GEN_111 ? _GEN_105 | _GEN_83 | _GEN_47 : _GEN_83 | _GEN_47;
   wire              _GEN_122 =
-    _GEN_112 ? _GEN_106 | _GEN_84 | _GEN_48 : _GEN_84 | _GEN_48;
+    _GEN_111 ? _GEN_107 | _GEN_84 | _GEN_48 : _GEN_84 | _GEN_48;
   wire              _GEN_123 =
-    _GEN_112 ? _GEN_108 | _GEN_85 | _GEN_49 : _GEN_85 | _GEN_49;
-  wire              _GEN_124 =
-    _GEN_112 ? _GEN_110 | _GEN_86 | _GEN_50 : _GEN_86 | _GEN_50;
-  wire              _GEN_125 = io_inst_valid_wb_1 & ~(io_rob_index_wb_1[0]) & _GEN_87;
-  wire              _GEN_126 = io_inst_valid_wb_1 & ~(io_rob_index_wb_1[0]) & _GEN_90;
-  wire              _GEN_127 = io_inst_valid_wb_1 & ~(io_rob_index_wb_1[0]) & _GEN_92;
-  wire              _GEN_128 = io_inst_valid_wb_1 & ~(io_rob_index_wb_1[0]) & _GEN_94;
-  wire              _GEN_129 = io_inst_valid_wb_1 & ~(io_rob_index_wb_1[0]) & _GEN_96;
-  wire              _GEN_130 = io_inst_valid_wb_1 & ~(io_rob_index_wb_1[0]) & _GEN_98;
-  wire              _GEN_131 = io_inst_valid_wb_1 & ~(io_rob_index_wb_1[0]) & _GEN_100;
-  wire              _GEN_132 = io_inst_valid_wb_1 & ~(io_rob_index_wb_1[0]) & _GEN_102;
-  wire              _GEN_133 = io_inst_valid_wb_1 & ~(io_rob_index_wb_1[0]) & _GEN_104;
-  wire              _GEN_134 = io_inst_valid_wb_1 & ~(io_rob_index_wb_1[0]) & _GEN_106;
-  wire              _GEN_135 = io_inst_valid_wb_1 & ~(io_rob_index_wb_1[0]) & _GEN_108;
-  wire              _GEN_136 = io_inst_valid_wb_1 & ~(io_rob_index_wb_1[0]) & _GEN_110;
-  wire              _GEN_137 = io_inst_valid_wb_1 & io_rob_index_wb_1[0] & _GEN_87;
-  wire              _GEN_138 = io_inst_valid_wb_1 & io_rob_index_wb_1[0] & _GEN_90;
-  wire              _GEN_139 = io_inst_valid_wb_1 & io_rob_index_wb_1[0] & _GEN_92;
-  wire              _GEN_140 = io_inst_valid_wb_1 & io_rob_index_wb_1[0] & _GEN_94;
-  wire              _GEN_141 = io_inst_valid_wb_1 & io_rob_index_wb_1[0] & _GEN_96;
-  wire              _GEN_142 = io_inst_valid_wb_1 & io_rob_index_wb_1[0] & _GEN_98;
-  wire              _GEN_143 = io_inst_valid_wb_1 & io_rob_index_wb_1[0] & _GEN_100;
-  wire              _GEN_144 = io_inst_valid_wb_1 & io_rob_index_wb_1[0] & _GEN_102;
-  wire              _GEN_145 = io_inst_valid_wb_1 & io_rob_index_wb_1[0] & _GEN_104;
-  wire              _GEN_146 = io_inst_valid_wb_1 & io_rob_index_wb_1[0] & _GEN_106;
-  wire              _GEN_147 = io_inst_valid_wb_1 & io_rob_index_wb_1[0] & _GEN_108;
-  wire              _GEN_148 = io_inst_valid_wb_1 & io_rob_index_wb_1[0] & _GEN_110;
-  wire              _GEN_149 = io_rob_index_wb_2[4:1] == 4'h0;
-  wire              _GEN_150 = io_inst_valid_wb_2 & ~(io_rob_index_wb_2[0]) & _GEN_149;
-  wire              _GEN_151 = io_rob_index_wb_2[4:1] == 4'h1;
-  wire              _GEN_152 = io_inst_valid_wb_2 & ~(io_rob_index_wb_2[0]) & _GEN_151;
-  wire              _GEN_153 = io_rob_index_wb_2[4:1] == 4'h2;
-  wire              _GEN_154 = io_inst_valid_wb_2 & ~(io_rob_index_wb_2[0]) & _GEN_153;
-  wire              _GEN_155 = io_rob_index_wb_2[4:1] == 4'h3;
-  wire              _GEN_156 = io_inst_valid_wb_2 & ~(io_rob_index_wb_2[0]) & _GEN_155;
-  wire              _GEN_157 = io_rob_index_wb_2[4:1] == 4'h4;
-  wire              _GEN_158 = io_inst_valid_wb_2 & ~(io_rob_index_wb_2[0]) & _GEN_157;
-  wire              _GEN_159 = io_rob_index_wb_2[4:1] == 4'h5;
-  wire              _GEN_160 = io_inst_valid_wb_2 & ~(io_rob_index_wb_2[0]) & _GEN_159;
-  wire              _GEN_161 = io_rob_index_wb_2[4:1] == 4'h6;
-  wire              _GEN_162 = io_inst_valid_wb_2 & ~(io_rob_index_wb_2[0]) & _GEN_161;
-  wire              _GEN_163 = io_rob_index_wb_2[4:1] == 4'h7;
-  wire              _GEN_164 = io_inst_valid_wb_2 & ~(io_rob_index_wb_2[0]) & _GEN_163;
-  wire              _GEN_165 = io_rob_index_wb_2[4:1] == 4'h8;
-  wire              _GEN_166 = io_inst_valid_wb_2 & ~(io_rob_index_wb_2[0]) & _GEN_165;
-  wire              _GEN_167 = io_rob_index_wb_2[4:1] == 4'h9;
-  wire              _GEN_168 = io_inst_valid_wb_2 & ~(io_rob_index_wb_2[0]) & _GEN_167;
-  wire              _GEN_169 = io_rob_index_wb_2[4:1] == 4'hA;
-  wire              _GEN_170 = io_inst_valid_wb_2 & ~(io_rob_index_wb_2[0]) & _GEN_169;
-  wire              _GEN_171 = io_rob_index_wb_2[4:1] == 4'hB;
-  wire              _GEN_172 = io_inst_valid_wb_2 & ~(io_rob_index_wb_2[0]) & _GEN_171;
-  wire              _GEN_173 = io_inst_valid_wb_2 & io_rob_index_wb_2[0] & _GEN_149;
-  wire              _GEN_174 = io_inst_valid_wb_2 & io_rob_index_wb_2[0] & _GEN_151;
-  wire              _GEN_175 = io_inst_valid_wb_2 & io_rob_index_wb_2[0] & _GEN_153;
-  wire              _GEN_176 = io_inst_valid_wb_2 & io_rob_index_wb_2[0] & _GEN_155;
-  wire              _GEN_177 = io_inst_valid_wb_2 & io_rob_index_wb_2[0] & _GEN_157;
-  wire              _GEN_178 = io_inst_valid_wb_2 & io_rob_index_wb_2[0] & _GEN_159;
-  wire              _GEN_179 = io_inst_valid_wb_2 & io_rob_index_wb_2[0] & _GEN_161;
-  wire              _GEN_180 = io_inst_valid_wb_2 & io_rob_index_wb_2[0] & _GEN_163;
-  wire              _GEN_181 = io_inst_valid_wb_2 & io_rob_index_wb_2[0] & _GEN_165;
-  wire              _GEN_182 = io_inst_valid_wb_2 & io_rob_index_wb_2[0] & _GEN_167;
-  wire              _GEN_183 = io_inst_valid_wb_2 & io_rob_index_wb_2[0] & _GEN_169;
-  wire              _GEN_184 = io_inst_valid_wb_2 & io_rob_index_wb_2[0] & _GEN_171;
-  wire              _GEN_185 = io_rob_index_wb_3[4:1] == 4'h0;
-  wire              _GEN_186 = io_rob_index_wb_3[4:1] == 4'h1;
-  wire              _GEN_187 = io_rob_index_wb_3[4:1] == 4'h2;
-  wire              _GEN_188 = io_rob_index_wb_3[4:1] == 4'h3;
-  wire              _GEN_189 = io_rob_index_wb_3[4:1] == 4'h4;
-  wire              _GEN_190 = io_rob_index_wb_3[4:1] == 4'h5;
-  wire              _GEN_191 = io_rob_index_wb_3[4:1] == 4'h6;
-  wire              _GEN_192 = io_rob_index_wb_3[4:1] == 4'h7;
-  wire              _GEN_193 = io_rob_index_wb_3[4:1] == 4'h8;
-  wire              _GEN_194 = io_rob_index_wb_3[4:1] == 4'h9;
-  wire              _GEN_195 = io_rob_index_wb_3[4:1] == 4'hA;
-  wire              _GEN_196 = io_rob_index_wb_3[4:1] == 4'hB;
+    _GEN_111 ? _GEN_109 | _GEN_85 | _GEN_49 : _GEN_85 | _GEN_49;
+  wire              _GEN_124 = io_inst_valid_wb_1 & ~(io_rob_index_wb_1[0]) & _GEN_86;
+  wire              _GEN_125 = io_inst_valid_wb_1 & ~(io_rob_index_wb_1[0]) & _GEN_89;
+  wire              _GEN_126 = io_inst_valid_wb_1 & ~(io_rob_index_wb_1[0]) & _GEN_91;
+  wire              _GEN_127 = io_inst_valid_wb_1 & ~(io_rob_index_wb_1[0]) & _GEN_93;
+  wire              _GEN_128 = io_inst_valid_wb_1 & ~(io_rob_index_wb_1[0]) & _GEN_95;
+  wire              _GEN_129 = io_inst_valid_wb_1 & ~(io_rob_index_wb_1[0]) & _GEN_97;
+  wire              _GEN_130 = io_inst_valid_wb_1 & ~(io_rob_index_wb_1[0]) & _GEN_99;
+  wire              _GEN_131 = io_inst_valid_wb_1 & ~(io_rob_index_wb_1[0]) & _GEN_101;
+  wire              _GEN_132 = io_inst_valid_wb_1 & ~(io_rob_index_wb_1[0]) & _GEN_103;
+  wire              _GEN_133 = io_inst_valid_wb_1 & ~(io_rob_index_wb_1[0]) & _GEN_105;
+  wire              _GEN_134 = io_inst_valid_wb_1 & ~(io_rob_index_wb_1[0]) & _GEN_107;
+  wire              _GEN_135 = io_inst_valid_wb_1 & ~(io_rob_index_wb_1[0]) & _GEN_109;
+  wire              _GEN_136 = io_inst_valid_wb_1 & io_rob_index_wb_1[0] & _GEN_86;
+  wire              _GEN_137 = io_inst_valid_wb_1 & io_rob_index_wb_1[0] & _GEN_89;
+  wire              _GEN_138 = io_inst_valid_wb_1 & io_rob_index_wb_1[0] & _GEN_91;
+  wire              _GEN_139 = io_inst_valid_wb_1 & io_rob_index_wb_1[0] & _GEN_93;
+  wire              _GEN_140 = io_inst_valid_wb_1 & io_rob_index_wb_1[0] & _GEN_95;
+  wire              _GEN_141 = io_inst_valid_wb_1 & io_rob_index_wb_1[0] & _GEN_97;
+  wire              _GEN_142 = io_inst_valid_wb_1 & io_rob_index_wb_1[0] & _GEN_99;
+  wire              _GEN_143 = io_inst_valid_wb_1 & io_rob_index_wb_1[0] & _GEN_101;
+  wire              _GEN_144 = io_inst_valid_wb_1 & io_rob_index_wb_1[0] & _GEN_103;
+  wire              _GEN_145 = io_inst_valid_wb_1 & io_rob_index_wb_1[0] & _GEN_105;
+  wire              _GEN_146 = io_inst_valid_wb_1 & io_rob_index_wb_1[0] & _GEN_107;
+  wire              _GEN_147 = io_inst_valid_wb_1 & io_rob_index_wb_1[0] & _GEN_109;
+  wire              _GEN_148 = io_rob_index_wb_2[4:1] == 4'h0;
+  wire              _GEN_149 = io_inst_valid_wb_2 & ~(io_rob_index_wb_2[0]) & _GEN_148;
+  wire              _GEN_150 = io_rob_index_wb_2[4:1] == 4'h1;
+  wire              _GEN_151 = io_inst_valid_wb_2 & ~(io_rob_index_wb_2[0]) & _GEN_150;
+  wire              _GEN_152 = io_rob_index_wb_2[4:1] == 4'h2;
+  wire              _GEN_153 = io_inst_valid_wb_2 & ~(io_rob_index_wb_2[0]) & _GEN_152;
+  wire              _GEN_154 = io_rob_index_wb_2[4:1] == 4'h3;
+  wire              _GEN_155 = io_inst_valid_wb_2 & ~(io_rob_index_wb_2[0]) & _GEN_154;
+  wire              _GEN_156 = io_rob_index_wb_2[4:1] == 4'h4;
+  wire              _GEN_157 = io_inst_valid_wb_2 & ~(io_rob_index_wb_2[0]) & _GEN_156;
+  wire              _GEN_158 = io_rob_index_wb_2[4:1] == 4'h5;
+  wire              _GEN_159 = io_inst_valid_wb_2 & ~(io_rob_index_wb_2[0]) & _GEN_158;
+  wire              _GEN_160 = io_rob_index_wb_2[4:1] == 4'h6;
+  wire              _GEN_161 = io_inst_valid_wb_2 & ~(io_rob_index_wb_2[0]) & _GEN_160;
+  wire              _GEN_162 = io_rob_index_wb_2[4:1] == 4'h7;
+  wire              _GEN_163 = io_inst_valid_wb_2 & ~(io_rob_index_wb_2[0]) & _GEN_162;
+  wire              _GEN_164 = io_rob_index_wb_2[4:1] == 4'h8;
+  wire              _GEN_165 = io_inst_valid_wb_2 & ~(io_rob_index_wb_2[0]) & _GEN_164;
+  wire              _GEN_166 = io_rob_index_wb_2[4:1] == 4'h9;
+  wire              _GEN_167 = io_inst_valid_wb_2 & ~(io_rob_index_wb_2[0]) & _GEN_166;
+  wire              _GEN_168 = io_rob_index_wb_2[4:1] == 4'hA;
+  wire              _GEN_169 = io_inst_valid_wb_2 & ~(io_rob_index_wb_2[0]) & _GEN_168;
+  wire              _GEN_170 = io_rob_index_wb_2[4:1] == 4'hB;
+  wire              _GEN_171 = io_inst_valid_wb_2 & ~(io_rob_index_wb_2[0]) & _GEN_170;
+  wire              _GEN_172 = io_inst_valid_wb_2 & io_rob_index_wb_2[0] & _GEN_148;
+  wire              _GEN_173 = io_inst_valid_wb_2 & io_rob_index_wb_2[0] & _GEN_150;
+  wire              _GEN_174 = io_inst_valid_wb_2 & io_rob_index_wb_2[0] & _GEN_152;
+  wire              _GEN_175 = io_inst_valid_wb_2 & io_rob_index_wb_2[0] & _GEN_154;
+  wire              _GEN_176 = io_inst_valid_wb_2 & io_rob_index_wb_2[0] & _GEN_156;
+  wire              _GEN_177 = io_inst_valid_wb_2 & io_rob_index_wb_2[0] & _GEN_158;
+  wire              _GEN_178 = io_inst_valid_wb_2 & io_rob_index_wb_2[0] & _GEN_160;
+  wire              _GEN_179 = io_inst_valid_wb_2 & io_rob_index_wb_2[0] & _GEN_162;
+  wire              _GEN_180 = io_inst_valid_wb_2 & io_rob_index_wb_2[0] & _GEN_164;
+  wire              _GEN_181 = io_inst_valid_wb_2 & io_rob_index_wb_2[0] & _GEN_166;
+  wire              _GEN_182 = io_inst_valid_wb_2 & io_rob_index_wb_2[0] & _GEN_168;
+  wire              _GEN_183 = io_inst_valid_wb_2 & io_rob_index_wb_2[0] & _GEN_170;
+  wire              _GEN_184 = io_rob_index_wb_3[4:1] == 4'h0;
+  wire              _GEN_185 = io_rob_index_wb_3[4:1] == 4'h1;
+  wire              _GEN_186 = io_rob_index_wb_3[4:1] == 4'h2;
+  wire              _GEN_187 = io_rob_index_wb_3[4:1] == 4'h3;
+  wire              _GEN_188 = io_rob_index_wb_3[4:1] == 4'h4;
+  wire              _GEN_189 = io_rob_index_wb_3[4:1] == 4'h5;
+  wire              _GEN_190 = io_rob_index_wb_3[4:1] == 4'h6;
+  wire              _GEN_191 = io_rob_index_wb_3[4:1] == 4'h7;
+  wire              _GEN_192 = io_rob_index_wb_3[4:1] == 4'h8;
+  wire              _GEN_193 = io_rob_index_wb_3[4:1] == 4'h9;
+  wire              _GEN_194 = io_rob_index_wb_3[4:1] == 4'hA;
+  wire              _GEN_195 = io_rob_index_wb_3[4:1] == 4'hB;
   wire [31:0]       _rob_branch_target_T_2 = 32'(io_branch_target_wb_3 + 32'h4);
-  wire [11:0][31:0] _GEN_197 =
+  wire [11:0][31:0] _GEN_196 =
     {{rob_pc_1_11},
      {rob_pc_1_10},
      {rob_pc_1_9},
@@ -770,7 +765,7 @@ module ROB(
      {rob_pc_1_2},
      {rob_pc_1_1},
      {rob_pc_1_0}};
-  wire [11:0][31:0] _GEN_198 =
+  wire [11:0][31:0] _GEN_197 =
     {{rob_pc_0_11},
      {rob_pc_0_10},
      {rob_pc_0_9},
@@ -783,7 +778,7 @@ module ROB(
      {rob_pc_0_2},
      {rob_pc_0_1},
      {rob_pc_0_0}};
-  wire [11:0][7:0]  _GEN_199 =
+  wire [11:0][7:0]  _GEN_198 =
     {{rob_exception_1_11},
      {rob_exception_1_10},
      {rob_exception_1_9},
@@ -796,7 +791,7 @@ module ROB(
      {rob_exception_1_2},
      {rob_exception_1_1},
      {rob_exception_1_0}};
-  wire [11:0][7:0]  _GEN_200 =
+  wire [11:0][7:0]  _GEN_199 =
     {{rob_exception_0_11},
      {rob_exception_0_10},
      {rob_exception_0_9},
@@ -809,7 +804,7 @@ module ROB(
      {rob_exception_0_2},
      {rob_exception_0_1},
      {rob_exception_0_0}};
-  wire [11:0]       _GEN_201 =
+  wire [11:0]       _GEN_200 =
     {{rob_rd_valid_1_11},
      {rob_rd_valid_1_10},
      {rob_rd_valid_1_9},
@@ -822,7 +817,7 @@ module ROB(
      {rob_rd_valid_1_2},
      {rob_rd_valid_1_1},
      {rob_rd_valid_1_0}};
-  wire [11:0]       _GEN_202 =
+  wire [11:0]       _GEN_201 =
     {{rob_rd_valid_0_11},
      {rob_rd_valid_0_10},
      {rob_rd_valid_0_9},
@@ -835,8 +830,8 @@ module ROB(
      {rob_rd_valid_0_2},
      {rob_rd_valid_0_1},
      {rob_rd_valid_0_0}};
-  wire [11:0]       _GEN_203 = head[0] ? _GEN_201 : _GEN_202;
-  wire [11:0][5:0]  _GEN_204 =
+  wire [11:0]       _GEN_202 = head[0] ? _GEN_200 : _GEN_201;
+  wire [11:0][5:0]  _GEN_203 =
     {{rob_prd_1_11},
      {rob_prd_1_10},
      {rob_prd_1_9},
@@ -849,7 +844,7 @@ module ROB(
      {rob_prd_1_2},
      {rob_prd_1_1},
      {rob_prd_1_0}};
-  wire [11:0][5:0]  _GEN_205 =
+  wire [11:0][5:0]  _GEN_204 =
     {{rob_prd_0_11},
      {rob_prd_0_10},
      {rob_prd_0_9},
@@ -862,8 +857,8 @@ module ROB(
      {rob_prd_0_2},
      {rob_prd_0_1},
      {rob_prd_0_0}};
-  wire [11:0][5:0]  _GEN_206 = head[0] ? _GEN_204 : _GEN_205;
-  wire [11:0][5:0]  _GEN_207 =
+  wire [11:0][5:0]  _GEN_205 = head[0] ? _GEN_203 : _GEN_204;
+  wire [11:0][5:0]  _GEN_206 =
     {{rob_pprd_1_11},
      {rob_pprd_1_10},
      {rob_pprd_1_9},
@@ -876,7 +871,7 @@ module ROB(
      {rob_pprd_1_2},
      {rob_pprd_1_1},
      {rob_pprd_1_0}};
-  wire [11:0][5:0]  _GEN_208 =
+  wire [11:0][5:0]  _GEN_207 =
     {{rob_pprd_0_11},
      {rob_pprd_0_10},
      {rob_pprd_0_9},
@@ -889,8 +884,8 @@ module ROB(
      {rob_pprd_0_2},
      {rob_pprd_0_1},
      {rob_pprd_0_0}};
-  wire [11:0][5:0]  _GEN_209 = head[0] ? _GEN_207 : _GEN_208;
-  wire [11:0]       _GEN_210 =
+  wire [11:0][5:0]  _GEN_208 = head[0] ? _GEN_206 : _GEN_207;
+  wire [11:0]       _GEN_209 =
     {{rob_predict_fail_1_11},
      {rob_predict_fail_1_10},
      {rob_predict_fail_1_9},
@@ -903,7 +898,7 @@ module ROB(
      {rob_predict_fail_1_2},
      {rob_predict_fail_1_1},
      {rob_predict_fail_1_0}};
-  wire [11:0]       _GEN_211 =
+  wire [11:0]       _GEN_210 =
     {{rob_predict_fail_0_11},
      {rob_predict_fail_0_10},
      {rob_predict_fail_0_9},
@@ -916,8 +911,8 @@ module ROB(
      {rob_predict_fail_0_2},
      {rob_predict_fail_0_1},
      {rob_predict_fail_0_0}};
-  wire [11:0]       _GEN_212 = head[0] ? _GEN_210 : _GEN_211;
-  wire [11:0][31:0] _GEN_213 =
+  wire [11:0]       _GEN_211 = head[0] ? _GEN_209 : _GEN_210;
+  wire [11:0][31:0] _GEN_212 =
     {{rob_branch_target_1_11},
      {rob_branch_target_1_10},
      {rob_branch_target_1_9},
@@ -930,7 +925,7 @@ module ROB(
      {rob_branch_target_1_2},
      {rob_branch_target_1_1},
      {rob_branch_target_1_0}};
-  wire [11:0][31:0] _GEN_214 =
+  wire [11:0][31:0] _GEN_213 =
     {{rob_branch_target_0_11},
      {rob_branch_target_0_10},
      {rob_branch_target_0_9},
@@ -943,8 +938,8 @@ module ROB(
      {rob_branch_target_0_2},
      {rob_branch_target_0_1},
      {rob_branch_target_0_0}};
-  wire [11:0][31:0] _GEN_215 = head[0] ? _GEN_213 : _GEN_214;
-  wire [11:0]       _GEN_216 =
+  wire [11:0][31:0] _GEN_214 = head[0] ? _GEN_212 : _GEN_213;
+  wire [11:0]       _GEN_215 =
     {{rob_real_jump_1_11},
      {rob_real_jump_1_10},
      {rob_real_jump_1_9},
@@ -957,7 +952,7 @@ module ROB(
      {rob_real_jump_1_2},
      {rob_real_jump_1_1},
      {rob_real_jump_1_0}};
-  wire [11:0]       _GEN_217 =
+  wire [11:0]       _GEN_216 =
     {{rob_real_jump_0_11},
      {rob_real_jump_0_10},
      {rob_real_jump_0_9},
@@ -970,8 +965,8 @@ module ROB(
      {rob_real_jump_0_2},
      {rob_real_jump_0_1},
      {rob_real_jump_0_0}};
-  wire [11:0]       _GEN_218 = head[0] ? _GEN_216 : _GEN_217;
-  wire [11:0]       _GEN_219 =
+  wire [11:0]       _GEN_217 = head[0] ? _GEN_215 : _GEN_216;
+  wire [11:0]       _GEN_218 =
     {{rob_pred_update_en_1_11},
      {rob_pred_update_en_1_10},
      {rob_pred_update_en_1_9},
@@ -984,7 +979,7 @@ module ROB(
      {rob_pred_update_en_1_2},
      {rob_pred_update_en_1_1},
      {rob_pred_update_en_1_0}};
-  wire [11:0]       _GEN_220 =
+  wire [11:0]       _GEN_219 =
     {{rob_pred_update_en_0_11},
      {rob_pred_update_en_0_10},
      {rob_pred_update_en_0_9},
@@ -997,8 +992,8 @@ module ROB(
      {rob_pred_update_en_0_2},
      {rob_pred_update_en_0_1},
      {rob_pred_update_en_0_0}};
-  wire [11:0]       _GEN_221 = head[0] ? _GEN_219 : _GEN_220;
-  wire [11:0][1:0]  _GEN_222 =
+  wire [11:0]       _GEN_220 = head[0] ? _GEN_218 : _GEN_219;
+  wire [11:0][1:0]  _GEN_221 =
     {{rob_br_type_pred_1_11},
      {rob_br_type_pred_1_10},
      {rob_br_type_pred_1_9},
@@ -1011,7 +1006,7 @@ module ROB(
      {rob_br_type_pred_1_2},
      {rob_br_type_pred_1_1},
      {rob_br_type_pred_1_0}};
-  wire [11:0][1:0]  _GEN_223 =
+  wire [11:0][1:0]  _GEN_222 =
     {{rob_br_type_pred_0_11},
      {rob_br_type_pred_0_10},
      {rob_br_type_pred_0_9},
@@ -1024,9 +1019,9 @@ module ROB(
      {rob_br_type_pred_0_2},
      {rob_br_type_pred_0_1},
      {rob_br_type_pred_0_0}};
-  wire [11:0][1:0]  _GEN_224 = head[0] ? _GEN_222 : _GEN_223;
-  wire [11:0][31:0] _GEN_225 = head[0] ? _GEN_197 : _GEN_198;
-  wire [11:0]       _GEN_226 =
+  wire [11:0][1:0]  _GEN_223 = head[0] ? _GEN_221 : _GEN_222;
+  wire [11:0][31:0] _GEN_224 = head[0] ? _GEN_196 : _GEN_197;
+  wire [11:0]       _GEN_225 =
     {{rob_is_store_1_11},
      {rob_is_store_1_10},
      {rob_is_store_1_9},
@@ -1039,7 +1034,7 @@ module ROB(
      {rob_is_store_1_2},
      {rob_is_store_1_1},
      {rob_is_store_1_0}};
-  wire [11:0]       _GEN_227 =
+  wire [11:0]       _GEN_226 =
     {{rob_is_store_0_11},
      {rob_is_store_0_10},
      {rob_is_store_0_9},
@@ -1052,8 +1047,8 @@ module ROB(
      {rob_is_store_0_2},
      {rob_is_store_0_1},
      {rob_is_store_0_0}};
-  wire [11:0]       _GEN_228 = head[0] ? _GEN_226 : _GEN_227;
-  wire [11:0]       _GEN_229 =
+  wire [11:0]       _GEN_227 = head[0] ? _GEN_225 : _GEN_226;
+  wire [11:0]       _GEN_228 =
     {{rob_is_priv_wrt_1_11},
      {rob_is_priv_wrt_1_10},
      {rob_is_priv_wrt_1_9},
@@ -1066,7 +1061,7 @@ module ROB(
      {rob_is_priv_wrt_1_2},
      {rob_is_priv_wrt_1_1},
      {rob_is_priv_wrt_1_0}};
-  wire [11:0]       _GEN_230 =
+  wire [11:0]       _GEN_229 =
     {{rob_is_priv_wrt_0_11},
      {rob_is_priv_wrt_0_10},
      {rob_is_priv_wrt_0_9},
@@ -1079,8 +1074,8 @@ module ROB(
      {rob_is_priv_wrt_0_2},
      {rob_is_priv_wrt_0_1},
      {rob_is_priv_wrt_0_0}};
-  wire [11:0]       _GEN_231 = head[0] ? _GEN_229 : _GEN_230;
-  wire [11:0]       _GEN_232 =
+  wire [11:0]       _GEN_230 = head[0] ? _GEN_228 : _GEN_229;
+  wire [11:0]       _GEN_231 =
     {{rob_is_priv_ls_1_11},
      {rob_is_priv_ls_1_10},
      {rob_is_priv_ls_1_9},
@@ -1093,7 +1088,7 @@ module ROB(
      {rob_is_priv_ls_1_2},
      {rob_is_priv_ls_1_1},
      {rob_is_priv_ls_1_0}};
-  wire [11:0]       _GEN_233 =
+  wire [11:0]       _GEN_232 =
     {{rob_is_priv_ls_0_11},
      {rob_is_priv_ls_0_10},
      {rob_is_priv_ls_0_9},
@@ -1106,55 +1101,55 @@ module ROB(
      {rob_is_priv_ls_0_2},
      {rob_is_priv_ls_0_1},
      {rob_is_priv_ls_0_0}};
-  wire [11:0]       _GEN_234 = head[0] ? _GEN_232 : _GEN_233;
-  wire [15:0]       _GEN_235 = {{4{_GEN_234[4'h0]}}, _GEN_234};
-  wire              rob_commit_items_is_priv_ls_0 = _GEN_235[head[4:1]];
-  wire [11:0][7:0]  _GEN_236 = head[0] ? _GEN_199 : _GEN_200;
-  wire [15:0][7:0]  _GEN_237 = {{4{_GEN_236[4'h0]}}, _GEN_236};
-  wire [7:0]        rob_commit_items_exception_0 = _GEN_237[head[4:1]];
-  wire [11:0]       _GEN_238 = head_next[0] ? _GEN_201 : _GEN_202;
-  wire [11:0][5:0]  _GEN_239 = head_next[0] ? _GEN_204 : _GEN_205;
-  wire [11:0][5:0]  _GEN_240 = head_next[0] ? _GEN_207 : _GEN_208;
-  wire [11:0]       _GEN_241 = head_next[0] ? _GEN_210 : _GEN_211;
-  wire [11:0][31:0] _GEN_242 = head_next[0] ? _GEN_213 : _GEN_214;
-  wire [11:0]       _GEN_243 = head_next[0] ? _GEN_216 : _GEN_217;
-  wire [11:0]       _GEN_244 = head_next[0] ? _GEN_219 : _GEN_220;
-  wire [11:0][1:0]  _GEN_245 = head_next[0] ? _GEN_222 : _GEN_223;
-  wire [11:0][31:0] _GEN_246 = head_next[0] ? _GEN_197 : _GEN_198;
-  wire [11:0]       _GEN_247 = head_next[0] ? _GEN_226 : _GEN_227;
-  wire [11:0]       _GEN_248 = head_next[0] ? _GEN_229 : _GEN_230;
-  wire [11:0]       _GEN_249 = head_next[0] ? _GEN_232 : _GEN_233;
-  wire [15:0]       _GEN_250 = {{4{_GEN_249[4'h0]}}, _GEN_249};
-  wire              rob_commit_items_is_priv_ls_1 = _GEN_250[head_next[4:1]];
-  wire [11:0][7:0]  _GEN_251 = head_next[0] ? _GEN_199 : _GEN_200;
-  wire [15:0][7:0]  _GEN_252 = {{4{_GEN_251[4'h0]}}, _GEN_251};
-  wire [7:0]        rob_commit_items_exception_1 = _GEN_252[head_next[4:1]];
+  wire [11:0]       _GEN_233 = head[0] ? _GEN_231 : _GEN_232;
+  wire [15:0]       _GEN_234 = {{4{_GEN_233[4'h0]}}, _GEN_233};
+  wire              rob_commit_items_is_priv_ls_0 = _GEN_234[head[4:1]];
+  wire [11:0][7:0]  _GEN_235 = head[0] ? _GEN_198 : _GEN_199;
+  wire [15:0][7:0]  _GEN_236 = {{4{_GEN_235[4'h0]}}, _GEN_235};
+  wire [7:0]        rob_commit_items_exception_0 = _GEN_236[head[4:1]];
+  wire [11:0]       _GEN_237 = head_next[0] ? _GEN_200 : _GEN_201;
+  wire [11:0][5:0]  _GEN_238 = head_next[0] ? _GEN_203 : _GEN_204;
+  wire [11:0][5:0]  _GEN_239 = head_next[0] ? _GEN_206 : _GEN_207;
+  wire [11:0]       _GEN_240 = head_next[0] ? _GEN_209 : _GEN_210;
+  wire [11:0][31:0] _GEN_241 = head_next[0] ? _GEN_212 : _GEN_213;
+  wire [11:0]       _GEN_242 = head_next[0] ? _GEN_215 : _GEN_216;
+  wire [11:0]       _GEN_243 = head_next[0] ? _GEN_218 : _GEN_219;
+  wire [11:0][1:0]  _GEN_244 = head_next[0] ? _GEN_221 : _GEN_222;
+  wire [11:0][31:0] _GEN_245 = head_next[0] ? _GEN_196 : _GEN_197;
+  wire [11:0]       _GEN_246 = head_next[0] ? _GEN_225 : _GEN_226;
+  wire [11:0]       _GEN_247 = head_next[0] ? _GEN_228 : _GEN_229;
+  wire [11:0]       _GEN_248 = head_next[0] ? _GEN_231 : _GEN_232;
+  wire [15:0]       _GEN_249 = {{4{_GEN_248[4'h0]}}, _GEN_248};
+  wire              rob_commit_items_is_priv_ls_1 = _GEN_249[head_next[4:1]];
+  wire [11:0][7:0]  _GEN_250 = head_next[0] ? _GEN_198 : _GEN_199;
+  wire [15:0][7:0]  _GEN_251 = {{4{_GEN_250[4'h0]}}, _GEN_250};
+  wire [7:0]        rob_commit_items_exception_1 = _GEN_251[head_next[4:1]];
   wire              interrupt = (|(interrupt_buffer[11:0])) & cmt_en_0;
-  wire [15:0][31:0] _GEN_253 = {{4{_GEN_242[4'h0]}}, _GEN_242};
-  wire [15:0][31:0] _GEN_254 = {{4{_GEN_215[4'h0]}}, _GEN_215};
+  wire [15:0][31:0] _GEN_252 = {{4{_GEN_241[4'h0]}}, _GEN_241};
+  wire [15:0][31:0] _GEN_253 = {{4{_GEN_214[4'h0]}}, _GEN_214};
   wire [31:0]       _rob_update_item_T_branch_target =
-    cmt_en_1 ? _GEN_253[head_next[4:1]] : _GEN_254[head[4:1]];
-  wire [15:0][31:0] _GEN_255 = {{4{_GEN_246[4'h0]}}, _GEN_246};
-  wire [15:0][31:0] _GEN_256 = {{4{_GEN_225[4'h0]}}, _GEN_225};
+    cmt_en_1 ? _GEN_252[head_next[4:1]] : _GEN_253[head[4:1]];
+  wire [15:0][31:0] _GEN_254 = {{4{_GEN_245[4'h0]}}, _GEN_245};
+  wire [15:0][31:0] _GEN_255 = {{4{_GEN_224[4'h0]}}, _GEN_224};
   wire [31:0]       _rob_update_item_T_pc =
-    cmt_en_1 ? _GEN_255[head_next[4:1]] : _GEN_256[head[4:1]];
+    cmt_en_1 ? _GEN_254[head_next[4:1]] : _GEN_255[head[4:1]];
   wire [31:0]       rob_update_item_branch_target =
     cmt_en_0 ? _rob_update_item_T_branch_target : 32'h0;
-  wire [15:0]       _GEN_257 = {{4{_GEN_243[4'h0]}}, _GEN_243};
-  wire [15:0]       _GEN_258 = {{4{_GEN_218[4'h0]}}, _GEN_218};
+  wire [15:0]       _GEN_256 = {{4{_GEN_242[4'h0]}}, _GEN_242};
+  wire [15:0]       _GEN_257 = {{4{_GEN_217[4'h0]}}, _GEN_217};
   wire              _rob_update_item_T_real_jump =
-    cmt_en_1 ? _GEN_257[head_next[4:1]] : _GEN_258[head[4:1]];
+    cmt_en_1 ? _GEN_256[head_next[4:1]] : _GEN_257[head[4:1]];
   wire              rob_update_item_real_jump = cmt_en_0 & _rob_update_item_T_real_jump;
-  wire [15:0]       _GEN_259 = {{4{_GEN_244[4'h0]}}, _GEN_244};
-  wire [15:0]       _GEN_260 = {{4{_GEN_221[4'h0]}}, _GEN_221};
+  wire [15:0]       _GEN_258 = {{4{_GEN_243[4'h0]}}, _GEN_243};
+  wire [15:0]       _GEN_259 = {{4{_GEN_220[4'h0]}}, _GEN_220};
   wire              _rob_update_item_T_pred_update_en =
-    cmt_en_1 ? _GEN_259[head_next[4:1]] : _GEN_260[head[4:1]];
+    cmt_en_1 ? _GEN_258[head_next[4:1]] : _GEN_259[head[4:1]];
   wire              rob_update_item_pred_update_en =
     cmt_en_0 & _rob_update_item_T_pred_update_en;
-  wire [15:0]       _GEN_261 = {{4{_GEN_248[4'h0]}}, _GEN_248};
-  wire [15:0]       _GEN_262 = {{4{_GEN_231[4'h0]}}, _GEN_231};
+  wire [15:0]       _GEN_260 = {{4{_GEN_247[4'h0]}}, _GEN_247};
+  wire [15:0]       _GEN_261 = {{4{_GEN_230[4'h0]}}, _GEN_230};
   wire              _rob_update_item_T_is_priv_wrt =
-    cmt_en_1 ? _GEN_261[head_next[4:1]] : _GEN_262[head[4:1]];
+    cmt_en_1 ? _GEN_260[head_next[4:1]] : _GEN_261[head[4:1]];
   wire              rob_update_item_is_priv_wrt =
     cmt_en_0 & _rob_update_item_T_is_priv_wrt;
   wire [7:0]        _rob_update_item_T_exception =
@@ -1163,42 +1158,40 @@ module ROB(
     cmt_en_0 ? _rob_update_item_T_exception : 8'h0;
   wire              _rob_update_item_T_is_priv_ls =
     cmt_en_1 ? rob_commit_items_is_priv_ls_1 : rob_commit_items_is_priv_ls_0;
-  wire [15:0]       _GEN_263 = {{4{_GEN_241[4'h0]}}, _GEN_241};
-  wire [15:0]       _GEN_264 = {{4{_GEN_212[4'h0]}}, _GEN_212};
+  wire [15:0]       _GEN_262 = {{4{_GEN_240[4'h0]}}, _GEN_240};
+  wire [15:0]       _GEN_263 = {{4{_GEN_211[4'h0]}}, _GEN_211};
   wire              _rob_update_item_T_predict_fail =
-    cmt_en_1 ? _GEN_263[head_next[4:1]] : _GEN_264[head[4:1]];
+    cmt_en_1 ? _GEN_262[head_next[4:1]] : _GEN_263[head[4:1]];
   wire              predict_fail_cmt =
     cmt_en_0 & _rob_update_item_T_predict_fail | rob_update_item_is_priv_wrt | cmt_en_0
     & _rob_update_item_T_is_priv_ls | rob_update_item_exception[7] | interrupt;
-  wire [11:0][31:0] _GEN_265 = io_rob_index_wb_2[0] ? _GEN_197 : _GEN_198;
-  wire [11:0][7:0]  _GEN_266 = io_rob_index_wb_2[0] ? _GEN_199 : _GEN_200;
-  wire [15:0][7:0]  _GEN_267 = {{4{_GEN_266[4'h0]}}, _GEN_266};
-  wire [15:0][31:0] _GEN_268 = {{4{_GEN_265[4'h0]}}, _GEN_265};
+  wire [11:0][31:0] _GEN_264 = io_rob_index_wb_2[0] ? _GEN_196 : _GEN_197;
+  wire [11:0][7:0]  _GEN_265 = io_rob_index_wb_2[0] ? _GEN_198 : _GEN_199;
+  wire [15:0][7:0]  _GEN_266 = {{4{_GEN_265[4'h0]}}, _GEN_265};
+  wire [15:0][31:0] _GEN_267 = {{4{_GEN_264[4'h0]}}, _GEN_264};
   wire [31:0]       _rob_branch_target_T_1 =
-    _GEN_267[io_rob_index_wb_2[4:1]][7]
-      ? _GEN_268[io_rob_index_wb_2[4:1]]
+    _GEN_266[io_rob_index_wb_2[4:1]][7]
+      ? _GEN_267[io_rob_index_wb_2[4:1]]
       : io_branch_target_wb_2;
-  wire [31:0]       _GEN_269 =
+  wire [31:0]       _GEN_268 =
     rob_update_item_is_priv_wrt & priv_buffer_priv_vec[3] | rob_update_item_pred_update_en
     & rob_update_item_real_jump
       ? _rob_update_item_T_branch_target
       : _rob_update_item_T_pc;
-  wire [31:0]       _branch_target_cmt_T_9 = cmt_en_0 ? _GEN_269 : 32'h0;
-  wire [31:0]       _branch_target_cmt_T_4 =
-    (&(rob_update_item_exception[5:0])) ? tlbreentry_global : eentry_global;
-  wire [15:0][1:0]  _GEN_270 = {{4{_GEN_245[4'h0]}}, _GEN_245};
-  wire [15:0][1:0]  _GEN_271 = {{4{_GEN_224[4'h0]}}, _GEN_224};
+  wire [31:0]       _branch_target_cmt_T_6 = cmt_en_0 ? _GEN_268 : 32'h0;
+  wire [15:0][1:0]  _GEN_269 = {{4{_GEN_244[4'h0]}}, _GEN_244};
+  wire [15:0][1:0]  _GEN_270 = {{4{_GEN_223[4'h0]}}, _GEN_223};
   wire [1:0]        _rob_update_item_T_br_type_pred =
-    cmt_en_1 ? _GEN_270[head_next[4:1]] : _GEN_271[head[4:1]];
+    cmt_en_1 ? _GEN_269[head_next[4:1]] : _GEN_270[head[4:1]];
   wire [31:0]       rob_update_item_pc = cmt_en_0 ? _rob_update_item_T_pc : 32'h0;
-  wire [15:0]       _GEN_272 = {{4{_GEN_247[4'h0]}}, _GEN_247};
-  wire [15:0]       _GEN_273 = {{4{_GEN_228[4'h0]}}, _GEN_228};
-  wire [15:0]       _GEN_274 = {{4{_GEN_203[4'h0]}}, _GEN_203};
-  wire [15:0]       _GEN_275 = {{4{_GEN_238[4'h0]}}, _GEN_238};
-  wire [15:0][5:0]  _GEN_276 = {{4{_GEN_206[4'h0]}}, _GEN_206};
-  wire [15:0][5:0]  _GEN_277 = {{4{_GEN_239[4'h0]}}, _GEN_239};
-  wire [15:0][5:0]  _GEN_278 = {{4{_GEN_209[4'h0]}}, _GEN_209};
-  wire [15:0][5:0]  _GEN_279 = {{4{_GEN_240[4'h0]}}, _GEN_240};
+  wire [15:0]       _GEN_271 = {{4{_GEN_246[4'h0]}}, _GEN_246};
+  wire [15:0]       _GEN_272 = {{4{_GEN_227[4'h0]}}, _GEN_227};
+  wire [15:0]       _GEN_273 = {{4{_GEN_202[4'h0]}}, _GEN_202};
+  wire [15:0]       _GEN_274 = {{4{_GEN_237[4'h0]}}, _GEN_237};
+  wire [15:0][5:0]  _GEN_275 = {{4{_GEN_205[4'h0]}}, _GEN_205};
+  wire [15:0][5:0]  _GEN_276 = {{4{_GEN_238[4'h0]}}, _GEN_238};
+  wire [15:0][5:0]  _GEN_277 = {{4{_GEN_208[4'h0]}}, _GEN_208};
+  wire [15:0][5:0]  _GEN_278 = {{4{_GEN_239[4'h0]}}, _GEN_239};
   always @(posedge clock) begin
     if (reset) begin
       rob_rd_valid_0_0 <= 1'h0;
@@ -1580,7 +1573,7 @@ module ROB(
       elem_num_5_1 <= 5'h0;
     end
     else begin
-      if (_GEN_15) begin
+      if (_GEN_14) begin
         rob_rd_valid_0_0 <= io_rd_valid_dp_0;
         rob_rd_valid_1_0 <= io_rd_valid_dp_1;
         rob_prd_0_0 <= io_prd_dp_0;
@@ -1600,7 +1593,7 @@ module ROB(
         rob_is_priv_ls_0_0 <= |(io_priv_vec_dp_0[12:10]);
         rob_is_priv_ls_1_0 <= |(io_priv_vec_dp_1[12:10]);
       end
-      if (_GEN_16) begin
+      if (_GEN_15) begin
         rob_rd_valid_0_1 <= io_rd_valid_dp_0;
         rob_rd_valid_1_1 <= io_rd_valid_dp_1;
         rob_prd_0_1 <= io_prd_dp_0;
@@ -1620,7 +1613,7 @@ module ROB(
         rob_is_priv_ls_0_1 <= |(io_priv_vec_dp_0[12:10]);
         rob_is_priv_ls_1_1 <= |(io_priv_vec_dp_1[12:10]);
       end
-      if (_GEN_17) begin
+      if (_GEN_16) begin
         rob_rd_valid_0_2 <= io_rd_valid_dp_0;
         rob_rd_valid_1_2 <= io_rd_valid_dp_1;
         rob_prd_0_2 <= io_prd_dp_0;
@@ -1640,7 +1633,7 @@ module ROB(
         rob_is_priv_ls_0_2 <= |(io_priv_vec_dp_0[12:10]);
         rob_is_priv_ls_1_2 <= |(io_priv_vec_dp_1[12:10]);
       end
-      if (_GEN_18) begin
+      if (_GEN_17) begin
         rob_rd_valid_0_3 <= io_rd_valid_dp_0;
         rob_rd_valid_1_3 <= io_rd_valid_dp_1;
         rob_prd_0_3 <= io_prd_dp_0;
@@ -1660,7 +1653,7 @@ module ROB(
         rob_is_priv_ls_0_3 <= |(io_priv_vec_dp_0[12:10]);
         rob_is_priv_ls_1_3 <= |(io_priv_vec_dp_1[12:10]);
       end
-      if (_GEN_19) begin
+      if (_GEN_18) begin
         rob_rd_valid_0_4 <= io_rd_valid_dp_0;
         rob_rd_valid_1_4 <= io_rd_valid_dp_1;
         rob_prd_0_4 <= io_prd_dp_0;
@@ -1680,7 +1673,7 @@ module ROB(
         rob_is_priv_ls_0_4 <= |(io_priv_vec_dp_0[12:10]);
         rob_is_priv_ls_1_4 <= |(io_priv_vec_dp_1[12:10]);
       end
-      if (_GEN_20) begin
+      if (_GEN_19) begin
         rob_rd_valid_0_5 <= io_rd_valid_dp_0;
         rob_rd_valid_1_5 <= io_rd_valid_dp_1;
         rob_prd_0_5 <= io_prd_dp_0;
@@ -1700,7 +1693,7 @@ module ROB(
         rob_is_priv_ls_0_5 <= |(io_priv_vec_dp_0[12:10]);
         rob_is_priv_ls_1_5 <= |(io_priv_vec_dp_1[12:10]);
       end
-      if (_GEN_21) begin
+      if (_GEN_20) begin
         rob_rd_valid_0_6 <= io_rd_valid_dp_0;
         rob_rd_valid_1_6 <= io_rd_valid_dp_1;
         rob_prd_0_6 <= io_prd_dp_0;
@@ -1720,7 +1713,7 @@ module ROB(
         rob_is_priv_ls_0_6 <= |(io_priv_vec_dp_0[12:10]);
         rob_is_priv_ls_1_6 <= |(io_priv_vec_dp_1[12:10]);
       end
-      if (_GEN_22) begin
+      if (_GEN_21) begin
         rob_rd_valid_0_7 <= io_rd_valid_dp_0;
         rob_rd_valid_1_7 <= io_rd_valid_dp_1;
         rob_prd_0_7 <= io_prd_dp_0;
@@ -1740,7 +1733,7 @@ module ROB(
         rob_is_priv_ls_0_7 <= |(io_priv_vec_dp_0[12:10]);
         rob_is_priv_ls_1_7 <= |(io_priv_vec_dp_1[12:10]);
       end
-      if (_GEN_23) begin
+      if (_GEN_22) begin
         rob_rd_valid_0_8 <= io_rd_valid_dp_0;
         rob_rd_valid_1_8 <= io_rd_valid_dp_1;
         rob_prd_0_8 <= io_prd_dp_0;
@@ -1760,7 +1753,7 @@ module ROB(
         rob_is_priv_ls_0_8 <= |(io_priv_vec_dp_0[12:10]);
         rob_is_priv_ls_1_8 <= |(io_priv_vec_dp_1[12:10]);
       end
-      if (_GEN_24) begin
+      if (_GEN_23) begin
         rob_rd_valid_0_9 <= io_rd_valid_dp_0;
         rob_rd_valid_1_9 <= io_rd_valid_dp_1;
         rob_prd_0_9 <= io_prd_dp_0;
@@ -1780,7 +1773,7 @@ module ROB(
         rob_is_priv_ls_0_9 <= |(io_priv_vec_dp_0[12:10]);
         rob_is_priv_ls_1_9 <= |(io_priv_vec_dp_1[12:10]);
       end
-      if (_GEN_25) begin
+      if (_GEN_24) begin
         rob_rd_valid_0_10 <= io_rd_valid_dp_0;
         rob_rd_valid_1_10 <= io_rd_valid_dp_1;
         rob_prd_0_10 <= io_prd_dp_0;
@@ -1800,7 +1793,7 @@ module ROB(
         rob_is_priv_ls_0_10 <= |(io_priv_vec_dp_0[12:10]);
         rob_is_priv_ls_1_10 <= |(io_priv_vec_dp_1[12:10]);
       end
-      if (_GEN_26) begin
+      if (_GEN_25) begin
         rob_rd_valid_0_11 <= io_rd_valid_dp_0;
         rob_rd_valid_1_11 <= io_rd_valid_dp_1;
         rob_prd_0_11 <= io_prd_dp_0;
@@ -1820,565 +1813,565 @@ module ROB(
         rob_is_priv_ls_0_11 <= |(io_priv_vec_dp_0[12:10]);
         rob_is_priv_ls_1_11 <= |(io_priv_vec_dp_1[12:10]);
       end
-      if (_GEN_125) begin
+      if (_GEN_124) begin
         rob_predict_fail_0_0 <= io_predict_fail_wb_1;
         rob_real_jump_0_0 <= io_real_jump_wb_1;
       end
       else
-        rob_predict_fail_0_0 <= ~_GEN_15 & rob_predict_fail_0_0;
-      if (_GEN_126) begin
+        rob_predict_fail_0_0 <= ~_GEN_14 & rob_predict_fail_0_0;
+      if (_GEN_125) begin
         rob_predict_fail_0_1 <= io_predict_fail_wb_1;
         rob_real_jump_0_1 <= io_real_jump_wb_1;
       end
       else
-        rob_predict_fail_0_1 <= ~_GEN_16 & rob_predict_fail_0_1;
-      if (_GEN_127) begin
+        rob_predict_fail_0_1 <= ~_GEN_15 & rob_predict_fail_0_1;
+      if (_GEN_126) begin
         rob_predict_fail_0_2 <= io_predict_fail_wb_1;
         rob_real_jump_0_2 <= io_real_jump_wb_1;
       end
       else
-        rob_predict_fail_0_2 <= ~_GEN_17 & rob_predict_fail_0_2;
-      if (_GEN_128) begin
+        rob_predict_fail_0_2 <= ~_GEN_16 & rob_predict_fail_0_2;
+      if (_GEN_127) begin
         rob_predict_fail_0_3 <= io_predict_fail_wb_1;
         rob_real_jump_0_3 <= io_real_jump_wb_1;
       end
       else
-        rob_predict_fail_0_3 <= ~_GEN_18 & rob_predict_fail_0_3;
-      if (_GEN_129) begin
+        rob_predict_fail_0_3 <= ~_GEN_17 & rob_predict_fail_0_3;
+      if (_GEN_128) begin
         rob_predict_fail_0_4 <= io_predict_fail_wb_1;
         rob_real_jump_0_4 <= io_real_jump_wb_1;
       end
       else
-        rob_predict_fail_0_4 <= ~_GEN_19 & rob_predict_fail_0_4;
-      if (_GEN_130) begin
+        rob_predict_fail_0_4 <= ~_GEN_18 & rob_predict_fail_0_4;
+      if (_GEN_129) begin
         rob_predict_fail_0_5 <= io_predict_fail_wb_1;
         rob_real_jump_0_5 <= io_real_jump_wb_1;
       end
       else
-        rob_predict_fail_0_5 <= ~_GEN_20 & rob_predict_fail_0_5;
-      if (_GEN_131) begin
+        rob_predict_fail_0_5 <= ~_GEN_19 & rob_predict_fail_0_5;
+      if (_GEN_130) begin
         rob_predict_fail_0_6 <= io_predict_fail_wb_1;
         rob_real_jump_0_6 <= io_real_jump_wb_1;
       end
       else
-        rob_predict_fail_0_6 <= ~_GEN_21 & rob_predict_fail_0_6;
-      if (_GEN_132) begin
+        rob_predict_fail_0_6 <= ~_GEN_20 & rob_predict_fail_0_6;
+      if (_GEN_131) begin
         rob_predict_fail_0_7 <= io_predict_fail_wb_1;
         rob_real_jump_0_7 <= io_real_jump_wb_1;
       end
       else
-        rob_predict_fail_0_7 <= ~_GEN_22 & rob_predict_fail_0_7;
-      if (_GEN_133) begin
+        rob_predict_fail_0_7 <= ~_GEN_21 & rob_predict_fail_0_7;
+      if (_GEN_132) begin
         rob_predict_fail_0_8 <= io_predict_fail_wb_1;
         rob_real_jump_0_8 <= io_real_jump_wb_1;
       end
       else
-        rob_predict_fail_0_8 <= ~_GEN_23 & rob_predict_fail_0_8;
-      if (_GEN_134) begin
+        rob_predict_fail_0_8 <= ~_GEN_22 & rob_predict_fail_0_8;
+      if (_GEN_133) begin
         rob_predict_fail_0_9 <= io_predict_fail_wb_1;
         rob_real_jump_0_9 <= io_real_jump_wb_1;
       end
       else
-        rob_predict_fail_0_9 <= ~_GEN_24 & rob_predict_fail_0_9;
-      if (_GEN_135) begin
+        rob_predict_fail_0_9 <= ~_GEN_23 & rob_predict_fail_0_9;
+      if (_GEN_134) begin
         rob_predict_fail_0_10 <= io_predict_fail_wb_1;
         rob_real_jump_0_10 <= io_real_jump_wb_1;
       end
       else
-        rob_predict_fail_0_10 <= ~_GEN_25 & rob_predict_fail_0_10;
-      if (_GEN_136) begin
+        rob_predict_fail_0_10 <= ~_GEN_24 & rob_predict_fail_0_10;
+      if (_GEN_135) begin
         rob_predict_fail_0_11 <= io_predict_fail_wb_1;
         rob_real_jump_0_11 <= io_real_jump_wb_1;
       end
       else
-        rob_predict_fail_0_11 <= ~_GEN_26 & rob_predict_fail_0_11;
-      if (_GEN_137) begin
+        rob_predict_fail_0_11 <= ~_GEN_25 & rob_predict_fail_0_11;
+      if (_GEN_136) begin
         rob_predict_fail_1_0 <= io_predict_fail_wb_1;
         rob_real_jump_1_0 <= io_real_jump_wb_1;
       end
       else
-        rob_predict_fail_1_0 <= ~_GEN_15 & rob_predict_fail_1_0;
-      if (_GEN_138) begin
+        rob_predict_fail_1_0 <= ~_GEN_14 & rob_predict_fail_1_0;
+      if (_GEN_137) begin
         rob_predict_fail_1_1 <= io_predict_fail_wb_1;
         rob_real_jump_1_1 <= io_real_jump_wb_1;
       end
       else
-        rob_predict_fail_1_1 <= ~_GEN_16 & rob_predict_fail_1_1;
-      if (_GEN_139) begin
+        rob_predict_fail_1_1 <= ~_GEN_15 & rob_predict_fail_1_1;
+      if (_GEN_138) begin
         rob_predict_fail_1_2 <= io_predict_fail_wb_1;
         rob_real_jump_1_2 <= io_real_jump_wb_1;
       end
       else
-        rob_predict_fail_1_2 <= ~_GEN_17 & rob_predict_fail_1_2;
-      if (_GEN_140) begin
+        rob_predict_fail_1_2 <= ~_GEN_16 & rob_predict_fail_1_2;
+      if (_GEN_139) begin
         rob_predict_fail_1_3 <= io_predict_fail_wb_1;
         rob_real_jump_1_3 <= io_real_jump_wb_1;
       end
       else
-        rob_predict_fail_1_3 <= ~_GEN_18 & rob_predict_fail_1_3;
-      if (_GEN_141) begin
+        rob_predict_fail_1_3 <= ~_GEN_17 & rob_predict_fail_1_3;
+      if (_GEN_140) begin
         rob_predict_fail_1_4 <= io_predict_fail_wb_1;
         rob_real_jump_1_4 <= io_real_jump_wb_1;
       end
       else
-        rob_predict_fail_1_4 <= ~_GEN_19 & rob_predict_fail_1_4;
-      if (_GEN_142) begin
+        rob_predict_fail_1_4 <= ~_GEN_18 & rob_predict_fail_1_4;
+      if (_GEN_141) begin
         rob_predict_fail_1_5 <= io_predict_fail_wb_1;
         rob_real_jump_1_5 <= io_real_jump_wb_1;
       end
       else
-        rob_predict_fail_1_5 <= ~_GEN_20 & rob_predict_fail_1_5;
-      if (_GEN_143) begin
+        rob_predict_fail_1_5 <= ~_GEN_19 & rob_predict_fail_1_5;
+      if (_GEN_142) begin
         rob_predict_fail_1_6 <= io_predict_fail_wb_1;
         rob_real_jump_1_6 <= io_real_jump_wb_1;
       end
       else
-        rob_predict_fail_1_6 <= ~_GEN_21 & rob_predict_fail_1_6;
-      if (_GEN_144) begin
+        rob_predict_fail_1_6 <= ~_GEN_20 & rob_predict_fail_1_6;
+      if (_GEN_143) begin
         rob_predict_fail_1_7 <= io_predict_fail_wb_1;
         rob_real_jump_1_7 <= io_real_jump_wb_1;
       end
       else
-        rob_predict_fail_1_7 <= ~_GEN_22 & rob_predict_fail_1_7;
-      if (_GEN_145) begin
+        rob_predict_fail_1_7 <= ~_GEN_21 & rob_predict_fail_1_7;
+      if (_GEN_144) begin
         rob_predict_fail_1_8 <= io_predict_fail_wb_1;
         rob_real_jump_1_8 <= io_real_jump_wb_1;
       end
       else
-        rob_predict_fail_1_8 <= ~_GEN_23 & rob_predict_fail_1_8;
-      if (_GEN_146) begin
+        rob_predict_fail_1_8 <= ~_GEN_22 & rob_predict_fail_1_8;
+      if (_GEN_145) begin
         rob_predict_fail_1_9 <= io_predict_fail_wb_1;
         rob_real_jump_1_9 <= io_real_jump_wb_1;
       end
       else
-        rob_predict_fail_1_9 <= ~_GEN_24 & rob_predict_fail_1_9;
-      if (_GEN_147) begin
+        rob_predict_fail_1_9 <= ~_GEN_23 & rob_predict_fail_1_9;
+      if (_GEN_146) begin
         rob_predict_fail_1_10 <= io_predict_fail_wb_1;
         rob_real_jump_1_10 <= io_real_jump_wb_1;
       end
       else
-        rob_predict_fail_1_10 <= ~_GEN_25 & rob_predict_fail_1_10;
-      if (_GEN_148) begin
+        rob_predict_fail_1_10 <= ~_GEN_24 & rob_predict_fail_1_10;
+      if (_GEN_147) begin
         rob_predict_fail_1_11 <= io_predict_fail_wb_1;
         rob_real_jump_1_11 <= io_real_jump_wb_1;
       end
       else
-        rob_predict_fail_1_11 <= ~_GEN_26 & rob_predict_fail_1_11;
-      if (io_inst_valid_wb_3 & ~(io_rob_index_wb_3[0]) & _GEN_185) begin
+        rob_predict_fail_1_11 <= ~_GEN_25 & rob_predict_fail_1_11;
+      if (io_inst_valid_wb_3 & ~(io_rob_index_wb_3[0]) & _GEN_184) begin
         rob_branch_target_0_0 <= _rob_branch_target_T_2;
         rob_allow_next_cmt_0_0 <= ~(io_exception_wb_3[7]);
         rob_exception_0_0 <= io_exception_wb_3;
       end
       else begin
-        if (_GEN_150)
+        if (_GEN_149)
           rob_branch_target_0_0 <= _rob_branch_target_T_1;
-        else if (_GEN_125)
+        else if (_GEN_124)
           rob_branch_target_0_0 <= io_branch_target_wb_1;
-        if (_GEN_15) begin
+        if (_GEN_14) begin
           rob_allow_next_cmt_0_0 <= allow_next_cmt_0;
           rob_exception_0_0 <= io_exception_dp_0;
         end
       end
-      if (io_inst_valid_wb_3 & ~(io_rob_index_wb_3[0]) & _GEN_186) begin
+      if (io_inst_valid_wb_3 & ~(io_rob_index_wb_3[0]) & _GEN_185) begin
         rob_branch_target_0_1 <= _rob_branch_target_T_2;
         rob_allow_next_cmt_0_1 <= ~(io_exception_wb_3[7]);
         rob_exception_0_1 <= io_exception_wb_3;
       end
       else begin
-        if (_GEN_152)
+        if (_GEN_151)
           rob_branch_target_0_1 <= _rob_branch_target_T_1;
-        else if (_GEN_126)
+        else if (_GEN_125)
           rob_branch_target_0_1 <= io_branch_target_wb_1;
-        if (_GEN_16) begin
+        if (_GEN_15) begin
           rob_allow_next_cmt_0_1 <= allow_next_cmt_0;
           rob_exception_0_1 <= io_exception_dp_0;
         end
       end
-      if (io_inst_valid_wb_3 & ~(io_rob_index_wb_3[0]) & _GEN_187) begin
+      if (io_inst_valid_wb_3 & ~(io_rob_index_wb_3[0]) & _GEN_186) begin
         rob_branch_target_0_2 <= _rob_branch_target_T_2;
         rob_allow_next_cmt_0_2 <= ~(io_exception_wb_3[7]);
         rob_exception_0_2 <= io_exception_wb_3;
       end
       else begin
-        if (_GEN_154)
+        if (_GEN_153)
           rob_branch_target_0_2 <= _rob_branch_target_T_1;
-        else if (_GEN_127)
+        else if (_GEN_126)
           rob_branch_target_0_2 <= io_branch_target_wb_1;
-        if (_GEN_17) begin
+        if (_GEN_16) begin
           rob_allow_next_cmt_0_2 <= allow_next_cmt_0;
           rob_exception_0_2 <= io_exception_dp_0;
         end
       end
-      if (io_inst_valid_wb_3 & ~(io_rob_index_wb_3[0]) & _GEN_188) begin
+      if (io_inst_valid_wb_3 & ~(io_rob_index_wb_3[0]) & _GEN_187) begin
         rob_branch_target_0_3 <= _rob_branch_target_T_2;
         rob_allow_next_cmt_0_3 <= ~(io_exception_wb_3[7]);
         rob_exception_0_3 <= io_exception_wb_3;
       end
       else begin
-        if (_GEN_156)
+        if (_GEN_155)
           rob_branch_target_0_3 <= _rob_branch_target_T_1;
-        else if (_GEN_128)
+        else if (_GEN_127)
           rob_branch_target_0_3 <= io_branch_target_wb_1;
-        if (_GEN_18) begin
+        if (_GEN_17) begin
           rob_allow_next_cmt_0_3 <= allow_next_cmt_0;
           rob_exception_0_3 <= io_exception_dp_0;
         end
       end
-      if (io_inst_valid_wb_3 & ~(io_rob_index_wb_3[0]) & _GEN_189) begin
+      if (io_inst_valid_wb_3 & ~(io_rob_index_wb_3[0]) & _GEN_188) begin
         rob_branch_target_0_4 <= _rob_branch_target_T_2;
         rob_allow_next_cmt_0_4 <= ~(io_exception_wb_3[7]);
         rob_exception_0_4 <= io_exception_wb_3;
       end
       else begin
-        if (_GEN_158)
+        if (_GEN_157)
           rob_branch_target_0_4 <= _rob_branch_target_T_1;
-        else if (_GEN_129)
+        else if (_GEN_128)
           rob_branch_target_0_4 <= io_branch_target_wb_1;
-        if (_GEN_19) begin
+        if (_GEN_18) begin
           rob_allow_next_cmt_0_4 <= allow_next_cmt_0;
           rob_exception_0_4 <= io_exception_dp_0;
         end
       end
-      if (io_inst_valid_wb_3 & ~(io_rob_index_wb_3[0]) & _GEN_190) begin
+      if (io_inst_valid_wb_3 & ~(io_rob_index_wb_3[0]) & _GEN_189) begin
         rob_branch_target_0_5 <= _rob_branch_target_T_2;
         rob_allow_next_cmt_0_5 <= ~(io_exception_wb_3[7]);
         rob_exception_0_5 <= io_exception_wb_3;
       end
       else begin
-        if (_GEN_160)
+        if (_GEN_159)
           rob_branch_target_0_5 <= _rob_branch_target_T_1;
-        else if (_GEN_130)
+        else if (_GEN_129)
           rob_branch_target_0_5 <= io_branch_target_wb_1;
-        if (_GEN_20) begin
+        if (_GEN_19) begin
           rob_allow_next_cmt_0_5 <= allow_next_cmt_0;
           rob_exception_0_5 <= io_exception_dp_0;
         end
       end
-      if (io_inst_valid_wb_3 & ~(io_rob_index_wb_3[0]) & _GEN_191) begin
+      if (io_inst_valid_wb_3 & ~(io_rob_index_wb_3[0]) & _GEN_190) begin
         rob_branch_target_0_6 <= _rob_branch_target_T_2;
         rob_allow_next_cmt_0_6 <= ~(io_exception_wb_3[7]);
         rob_exception_0_6 <= io_exception_wb_3;
       end
       else begin
-        if (_GEN_162)
+        if (_GEN_161)
           rob_branch_target_0_6 <= _rob_branch_target_T_1;
-        else if (_GEN_131)
+        else if (_GEN_130)
           rob_branch_target_0_6 <= io_branch_target_wb_1;
-        if (_GEN_21) begin
+        if (_GEN_20) begin
           rob_allow_next_cmt_0_6 <= allow_next_cmt_0;
           rob_exception_0_6 <= io_exception_dp_0;
         end
       end
-      if (io_inst_valid_wb_3 & ~(io_rob_index_wb_3[0]) & _GEN_192) begin
+      if (io_inst_valid_wb_3 & ~(io_rob_index_wb_3[0]) & _GEN_191) begin
         rob_branch_target_0_7 <= _rob_branch_target_T_2;
         rob_allow_next_cmt_0_7 <= ~(io_exception_wb_3[7]);
         rob_exception_0_7 <= io_exception_wb_3;
       end
       else begin
-        if (_GEN_164)
+        if (_GEN_163)
           rob_branch_target_0_7 <= _rob_branch_target_T_1;
-        else if (_GEN_132)
+        else if (_GEN_131)
           rob_branch_target_0_7 <= io_branch_target_wb_1;
-        if (_GEN_22) begin
+        if (_GEN_21) begin
           rob_allow_next_cmt_0_7 <= allow_next_cmt_0;
           rob_exception_0_7 <= io_exception_dp_0;
         end
       end
-      if (io_inst_valid_wb_3 & ~(io_rob_index_wb_3[0]) & _GEN_193) begin
+      if (io_inst_valid_wb_3 & ~(io_rob_index_wb_3[0]) & _GEN_192) begin
         rob_branch_target_0_8 <= _rob_branch_target_T_2;
         rob_allow_next_cmt_0_8 <= ~(io_exception_wb_3[7]);
         rob_exception_0_8 <= io_exception_wb_3;
       end
       else begin
-        if (_GEN_166)
+        if (_GEN_165)
           rob_branch_target_0_8 <= _rob_branch_target_T_1;
-        else if (_GEN_133)
+        else if (_GEN_132)
           rob_branch_target_0_8 <= io_branch_target_wb_1;
-        if (_GEN_23) begin
+        if (_GEN_22) begin
           rob_allow_next_cmt_0_8 <= allow_next_cmt_0;
           rob_exception_0_8 <= io_exception_dp_0;
         end
       end
-      if (io_inst_valid_wb_3 & ~(io_rob_index_wb_3[0]) & _GEN_194) begin
+      if (io_inst_valid_wb_3 & ~(io_rob_index_wb_3[0]) & _GEN_193) begin
         rob_branch_target_0_9 <= _rob_branch_target_T_2;
         rob_allow_next_cmt_0_9 <= ~(io_exception_wb_3[7]);
         rob_exception_0_9 <= io_exception_wb_3;
       end
       else begin
-        if (_GEN_168)
+        if (_GEN_167)
           rob_branch_target_0_9 <= _rob_branch_target_T_1;
-        else if (_GEN_134)
+        else if (_GEN_133)
           rob_branch_target_0_9 <= io_branch_target_wb_1;
-        if (_GEN_24) begin
+        if (_GEN_23) begin
           rob_allow_next_cmt_0_9 <= allow_next_cmt_0;
           rob_exception_0_9 <= io_exception_dp_0;
         end
       end
-      if (io_inst_valid_wb_3 & ~(io_rob_index_wb_3[0]) & _GEN_195) begin
+      if (io_inst_valid_wb_3 & ~(io_rob_index_wb_3[0]) & _GEN_194) begin
         rob_branch_target_0_10 <= _rob_branch_target_T_2;
         rob_allow_next_cmt_0_10 <= ~(io_exception_wb_3[7]);
         rob_exception_0_10 <= io_exception_wb_3;
       end
       else begin
-        if (_GEN_170)
+        if (_GEN_169)
           rob_branch_target_0_10 <= _rob_branch_target_T_1;
-        else if (_GEN_135)
+        else if (_GEN_134)
           rob_branch_target_0_10 <= io_branch_target_wb_1;
-        if (_GEN_25) begin
+        if (_GEN_24) begin
           rob_allow_next_cmt_0_10 <= allow_next_cmt_0;
           rob_exception_0_10 <= io_exception_dp_0;
         end
       end
-      if (io_inst_valid_wb_3 & ~(io_rob_index_wb_3[0]) & _GEN_196) begin
+      if (io_inst_valid_wb_3 & ~(io_rob_index_wb_3[0]) & _GEN_195) begin
         rob_branch_target_0_11 <= _rob_branch_target_T_2;
         rob_allow_next_cmt_0_11 <= ~(io_exception_wb_3[7]);
         rob_exception_0_11 <= io_exception_wb_3;
       end
       else begin
-        if (_GEN_172)
+        if (_GEN_171)
           rob_branch_target_0_11 <= _rob_branch_target_T_1;
-        else if (_GEN_136)
+        else if (_GEN_135)
           rob_branch_target_0_11 <= io_branch_target_wb_1;
-        if (_GEN_26) begin
+        if (_GEN_25) begin
           rob_allow_next_cmt_0_11 <= allow_next_cmt_0;
           rob_exception_0_11 <= io_exception_dp_0;
         end
       end
-      if (io_inst_valid_wb_3 & io_rob_index_wb_3[0] & _GEN_185) begin
+      if (io_inst_valid_wb_3 & io_rob_index_wb_3[0] & _GEN_184) begin
         rob_branch_target_1_0 <= _rob_branch_target_T_2;
         rob_allow_next_cmt_1_0 <= ~(io_exception_wb_3[7]);
         rob_exception_1_0 <= io_exception_wb_3;
       end
       else begin
-        if (_GEN_173)
+        if (_GEN_172)
           rob_branch_target_1_0 <= _rob_branch_target_T_1;
-        else if (_GEN_137)
+        else if (_GEN_136)
           rob_branch_target_1_0 <= io_branch_target_wb_1;
-        if (_GEN_15) begin
+        if (_GEN_14) begin
           rob_allow_next_cmt_1_0 <= allow_next_cmt_1;
           rob_exception_1_0 <= io_exception_dp_1;
         end
       end
-      if (io_inst_valid_wb_3 & io_rob_index_wb_3[0] & _GEN_186) begin
+      if (io_inst_valid_wb_3 & io_rob_index_wb_3[0] & _GEN_185) begin
         rob_branch_target_1_1 <= _rob_branch_target_T_2;
         rob_allow_next_cmt_1_1 <= ~(io_exception_wb_3[7]);
         rob_exception_1_1 <= io_exception_wb_3;
       end
       else begin
-        if (_GEN_174)
+        if (_GEN_173)
           rob_branch_target_1_1 <= _rob_branch_target_T_1;
-        else if (_GEN_138)
+        else if (_GEN_137)
           rob_branch_target_1_1 <= io_branch_target_wb_1;
-        if (_GEN_16) begin
+        if (_GEN_15) begin
           rob_allow_next_cmt_1_1 <= allow_next_cmt_1;
           rob_exception_1_1 <= io_exception_dp_1;
         end
       end
-      if (io_inst_valid_wb_3 & io_rob_index_wb_3[0] & _GEN_187) begin
+      if (io_inst_valid_wb_3 & io_rob_index_wb_3[0] & _GEN_186) begin
         rob_branch_target_1_2 <= _rob_branch_target_T_2;
         rob_allow_next_cmt_1_2 <= ~(io_exception_wb_3[7]);
         rob_exception_1_2 <= io_exception_wb_3;
       end
       else begin
-        if (_GEN_175)
+        if (_GEN_174)
           rob_branch_target_1_2 <= _rob_branch_target_T_1;
-        else if (_GEN_139)
+        else if (_GEN_138)
           rob_branch_target_1_2 <= io_branch_target_wb_1;
-        if (_GEN_17) begin
+        if (_GEN_16) begin
           rob_allow_next_cmt_1_2 <= allow_next_cmt_1;
           rob_exception_1_2 <= io_exception_dp_1;
         end
       end
-      if (io_inst_valid_wb_3 & io_rob_index_wb_3[0] & _GEN_188) begin
+      if (io_inst_valid_wb_3 & io_rob_index_wb_3[0] & _GEN_187) begin
         rob_branch_target_1_3 <= _rob_branch_target_T_2;
         rob_allow_next_cmt_1_3 <= ~(io_exception_wb_3[7]);
         rob_exception_1_3 <= io_exception_wb_3;
       end
       else begin
-        if (_GEN_176)
+        if (_GEN_175)
           rob_branch_target_1_3 <= _rob_branch_target_T_1;
-        else if (_GEN_140)
+        else if (_GEN_139)
           rob_branch_target_1_3 <= io_branch_target_wb_1;
-        if (_GEN_18) begin
+        if (_GEN_17) begin
           rob_allow_next_cmt_1_3 <= allow_next_cmt_1;
           rob_exception_1_3 <= io_exception_dp_1;
         end
       end
-      if (io_inst_valid_wb_3 & io_rob_index_wb_3[0] & _GEN_189) begin
+      if (io_inst_valid_wb_3 & io_rob_index_wb_3[0] & _GEN_188) begin
         rob_branch_target_1_4 <= _rob_branch_target_T_2;
         rob_allow_next_cmt_1_4 <= ~(io_exception_wb_3[7]);
         rob_exception_1_4 <= io_exception_wb_3;
       end
       else begin
-        if (_GEN_177)
+        if (_GEN_176)
           rob_branch_target_1_4 <= _rob_branch_target_T_1;
-        else if (_GEN_141)
+        else if (_GEN_140)
           rob_branch_target_1_4 <= io_branch_target_wb_1;
-        if (_GEN_19) begin
+        if (_GEN_18) begin
           rob_allow_next_cmt_1_4 <= allow_next_cmt_1;
           rob_exception_1_4 <= io_exception_dp_1;
         end
       end
-      if (io_inst_valid_wb_3 & io_rob_index_wb_3[0] & _GEN_190) begin
+      if (io_inst_valid_wb_3 & io_rob_index_wb_3[0] & _GEN_189) begin
         rob_branch_target_1_5 <= _rob_branch_target_T_2;
         rob_allow_next_cmt_1_5 <= ~(io_exception_wb_3[7]);
         rob_exception_1_5 <= io_exception_wb_3;
       end
       else begin
-        if (_GEN_178)
+        if (_GEN_177)
           rob_branch_target_1_5 <= _rob_branch_target_T_1;
-        else if (_GEN_142)
+        else if (_GEN_141)
           rob_branch_target_1_5 <= io_branch_target_wb_1;
-        if (_GEN_20) begin
+        if (_GEN_19) begin
           rob_allow_next_cmt_1_5 <= allow_next_cmt_1;
           rob_exception_1_5 <= io_exception_dp_1;
         end
       end
-      if (io_inst_valid_wb_3 & io_rob_index_wb_3[0] & _GEN_191) begin
+      if (io_inst_valid_wb_3 & io_rob_index_wb_3[0] & _GEN_190) begin
         rob_branch_target_1_6 <= _rob_branch_target_T_2;
         rob_allow_next_cmt_1_6 <= ~(io_exception_wb_3[7]);
         rob_exception_1_6 <= io_exception_wb_3;
       end
       else begin
-        if (_GEN_179)
+        if (_GEN_178)
           rob_branch_target_1_6 <= _rob_branch_target_T_1;
-        else if (_GEN_143)
+        else if (_GEN_142)
           rob_branch_target_1_6 <= io_branch_target_wb_1;
-        if (_GEN_21) begin
+        if (_GEN_20) begin
           rob_allow_next_cmt_1_6 <= allow_next_cmt_1;
           rob_exception_1_6 <= io_exception_dp_1;
         end
       end
-      if (io_inst_valid_wb_3 & io_rob_index_wb_3[0] & _GEN_192) begin
+      if (io_inst_valid_wb_3 & io_rob_index_wb_3[0] & _GEN_191) begin
         rob_branch_target_1_7 <= _rob_branch_target_T_2;
         rob_allow_next_cmt_1_7 <= ~(io_exception_wb_3[7]);
         rob_exception_1_7 <= io_exception_wb_3;
       end
       else begin
-        if (_GEN_180)
+        if (_GEN_179)
           rob_branch_target_1_7 <= _rob_branch_target_T_1;
-        else if (_GEN_144)
+        else if (_GEN_143)
           rob_branch_target_1_7 <= io_branch_target_wb_1;
-        if (_GEN_22) begin
+        if (_GEN_21) begin
           rob_allow_next_cmt_1_7 <= allow_next_cmt_1;
           rob_exception_1_7 <= io_exception_dp_1;
         end
       end
-      if (io_inst_valid_wb_3 & io_rob_index_wb_3[0] & _GEN_193) begin
+      if (io_inst_valid_wb_3 & io_rob_index_wb_3[0] & _GEN_192) begin
         rob_branch_target_1_8 <= _rob_branch_target_T_2;
         rob_allow_next_cmt_1_8 <= ~(io_exception_wb_3[7]);
         rob_exception_1_8 <= io_exception_wb_3;
       end
       else begin
-        if (_GEN_181)
+        if (_GEN_180)
           rob_branch_target_1_8 <= _rob_branch_target_T_1;
-        else if (_GEN_145)
+        else if (_GEN_144)
           rob_branch_target_1_8 <= io_branch_target_wb_1;
-        if (_GEN_23) begin
+        if (_GEN_22) begin
           rob_allow_next_cmt_1_8 <= allow_next_cmt_1;
           rob_exception_1_8 <= io_exception_dp_1;
         end
       end
-      if (io_inst_valid_wb_3 & io_rob_index_wb_3[0] & _GEN_194) begin
+      if (io_inst_valid_wb_3 & io_rob_index_wb_3[0] & _GEN_193) begin
         rob_branch_target_1_9 <= _rob_branch_target_T_2;
         rob_allow_next_cmt_1_9 <= ~(io_exception_wb_3[7]);
         rob_exception_1_9 <= io_exception_wb_3;
       end
       else begin
-        if (_GEN_182)
+        if (_GEN_181)
           rob_branch_target_1_9 <= _rob_branch_target_T_1;
-        else if (_GEN_146)
+        else if (_GEN_145)
           rob_branch_target_1_9 <= io_branch_target_wb_1;
-        if (_GEN_24) begin
+        if (_GEN_23) begin
           rob_allow_next_cmt_1_9 <= allow_next_cmt_1;
           rob_exception_1_9 <= io_exception_dp_1;
         end
       end
-      if (io_inst_valid_wb_3 & io_rob_index_wb_3[0] & _GEN_195) begin
+      if (io_inst_valid_wb_3 & io_rob_index_wb_3[0] & _GEN_194) begin
         rob_branch_target_1_10 <= _rob_branch_target_T_2;
         rob_allow_next_cmt_1_10 <= ~(io_exception_wb_3[7]);
         rob_exception_1_10 <= io_exception_wb_3;
       end
       else begin
-        if (_GEN_183)
+        if (_GEN_182)
           rob_branch_target_1_10 <= _rob_branch_target_T_1;
-        else if (_GEN_147)
+        else if (_GEN_146)
           rob_branch_target_1_10 <= io_branch_target_wb_1;
-        if (_GEN_25) begin
+        if (_GEN_24) begin
           rob_allow_next_cmt_1_10 <= allow_next_cmt_1;
           rob_exception_1_10 <= io_exception_dp_1;
         end
       end
-      if (io_inst_valid_wb_3 & io_rob_index_wb_3[0] & _GEN_196) begin
+      if (io_inst_valid_wb_3 & io_rob_index_wb_3[0] & _GEN_195) begin
         rob_branch_target_1_11 <= _rob_branch_target_T_2;
         rob_allow_next_cmt_1_11 <= ~(io_exception_wb_3[7]);
         rob_exception_1_11 <= io_exception_wb_3;
       end
       else begin
-        if (_GEN_184)
+        if (_GEN_183)
           rob_branch_target_1_11 <= _rob_branch_target_T_1;
-        else if (_GEN_148)
+        else if (_GEN_147)
           rob_branch_target_1_11 <= io_branch_target_wb_1;
-        if (_GEN_26) begin
+        if (_GEN_25) begin
           rob_allow_next_cmt_1_11 <= allow_next_cmt_1;
           rob_exception_1_11 <= io_exception_dp_1;
         end
       end
       if (io_inst_valid_wb_3 & ~(io_rob_index_wb_3[0])) begin
-        rob_complete_0_0 <= _GEN_185 | _GEN_150 | _GEN_89;
-        rob_complete_0_1 <= _GEN_186 | _GEN_152 | _GEN_91;
-        rob_complete_0_2 <= _GEN_187 | _GEN_154 | _GEN_93;
-        rob_complete_0_3 <= _GEN_188 | _GEN_156 | _GEN_95;
-        rob_complete_0_4 <= _GEN_189 | _GEN_158 | _GEN_97;
-        rob_complete_0_5 <= _GEN_190 | _GEN_160 | _GEN_99;
-        rob_complete_0_6 <= _GEN_191 | _GEN_162 | _GEN_101;
-        rob_complete_0_7 <= _GEN_192 | _GEN_164 | _GEN_103;
-        rob_complete_0_8 <= _GEN_193 | _GEN_166 | _GEN_105;
-        rob_complete_0_9 <= _GEN_194 | _GEN_168 | _GEN_107;
-        rob_complete_0_10 <= _GEN_195 | _GEN_170 | _GEN_109;
-        rob_complete_0_11 <= _GEN_196 | _GEN_172 | _GEN_111;
+        rob_complete_0_0 <= _GEN_184 | _GEN_149 | _GEN_88;
+        rob_complete_0_1 <= _GEN_185 | _GEN_151 | _GEN_90;
+        rob_complete_0_2 <= _GEN_186 | _GEN_153 | _GEN_92;
+        rob_complete_0_3 <= _GEN_187 | _GEN_155 | _GEN_94;
+        rob_complete_0_4 <= _GEN_188 | _GEN_157 | _GEN_96;
+        rob_complete_0_5 <= _GEN_189 | _GEN_159 | _GEN_98;
+        rob_complete_0_6 <= _GEN_190 | _GEN_161 | _GEN_100;
+        rob_complete_0_7 <= _GEN_191 | _GEN_163 | _GEN_102;
+        rob_complete_0_8 <= _GEN_192 | _GEN_165 | _GEN_104;
+        rob_complete_0_9 <= _GEN_193 | _GEN_167 | _GEN_106;
+        rob_complete_0_10 <= _GEN_194 | _GEN_169 | _GEN_108;
+        rob_complete_0_11 <= _GEN_195 | _GEN_171 | _GEN_110;
       end
       else begin
-        rob_complete_0_0 <= _GEN_150 | _GEN_89;
-        rob_complete_0_1 <= _GEN_152 | _GEN_91;
-        rob_complete_0_2 <= _GEN_154 | _GEN_93;
-        rob_complete_0_3 <= _GEN_156 | _GEN_95;
-        rob_complete_0_4 <= _GEN_158 | _GEN_97;
-        rob_complete_0_5 <= _GEN_160 | _GEN_99;
-        rob_complete_0_6 <= _GEN_162 | _GEN_101;
-        rob_complete_0_7 <= _GEN_164 | _GEN_103;
-        rob_complete_0_8 <= _GEN_166 | _GEN_105;
-        rob_complete_0_9 <= _GEN_168 | _GEN_107;
-        rob_complete_0_10 <= _GEN_170 | _GEN_109;
-        rob_complete_0_11 <= _GEN_172 | _GEN_111;
+        rob_complete_0_0 <= _GEN_149 | _GEN_88;
+        rob_complete_0_1 <= _GEN_151 | _GEN_90;
+        rob_complete_0_2 <= _GEN_153 | _GEN_92;
+        rob_complete_0_3 <= _GEN_155 | _GEN_94;
+        rob_complete_0_4 <= _GEN_157 | _GEN_96;
+        rob_complete_0_5 <= _GEN_159 | _GEN_98;
+        rob_complete_0_6 <= _GEN_161 | _GEN_100;
+        rob_complete_0_7 <= _GEN_163 | _GEN_102;
+        rob_complete_0_8 <= _GEN_165 | _GEN_104;
+        rob_complete_0_9 <= _GEN_167 | _GEN_106;
+        rob_complete_0_10 <= _GEN_169 | _GEN_108;
+        rob_complete_0_11 <= _GEN_171 | _GEN_110;
       end
       if (io_inst_valid_wb_3 & io_rob_index_wb_3[0]) begin
-        rob_complete_1_0 <= _GEN_185 | _GEN_173 | _GEN_113;
-        rob_complete_1_1 <= _GEN_186 | _GEN_174 | _GEN_114;
-        rob_complete_1_2 <= _GEN_187 | _GEN_175 | _GEN_115;
-        rob_complete_1_3 <= _GEN_188 | _GEN_176 | _GEN_116;
-        rob_complete_1_4 <= _GEN_189 | _GEN_177 | _GEN_117;
-        rob_complete_1_5 <= _GEN_190 | _GEN_178 | _GEN_118;
-        rob_complete_1_6 <= _GEN_191 | _GEN_179 | _GEN_119;
-        rob_complete_1_7 <= _GEN_192 | _GEN_180 | _GEN_120;
-        rob_complete_1_8 <= _GEN_193 | _GEN_181 | _GEN_121;
-        rob_complete_1_9 <= _GEN_194 | _GEN_182 | _GEN_122;
-        rob_complete_1_10 <= _GEN_195 | _GEN_183 | _GEN_123;
-        rob_complete_1_11 <= _GEN_196 | _GEN_184 | _GEN_124;
+        rob_complete_1_0 <= _GEN_184 | _GEN_172 | _GEN_112;
+        rob_complete_1_1 <= _GEN_185 | _GEN_173 | _GEN_113;
+        rob_complete_1_2 <= _GEN_186 | _GEN_174 | _GEN_114;
+        rob_complete_1_3 <= _GEN_187 | _GEN_175 | _GEN_115;
+        rob_complete_1_4 <= _GEN_188 | _GEN_176 | _GEN_116;
+        rob_complete_1_5 <= _GEN_189 | _GEN_177 | _GEN_117;
+        rob_complete_1_6 <= _GEN_190 | _GEN_178 | _GEN_118;
+        rob_complete_1_7 <= _GEN_191 | _GEN_179 | _GEN_119;
+        rob_complete_1_8 <= _GEN_192 | _GEN_180 | _GEN_120;
+        rob_complete_1_9 <= _GEN_193 | _GEN_181 | _GEN_121;
+        rob_complete_1_10 <= _GEN_194 | _GEN_182 | _GEN_122;
+        rob_complete_1_11 <= _GEN_195 | _GEN_183 | _GEN_123;
       end
       else begin
-        rob_complete_1_0 <= _GEN_173 | _GEN_113;
-        rob_complete_1_1 <= _GEN_174 | _GEN_114;
-        rob_complete_1_2 <= _GEN_175 | _GEN_115;
-        rob_complete_1_3 <= _GEN_176 | _GEN_116;
-        rob_complete_1_4 <= _GEN_177 | _GEN_117;
-        rob_complete_1_5 <= _GEN_178 | _GEN_118;
-        rob_complete_1_6 <= _GEN_179 | _GEN_119;
-        rob_complete_1_7 <= _GEN_180 | _GEN_120;
-        rob_complete_1_8 <= _GEN_181 | _GEN_121;
-        rob_complete_1_9 <= _GEN_182 | _GEN_122;
-        rob_complete_1_10 <= _GEN_183 | _GEN_123;
-        rob_complete_1_11 <= _GEN_184 | _GEN_124;
+        rob_complete_1_0 <= _GEN_172 | _GEN_112;
+        rob_complete_1_1 <= _GEN_173 | _GEN_113;
+        rob_complete_1_2 <= _GEN_174 | _GEN_114;
+        rob_complete_1_3 <= _GEN_175 | _GEN_115;
+        rob_complete_1_4 <= _GEN_176 | _GEN_116;
+        rob_complete_1_5 <= _GEN_177 | _GEN_117;
+        rob_complete_1_6 <= _GEN_178 | _GEN_118;
+        rob_complete_1_7 <= _GEN_179 | _GEN_119;
+        rob_complete_1_8 <= _GEN_180 | _GEN_120;
+        rob_complete_1_9 <= _GEN_181 | _GEN_121;
+        rob_complete_1_10 <= _GEN_182 | _GEN_122;
+        rob_complete_1_11 <= _GEN_183 | _GEN_123;
       end
       priv_buffer_valid <= ~(io_predict_fail_cmt_r[0]) & (priv_valid | priv_buffer_valid);
       if (io_predict_fail_cmt_r[0] | ~priv_valid) begin
@@ -2451,12 +2444,11 @@ module ROB(
     r_1 <= cmt_en_1;
     r_1_0 <= head;
     eentry_global <= io_eentry_global;
-    tlbreentry_global <= 32'h0;
     io_predict_fail_cmt_r <= {10{predict_fail_cmt}};
     io_branch_target_cmt_r <=
       rob_update_item_exception[7] | (|(interrupt_buffer[11:0]))
-        ? _branch_target_cmt_T_4
-        : _branch_target_cmt_T_9;
+        ? eentry_global
+        : _branch_target_cmt_T_6;
     io_pred_update_en_cmt_r <= rob_update_item_pred_update_en;
     io_pred_branch_target_cmt_r <= rob_update_item_branch_target;
     io_pred_br_type_cmt_r <= cmt_en_0 ? _rob_update_item_T_br_type_pred : 2'h0;
@@ -2467,24 +2459,23 @@ module ROB(
     is_store_cmt_bit_REG_1 <= 1'h0;
     io_is_store_num_cmt_r <=
       2'({1'h0,
-          _GEN_273[head[4:1]] & cmt_en_0 & ~(rob_commit_items_exception_0[7])
+          _GEN_272[head[4:1]] & cmt_en_0 & ~(rob_commit_items_exception_0[7])
             & ~(rob_commit_items_is_priv_ls_0 & ~is_store_cmt_bit_REG)}
          + {1'h0,
-            _GEN_272[head_next[4:1]] & cmt_en_1 & ~(rob_commit_items_exception_1[7])
+            _GEN_271[head_next[4:1]] & cmt_en_1 & ~(rob_commit_items_exception_1[7])
               & ~(rob_commit_items_is_priv_ls_1 & ~is_store_cmt_bit_REG_1)});
     io_csr_addr_cmt_r <= priv_buffer_csr_addr;
     io_csr_wdata_cmt_r <= rob_update_item_branch_target;
     io_csr_we_cmt_r <= rob_update_item_is_priv_wrt & (|(priv_buffer_priv_vec[2:1]));
     io_is_eret_cmt_r <= rob_update_item_is_priv_wrt & priv_buffer_priv_vec[3];
     io_badv_cmt_r <= 32'(rob_update_item_branch_target - 32'h4);
-    io_tlbrd_en_cmt_r <= rob_update_item_is_priv_wrt & priv_buffer_priv_vec[4];
     io_idle_en_cmt_r <= rob_update_item_is_priv_wrt & priv_buffer_priv_vec[9];
-    r_2_0 <= _GEN_274[head[4:1]] & ~(rob_commit_items_exception_0[7]);
-    r_2_1 <= _GEN_275[head_next[4:1]] & ~(rob_commit_items_exception_1[7]);
-    r_4_0 <= _GEN_276[head[4:1]];
-    r_4_1 <= _GEN_277[head_next[4:1]];
-    r_5_0 <= _GEN_278[head[4:1]];
-    r_5_1 <= _GEN_279[head_next[4:1]];
+    r_2_0 <= _GEN_273[head[4:1]] & ~(rob_commit_items_exception_0[7]);
+    r_2_1 <= _GEN_274[head_next[4:1]] & ~(rob_commit_items_exception_1[7]);
+    r_4_0 <= _GEN_275[head[4:1]];
+    r_4_1 <= _GEN_276[head_next[4:1]];
+    r_5_0 <= _GEN_277[head[4:1]];
+    r_5_1 <= _GEN_278[head_next[4:1]];
   end // always @(posedge)
   assign io_rob_index_dp_0 = {tail, 1'h0};
   assign io_rob_index_dp_1 = {tail, 1'h1};
@@ -2513,7 +2504,6 @@ module ROB(
   assign io_badv_cmt = io_badv_cmt_r;
   assign io_exception_cmt = io_exception_cmt_r;
   assign io_is_eret_cmt = io_is_eret_cmt_r;
-  assign io_tlbrd_en_cmt = io_tlbrd_en_cmt_r;
   assign io_idle_en_cmt = io_idle_en_cmt_r;
   assign io_branch_target_cmt = io_branch_target_cmt_r;
 endmodule

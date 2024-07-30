@@ -126,7 +126,6 @@ module CPU(
   wire [31:0]      _rob_io_pred_pc_cmt;
   wire [1:0]       _rob_io_pred_br_type_cmt;
   wire             _rob_io_csr_we_cmt;
-  wire             _rob_io_tlbrd_en_cmt;
   wire             _ew_reg4_io_flush;
   wire             _ew_reg4_io_inst_pack_WB_rd_valid;
   wire [5:0]       _ew_reg4_io_inst_pack_WB_prd;
@@ -1072,7 +1071,7 @@ module CPU(
     end
     else begin
       pc_io_has_intr_r <= |_csr_rf_io_interrupt_vec;
-      pc_io_has_csr_change_r <= _rob_io_tlbrd_en_cmt | _rob_io_csr_we_cmt;
+      pc_io_has_csr_change_r <= _rob_io_csr_we_cmt;
     end
     icache_io_addr_IF_REG <= _re_reg4_io_inst_pack_EX_priv_vec[0];
     icache_io_addr_IF_REG_1 <= _re_reg4_io_src1_EX;
@@ -2858,7 +2857,6 @@ module CPU(
     .io_exception_cmt          (_csr_rf_io_exception),
     .io_is_eret_cmt            (_csr_rf_io_is_eret),
     .io_interrupt_vec          (_rob_io_interrupt_vec),
-    .io_tlbrd_en_cmt           (_rob_io_tlbrd_en_cmt),
     .io_idle_en_cmt            (_pc_io_is_idle_cmt),
     .io_priv_vec_ex            (_re_reg3_io_inst_pack_EX_priv_vec),
     .io_csr_addr_ex            (_rob_io_csr_addr_ex),
