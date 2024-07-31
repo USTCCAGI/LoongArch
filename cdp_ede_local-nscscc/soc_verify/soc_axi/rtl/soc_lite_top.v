@@ -279,9 +279,9 @@ CPU u_cpu(
     .io_arlen     (cpu_arlen     ),
     .io_arsize    (cpu_arsize    ),
     .io_arburst   (cpu_arburst   ),
-    .io_arlock    (cpu_arlock    ),
-    .io_arcache   (cpu_arcache   ),
-    .io_arprot    (cpu_arprot    ),
+//    .io_arlock    (cpu_arlock    ),
+//    .io_arcache   (cpu_arcache   ),
+//    .io_arprot    (cpu_arprot    ),
     .io_arvalid   (cpu_arvalid   ),
     .io_arready   (cpu_arready   ),
                
@@ -303,7 +303,7 @@ CPU u_cpu(
     .io_awvalid   (cpu_awvalid   ),
     .io_awready   (cpu_awready   ),
     
-    .io_wid       (cpu_wid       ),
+    //.io_wid       (cpu_wid       ),
     .io_wdata     (cpu_wdata     ),
     .io_wstrb     (cpu_wstrb     ),
     .io_wlast     (cpu_wlast     ),
