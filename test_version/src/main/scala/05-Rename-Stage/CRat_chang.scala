@@ -52,7 +52,7 @@ class CRat(n: Int) extends Module{
         for(i <- 0 until 2){
             val phy_rd = alloc_phy_rd(i)
             crat(phy_rd).lr := arch_rd(i)
-            when(arch_rd_valid(i)){
+            when(arch_rd_valid(i).asBool){
                 crat(phy_rd).valid := true.B
                 crat(phy_rd).free := false.B
                 crat(io.pprd(i)).valid := false.B   // clear the valid bit of the physical register that was previously assigned to rd

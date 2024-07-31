@@ -32,14 +32,27 @@ class Reg_Rename(n: Int) extends Module{
     val io = IO(new Reg_rename_IO(n))
     val crat = Module(new CRat(n))
 
-    val phy_rj_temp = crat.io.prj
-    val phy_rk_temp = crat.io.prk
-    val phy_rd_temp = crat.io.pprd
-
-    val rj_raw = io.rd_valid(0) && (io.rd(0) === io.rj(1))
-    val rk_raw = io.rd_valid(0) && (io.rd(0) === io.rk(1))
-
     io.prd := io.alloc_preg 
+    
+    // RAW
+    val rj_raw = io.rd_valid(0) & (io.rd(0) === io.rj(1))
+    val rk_raw = io.rd_valid(0) & (io.rd(0) === io.rk(1))
+
+    io.prj(0) := crat.io.prj(0)
+    io.prj(1) := Mux(rj_raw, io.alloc_preg(0), crat.io.prj(1))
+    io.prj_ready(0) := crat.io.prj_ready(0)
+    io.prj_ready(1) := Mux(rj_raw, false.B, crat.io.prj_ready(1))
+
+    io.prk(0) := crat.io.prk(0)
+    io.prk(1) := Mux(rk_raw, io.alloc_preg(0), crat.io.prk(1))
+    io.prk_ready(0) := crat.io.prk_ready(0)
+    io.prk_ready(1) := Mux(rk_raw, false.B, crat.io.prk_ready(1))
+
+
+    // WAW
+    val rd_waw = io.rd_valid(0) & (io.rd(0) === io.rd(1))
+    io.pprd(0) := crat.io.pprd(0)
+    io.pprd(1) := Mux(rd_waw, io.alloc_preg(0), crat.io.pprd(1))
 
     //CRAT
     val rd_valid_temp = WireDefault(VecInit.fill(2)(false.B))
@@ -56,23 +69,5 @@ class Reg_Rename(n: Int) extends Module{
     crat.io.predict_fail := io.predict_fail
     crat.io.prd_wake := io.prd_wake
     crat.io.wake_valid := io.wake_valid
-    
-
-    // RAW
-    io.prj(0) := crat.io.prj(0)
-    io.prj(1) := Mux(rj_raw, io.alloc_preg(0), crat.io.prj(1))
-    io.prj_ready(0) := crat.io.prj_ready(0)
-    io.prj_ready(1) := Mux(rj_raw, false.B, crat.io.prj_ready(1))
-
-    io.prk(0) := crat.io.prk(0)
-    io.prk(1) := Mux(rk_raw, io.alloc_preg(0), crat.io.prk(1))
-    io.prk_ready(0) := crat.io.prk_ready(0)
-    io.prk_ready(1) := Mux(rk_raw, false.B, crat.io.prk_ready(1))
-
-
-    // WAW
-    val rd_waw = io.rd_valid(0) && (io.rd(0) === io.rd(1))
-    io.pprd(0) := crat.io.pprd(0)
-    io.pprd(1) := Mux(rd_waw, io.alloc_preg(0), crat.io.pprd(1))
 }
 

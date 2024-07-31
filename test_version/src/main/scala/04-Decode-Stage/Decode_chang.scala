@@ -27,33 +27,16 @@ class Decode extends Module{
     val io = IO(new DecodeIO)
     val control_signal = ListLookup(io.inst, Decode_Map.default, Decode_Map.map)
 
-    when(control_signal(0).asBool){
-        io.rj := io.inst(9, 5)
-    }.otherwise{
-        io.rj := 0.U
-    }
+    io.rj               := Mux(control_signal(0).asBool, io.inst(9, 5), 0.U(5.W))
 
-    when(control_signal(1).asBool){
-        io.rk := Mux(control_signal(9)(0).asBool, io.inst(14, 10), io.inst(4, 0))
-    }.otherwise(
-        io.rk := 0.U
-    )
+    io.rk               := Mux(control_signal(1).asBool, Mux(control_signal(9)(0).asBool, io.inst(14, 10), io.inst(4, 0)), 0.U)
 
-    val rd = WireDefault(io.inst(4, 0))
-    switch(control_signal(10)){
-        is(Control_Signal.RD){
-            rd := io.inst(4, 0)
-        }
-        is(Control_Signal.R1){
-            rd := 1.U(5.W)
-        }
-        is(Control_Signal.RJ){
-            rd := io.inst(9, 5)
-        }
-    }
-    io.rd := rd
+    io.rd               := MuxLookup(control_signal(10), io.inst(4, 0))(Seq(
+                            Control_Signal.RD    -> io.inst(4, 0),
+                            Control_Signal.R1    -> 1.U(5.W),
+                            Control_Signal.RJ    -> io.inst(9, 5)))
 
-    io.rd_valid := control_signal(2).asBool && (io.rd =/= 0.U(5.W))
+    io.rd_valid := control_signal(2) & (io.rd =/= 0.U(5.W))
 
     io.alu_op := control_signal(3)
     io.alu_rs1_sel := control_signal(4)
