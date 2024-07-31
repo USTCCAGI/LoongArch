@@ -13,7 +13,9 @@ module ICache(
   output        io_i_rvalid,
   input         io_i_rready,
   input  [31:0] io_i_rdata,
-  input         io_i_rlast
+  input         io_i_rlast,
+  output        io_commit_icache_visit,
+                io_commit_icache_miss
 );
 
   wire              cache_miss_RM;
@@ -161,11 +163,11 @@ module ICache(
   reg               lrumem_125;
   reg               lrumem_126;
   reg               lrumem_127;
-  wire [6:0]        tagmem_addra_0 = addr_sel ? io_addr_IF[12:6] : paddr_IF_RM[12:6];
-  wire [19:0]       tagmem_dina_1 = {1'h1, paddr_IF_RM[31:13]};
-  wire [6:0]        tagmem_addra_1 = addr_sel ? io_addr_IF[12:6] : paddr_IF_RM[12:6];
-  wire [6:0]        instmem_addra_0 = addr_sel ? io_addr_IF[12:6] : paddr_IF_RM[12:6];
-  wire [6:0]        instmem_addra_1 = addr_sel ? io_addr_IF[12:6] : paddr_IF_RM[12:6];
+  wire [6:0]        tagmem_0_addra = addr_sel ? io_addr_IF[12:6] : paddr_IF_RM[12:6];
+  wire [19:0]       tagmem_1_dina = {1'h1, paddr_IF_RM[31:13]};
+  wire [6:0]        tagmem_1_addra = addr_sel ? io_addr_IF[12:6] : paddr_IF_RM[12:6];
+  wire [6:0]        instmem_0_addra = addr_sel ? io_addr_IF[12:6] : paddr_IF_RM[12:6];
+  wire [6:0]        instmem_1_addra = addr_sel ? io_addr_IF[12:6] : paddr_IF_RM[12:6];
   wire [511:0]      _inst_line_T =
     hit_0 ? _xilinx_single_port_ram_no_change_2_douta : 512'h0;
   wire [511:0]      _inst_line_T_1 =
@@ -339,144 +341,145 @@ module ICache(
   wire              _GEN_4 = _GEN_3[paddr_IF_RM[12:6]];
   reg  [1:0]        cs;
   wire              _GEN_5 = cs == 2'h0;
+  wire              _GEN_6 = _GEN_5 & rvalid_IF_RM;
   assign data_sel = _GEN_5 & rvalid_IF_RM;
-  wire              _GEN_6 = cs == 2'h1;
-  wire              _GEN_7 = _GEN_5 | _GEN_6;
-  wire              lru_miss_upd = ~_GEN_7 & (&cs);
-  wire              tag_we_0 = ~_GEN_7 & (&cs) & ~_GEN_4;
-  wire              tag_we_1 = ~_GEN_7 & (&cs) & _GEN_4;
-  assign addr_sel = _GEN_5 ? ~rvalid_IF_RM | ~io_stall : ~_GEN_6 & ~(&cs);
-  assign cache_miss_RM = _GEN_5 ? rvalid_IF_RM & ~(|_cache_hit_RM_T) : _GEN_6 | (&cs);
-  wire              _GEN_8 = paddr_IF_RM[12:6] == 7'h0;
-  wire              _GEN_9 = paddr_IF_RM[12:6] == 7'h1;
-  wire              _GEN_10 = paddr_IF_RM[12:6] == 7'h2;
-  wire              _GEN_11 = paddr_IF_RM[12:6] == 7'h3;
-  wire              _GEN_12 = paddr_IF_RM[12:6] == 7'h4;
-  wire              _GEN_13 = paddr_IF_RM[12:6] == 7'h5;
-  wire              _GEN_14 = paddr_IF_RM[12:6] == 7'h6;
-  wire              _GEN_15 = paddr_IF_RM[12:6] == 7'h7;
-  wire              _GEN_16 = paddr_IF_RM[12:6] == 7'h8;
-  wire              _GEN_17 = paddr_IF_RM[12:6] == 7'h9;
-  wire              _GEN_18 = paddr_IF_RM[12:6] == 7'hA;
-  wire              _GEN_19 = paddr_IF_RM[12:6] == 7'hB;
-  wire              _GEN_20 = paddr_IF_RM[12:6] == 7'hC;
-  wire              _GEN_21 = paddr_IF_RM[12:6] == 7'hD;
-  wire              _GEN_22 = paddr_IF_RM[12:6] == 7'hE;
-  wire              _GEN_23 = paddr_IF_RM[12:6] == 7'hF;
-  wire              _GEN_24 = paddr_IF_RM[12:6] == 7'h10;
-  wire              _GEN_25 = paddr_IF_RM[12:6] == 7'h11;
-  wire              _GEN_26 = paddr_IF_RM[12:6] == 7'h12;
-  wire              _GEN_27 = paddr_IF_RM[12:6] == 7'h13;
-  wire              _GEN_28 = paddr_IF_RM[12:6] == 7'h14;
-  wire              _GEN_29 = paddr_IF_RM[12:6] == 7'h15;
-  wire              _GEN_30 = paddr_IF_RM[12:6] == 7'h16;
-  wire              _GEN_31 = paddr_IF_RM[12:6] == 7'h17;
-  wire              _GEN_32 = paddr_IF_RM[12:6] == 7'h18;
-  wire              _GEN_33 = paddr_IF_RM[12:6] == 7'h19;
-  wire              _GEN_34 = paddr_IF_RM[12:6] == 7'h1A;
-  wire              _GEN_35 = paddr_IF_RM[12:6] == 7'h1B;
-  wire              _GEN_36 = paddr_IF_RM[12:6] == 7'h1C;
-  wire              _GEN_37 = paddr_IF_RM[12:6] == 7'h1D;
-  wire              _GEN_38 = paddr_IF_RM[12:6] == 7'h1E;
-  wire              _GEN_39 = paddr_IF_RM[12:6] == 7'h1F;
-  wire              _GEN_40 = paddr_IF_RM[12:6] == 7'h20;
-  wire              _GEN_41 = paddr_IF_RM[12:6] == 7'h21;
-  wire              _GEN_42 = paddr_IF_RM[12:6] == 7'h22;
-  wire              _GEN_43 = paddr_IF_RM[12:6] == 7'h23;
-  wire              _GEN_44 = paddr_IF_RM[12:6] == 7'h24;
-  wire              _GEN_45 = paddr_IF_RM[12:6] == 7'h25;
-  wire              _GEN_46 = paddr_IF_RM[12:6] == 7'h26;
-  wire              _GEN_47 = paddr_IF_RM[12:6] == 7'h27;
-  wire              _GEN_48 = paddr_IF_RM[12:6] == 7'h28;
-  wire              _GEN_49 = paddr_IF_RM[12:6] == 7'h29;
-  wire              _GEN_50 = paddr_IF_RM[12:6] == 7'h2A;
-  wire              _GEN_51 = paddr_IF_RM[12:6] == 7'h2B;
-  wire              _GEN_52 = paddr_IF_RM[12:6] == 7'h2C;
-  wire              _GEN_53 = paddr_IF_RM[12:6] == 7'h2D;
-  wire              _GEN_54 = paddr_IF_RM[12:6] == 7'h2E;
-  wire              _GEN_55 = paddr_IF_RM[12:6] == 7'h2F;
-  wire              _GEN_56 = paddr_IF_RM[12:6] == 7'h30;
-  wire              _GEN_57 = paddr_IF_RM[12:6] == 7'h31;
-  wire              _GEN_58 = paddr_IF_RM[12:6] == 7'h32;
-  wire              _GEN_59 = paddr_IF_RM[12:6] == 7'h33;
-  wire              _GEN_60 = paddr_IF_RM[12:6] == 7'h34;
-  wire              _GEN_61 = paddr_IF_RM[12:6] == 7'h35;
-  wire              _GEN_62 = paddr_IF_RM[12:6] == 7'h36;
-  wire              _GEN_63 = paddr_IF_RM[12:6] == 7'h37;
-  wire              _GEN_64 = paddr_IF_RM[12:6] == 7'h38;
-  wire              _GEN_65 = paddr_IF_RM[12:6] == 7'h39;
-  wire              _GEN_66 = paddr_IF_RM[12:6] == 7'h3A;
-  wire              _GEN_67 = paddr_IF_RM[12:6] == 7'h3B;
-  wire              _GEN_68 = paddr_IF_RM[12:6] == 7'h3C;
-  wire              _GEN_69 = paddr_IF_RM[12:6] == 7'h3D;
-  wire              _GEN_70 = paddr_IF_RM[12:6] == 7'h3E;
-  wire              _GEN_71 = paddr_IF_RM[12:6] == 7'h3F;
-  wire              _GEN_72 = paddr_IF_RM[12:6] == 7'h40;
-  wire              _GEN_73 = paddr_IF_RM[12:6] == 7'h41;
-  wire              _GEN_74 = paddr_IF_RM[12:6] == 7'h42;
-  wire              _GEN_75 = paddr_IF_RM[12:6] == 7'h43;
-  wire              _GEN_76 = paddr_IF_RM[12:6] == 7'h44;
-  wire              _GEN_77 = paddr_IF_RM[12:6] == 7'h45;
-  wire              _GEN_78 = paddr_IF_RM[12:6] == 7'h46;
-  wire              _GEN_79 = paddr_IF_RM[12:6] == 7'h47;
-  wire              _GEN_80 = paddr_IF_RM[12:6] == 7'h48;
-  wire              _GEN_81 = paddr_IF_RM[12:6] == 7'h49;
-  wire              _GEN_82 = paddr_IF_RM[12:6] == 7'h4A;
-  wire              _GEN_83 = paddr_IF_RM[12:6] == 7'h4B;
-  wire              _GEN_84 = paddr_IF_RM[12:6] == 7'h4C;
-  wire              _GEN_85 = paddr_IF_RM[12:6] == 7'h4D;
-  wire              _GEN_86 = paddr_IF_RM[12:6] == 7'h4E;
-  wire              _GEN_87 = paddr_IF_RM[12:6] == 7'h4F;
-  wire              _GEN_88 = paddr_IF_RM[12:6] == 7'h50;
-  wire              _GEN_89 = paddr_IF_RM[12:6] == 7'h51;
-  wire              _GEN_90 = paddr_IF_RM[12:6] == 7'h52;
-  wire              _GEN_91 = paddr_IF_RM[12:6] == 7'h53;
-  wire              _GEN_92 = paddr_IF_RM[12:6] == 7'h54;
-  wire              _GEN_93 = paddr_IF_RM[12:6] == 7'h55;
-  wire              _GEN_94 = paddr_IF_RM[12:6] == 7'h56;
-  wire              _GEN_95 = paddr_IF_RM[12:6] == 7'h57;
-  wire              _GEN_96 = paddr_IF_RM[12:6] == 7'h58;
-  wire              _GEN_97 = paddr_IF_RM[12:6] == 7'h59;
-  wire              _GEN_98 = paddr_IF_RM[12:6] == 7'h5A;
-  wire              _GEN_99 = paddr_IF_RM[12:6] == 7'h5B;
-  wire              _GEN_100 = paddr_IF_RM[12:6] == 7'h5C;
-  wire              _GEN_101 = paddr_IF_RM[12:6] == 7'h5D;
-  wire              _GEN_102 = paddr_IF_RM[12:6] == 7'h5E;
-  wire              _GEN_103 = paddr_IF_RM[12:6] == 7'h5F;
-  wire              _GEN_104 = paddr_IF_RM[12:6] == 7'h60;
-  wire              _GEN_105 = paddr_IF_RM[12:6] == 7'h61;
-  wire              _GEN_106 = paddr_IF_RM[12:6] == 7'h62;
-  wire              _GEN_107 = paddr_IF_RM[12:6] == 7'h63;
-  wire              _GEN_108 = paddr_IF_RM[12:6] == 7'h64;
-  wire              _GEN_109 = paddr_IF_RM[12:6] == 7'h65;
-  wire              _GEN_110 = paddr_IF_RM[12:6] == 7'h66;
-  wire              _GEN_111 = paddr_IF_RM[12:6] == 7'h67;
-  wire              _GEN_112 = paddr_IF_RM[12:6] == 7'h68;
-  wire              _GEN_113 = paddr_IF_RM[12:6] == 7'h69;
-  wire              _GEN_114 = paddr_IF_RM[12:6] == 7'h6A;
-  wire              _GEN_115 = paddr_IF_RM[12:6] == 7'h6B;
-  wire              _GEN_116 = paddr_IF_RM[12:6] == 7'h6C;
-  wire              _GEN_117 = paddr_IF_RM[12:6] == 7'h6D;
-  wire              _GEN_118 = paddr_IF_RM[12:6] == 7'h6E;
-  wire              _GEN_119 = paddr_IF_RM[12:6] == 7'h6F;
-  wire              _GEN_120 = paddr_IF_RM[12:6] == 7'h70;
-  wire              _GEN_121 = paddr_IF_RM[12:6] == 7'h71;
-  wire              _GEN_122 = paddr_IF_RM[12:6] == 7'h72;
-  wire              _GEN_123 = paddr_IF_RM[12:6] == 7'h73;
-  wire              _GEN_124 = paddr_IF_RM[12:6] == 7'h74;
-  wire              _GEN_125 = paddr_IF_RM[12:6] == 7'h75;
-  wire              _GEN_126 = paddr_IF_RM[12:6] == 7'h76;
-  wire              _GEN_127 = paddr_IF_RM[12:6] == 7'h77;
-  wire              _GEN_128 = paddr_IF_RM[12:6] == 7'h78;
-  wire              _GEN_129 = paddr_IF_RM[12:6] == 7'h79;
-  wire              _GEN_130 = paddr_IF_RM[12:6] == 7'h7A;
-  wire              _GEN_131 = paddr_IF_RM[12:6] == 7'h7B;
-  wire              _GEN_132 = paddr_IF_RM[12:6] == 7'h7C;
-  wire              _GEN_133 = paddr_IF_RM[12:6] == 7'h7D;
-  wire              _GEN_134 = paddr_IF_RM[12:6] == 7'h7E;
-  wire [1:0]        _GEN_135 = rvalid_IF_RM ? {1'h0, ~(|_cache_hit_RM_T)} : cs;
-  wire [3:0][1:0]   _GEN_136 =
-    {{2'h2}, {{io_stall, 1'h0}}, {{io_i_rready & io_i_rlast, 1'h1}}, {_GEN_135}};
+  wire              _GEN_7 = cs == 2'h1;
+  wire              _GEN_8 = _GEN_5 | _GEN_7;
+  wire              lru_miss_upd = ~_GEN_8 & (&cs);
+  wire              tag_we_0 = ~_GEN_8 & (&cs) & ~_GEN_4;
+  wire              tag_we_1 = ~_GEN_8 & (&cs) & _GEN_4;
+  assign addr_sel = _GEN_5 ? ~rvalid_IF_RM | ~io_stall : ~_GEN_7 & ~(&cs);
+  assign cache_miss_RM = _GEN_5 ? rvalid_IF_RM & ~(|_cache_hit_RM_T) : _GEN_7 | (&cs);
+  wire              _GEN_9 = paddr_IF_RM[12:6] == 7'h0;
+  wire              _GEN_10 = paddr_IF_RM[12:6] == 7'h1;
+  wire              _GEN_11 = paddr_IF_RM[12:6] == 7'h2;
+  wire              _GEN_12 = paddr_IF_RM[12:6] == 7'h3;
+  wire              _GEN_13 = paddr_IF_RM[12:6] == 7'h4;
+  wire              _GEN_14 = paddr_IF_RM[12:6] == 7'h5;
+  wire              _GEN_15 = paddr_IF_RM[12:6] == 7'h6;
+  wire              _GEN_16 = paddr_IF_RM[12:6] == 7'h7;
+  wire              _GEN_17 = paddr_IF_RM[12:6] == 7'h8;
+  wire              _GEN_18 = paddr_IF_RM[12:6] == 7'h9;
+  wire              _GEN_19 = paddr_IF_RM[12:6] == 7'hA;
+  wire              _GEN_20 = paddr_IF_RM[12:6] == 7'hB;
+  wire              _GEN_21 = paddr_IF_RM[12:6] == 7'hC;
+  wire              _GEN_22 = paddr_IF_RM[12:6] == 7'hD;
+  wire              _GEN_23 = paddr_IF_RM[12:6] == 7'hE;
+  wire              _GEN_24 = paddr_IF_RM[12:6] == 7'hF;
+  wire              _GEN_25 = paddr_IF_RM[12:6] == 7'h10;
+  wire              _GEN_26 = paddr_IF_RM[12:6] == 7'h11;
+  wire              _GEN_27 = paddr_IF_RM[12:6] == 7'h12;
+  wire              _GEN_28 = paddr_IF_RM[12:6] == 7'h13;
+  wire              _GEN_29 = paddr_IF_RM[12:6] == 7'h14;
+  wire              _GEN_30 = paddr_IF_RM[12:6] == 7'h15;
+  wire              _GEN_31 = paddr_IF_RM[12:6] == 7'h16;
+  wire              _GEN_32 = paddr_IF_RM[12:6] == 7'h17;
+  wire              _GEN_33 = paddr_IF_RM[12:6] == 7'h18;
+  wire              _GEN_34 = paddr_IF_RM[12:6] == 7'h19;
+  wire              _GEN_35 = paddr_IF_RM[12:6] == 7'h1A;
+  wire              _GEN_36 = paddr_IF_RM[12:6] == 7'h1B;
+  wire              _GEN_37 = paddr_IF_RM[12:6] == 7'h1C;
+  wire              _GEN_38 = paddr_IF_RM[12:6] == 7'h1D;
+  wire              _GEN_39 = paddr_IF_RM[12:6] == 7'h1E;
+  wire              _GEN_40 = paddr_IF_RM[12:6] == 7'h1F;
+  wire              _GEN_41 = paddr_IF_RM[12:6] == 7'h20;
+  wire              _GEN_42 = paddr_IF_RM[12:6] == 7'h21;
+  wire              _GEN_43 = paddr_IF_RM[12:6] == 7'h22;
+  wire              _GEN_44 = paddr_IF_RM[12:6] == 7'h23;
+  wire              _GEN_45 = paddr_IF_RM[12:6] == 7'h24;
+  wire              _GEN_46 = paddr_IF_RM[12:6] == 7'h25;
+  wire              _GEN_47 = paddr_IF_RM[12:6] == 7'h26;
+  wire              _GEN_48 = paddr_IF_RM[12:6] == 7'h27;
+  wire              _GEN_49 = paddr_IF_RM[12:6] == 7'h28;
+  wire              _GEN_50 = paddr_IF_RM[12:6] == 7'h29;
+  wire              _GEN_51 = paddr_IF_RM[12:6] == 7'h2A;
+  wire              _GEN_52 = paddr_IF_RM[12:6] == 7'h2B;
+  wire              _GEN_53 = paddr_IF_RM[12:6] == 7'h2C;
+  wire              _GEN_54 = paddr_IF_RM[12:6] == 7'h2D;
+  wire              _GEN_55 = paddr_IF_RM[12:6] == 7'h2E;
+  wire              _GEN_56 = paddr_IF_RM[12:6] == 7'h2F;
+  wire              _GEN_57 = paddr_IF_RM[12:6] == 7'h30;
+  wire              _GEN_58 = paddr_IF_RM[12:6] == 7'h31;
+  wire              _GEN_59 = paddr_IF_RM[12:6] == 7'h32;
+  wire              _GEN_60 = paddr_IF_RM[12:6] == 7'h33;
+  wire              _GEN_61 = paddr_IF_RM[12:6] == 7'h34;
+  wire              _GEN_62 = paddr_IF_RM[12:6] == 7'h35;
+  wire              _GEN_63 = paddr_IF_RM[12:6] == 7'h36;
+  wire              _GEN_64 = paddr_IF_RM[12:6] == 7'h37;
+  wire              _GEN_65 = paddr_IF_RM[12:6] == 7'h38;
+  wire              _GEN_66 = paddr_IF_RM[12:6] == 7'h39;
+  wire              _GEN_67 = paddr_IF_RM[12:6] == 7'h3A;
+  wire              _GEN_68 = paddr_IF_RM[12:6] == 7'h3B;
+  wire              _GEN_69 = paddr_IF_RM[12:6] == 7'h3C;
+  wire              _GEN_70 = paddr_IF_RM[12:6] == 7'h3D;
+  wire              _GEN_71 = paddr_IF_RM[12:6] == 7'h3E;
+  wire              _GEN_72 = paddr_IF_RM[12:6] == 7'h3F;
+  wire              _GEN_73 = paddr_IF_RM[12:6] == 7'h40;
+  wire              _GEN_74 = paddr_IF_RM[12:6] == 7'h41;
+  wire              _GEN_75 = paddr_IF_RM[12:6] == 7'h42;
+  wire              _GEN_76 = paddr_IF_RM[12:6] == 7'h43;
+  wire              _GEN_77 = paddr_IF_RM[12:6] == 7'h44;
+  wire              _GEN_78 = paddr_IF_RM[12:6] == 7'h45;
+  wire              _GEN_79 = paddr_IF_RM[12:6] == 7'h46;
+  wire              _GEN_80 = paddr_IF_RM[12:6] == 7'h47;
+  wire              _GEN_81 = paddr_IF_RM[12:6] == 7'h48;
+  wire              _GEN_82 = paddr_IF_RM[12:6] == 7'h49;
+  wire              _GEN_83 = paddr_IF_RM[12:6] == 7'h4A;
+  wire              _GEN_84 = paddr_IF_RM[12:6] == 7'h4B;
+  wire              _GEN_85 = paddr_IF_RM[12:6] == 7'h4C;
+  wire              _GEN_86 = paddr_IF_RM[12:6] == 7'h4D;
+  wire              _GEN_87 = paddr_IF_RM[12:6] == 7'h4E;
+  wire              _GEN_88 = paddr_IF_RM[12:6] == 7'h4F;
+  wire              _GEN_89 = paddr_IF_RM[12:6] == 7'h50;
+  wire              _GEN_90 = paddr_IF_RM[12:6] == 7'h51;
+  wire              _GEN_91 = paddr_IF_RM[12:6] == 7'h52;
+  wire              _GEN_92 = paddr_IF_RM[12:6] == 7'h53;
+  wire              _GEN_93 = paddr_IF_RM[12:6] == 7'h54;
+  wire              _GEN_94 = paddr_IF_RM[12:6] == 7'h55;
+  wire              _GEN_95 = paddr_IF_RM[12:6] == 7'h56;
+  wire              _GEN_96 = paddr_IF_RM[12:6] == 7'h57;
+  wire              _GEN_97 = paddr_IF_RM[12:6] == 7'h58;
+  wire              _GEN_98 = paddr_IF_RM[12:6] == 7'h59;
+  wire              _GEN_99 = paddr_IF_RM[12:6] == 7'h5A;
+  wire              _GEN_100 = paddr_IF_RM[12:6] == 7'h5B;
+  wire              _GEN_101 = paddr_IF_RM[12:6] == 7'h5C;
+  wire              _GEN_102 = paddr_IF_RM[12:6] == 7'h5D;
+  wire              _GEN_103 = paddr_IF_RM[12:6] == 7'h5E;
+  wire              _GEN_104 = paddr_IF_RM[12:6] == 7'h5F;
+  wire              _GEN_105 = paddr_IF_RM[12:6] == 7'h60;
+  wire              _GEN_106 = paddr_IF_RM[12:6] == 7'h61;
+  wire              _GEN_107 = paddr_IF_RM[12:6] == 7'h62;
+  wire              _GEN_108 = paddr_IF_RM[12:6] == 7'h63;
+  wire              _GEN_109 = paddr_IF_RM[12:6] == 7'h64;
+  wire              _GEN_110 = paddr_IF_RM[12:6] == 7'h65;
+  wire              _GEN_111 = paddr_IF_RM[12:6] == 7'h66;
+  wire              _GEN_112 = paddr_IF_RM[12:6] == 7'h67;
+  wire              _GEN_113 = paddr_IF_RM[12:6] == 7'h68;
+  wire              _GEN_114 = paddr_IF_RM[12:6] == 7'h69;
+  wire              _GEN_115 = paddr_IF_RM[12:6] == 7'h6A;
+  wire              _GEN_116 = paddr_IF_RM[12:6] == 7'h6B;
+  wire              _GEN_117 = paddr_IF_RM[12:6] == 7'h6C;
+  wire              _GEN_118 = paddr_IF_RM[12:6] == 7'h6D;
+  wire              _GEN_119 = paddr_IF_RM[12:6] == 7'h6E;
+  wire              _GEN_120 = paddr_IF_RM[12:6] == 7'h6F;
+  wire              _GEN_121 = paddr_IF_RM[12:6] == 7'h70;
+  wire              _GEN_122 = paddr_IF_RM[12:6] == 7'h71;
+  wire              _GEN_123 = paddr_IF_RM[12:6] == 7'h72;
+  wire              _GEN_124 = paddr_IF_RM[12:6] == 7'h73;
+  wire              _GEN_125 = paddr_IF_RM[12:6] == 7'h74;
+  wire              _GEN_126 = paddr_IF_RM[12:6] == 7'h75;
+  wire              _GEN_127 = paddr_IF_RM[12:6] == 7'h76;
+  wire              _GEN_128 = paddr_IF_RM[12:6] == 7'h77;
+  wire              _GEN_129 = paddr_IF_RM[12:6] == 7'h78;
+  wire              _GEN_130 = paddr_IF_RM[12:6] == 7'h79;
+  wire              _GEN_131 = paddr_IF_RM[12:6] == 7'h7A;
+  wire              _GEN_132 = paddr_IF_RM[12:6] == 7'h7B;
+  wire              _GEN_133 = paddr_IF_RM[12:6] == 7'h7C;
+  wire              _GEN_134 = paddr_IF_RM[12:6] == 7'h7D;
+  wire              _GEN_135 = paddr_IF_RM[12:6] == 7'h7E;
+  wire [1:0]        _GEN_136 = rvalid_IF_RM ? {1'h0, ~(|_cache_hit_RM_T)} : cs;
+  wire [3:0][1:0]   _GEN_137 =
+    {{2'h2}, {{io_stall, 1'h0}}, {{io_i_rready & io_i_rlast, 1'h1}}, {_GEN_136}};
   always @(posedge clock) begin
     if (reset) begin
       paddr_IF_RM <= 32'h0;
@@ -619,531 +622,531 @@ module ICache(
       end
       if (io_i_rready)
         rbuf <= {io_i_rdata, rbuf[511:32]};
-      if (_GEN_5 & rvalid_IF_RM & (|_cache_hit_RM_T)) begin
-        if (_GEN_8)
-          lrumem_0 <= ~hit_1;
+      if (_GEN_6 & (|_cache_hit_RM_T)) begin
         if (_GEN_9)
-          lrumem_1 <= ~hit_1;
+          lrumem_0 <= ~hit_1;
         if (_GEN_10)
-          lrumem_2 <= ~hit_1;
+          lrumem_1 <= ~hit_1;
         if (_GEN_11)
-          lrumem_3 <= ~hit_1;
+          lrumem_2 <= ~hit_1;
         if (_GEN_12)
-          lrumem_4 <= ~hit_1;
+          lrumem_3 <= ~hit_1;
         if (_GEN_13)
-          lrumem_5 <= ~hit_1;
+          lrumem_4 <= ~hit_1;
         if (_GEN_14)
-          lrumem_6 <= ~hit_1;
+          lrumem_5 <= ~hit_1;
         if (_GEN_15)
-          lrumem_7 <= ~hit_1;
+          lrumem_6 <= ~hit_1;
         if (_GEN_16)
-          lrumem_8 <= ~hit_1;
+          lrumem_7 <= ~hit_1;
         if (_GEN_17)
-          lrumem_9 <= ~hit_1;
+          lrumem_8 <= ~hit_1;
         if (_GEN_18)
-          lrumem_10 <= ~hit_1;
+          lrumem_9 <= ~hit_1;
         if (_GEN_19)
-          lrumem_11 <= ~hit_1;
+          lrumem_10 <= ~hit_1;
         if (_GEN_20)
-          lrumem_12 <= ~hit_1;
+          lrumem_11 <= ~hit_1;
         if (_GEN_21)
-          lrumem_13 <= ~hit_1;
+          lrumem_12 <= ~hit_1;
         if (_GEN_22)
-          lrumem_14 <= ~hit_1;
+          lrumem_13 <= ~hit_1;
         if (_GEN_23)
-          lrumem_15 <= ~hit_1;
+          lrumem_14 <= ~hit_1;
         if (_GEN_24)
-          lrumem_16 <= ~hit_1;
+          lrumem_15 <= ~hit_1;
         if (_GEN_25)
-          lrumem_17 <= ~hit_1;
+          lrumem_16 <= ~hit_1;
         if (_GEN_26)
-          lrumem_18 <= ~hit_1;
+          lrumem_17 <= ~hit_1;
         if (_GEN_27)
-          lrumem_19 <= ~hit_1;
+          lrumem_18 <= ~hit_1;
         if (_GEN_28)
-          lrumem_20 <= ~hit_1;
+          lrumem_19 <= ~hit_1;
         if (_GEN_29)
-          lrumem_21 <= ~hit_1;
+          lrumem_20 <= ~hit_1;
         if (_GEN_30)
-          lrumem_22 <= ~hit_1;
+          lrumem_21 <= ~hit_1;
         if (_GEN_31)
-          lrumem_23 <= ~hit_1;
+          lrumem_22 <= ~hit_1;
         if (_GEN_32)
-          lrumem_24 <= ~hit_1;
+          lrumem_23 <= ~hit_1;
         if (_GEN_33)
-          lrumem_25 <= ~hit_1;
+          lrumem_24 <= ~hit_1;
         if (_GEN_34)
-          lrumem_26 <= ~hit_1;
+          lrumem_25 <= ~hit_1;
         if (_GEN_35)
-          lrumem_27 <= ~hit_1;
+          lrumem_26 <= ~hit_1;
         if (_GEN_36)
-          lrumem_28 <= ~hit_1;
+          lrumem_27 <= ~hit_1;
         if (_GEN_37)
-          lrumem_29 <= ~hit_1;
+          lrumem_28 <= ~hit_1;
         if (_GEN_38)
-          lrumem_30 <= ~hit_1;
+          lrumem_29 <= ~hit_1;
         if (_GEN_39)
-          lrumem_31 <= ~hit_1;
+          lrumem_30 <= ~hit_1;
         if (_GEN_40)
-          lrumem_32 <= ~hit_1;
+          lrumem_31 <= ~hit_1;
         if (_GEN_41)
-          lrumem_33 <= ~hit_1;
+          lrumem_32 <= ~hit_1;
         if (_GEN_42)
-          lrumem_34 <= ~hit_1;
+          lrumem_33 <= ~hit_1;
         if (_GEN_43)
-          lrumem_35 <= ~hit_1;
+          lrumem_34 <= ~hit_1;
         if (_GEN_44)
-          lrumem_36 <= ~hit_1;
+          lrumem_35 <= ~hit_1;
         if (_GEN_45)
-          lrumem_37 <= ~hit_1;
+          lrumem_36 <= ~hit_1;
         if (_GEN_46)
-          lrumem_38 <= ~hit_1;
+          lrumem_37 <= ~hit_1;
         if (_GEN_47)
-          lrumem_39 <= ~hit_1;
+          lrumem_38 <= ~hit_1;
         if (_GEN_48)
-          lrumem_40 <= ~hit_1;
+          lrumem_39 <= ~hit_1;
         if (_GEN_49)
-          lrumem_41 <= ~hit_1;
+          lrumem_40 <= ~hit_1;
         if (_GEN_50)
-          lrumem_42 <= ~hit_1;
+          lrumem_41 <= ~hit_1;
         if (_GEN_51)
-          lrumem_43 <= ~hit_1;
+          lrumem_42 <= ~hit_1;
         if (_GEN_52)
-          lrumem_44 <= ~hit_1;
+          lrumem_43 <= ~hit_1;
         if (_GEN_53)
-          lrumem_45 <= ~hit_1;
+          lrumem_44 <= ~hit_1;
         if (_GEN_54)
-          lrumem_46 <= ~hit_1;
+          lrumem_45 <= ~hit_1;
         if (_GEN_55)
-          lrumem_47 <= ~hit_1;
+          lrumem_46 <= ~hit_1;
         if (_GEN_56)
-          lrumem_48 <= ~hit_1;
+          lrumem_47 <= ~hit_1;
         if (_GEN_57)
-          lrumem_49 <= ~hit_1;
+          lrumem_48 <= ~hit_1;
         if (_GEN_58)
-          lrumem_50 <= ~hit_1;
+          lrumem_49 <= ~hit_1;
         if (_GEN_59)
-          lrumem_51 <= ~hit_1;
+          lrumem_50 <= ~hit_1;
         if (_GEN_60)
-          lrumem_52 <= ~hit_1;
+          lrumem_51 <= ~hit_1;
         if (_GEN_61)
-          lrumem_53 <= ~hit_1;
+          lrumem_52 <= ~hit_1;
         if (_GEN_62)
-          lrumem_54 <= ~hit_1;
+          lrumem_53 <= ~hit_1;
         if (_GEN_63)
-          lrumem_55 <= ~hit_1;
+          lrumem_54 <= ~hit_1;
         if (_GEN_64)
-          lrumem_56 <= ~hit_1;
+          lrumem_55 <= ~hit_1;
         if (_GEN_65)
-          lrumem_57 <= ~hit_1;
+          lrumem_56 <= ~hit_1;
         if (_GEN_66)
-          lrumem_58 <= ~hit_1;
+          lrumem_57 <= ~hit_1;
         if (_GEN_67)
-          lrumem_59 <= ~hit_1;
+          lrumem_58 <= ~hit_1;
         if (_GEN_68)
-          lrumem_60 <= ~hit_1;
+          lrumem_59 <= ~hit_1;
         if (_GEN_69)
-          lrumem_61 <= ~hit_1;
+          lrumem_60 <= ~hit_1;
         if (_GEN_70)
-          lrumem_62 <= ~hit_1;
+          lrumem_61 <= ~hit_1;
         if (_GEN_71)
-          lrumem_63 <= ~hit_1;
+          lrumem_62 <= ~hit_1;
         if (_GEN_72)
-          lrumem_64 <= ~hit_1;
+          lrumem_63 <= ~hit_1;
         if (_GEN_73)
-          lrumem_65 <= ~hit_1;
+          lrumem_64 <= ~hit_1;
         if (_GEN_74)
-          lrumem_66 <= ~hit_1;
+          lrumem_65 <= ~hit_1;
         if (_GEN_75)
-          lrumem_67 <= ~hit_1;
+          lrumem_66 <= ~hit_1;
         if (_GEN_76)
-          lrumem_68 <= ~hit_1;
+          lrumem_67 <= ~hit_1;
         if (_GEN_77)
-          lrumem_69 <= ~hit_1;
+          lrumem_68 <= ~hit_1;
         if (_GEN_78)
-          lrumem_70 <= ~hit_1;
+          lrumem_69 <= ~hit_1;
         if (_GEN_79)
-          lrumem_71 <= ~hit_1;
+          lrumem_70 <= ~hit_1;
         if (_GEN_80)
-          lrumem_72 <= ~hit_1;
+          lrumem_71 <= ~hit_1;
         if (_GEN_81)
-          lrumem_73 <= ~hit_1;
+          lrumem_72 <= ~hit_1;
         if (_GEN_82)
-          lrumem_74 <= ~hit_1;
+          lrumem_73 <= ~hit_1;
         if (_GEN_83)
-          lrumem_75 <= ~hit_1;
+          lrumem_74 <= ~hit_1;
         if (_GEN_84)
-          lrumem_76 <= ~hit_1;
+          lrumem_75 <= ~hit_1;
         if (_GEN_85)
-          lrumem_77 <= ~hit_1;
+          lrumem_76 <= ~hit_1;
         if (_GEN_86)
-          lrumem_78 <= ~hit_1;
+          lrumem_77 <= ~hit_1;
         if (_GEN_87)
-          lrumem_79 <= ~hit_1;
+          lrumem_78 <= ~hit_1;
         if (_GEN_88)
-          lrumem_80 <= ~hit_1;
+          lrumem_79 <= ~hit_1;
         if (_GEN_89)
-          lrumem_81 <= ~hit_1;
+          lrumem_80 <= ~hit_1;
         if (_GEN_90)
-          lrumem_82 <= ~hit_1;
+          lrumem_81 <= ~hit_1;
         if (_GEN_91)
-          lrumem_83 <= ~hit_1;
+          lrumem_82 <= ~hit_1;
         if (_GEN_92)
-          lrumem_84 <= ~hit_1;
+          lrumem_83 <= ~hit_1;
         if (_GEN_93)
-          lrumem_85 <= ~hit_1;
+          lrumem_84 <= ~hit_1;
         if (_GEN_94)
-          lrumem_86 <= ~hit_1;
+          lrumem_85 <= ~hit_1;
         if (_GEN_95)
-          lrumem_87 <= ~hit_1;
+          lrumem_86 <= ~hit_1;
         if (_GEN_96)
-          lrumem_88 <= ~hit_1;
+          lrumem_87 <= ~hit_1;
         if (_GEN_97)
-          lrumem_89 <= ~hit_1;
+          lrumem_88 <= ~hit_1;
         if (_GEN_98)
-          lrumem_90 <= ~hit_1;
+          lrumem_89 <= ~hit_1;
         if (_GEN_99)
-          lrumem_91 <= ~hit_1;
+          lrumem_90 <= ~hit_1;
         if (_GEN_100)
-          lrumem_92 <= ~hit_1;
+          lrumem_91 <= ~hit_1;
         if (_GEN_101)
-          lrumem_93 <= ~hit_1;
+          lrumem_92 <= ~hit_1;
         if (_GEN_102)
-          lrumem_94 <= ~hit_1;
+          lrumem_93 <= ~hit_1;
         if (_GEN_103)
-          lrumem_95 <= ~hit_1;
+          lrumem_94 <= ~hit_1;
         if (_GEN_104)
-          lrumem_96 <= ~hit_1;
+          lrumem_95 <= ~hit_1;
         if (_GEN_105)
-          lrumem_97 <= ~hit_1;
+          lrumem_96 <= ~hit_1;
         if (_GEN_106)
-          lrumem_98 <= ~hit_1;
+          lrumem_97 <= ~hit_1;
         if (_GEN_107)
-          lrumem_99 <= ~hit_1;
+          lrumem_98 <= ~hit_1;
         if (_GEN_108)
-          lrumem_100 <= ~hit_1;
+          lrumem_99 <= ~hit_1;
         if (_GEN_109)
-          lrumem_101 <= ~hit_1;
+          lrumem_100 <= ~hit_1;
         if (_GEN_110)
-          lrumem_102 <= ~hit_1;
+          lrumem_101 <= ~hit_1;
         if (_GEN_111)
-          lrumem_103 <= ~hit_1;
+          lrumem_102 <= ~hit_1;
         if (_GEN_112)
-          lrumem_104 <= ~hit_1;
+          lrumem_103 <= ~hit_1;
         if (_GEN_113)
-          lrumem_105 <= ~hit_1;
+          lrumem_104 <= ~hit_1;
         if (_GEN_114)
-          lrumem_106 <= ~hit_1;
+          lrumem_105 <= ~hit_1;
         if (_GEN_115)
-          lrumem_107 <= ~hit_1;
+          lrumem_106 <= ~hit_1;
         if (_GEN_116)
-          lrumem_108 <= ~hit_1;
+          lrumem_107 <= ~hit_1;
         if (_GEN_117)
-          lrumem_109 <= ~hit_1;
+          lrumem_108 <= ~hit_1;
         if (_GEN_118)
-          lrumem_110 <= ~hit_1;
+          lrumem_109 <= ~hit_1;
         if (_GEN_119)
-          lrumem_111 <= ~hit_1;
+          lrumem_110 <= ~hit_1;
         if (_GEN_120)
-          lrumem_112 <= ~hit_1;
+          lrumem_111 <= ~hit_1;
         if (_GEN_121)
-          lrumem_113 <= ~hit_1;
+          lrumem_112 <= ~hit_1;
         if (_GEN_122)
-          lrumem_114 <= ~hit_1;
+          lrumem_113 <= ~hit_1;
         if (_GEN_123)
-          lrumem_115 <= ~hit_1;
+          lrumem_114 <= ~hit_1;
         if (_GEN_124)
-          lrumem_116 <= ~hit_1;
+          lrumem_115 <= ~hit_1;
         if (_GEN_125)
-          lrumem_117 <= ~hit_1;
+          lrumem_116 <= ~hit_1;
         if (_GEN_126)
-          lrumem_118 <= ~hit_1;
+          lrumem_117 <= ~hit_1;
         if (_GEN_127)
-          lrumem_119 <= ~hit_1;
+          lrumem_118 <= ~hit_1;
         if (_GEN_128)
-          lrumem_120 <= ~hit_1;
+          lrumem_119 <= ~hit_1;
         if (_GEN_129)
-          lrumem_121 <= ~hit_1;
+          lrumem_120 <= ~hit_1;
         if (_GEN_130)
-          lrumem_122 <= ~hit_1;
+          lrumem_121 <= ~hit_1;
         if (_GEN_131)
-          lrumem_123 <= ~hit_1;
+          lrumem_122 <= ~hit_1;
         if (_GEN_132)
-          lrumem_124 <= ~hit_1;
+          lrumem_123 <= ~hit_1;
         if (_GEN_133)
-          lrumem_125 <= ~hit_1;
+          lrumem_124 <= ~hit_1;
         if (_GEN_134)
+          lrumem_125 <= ~hit_1;
+        if (_GEN_135)
           lrumem_126 <= ~hit_1;
         if (&(paddr_IF_RM[12:6]))
           lrumem_127 <= ~hit_1;
       end
       else begin
-        if (lru_miss_upd & _GEN_8)
-          lrumem_0 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_9)
-          lrumem_1 <= ~_GEN_4;
+          lrumem_0 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_10)
-          lrumem_2 <= ~_GEN_4;
+          lrumem_1 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_11)
-          lrumem_3 <= ~_GEN_4;
+          lrumem_2 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_12)
-          lrumem_4 <= ~_GEN_4;
+          lrumem_3 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_13)
-          lrumem_5 <= ~_GEN_4;
+          lrumem_4 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_14)
-          lrumem_6 <= ~_GEN_4;
+          lrumem_5 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_15)
-          lrumem_7 <= ~_GEN_4;
+          lrumem_6 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_16)
-          lrumem_8 <= ~_GEN_4;
+          lrumem_7 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_17)
-          lrumem_9 <= ~_GEN_4;
+          lrumem_8 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_18)
-          lrumem_10 <= ~_GEN_4;
+          lrumem_9 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_19)
-          lrumem_11 <= ~_GEN_4;
+          lrumem_10 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_20)
-          lrumem_12 <= ~_GEN_4;
+          lrumem_11 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_21)
-          lrumem_13 <= ~_GEN_4;
+          lrumem_12 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_22)
-          lrumem_14 <= ~_GEN_4;
+          lrumem_13 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_23)
-          lrumem_15 <= ~_GEN_4;
+          lrumem_14 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_24)
-          lrumem_16 <= ~_GEN_4;
+          lrumem_15 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_25)
-          lrumem_17 <= ~_GEN_4;
+          lrumem_16 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_26)
-          lrumem_18 <= ~_GEN_4;
+          lrumem_17 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_27)
-          lrumem_19 <= ~_GEN_4;
+          lrumem_18 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_28)
-          lrumem_20 <= ~_GEN_4;
+          lrumem_19 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_29)
-          lrumem_21 <= ~_GEN_4;
+          lrumem_20 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_30)
-          lrumem_22 <= ~_GEN_4;
+          lrumem_21 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_31)
-          lrumem_23 <= ~_GEN_4;
+          lrumem_22 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_32)
-          lrumem_24 <= ~_GEN_4;
+          lrumem_23 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_33)
-          lrumem_25 <= ~_GEN_4;
+          lrumem_24 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_34)
-          lrumem_26 <= ~_GEN_4;
+          lrumem_25 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_35)
-          lrumem_27 <= ~_GEN_4;
+          lrumem_26 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_36)
-          lrumem_28 <= ~_GEN_4;
+          lrumem_27 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_37)
-          lrumem_29 <= ~_GEN_4;
+          lrumem_28 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_38)
-          lrumem_30 <= ~_GEN_4;
+          lrumem_29 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_39)
-          lrumem_31 <= ~_GEN_4;
+          lrumem_30 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_40)
-          lrumem_32 <= ~_GEN_4;
+          lrumem_31 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_41)
-          lrumem_33 <= ~_GEN_4;
+          lrumem_32 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_42)
-          lrumem_34 <= ~_GEN_4;
+          lrumem_33 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_43)
-          lrumem_35 <= ~_GEN_4;
+          lrumem_34 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_44)
-          lrumem_36 <= ~_GEN_4;
+          lrumem_35 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_45)
-          lrumem_37 <= ~_GEN_4;
+          lrumem_36 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_46)
-          lrumem_38 <= ~_GEN_4;
+          lrumem_37 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_47)
-          lrumem_39 <= ~_GEN_4;
+          lrumem_38 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_48)
-          lrumem_40 <= ~_GEN_4;
+          lrumem_39 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_49)
-          lrumem_41 <= ~_GEN_4;
+          lrumem_40 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_50)
-          lrumem_42 <= ~_GEN_4;
+          lrumem_41 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_51)
-          lrumem_43 <= ~_GEN_4;
+          lrumem_42 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_52)
-          lrumem_44 <= ~_GEN_4;
+          lrumem_43 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_53)
-          lrumem_45 <= ~_GEN_4;
+          lrumem_44 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_54)
-          lrumem_46 <= ~_GEN_4;
+          lrumem_45 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_55)
-          lrumem_47 <= ~_GEN_4;
+          lrumem_46 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_56)
-          lrumem_48 <= ~_GEN_4;
+          lrumem_47 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_57)
-          lrumem_49 <= ~_GEN_4;
+          lrumem_48 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_58)
-          lrumem_50 <= ~_GEN_4;
+          lrumem_49 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_59)
-          lrumem_51 <= ~_GEN_4;
+          lrumem_50 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_60)
-          lrumem_52 <= ~_GEN_4;
+          lrumem_51 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_61)
-          lrumem_53 <= ~_GEN_4;
+          lrumem_52 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_62)
-          lrumem_54 <= ~_GEN_4;
+          lrumem_53 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_63)
-          lrumem_55 <= ~_GEN_4;
+          lrumem_54 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_64)
-          lrumem_56 <= ~_GEN_4;
+          lrumem_55 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_65)
-          lrumem_57 <= ~_GEN_4;
+          lrumem_56 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_66)
-          lrumem_58 <= ~_GEN_4;
+          lrumem_57 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_67)
-          lrumem_59 <= ~_GEN_4;
+          lrumem_58 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_68)
-          lrumem_60 <= ~_GEN_4;
+          lrumem_59 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_69)
-          lrumem_61 <= ~_GEN_4;
+          lrumem_60 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_70)
-          lrumem_62 <= ~_GEN_4;
+          lrumem_61 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_71)
-          lrumem_63 <= ~_GEN_4;
+          lrumem_62 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_72)
-          lrumem_64 <= ~_GEN_4;
+          lrumem_63 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_73)
-          lrumem_65 <= ~_GEN_4;
+          lrumem_64 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_74)
-          lrumem_66 <= ~_GEN_4;
+          lrumem_65 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_75)
-          lrumem_67 <= ~_GEN_4;
+          lrumem_66 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_76)
-          lrumem_68 <= ~_GEN_4;
+          lrumem_67 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_77)
-          lrumem_69 <= ~_GEN_4;
+          lrumem_68 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_78)
-          lrumem_70 <= ~_GEN_4;
+          lrumem_69 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_79)
-          lrumem_71 <= ~_GEN_4;
+          lrumem_70 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_80)
-          lrumem_72 <= ~_GEN_4;
+          lrumem_71 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_81)
-          lrumem_73 <= ~_GEN_4;
+          lrumem_72 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_82)
-          lrumem_74 <= ~_GEN_4;
+          lrumem_73 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_83)
-          lrumem_75 <= ~_GEN_4;
+          lrumem_74 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_84)
-          lrumem_76 <= ~_GEN_4;
+          lrumem_75 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_85)
-          lrumem_77 <= ~_GEN_4;
+          lrumem_76 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_86)
-          lrumem_78 <= ~_GEN_4;
+          lrumem_77 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_87)
-          lrumem_79 <= ~_GEN_4;
+          lrumem_78 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_88)
-          lrumem_80 <= ~_GEN_4;
+          lrumem_79 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_89)
-          lrumem_81 <= ~_GEN_4;
+          lrumem_80 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_90)
-          lrumem_82 <= ~_GEN_4;
+          lrumem_81 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_91)
-          lrumem_83 <= ~_GEN_4;
+          lrumem_82 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_92)
-          lrumem_84 <= ~_GEN_4;
+          lrumem_83 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_93)
-          lrumem_85 <= ~_GEN_4;
+          lrumem_84 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_94)
-          lrumem_86 <= ~_GEN_4;
+          lrumem_85 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_95)
-          lrumem_87 <= ~_GEN_4;
+          lrumem_86 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_96)
-          lrumem_88 <= ~_GEN_4;
+          lrumem_87 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_97)
-          lrumem_89 <= ~_GEN_4;
+          lrumem_88 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_98)
-          lrumem_90 <= ~_GEN_4;
+          lrumem_89 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_99)
-          lrumem_91 <= ~_GEN_4;
+          lrumem_90 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_100)
-          lrumem_92 <= ~_GEN_4;
+          lrumem_91 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_101)
-          lrumem_93 <= ~_GEN_4;
+          lrumem_92 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_102)
-          lrumem_94 <= ~_GEN_4;
+          lrumem_93 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_103)
-          lrumem_95 <= ~_GEN_4;
+          lrumem_94 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_104)
-          lrumem_96 <= ~_GEN_4;
+          lrumem_95 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_105)
-          lrumem_97 <= ~_GEN_4;
+          lrumem_96 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_106)
-          lrumem_98 <= ~_GEN_4;
+          lrumem_97 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_107)
-          lrumem_99 <= ~_GEN_4;
+          lrumem_98 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_108)
-          lrumem_100 <= ~_GEN_4;
+          lrumem_99 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_109)
-          lrumem_101 <= ~_GEN_4;
+          lrumem_100 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_110)
-          lrumem_102 <= ~_GEN_4;
+          lrumem_101 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_111)
-          lrumem_103 <= ~_GEN_4;
+          lrumem_102 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_112)
-          lrumem_104 <= ~_GEN_4;
+          lrumem_103 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_113)
-          lrumem_105 <= ~_GEN_4;
+          lrumem_104 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_114)
-          lrumem_106 <= ~_GEN_4;
+          lrumem_105 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_115)
-          lrumem_107 <= ~_GEN_4;
+          lrumem_106 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_116)
-          lrumem_108 <= ~_GEN_4;
+          lrumem_107 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_117)
-          lrumem_109 <= ~_GEN_4;
+          lrumem_108 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_118)
-          lrumem_110 <= ~_GEN_4;
+          lrumem_109 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_119)
-          lrumem_111 <= ~_GEN_4;
+          lrumem_110 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_120)
-          lrumem_112 <= ~_GEN_4;
+          lrumem_111 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_121)
-          lrumem_113 <= ~_GEN_4;
+          lrumem_112 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_122)
-          lrumem_114 <= ~_GEN_4;
+          lrumem_113 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_123)
-          lrumem_115 <= ~_GEN_4;
+          lrumem_114 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_124)
-          lrumem_116 <= ~_GEN_4;
+          lrumem_115 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_125)
-          lrumem_117 <= ~_GEN_4;
+          lrumem_116 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_126)
-          lrumem_118 <= ~_GEN_4;
+          lrumem_117 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_127)
-          lrumem_119 <= ~_GEN_4;
+          lrumem_118 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_128)
-          lrumem_120 <= ~_GEN_4;
+          lrumem_119 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_129)
-          lrumem_121 <= ~_GEN_4;
+          lrumem_120 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_130)
-          lrumem_122 <= ~_GEN_4;
+          lrumem_121 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_131)
-          lrumem_123 <= ~_GEN_4;
+          lrumem_122 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_132)
-          lrumem_124 <= ~_GEN_4;
+          lrumem_123 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_133)
-          lrumem_125 <= ~_GEN_4;
+          lrumem_124 <= ~_GEN_4;
         if (lru_miss_upd & _GEN_134)
+          lrumem_125 <= ~_GEN_4;
+        if (lru_miss_upd & _GEN_135)
           lrumem_126 <= ~_GEN_4;
         if (lru_miss_upd & (&(paddr_IF_RM[12:6])))
           lrumem_127 <= ~_GEN_4;
       end
-      cs <= _GEN_136[cs];
+      cs <= _GEN_137[cs];
     end
   end // always @(posedge)
   xilinx_single_port_ram_no_change #(
     .RAM_DEPTH(128),
     .RAM_WIDTH(20)
   ) xilinx_single_port_ram_no_change (
-    .addra (tagmem_addra_0),
-    .dina  (tagmem_dina_1),
+    .addra (tagmem_0_addra),
+    .dina  (tagmem_1_dina),
     .clka  (clock),
     .wea   (tag_we_0),
     .douta (_xilinx_single_port_ram_no_change_douta)
@@ -1152,8 +1155,8 @@ module ICache(
     .RAM_DEPTH(128),
     .RAM_WIDTH(20)
   ) xilinx_single_port_ram_no_change_1 (
-    .addra (tagmem_addra_1),
-    .dina  (tagmem_dina_1),
+    .addra (tagmem_1_addra),
+    .dina  (tagmem_1_dina),
     .clka  (clock),
     .wea   (tag_we_1),
     .douta (_xilinx_single_port_ram_no_change_1_douta)
@@ -1162,7 +1165,7 @@ module ICache(
     .RAM_DEPTH(128),
     .RAM_WIDTH(512)
   ) xilinx_single_port_ram_no_change_2 (
-    .addra (instmem_addra_0),
+    .addra (instmem_0_addra),
     .dina  (rbuf),
     .clka  (clock),
     .wea   (tag_we_0),
@@ -1172,7 +1175,7 @@ module ICache(
     .RAM_DEPTH(128),
     .RAM_WIDTH(512)
   ) xilinx_single_port_ram_no_change_3 (
-    .addra (instmem_addra_1),
+    .addra (instmem_1_addra),
     .dina  (rbuf),
     .clka  (clock),
     .wea   (tag_we_1),
@@ -1182,6 +1185,8 @@ module ICache(
   assign io_rdata_RM_0 = data_sel ? _GEN_0[31:0] : _GEN_2[31:0];
   assign io_rdata_RM_1 = data_sel ? _GEN_0[63:32] : _GEN_2[63:32];
   assign io_i_araddr = {paddr_IF_RM[31:6], 6'h0};
-  assign io_i_rvalid = _GEN_5 ? rvalid_IF_RM & cache_miss_RM : _GEN_6;
+  assign io_i_rvalid = _GEN_5 ? rvalid_IF_RM & cache_miss_RM : _GEN_7;
+  assign io_commit_icache_visit = _GEN_6 & ~io_stall;
+  assign io_commit_icache_miss = _GEN_6 & ~(|_cache_hit_RM_T);
 endmodule
 

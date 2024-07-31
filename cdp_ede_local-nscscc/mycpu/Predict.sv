@@ -331,22 +331,22 @@ module Predict(
   reg  [31:0]      ras_6;
   reg  [31:0]      ras_7;
   reg  [2:0]       top;
-  reg              btb_rdata_valid_0_0;
-  reg              btb_rdata_valid_0_1;
-  reg              btb_rdata_valid_1_0;
-  reg              btb_rdata_valid_1_1;
-  reg  [29:0]      btb_rdata_target_0_0;
-  reg  [29:0]      btb_rdata_target_0_1;
-  reg  [29:0]      btb_rdata_target_1_0;
-  reg  [29:0]      btb_rdata_target_1_1;
-  reg  [20:0]      btb_rdata_tag_0_0;
-  reg  [20:0]      btb_rdata_tag_0_1;
-  reg  [20:0]      btb_rdata_tag_1_0;
-  reg  [20:0]      btb_rdata_tag_1_1;
-  reg  [1:0]       btb_rdata_typ_0_0;
-  reg  [1:0]       btb_rdata_typ_0_1;
-  reg  [1:0]       btb_rdata_typ_1_0;
-  reg  [1:0]       btb_rdata_typ_1_1;
+  reg              btb_rdata_0_0_valid;
+  reg  [29:0]      btb_rdata_0_0_target;
+  reg  [20:0]      btb_rdata_0_0_tag;
+  reg  [1:0]       btb_rdata_0_0_typ;
+  reg              btb_rdata_0_1_valid;
+  reg  [29:0]      btb_rdata_0_1_target;
+  reg  [20:0]      btb_rdata_0_1_tag;
+  reg  [1:0]       btb_rdata_0_1_typ;
+  reg              btb_rdata_1_0_valid;
+  reg  [29:0]      btb_rdata_1_0_target;
+  reg  [20:0]      btb_rdata_1_0_tag;
+  reg  [1:0]       btb_rdata_1_0_typ;
+  reg              btb_rdata_1_1_valid;
+  reg  [29:0]      btb_rdata_1_1_target;
+  reg  [20:0]      btb_rdata_1_1_tag;
+  reg  [1:0]       btb_rdata_1_1_typ;
   wire [63:0][3:0] _GEN =
     {{bht_0_63},
      {bht_0_62},
@@ -610,25 +610,25 @@ module Predict(
      {lpht_1_1},
      {lpht_1_0}};
   wire             _btb_rsel_T_6 =
-    (|(btb_rdata_tag_1_0 ^ io_pc_4[31:11])) & (|(btb_rdata_tag_1_1 ^ io_pc_5[31:11]));
-  wire             _GEN_3 = _btb_rsel_T_6 ? btb_rdata_valid_0_0 : btb_rdata_valid_1_0;
-  wire             _GEN_4 = _btb_rsel_T_6 ? btb_rdata_valid_0_1 : btb_rdata_valid_1_1;
-  wire [29:0]      _GEN_5 = _btb_rsel_T_6 ? btb_rdata_target_0_0 : btb_rdata_target_1_0;
-  wire [29:0]      _GEN_6 = _btb_rsel_T_6 ? btb_rdata_target_0_1 : btb_rdata_target_1_1;
-  wire [20:0]      _GEN_7 = _btb_rsel_T_6 ? btb_rdata_tag_0_0 : btb_rdata_tag_1_0;
-  wire [20:0]      _GEN_8 = _btb_rsel_T_6 ? btb_rdata_tag_0_1 : btb_rdata_tag_1_1;
-  wire [1:0]       _GEN_9 = _btb_rsel_T_6 ? btb_rdata_typ_0_0 : btb_rdata_typ_1_0;
-  wire [1:0]       _GEN_10 = _btb_rsel_T_6 ? btb_rdata_typ_0_1 : btb_rdata_typ_1_1;
-  wire             predict_valid_0 = _GEN_3 & (_GEN_7 ^ io_pc_4[31:11]) == 21'h0;
-  wire             predict_valid_1 = _GEN_4 & (_GEN_8 ^ io_pc_5[31:11]) == 21'h0;
+    (|(btb_rdata_1_0_tag ^ io_pc_4[31:11])) & (|(btb_rdata_1_1_tag ^ io_pc_5[31:11]));
+  wire             _GEN_3 = _btb_rsel_T_6 ? btb_rdata_0_0_valid : btb_rdata_1_0_valid;
+  wire [29:0]      _GEN_4 = _btb_rsel_T_6 ? btb_rdata_0_0_target : btb_rdata_1_0_target;
+  wire [20:0]      _GEN_5 = _btb_rsel_T_6 ? btb_rdata_0_0_tag : btb_rdata_1_0_tag;
+  wire [1:0]       _GEN_6 = _btb_rsel_T_6 ? btb_rdata_0_0_typ : btb_rdata_1_0_typ;
+  wire             _GEN_7 = _btb_rsel_T_6 ? btb_rdata_0_1_valid : btb_rdata_1_1_valid;
+  wire [29:0]      _GEN_8 = _btb_rsel_T_6 ? btb_rdata_0_1_target : btb_rdata_1_1_target;
+  wire [20:0]      _GEN_9 = _btb_rsel_T_6 ? btb_rdata_0_1_tag : btb_rdata_1_1_tag;
+  wire [1:0]       _GEN_10 = _btb_rsel_T_6 ? btb_rdata_0_1_typ : btb_rdata_1_1_typ;
+  wire             predict_valid_0 = _GEN_3 & (_GEN_5 ^ io_pc_4[31:11]) == 21'h0;
+  wire             predict_valid_1 = _GEN_7 & (_GEN_9 ^ io_pc_5[31:11]) == 21'h0;
   wire             pred_hit_1 =
     _GEN_2[{bht_rdata_1[3:2], bht_rdata_1[1:0] ^ io_pc_3[6:5], io_pc_3[4:3]}][1]
     & predict_valid_1;
   wire             pred_hit_0 =
     _GEN_1[{bht_rdata_0[3:2], bht_rdata_0[1:0] ^ io_pc_2[6:5], io_pc_2[4:3]}][1]
     & predict_valid_0 & ~(io_pc_6[2]);
-  wire [29:0]      _GEN_11 = pred_hit_0 ? _GEN_5 : _GEN_6;
-  wire [1:0]       _GEN_12 = pred_hit_0 ? _GEN_9 : _GEN_10;
+  wire [29:0]      _GEN_11 = pred_hit_0 ? _GEN_4 : _GEN_8;
+  wire [1:0]       _GEN_12 = pred_hit_0 ? _GEN_6 : _GEN_10;
   wire             _io_pred_npc_T = _GEN_12 == 2'h1;
   wire [2:0]       _top_T_4 = 3'(top - 3'h1);
   wire [7:0][31:0] _GEN_13 =
@@ -891,10 +891,10 @@ module Predict(
      {way_sel_1},
      {way_sel_0}};
   wire             _GEN_15 = _GEN_14[io_pc_cmt[9:3]];
-  wire [21:0]      btb_tagv_dina_1_0 = {1'h1, io_pc_cmt[31:11]};
-  wire [21:0]      btb_tagv_dina_1_1 = {1'h1, io_pc_cmt[31:11]};
-  wire [31:0]      btb_targ_dina_1_0 = {io_branch_target[31:2], io_br_type};
-  wire [31:0]      btb_targ_dina_1_1 = {io_branch_target[31:2], io_br_type};
+  wire [21:0]      btb_tagv_1_0_dina = {1'h1, io_pc_cmt[31:11]};
+  wire [21:0]      btb_tagv_1_1_dina = {1'h1, io_pc_cmt[31:11]};
+  wire [31:0]      btb_targ_1_0_dina = {io_branch_target[31:2], io_br_type};
+  wire [31:0]      btb_targ_1_1_dina = {io_branch_target[31:2], io_br_type};
   wire [2:0]       _top_T = 3'(top + 3'h1);
   wire             _GEN_16 =
     pred_hit_0 ? predict_valid_0 & ~(io_pc_6[2]) : predict_valid_1;
@@ -1303,22 +1303,22 @@ module Predict(
       ras_6 <= 32'h1C000000;
       ras_7 <= 32'h1C000000;
       top <= 3'h7;
-      btb_rdata_valid_0_0 <= 1'h0;
-      btb_rdata_valid_0_1 <= 1'h0;
-      btb_rdata_valid_1_0 <= 1'h0;
-      btb_rdata_valid_1_1 <= 1'h0;
-      btb_rdata_target_0_0 <= 30'h0;
-      btb_rdata_target_0_1 <= 30'h0;
-      btb_rdata_target_1_0 <= 30'h0;
-      btb_rdata_target_1_1 <= 30'h0;
-      btb_rdata_tag_0_0 <= 21'h0;
-      btb_rdata_tag_0_1 <= 21'h0;
-      btb_rdata_tag_1_0 <= 21'h0;
-      btb_rdata_tag_1_1 <= 21'h0;
-      btb_rdata_typ_0_0 <= 2'h0;
-      btb_rdata_typ_0_1 <= 2'h0;
-      btb_rdata_typ_1_0 <= 2'h0;
-      btb_rdata_typ_1_1 <= 2'h0;
+      btb_rdata_0_0_valid <= 1'h0;
+      btb_rdata_0_0_target <= 30'h0;
+      btb_rdata_0_0_tag <= 21'h0;
+      btb_rdata_0_0_typ <= 2'h0;
+      btb_rdata_0_1_valid <= 1'h0;
+      btb_rdata_0_1_target <= 30'h0;
+      btb_rdata_0_1_tag <= 21'h0;
+      btb_rdata_0_1_typ <= 2'h0;
+      btb_rdata_1_0_valid <= 1'h0;
+      btb_rdata_1_0_target <= 30'h0;
+      btb_rdata_1_0_tag <= 21'h0;
+      btb_rdata_1_0_typ <= 2'h0;
+      btb_rdata_1_1_valid <= 1'h0;
+      btb_rdata_1_1_target <= 30'h0;
+      btb_rdata_1_1_tag <= 21'h0;
+      btb_rdata_1_1_typ <= 2'h0;
       way_sel_0 <= 1'h0;
       way_sel_1 <= 1'h0;
       way_sel_2 <= 1'h0;
@@ -2526,26 +2526,26 @@ module Predict(
         else if (_io_pred_npc_T & _GEN_16)
           top <= _top_T_4;
       end
-      btb_rdata_valid_0_0 <= _xilinx_simple_dual_port_1_clock_ram_read_first_doutb[21];
-      btb_rdata_valid_0_1 <= _xilinx_simple_dual_port_1_clock_ram_read_first_1_doutb[21];
-      btb_rdata_valid_1_0 <= _xilinx_simple_dual_port_1_clock_ram_read_first_2_doutb[21];
-      btb_rdata_valid_1_1 <= _xilinx_simple_dual_port_1_clock_ram_read_first_3_doutb[21];
-      btb_rdata_target_0_0 <=
+      btb_rdata_0_0_valid <= _xilinx_simple_dual_port_1_clock_ram_read_first_doutb[21];
+      btb_rdata_0_0_target <=
         _xilinx_simple_dual_port_1_clock_ram_read_first_4_doutb[31:2];
-      btb_rdata_target_0_1 <=
+      btb_rdata_0_0_tag <= _xilinx_simple_dual_port_1_clock_ram_read_first_doutb[20:0];
+      btb_rdata_0_0_typ <= _xilinx_simple_dual_port_1_clock_ram_read_first_4_doutb[1:0];
+      btb_rdata_0_1_valid <= _xilinx_simple_dual_port_1_clock_ram_read_first_1_doutb[21];
+      btb_rdata_0_1_target <=
         _xilinx_simple_dual_port_1_clock_ram_read_first_5_doutb[31:2];
-      btb_rdata_target_1_0 <=
+      btb_rdata_0_1_tag <= _xilinx_simple_dual_port_1_clock_ram_read_first_1_doutb[20:0];
+      btb_rdata_0_1_typ <= _xilinx_simple_dual_port_1_clock_ram_read_first_5_doutb[1:0];
+      btb_rdata_1_0_valid <= _xilinx_simple_dual_port_1_clock_ram_read_first_2_doutb[21];
+      btb_rdata_1_0_target <=
         _xilinx_simple_dual_port_1_clock_ram_read_first_6_doutb[31:2];
-      btb_rdata_target_1_1 <=
+      btb_rdata_1_0_tag <= _xilinx_simple_dual_port_1_clock_ram_read_first_2_doutb[20:0];
+      btb_rdata_1_0_typ <= _xilinx_simple_dual_port_1_clock_ram_read_first_6_doutb[1:0];
+      btb_rdata_1_1_valid <= _xilinx_simple_dual_port_1_clock_ram_read_first_3_doutb[21];
+      btb_rdata_1_1_target <=
         _xilinx_simple_dual_port_1_clock_ram_read_first_7_doutb[31:2];
-      btb_rdata_tag_0_0 <= _xilinx_simple_dual_port_1_clock_ram_read_first_doutb[20:0];
-      btb_rdata_tag_0_1 <= _xilinx_simple_dual_port_1_clock_ram_read_first_1_doutb[20:0];
-      btb_rdata_tag_1_0 <= _xilinx_simple_dual_port_1_clock_ram_read_first_2_doutb[20:0];
-      btb_rdata_tag_1_1 <= _xilinx_simple_dual_port_1_clock_ram_read_first_3_doutb[20:0];
-      btb_rdata_typ_0_0 <= _xilinx_simple_dual_port_1_clock_ram_read_first_4_doutb[1:0];
-      btb_rdata_typ_0_1 <= _xilinx_simple_dual_port_1_clock_ram_read_first_5_doutb[1:0];
-      btb_rdata_typ_1_0 <= _xilinx_simple_dual_port_1_clock_ram_read_first_6_doutb[1:0];
-      btb_rdata_typ_1_1 <= _xilinx_simple_dual_port_1_clock_ram_read_first_7_doutb[1:0];
+      btb_rdata_1_1_tag <= _xilinx_simple_dual_port_1_clock_ram_read_first_3_doutb[20:0];
+      btb_rdata_1_1_typ <= _xilinx_simple_dual_port_1_clock_ram_read_first_7_doutb[1:0];
       if (io_update_en & io_pc_cmt[9:3] == 7'h0)
         way_sel_0 <= ~_GEN_15;
       if (io_update_en & io_pc_cmt[9:3] == 7'h1)
@@ -2814,7 +2814,7 @@ module Predict(
   ) xilinx_simple_dual_port_1_clock_ram_read_first (
     .addra (_xilinx_simple_dual_port_1_clock_ram_read_first_addra),
     .addrb (_xilinx_simple_dual_port_1_clock_ram_read_first_addrb),
-    .dina  (btb_tagv_dina_1_0),
+    .dina  (btb_tagv_1_0_dina),
     .clka  (clock),
     .wea   (_xilinx_simple_dual_port_1_clock_ram_read_first_wea),
     .doutb (_xilinx_simple_dual_port_1_clock_ram_read_first_doutb)
@@ -2829,7 +2829,7 @@ module Predict(
   ) xilinx_simple_dual_port_1_clock_ram_read_first_1 (
     .addra (_xilinx_simple_dual_port_1_clock_ram_read_first_1_addra),
     .addrb (_xilinx_simple_dual_port_1_clock_ram_read_first_1_addrb),
-    .dina  (btb_tagv_dina_1_1),
+    .dina  (btb_tagv_1_1_dina),
     .clka  (clock),
     .wea   (_xilinx_simple_dual_port_1_clock_ram_read_first_1_wea),
     .doutb (_xilinx_simple_dual_port_1_clock_ram_read_first_1_doutb)
@@ -2844,7 +2844,7 @@ module Predict(
   ) xilinx_simple_dual_port_1_clock_ram_read_first_2 (
     .addra (_xilinx_simple_dual_port_1_clock_ram_read_first_2_addra),
     .addrb (_xilinx_simple_dual_port_1_clock_ram_read_first_2_addrb),
-    .dina  (btb_tagv_dina_1_0),
+    .dina  (btb_tagv_1_0_dina),
     .clka  (clock),
     .wea   (_xilinx_simple_dual_port_1_clock_ram_read_first_2_wea),
     .doutb (_xilinx_simple_dual_port_1_clock_ram_read_first_2_doutb)
@@ -2859,7 +2859,7 @@ module Predict(
   ) xilinx_simple_dual_port_1_clock_ram_read_first_3 (
     .addra (_xilinx_simple_dual_port_1_clock_ram_read_first_3_addra),
     .addrb (_xilinx_simple_dual_port_1_clock_ram_read_first_3_addrb),
-    .dina  (btb_tagv_dina_1_1),
+    .dina  (btb_tagv_1_1_dina),
     .clka  (clock),
     .wea   (_xilinx_simple_dual_port_1_clock_ram_read_first_3_wea),
     .doutb (_xilinx_simple_dual_port_1_clock_ram_read_first_3_doutb)
@@ -2874,7 +2874,7 @@ module Predict(
   ) xilinx_simple_dual_port_1_clock_ram_read_first_4 (
     .addra (_xilinx_simple_dual_port_1_clock_ram_read_first_4_addra),
     .addrb (_xilinx_simple_dual_port_1_clock_ram_read_first_4_addrb),
-    .dina  (btb_targ_dina_1_0),
+    .dina  (btb_targ_1_0_dina),
     .clka  (clock),
     .wea   (_xilinx_simple_dual_port_1_clock_ram_read_first_4_wea),
     .doutb (_xilinx_simple_dual_port_1_clock_ram_read_first_4_doutb)
@@ -2889,7 +2889,7 @@ module Predict(
   ) xilinx_simple_dual_port_1_clock_ram_read_first_5 (
     .addra (_xilinx_simple_dual_port_1_clock_ram_read_first_5_addra),
     .addrb (_xilinx_simple_dual_port_1_clock_ram_read_first_5_addrb),
-    .dina  (btb_targ_dina_1_1),
+    .dina  (btb_targ_1_1_dina),
     .clka  (clock),
     .wea   (_xilinx_simple_dual_port_1_clock_ram_read_first_5_wea),
     .doutb (_xilinx_simple_dual_port_1_clock_ram_read_first_5_doutb)
@@ -2904,7 +2904,7 @@ module Predict(
   ) xilinx_simple_dual_port_1_clock_ram_read_first_6 (
     .addra (_xilinx_simple_dual_port_1_clock_ram_read_first_6_addra),
     .addrb (_xilinx_simple_dual_port_1_clock_ram_read_first_6_addrb),
-    .dina  (btb_targ_dina_1_0),
+    .dina  (btb_targ_1_0_dina),
     .clka  (clock),
     .wea   (_xilinx_simple_dual_port_1_clock_ram_read_first_6_wea),
     .doutb (_xilinx_simple_dual_port_1_clock_ram_read_first_6_doutb)
@@ -2919,7 +2919,7 @@ module Predict(
   ) xilinx_simple_dual_port_1_clock_ram_read_first_7 (
     .addra (_xilinx_simple_dual_port_1_clock_ram_read_first_7_addra),
     .addrb (_xilinx_simple_dual_port_1_clock_ram_read_first_7_addrb),
-    .dina  (btb_targ_dina_1_1),
+    .dina  (btb_targ_1_1_dina),
     .clka  (clock),
     .wea   (_xilinx_simple_dual_port_1_clock_ram_read_first_7_wea),
     .doutb (_xilinx_simple_dual_port_1_clock_ram_read_first_7_doutb)

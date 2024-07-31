@@ -13,7 +13,8 @@ module CSR_Regfile(
   input  [31:0] io_pc_exp,
   output [31:0] io_eentry_global,
   output [11:0] io_interrupt_vec,
-  output [5:0]  io_crmd_trans
+  output [5:0]  io_crmd_trans,
+  output [12:0] io_estat_13
 );
 
   reg  [31:0] crmd;
@@ -181,5 +182,6 @@ module CSR_Regfile(
   assign io_interrupt_vec =
     crmd[2] ? {estat[12:11] & ecfg[12:11], estat[9:0] & ecfg[9:0]} : 12'h0;
   assign io_crmd_trans = crmd[8:3];
+  assign io_estat_13 = estat[12:0];
 endmodule
 

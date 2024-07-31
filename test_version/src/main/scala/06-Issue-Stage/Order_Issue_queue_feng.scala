@@ -80,7 +80,7 @@ class Order_Issue_Queue[T <: inst_pack_DP_t](n: Int, inst_pack_t: T) extends Mod
         }.otherwise{
             val index = (i.U - num_pop)(0)
             //index是插入位置，先0后1，索引valid有效的指令先放
-            when(!(io.insts_disp_valid(0) && !io.insts_disp_valid(1))){
+            when(!(!io.insts_disp_valid(0) && io.insts_disp_valid(1))){
                 //01  第一条指令有效，第二条无效
                 queue_next.inst := io.insts_dispatch(index)
                 queue_next.prj_waked := io.prj_ready(index)

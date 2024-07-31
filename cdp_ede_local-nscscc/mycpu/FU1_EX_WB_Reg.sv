@@ -8,11 +8,13 @@ module FU1_EX_WB_Reg(
   input  [4:0]  io_inst_pack_EX_rob_index,
   input         io_inst_pack_EX_inst_valid,
   input  [31:0] io_alu_out_EX,
+  input         io_is_ucread_EX,
   output        io_inst_pack_WB_rd_valid,
   output [5:0]  io_inst_pack_WB_prd,
   output [4:0]  io_inst_pack_WB_rob_index,
   output        io_inst_pack_WB_inst_valid,
-  output [31:0] io_alu_out_WB
+  output [31:0] io_alu_out_WB,
+  output        io_is_ucread_WB
 );
 
   reg        inst_pack_reg_rd_valid;
@@ -20,6 +22,7 @@ module FU1_EX_WB_Reg(
   reg [4:0]  inst_pack_reg_rob_index;
   reg        inst_pack_reg_inst_valid;
   reg [31:0] alu_out_reg;
+  reg        is_ucread_reg;
   always @(posedge clock) begin
     if (reset) begin
       inst_pack_reg_rd_valid <= 1'h0;
@@ -27,6 +30,7 @@ module FU1_EX_WB_Reg(
       inst_pack_reg_rob_index <= 5'h0;
       inst_pack_reg_inst_valid <= 1'h0;
       alu_out_reg <= 32'h0;
+      is_ucread_reg <= 1'h0;
     end
     else begin
       inst_pack_reg_rd_valid <= ~io_flush & io_inst_pack_EX_rd_valid;
@@ -35,8 +39,10 @@ module FU1_EX_WB_Reg(
       inst_pack_reg_inst_valid <= ~io_flush & io_inst_pack_EX_inst_valid;
       if (io_flush) begin
       end
-      else
+      else begin
         alu_out_reg <= io_alu_out_EX;
+        is_ucread_reg <= io_is_ucread_EX;
+      end
     end
   end // always @(posedge)
   assign io_inst_pack_WB_rd_valid = inst_pack_reg_rd_valid;
@@ -44,5 +50,6 @@ module FU1_EX_WB_Reg(
   assign io_inst_pack_WB_rob_index = inst_pack_reg_rob_index;
   assign io_inst_pack_WB_inst_valid = inst_pack_reg_inst_valid;
   assign io_alu_out_WB = alu_out_reg;
+  assign io_is_ucread_WB = is_ucread_reg;
 endmodule
 

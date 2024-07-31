@@ -88,15 +88,15 @@ class Unorder_Issue_Queue[T <: inst_pack_DP_t](n: Int, inst_pack_t: T) extends M
         }.otherwise{
             val index = (i.U - num_pop)(0)
             //index是插入位置，先0后1，索引valid有效的指令先放
-            when(!(io.insts_disp_valid(0) && !io.insts_disp_valid(1))){
-                //01  第一条指令有效，第二条无效  11 两条指令都有效  00
+            when(!(!io.insts_disp_valid(0) && io.insts_disp_valid(1))){
+                //10  第一条指令无效，第二条有效  11 两条指令都有效  00
                 queue_next.inst := io.insts_dispatch(index)
                 queue_next.prj_waked := io.prj_ready(index)
                 queue_next.prk_waked := io.prk_ready(index)
                 queue_next.prj_wake_by_ld := !(io.insts_dispatch(index).prj ^ io.ld_mem_prd) && ld_mem_prd_valid
                 queue_next.prk_wake_by_ld := !(io.insts_dispatch(index).prk ^ io.ld_mem_prd) && ld_mem_prd_valid
             }.otherwise{
-                //10  第一条指令无效，第二条有效
+                //01  第一条指令有效，第二条无效
                 queue_next.inst := io.insts_dispatch(1)
                 queue_next.prj_waked := io.prj_ready(1)
                 queue_next.prk_waked := io.prk_ready(1)
