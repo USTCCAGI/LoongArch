@@ -8,7 +8,7 @@ val chiselVersion = "6.3.0"
 
 lazy val root = (project in file("."))
   .settings(
-    name := "MAdrid",
+    name := "USTCCAGI",
     libraryDependencies ++= Seq(
       "org.chipsalliance" %% "chisel" % chiselVersion,
       // "edu.berkeley.cs" %% "chiseltest" % chiselVersion

@@ -66,7 +66,7 @@ class Fetch_Queue extends Module{
 
     //Update head and mask
     when(!full && io.insts_pack(0).inst_valid){
-         mask := Mux(io.insts_pack(1).inst_valid, rotate_left(mask, 2), rotate_left(mask, 1))
+        mask := Mux(io.insts_pack(1).inst_valid, rotate_left(mask, 2), rotate_left(mask, 1))
     }
 
     when(io.next_ready && !empty){

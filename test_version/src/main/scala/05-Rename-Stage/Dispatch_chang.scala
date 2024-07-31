@@ -19,8 +19,8 @@ class Dispatch extends Module{
 
     val issue_queue = WireDefault(VecInit.fill(2)(0.U(4.W)))
     val inst_packs = io.inst_packs
-    val fu1_num = io.elem_num(0)
-    val fu2_num = io.elem_num(1)
+    var fu1_num = io.elem_num(0)
+    var fu2_num = io.elem_num(1)
     val min = Mux(fu1_num <= fu2_num, 0.U, 1.U)
 
     for(i <- 0 until 2){
