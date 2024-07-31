@@ -39,18 +39,19 @@ class Decode extends Module{
         io.rk := 0.U
     )
 
-    io.rd := io.inst(4,0)
+    val rd = WireDefault(io.inst(4, 0))
     switch(control_signal(10)){
         is(Control_Signal.RD){
-            io.rd := io.inst(4, 0)
+            rd := io.inst(4, 0)
         }
         is(Control_Signal.R1){
-            io.rd := 1.U
+            rd := 1.U
         }
         is(Control_Signal.RJ){
-            io.rd := io.inst(9, 5)
+            rd := io.inst(9, 5)
         }
     }
+    io.rd := rd
 
     io.rd_valid := control_signal(2).asBool && (io.rd =/= 0.U(5.W))
 
