@@ -170,7 +170,7 @@ class ROB(n: Int) extends Module{
                 rob(i)(tail).rd_valid        := io.rd_valid_dp(i)
                 rob(i)(tail).prd             := io.prd_dp(i)
                 rob(i)(tail).pprd            := io.pprd_dp(i)
-                rob(i)(tail).pc              := io.pc_dp(i) + 4.U
+                rob(i)(tail).pc              := io.pc_dp(i) 
                 rob(i)(tail).is_store        := io.is_store_dp(i)
                 rob(i)(tail).br_type_pred    := io.br_type_pred_dp(i)
                 rob(i)(tail).pred_update_en  := io.pred_update_en_dp(i)
