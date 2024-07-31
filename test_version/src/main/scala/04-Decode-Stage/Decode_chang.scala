@@ -39,13 +39,13 @@ class Decode extends Module{
         io.rk := 0.U
     )
 
-    val rd = WireDefault(io.inst(4, 0))
+    val rd = WireDefault(inst(4, 0))
     switch(control_signal(10)){
         is(Control_Signal.RD){
             rd := io.inst(4, 0)
         }
         is(Control_Signal.R1){
-            rd := 1.U
+            rd := 1.U(5.W)
         }
         is(Control_Signal.RJ){
             rd := io.inst(9, 5)
@@ -65,25 +65,29 @@ class Decode extends Module{
     io.priv_vec := control_signal(12)
     
     io.fu_id := control_signal(8)
-    io.exception := control_signal(13)
+    io.exception        := Mux(control_signal(12)(8) && io.inst(4, 0) >= 7.U, 1.U ## Control_Signal.INE, control_signal(13))
 
-    val imm = WireDefault(0.U(32.W))
-    imm := DontCare
-    switch(control_signal(11)){
-        is(IMM_00U){imm := 0.U(32.W)}
-        is(IMM_05U){imm := 0.U(27.W) ## io.inst(14, 10)}
-        is(IMM_12U){imm := 0.U(20.W) ## io.inst(21, 10)}
-        is(IMM_12S){imm := Fill(20, io.inst(21)) ## io.inst(21, 10)}
-        is(IMM_14S){imm := Fill(18, io.inst(21)) ## io.inst(21, 10) ## 0.U(2.W)}
-        is(IMM_16S){imm := Fill(14, io.inst(25)) ## io.inst(25, 10) ## 0.U(2.W)}
-        is(IMM_20S){imm := io.inst(24, 5) ## 0.U(12.W)}
-        is(IMM_26S){imm := Fill(4, io.inst(9)) ## io.inst(9, 0) ## io.inst(25, 10) ## 0.U(2.W)}
-        is(IMM_CSR){imm := 0.U(18.W) ## io.inst(23, 10)}
-        is(IMM_TID){imm := 0x40.U(32.W)}
-        is(IMM_ERA){imm := 0x6.U(32.W)}
+    def Imm_Gen(inst: UInt, imm_type: UInt): UInt = {
+        val imm = WireDefault(0.U(32.W))
+        imm := DontCare
+        switch(imm_type) {
+            is(IMM_00U)     { imm := 0.U(32.W) }
+            is(IMM_05U)     { imm := Cat(0.U(27.W), inst(14, 10)) }
+            is(IMM_12U)     { imm := Cat(0.U(20.W), inst(21, 10)) }
+            is(IMM_12S)     { imm := Cat(Fill(20, inst(21)), inst(21, 10)) }
+            is(IMM_14S)     { imm := Cat(Fill(18, inst(21)), inst(21, 10), 0.U(2.W)) }
+            is(IMM_16S)     { imm := Cat(Fill(14, inst(25)), inst(25, 10), 0.U(2.W)) }
+            is(IMM_20S)     { imm := Cat(inst(24, 5), 0.U(12.W)) }
+            is(IMM_26S)     { imm := Cat(Fill(4, inst(9)), inst(9, 0), inst(25, 10), 0.U(2.W)) }
+            is(IMM_CSR)     { imm := Cat(0.U(18.W), inst(23, 10)) }
+            is(IMM_TID)     { imm := 0x40.U(32.W) }
+            is(IMM_ERA)     { imm := 0x6.U(32.W) }
+            is(IMM_COP)     { imm := Cat(Fill(15, inst(21)), inst(21, 10), inst(4, 0))}
+        }
+        imm
     }
 
-    io.imm := imm
+    io.imm := Imm_Gen(io.inst, control_signal(11))
 }
 
 
