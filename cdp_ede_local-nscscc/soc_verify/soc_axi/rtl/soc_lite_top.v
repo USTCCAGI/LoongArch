@@ -86,6 +86,7 @@ wire [31:0] debug_wb_pc0,debug_wb_pc1   ;
 wire [3 :0] debug_wb_rf_we0,debug_wb_rf_we1;
 wire [4 :0] debug_wb_rf_wnum0, debug_wb_rf_wnum1;
 wire [31:0] debug_wb_rf_wdata0,debug_wb_rf_wdata1;
+wire debug_cmt0, debug_cmt1;
 
 //clk and resetn
 wire cpu_clk;
@@ -320,11 +321,13 @@ CPU u_cpu(
     .io_commit_rd_valid_0   (debug_wb_rf_we0   ),
     .io_commit_rd_0 (debug_wb_rf_wnum0 ),
     .io_commit_rf_wdata_0(debug_wb_rf_wdata0),
+    .io_commit_en_0 (debug_cmt0),
 
     .io_commit_pc_1      (debug_wb_pc1      ),
     .io_commit_rd_valid_1   (debug_wb_rf_we1   ),
     .io_commit_rd_1 (debug_wb_rf_wnum1 ),
-    .io_commit_rf_wdata_1(debug_wb_rf_wdata1)
+    .io_commit_rf_wdata_1(debug_wb_rf_wdata1),
+    .io_commit_en_1 (debug_cmt1)
 );
 //cpu axi wrap
 axi_wrap u_cpu_axi_wrap(
