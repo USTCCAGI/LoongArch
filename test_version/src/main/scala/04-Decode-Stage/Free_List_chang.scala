@@ -25,13 +25,14 @@ class Free_List(n: Int) extends Module{
         Cat(x(n-2, 0), x(n-1))
     }
 
-    val free_list  = RegInit(VecInit.tabulate(n)(i => (i + 1).asUInt(log2Ceil(n).W)))
+    val free_list  = RegInit(VecInit.tabulate(n)(i => (i + 1).asUInt(log2Ceil(n)-1, 0)))
     val head = RegInit(1.U(n.W))
     val rear = Reg(UInt(n.W))
     val rear_init = VecInit.tabulate(n)(i => (i.U === (n-1).U)).asUInt
 
     
-    io.empty := (head === rear) || (rotate_left_1(head) === rear)
+    //io.empty := (head === rear) || (rotate_left_1(head) === rear)
+    io.empty := VecInit.tabulate(2)(i => (VecInit(head, rotate_left_1(head))(i) & rear).orR).asUInt.orR
 
     //Dequeue -- allocate new physical register
     val head_pre    = Wire(Vec(2, UInt(n.W)))

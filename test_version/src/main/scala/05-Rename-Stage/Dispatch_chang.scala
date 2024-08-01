@@ -38,7 +38,7 @@ class Dispatch extends Module{
         var alloc_index = 0.U(1.W)
         for(j <- 0 until 2){
             io.insts_disp_index(i)(alloc_index) := j.U
-            io.insts_disp_valid(i)(alloc_index) := issue_queue(j)(i)
+            io.insts_disp_valid(i)(j) := issue_queue(j)(i)
             alloc_index = Mux(issue_queue(j)(i), 1.U, 0.U)
         }
     }
