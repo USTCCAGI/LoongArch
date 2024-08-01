@@ -29,6 +29,8 @@ class Arch_Rat(n: Int) extends Module {
 
     val arat = RegInit(VecInit.fill(n)(false.B))
 
+    val arat_next = Wire(Vec(n, Bool()))
+
     val head = RegInit(0.U(log2Ceil(n).W))
     var head_next = head
     for(i <- 0 until 2){
@@ -36,12 +38,14 @@ class Arch_Rat(n: Int) extends Module {
     }
     head := head_next
 
+    arat_next := arat
     for(i <- 0 until 2){
         when(io.rd_valid_cmt(i) && io.cmt_en(i)){
-            arat(io.pprd_cmt(i)) := false.B
-            arat(io.prd_cmt(i)) := true.B
+            arat_next(io.pprd_cmt(i)) := false.B
+            arat_next(io.prd_cmt(i)) := true.B
         }
     }
+    arat := arat_next
 
     io.arch_rat     := arat
     io.head_arch    := head
@@ -49,17 +53,23 @@ class Arch_Rat(n: Int) extends Module {
 
     // ras
     val top         = RegInit(0x7.U(3.W))
+    val top_next    = Wire(UInt(3.W))
     val ras         = RegInit(VecInit.fill(8)(0x1c000000.U(32.W)))
+    val ras_next    = Wire(Vec(8, UInt(32.W)))
+    top_next        := top
+    ras_next        := ras
     val stack_pop  = io.br_type_pred_cmt === RET && io.pred_update_en_cmt
     val stack_push = io.br_type_pred_cmt(1) && io.pred_update_en_cmt
     when(stack_pop){
-        top := top - 1.U
+        top_next := top - 1.U
     }.elsewhen(stack_push){
-        top := top + 1.U
-        ras(top) := io.pc_cmt
+        top_next := top + 1.U
+        ras_next(top) := io.pc_cmt
     }
-    
-    io.top_arch := top
+    top         := top_next
+    ras         := ras_next
+
+    io.top_arch := top_next
     io.ras_arch := ras
 
 }

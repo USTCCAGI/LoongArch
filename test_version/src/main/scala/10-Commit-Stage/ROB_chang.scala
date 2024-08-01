@@ -369,8 +369,7 @@ class ROB(n: Int) extends Module{
     val rd_valid_cmt             = VecInit.tabulate(2)(i => rob_commit_items(i).rd_valid && !rob_commit_items(i).exception(7))
     val prd_cmt                  = VecInit.tabulate(2)(i => rob_commit_items(i).prd)
     val pprd_cmt                 = VecInit.tabulate(2)(i => rob_commit_items(i).pprd)
-    val pc_cmt                   = VecInit.tabulate(2)(i => Mux(rob_commit_items(i).exception(7) || interrupt, Mux(rob_commit_items(i).exception(5, 0) === 0x3f.U, tlbreentry_global, eentry_global), 
-                                                            Mux(rob_commit_items(i).is_priv_wrt && priv_buffer.priv_vec(3) || rob_commit_items(i).pred_update_en && rob_commit_items(i).real_jump, rob_commit_items(i).branch_target, rob_commit_items(i).pc - 4.U)))
+    val pc_cmt                   = VecInit.tabulate(2)(i => rob_commit_items(i).pc - 4.U)
     val rf_wdata_cmt             = VecInit.tabulate(2)(i => rob_commit_items(i).rf_wdata)
     val is_ucread_cmt            = VecInit.tabulate(2)(i => rob_commit_items(i).is_ucread && cmt_en(i))
     val csr_diff_addr_cmt        = VecInit.fill(2)(priv_buffer.csr_addr)
