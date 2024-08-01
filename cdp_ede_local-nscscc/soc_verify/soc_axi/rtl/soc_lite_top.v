@@ -83,7 +83,7 @@ module soc_lite_top #(parameter SIMULATION=1'b0)
 );
 //debug signals
 wire [31:0] debug_wb_pc0,debug_wb_pc1   ;
-wire [3 :0] debug_wb_rf_we0,debug_wb_rf_we1;
+wire debug_wb_rf_we0,debug_wb_rf_we1;
 wire [4 :0] debug_wb_rf_wnum0, debug_wb_rf_wnum1;
 wire [31:0] debug_wb_rf_wdata0,debug_wb_rf_wdata1;
 wire debug_cmt0, debug_cmt1;
