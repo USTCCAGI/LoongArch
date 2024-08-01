@@ -135,17 +135,34 @@ reg [31:0] ref_wb_rf_wdata0, ref_wb_rf_wdata1;
 //        end
 //    end
 //end
+wire valid0, valid1;
+assign valid0 = |debug_wb_rf_we0 && debug_wb_rf_wnum0 != 5'd0;
+assign valid1 = |debug_wb_rf_we1 && debug_wb_rf_wnum1 != 5'd0;
 
 always @(posedge soc_clk) begin
     #1;
-    if(debug_cmt_en0 && |debug_wb_rf_we0 && debug_wb_rf_wnum0 != 5'd0 && !debug_end && `CONFREG_OPEN_TRACE) begin
-        if(debug_cmt_en1 && |debug_wb_rf_we1 && debug_wb_rf_wnum1 != 5'd0) begin
+    if(debug_cmt_en0 && debug_cmt_en1 && !debug_end && `CONFREG_OPEN_TRACE) begin
+        if(valid0 && valid1) begin
             trace_cmp_flag0 = 1'b0;
-            while (!trace_cmp_flag0 && !($feof(trace_ref))) begin
+            while(!trace_cmp_flag0 && !($feof(trace_ref))) begin
                 $fscanf(trace_ref, "%h %h %h %h %h %h %h %h", trace_cmp_flag0, ref_wb_pc0, ref_wb_rf_wnum0, ref_wb_rf_wdata0, trace_cmp_flag1, ref_wb_pc1, ref_wb_rf_wnum1, ref_wb_rf_wdata1);
             end
         end
-        else begin
+        else if(valid0 && !valid1) begin
+            trace_cmp_flag0 = 1'b0;
+            while(!trace_cmp_flag0 && !($feof(trace_ref))) begin
+                $fscanf(trace_ref, "%h %h %h %h", trace_cmp_flag0, ref_wb_pc0, ref_wb_rf_wnum0, ref_wb_rf_wdata0);
+            end
+        end
+        else if(!valid0 && valid1) begin
+            trace_cmp_flag1 = 1'b0;
+            while(!trace_cmp_flag1 && !($feof(trace_ref))) begin
+                $fscanf(trace_ref, "%h %h %h %h", trace_cmp_flag1, ref_wb_pc1, ref_wb_rf_wnum1, ref_wb_rf_wdata1);
+            end
+        end
+    end
+    else if(debug_cmt_en0 && !debug_cmt_en1 && !debug_end && `CONFREG_OPEN_TRACE) begin
+        if(valid0) begin
             trace_cmp_flag0 = 1'b0;
             while(!trace_cmp_flag0 && !($feof(trace_ref))) begin
                 $fscanf(trace_ref, "%h %h %h %h", trace_cmp_flag0, ref_wb_pc0, ref_wb_rf_wnum0, ref_wb_rf_wdata0);
@@ -212,17 +229,18 @@ always @(posedge soc_clk) begin
         debug_wb_err <= 1'b0;
     end
     else begin
-        if(debug_cmt_en0 && |debug_wb_rf_we0 && debug_wb_rf_wnum0 != 5'd0 && !debug_end && `CONFREG_OPEN_TRACE) begin
-            if(debug_cmt_en1 && |debug_wb_rf_we1 && debug_wb_rf_wnum1 != 5'd0) begin
-                if(debug_wb_pc0 != ref_wb_pc0 || debug_wb_pc1 != ref_wb_pc1 || debug_wb_rf_wnum0 != ref_wb_rf_wnum0 || debug_wb_rf_wnum1 != ref_wb_rf_wnum1 || debug_wb_rf_wdata_v0 != ref_wb_rf_wdata_v0 || debug_wb_rf_wdata_v1 != ref_wb_rf_wdata_v1) begin
+        if(debug_cmt_en0 && debug_cmt_en1 && !debug_end && `CONFREG_OPEN_TRACE) begin
+            if(valid0 && valid1) begin
+                if(debug_wb_pc0 != ref_wb_pc0 || debug_wb_pc1 != ref_wb_pc1 || debug_wb_rf_wnum0 != ref_wb_rf_wnum0 || debug_wb_rf_wnum1 != ref_wb_rf_wnum1 || 
+                   debug_wb_rf_wdata_v0 != ref_wb_rf_wdata_v0 || debug_wb_rf_wdata_v1 != ref_wb_rf_wdata_v1) begin
                     $display("--------------------------------------------------------------");
                     $display("[%t] Error!!!",$time);
                     $display("    reference: PC0 = 0x%8h, wb_rf_wnum0 = 0x%2h, wb_rf_wdata0 = 0x%8h",
                               ref_wb_pc0, ref_wb_rf_wnum0, ref_wb_rf_wdata_v0);
-                    $display("    reference: PC1 = 0x%8h, wb_rf_wnum1 = 0x%2h, wb_rf_wdata1 = 0x%8h",
-                              ref_wb_pc1, ref_wb_rf_wnum1, ref_wb_rf_wdata_v1);
                     $display("    mycpu    : PC0 = 0x%8h, wb_rf_wnum0 = 0x%2h, wb_rf_wdata0 = 0x%8h",
                               debug_wb_pc0, debug_wb_rf_wnum0, debug_wb_rf_wdata_v0);
+                    $display("    reference: PC1 = 0x%8h, wb_rf_wnum1 = 0x%2h, wb_rf_wdata1 = 0x%8h",
+                              ref_wb_pc1, ref_wb_rf_wnum1, ref_wb_rf_wdata_v1);
                     $display("    mycpu    : PC1 = 0x%8h, wb_rf_wnum1 = 0x%2h, wb_rf_wdata1 = 0x%8h",
                               debug_wb_pc1, debug_wb_rf_wnum1, debug_wb_rf_wdata_v1);
                     $display("--------------------------------------------------------------");
@@ -231,7 +249,37 @@ always @(posedge soc_clk) begin
                     $finish;
                 end
             end
-            else begin
+            else if(valid0 && !valid1) begin
+                if(debug_wb_pc0 != ref_wb_pc0 || debug_wb_rf_wnum0 != ref_wb_rf_wnum0 || debug_wb_rf_wdata_v0 != ref_wb_rf_wdata_v0) begin
+                    $display("--------------------------------------------------------------");
+                    $display("[%t] Error!!!",$time);
+                    $display("    reference: PC0 = 0x%8h, wb_rf_wnum0 = 0x%2h, wb_rf_wdata0 = 0x%8h",
+                              ref_wb_pc0, ref_wb_rf_wnum0, ref_wb_rf_wdata_v0);
+                    $display("    mycpu    : PC0 = 0x%8h, wb_rf_wnum0 = 0x%2h, wb_rf_wdata0 = 0x%8h",
+                              debug_wb_pc0, debug_wb_rf_wnum0, debug_wb_rf_wdata_v0);
+                    $display("--------------------------------------------------------------");
+                    debug_wb_err <= 1'b1;
+                    #40;
+                    $finish;
+                end
+            end
+            else if(!valid0 && valid1) begin
+                if(debug_wb_pc1 != ref_wb_pc1 || debug_wb_rf_wnum1 != ref_wb_rf_wnum1 || debug_wb_rf_wdata_v1 != ref_wb_rf_wdata_v1) begin
+                    $display("--------------------------------------------------------------");
+                    $display("[%t] Error!!!",$time);
+                    $display("    reference: PC1 = 0x%8h, wb_rf_wnum1 = 0x%2h, wb_rf_wdata1 = 0x%8h",
+                              ref_wb_pc1, ref_wb_rf_wnum1, ref_wb_rf_wdata_v1);
+                    $display("    mycpu    : PC1 = 0x%8h, wb_rf_wnum1 = 0x%2h, wb_rf_wdata1 = 0x%8h",
+                              debug_wb_pc1, debug_wb_rf_wnum1, debug_wb_rf_wdata_v1);
+                    $display("--------------------------------------------------------------");
+                    debug_wb_err <= 1'b1;
+                    #40;
+                    $finish;
+                end
+            end
+        end
+        else if(debug_cmt_en0 && !debug_cmt_en1 && !debug_end && `CONFREG_OPEN_TRACE) begin
+            if(valid0) begin
                 if(debug_wb_pc0 != ref_wb_pc0 || debug_wb_rf_wnum0 != ref_wb_rf_wnum0 || debug_wb_rf_wdata_v0 != ref_wb_rf_wdata_v0) begin
                     $display("--------------------------------------------------------------");
                     $display("[%t] Error!!!",$time);
