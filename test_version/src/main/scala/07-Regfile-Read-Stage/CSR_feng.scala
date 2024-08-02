@@ -68,7 +68,7 @@ class CSR_Regfile(PALEN: 32, TIMER_INIT_WIDTH: 30) extends Module{
     val trap        = io.exception
 
     //CRMD
-    val crmd        = RegInit(8.U(32.W))
+    val crmd        = RegInit(168.U(32.W))
     val prmd        = RegInit(0.U(32.W))
     when(trap(7)){
         crmd := crmd(31,3) ## 0.U(3.W)
