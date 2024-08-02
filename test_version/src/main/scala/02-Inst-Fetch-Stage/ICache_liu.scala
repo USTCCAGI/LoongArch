@@ -19,6 +19,10 @@ class ICache_IO extends Bundle{
     val addr_IF         = Input(UInt(32.W))
     val paddr_IF        = Input(UInt(32.W))
     val rvalid_IF       = Input(Bool())
+    val uncache_IF      = Input(Bool())
+    val cacop_en        = Input(Bool())
+    val cacop_op        = Input(UInt(2.W))
+    val has_cacop_IF    = Output(Bool())
 
     // RM Stage
     val cache_miss_RM   = Output(Bool())
@@ -108,11 +112,18 @@ class ICache extends Module{
     val validr = VecInit.tabulate(2)(i => tagmem(i).douta(TAG_WIDTH))
     val addr_sel = WireDefault(FROM_PIPE)
 
+    val cacop_en_IF = RegInit(false.B)
+    val cacop_op_IF = RegInit(0.U(2.W))
+    val cacop_addr_IF = RegInit(0.U(32.W))
+
 
     // segreg
     val vaddr_IF_RM = RegInit(0.U(32.W))
     val paddr_IF_RM = RegInit(0.U(32.W))
     val rvalid_IF_RM = RegInit(false.B)
+    val uncache_IF_RM = RegInit(false.B)
+    val cacop_en_IF_RM = RegInit(false.B)
+    val cacop_op_IF_RM = RegInit(0.U(2.W))
 
     // retbuf
     val rbuf = RegInit(0.U((8*OFFSET_NUM).W))
@@ -131,6 +142,9 @@ class ICache extends Module{
     val tag_we = WireDefault(VecInit.fill(2)(false.B))
     val inst_we = WireDefault(VecInit.fill(2)(false.B))
     val data_sel = WireDefault(FROM_BUF)
+    val uncache_RM = uncache_IF_RM
+    val cacop_en_RM = cacop_en_IF_RM
+    val cacop_op_RM = cacop_op_IF_RM
 
     //lru
     val lrumem = RegInit(VecInit.fill(INDEX_NUM)(0.U(1.W)))
@@ -143,6 +157,17 @@ class ICache extends Module{
         vaddr_IF_RM := vaddr_IF
         paddr_IF_RM := paddr_IF
         rvalid_IF_RM := rvalid_IF
+        uncache_IF_RM := io.uncache_IF
+        cacop_en_IF_RM := cacop_en_IF
+        cacop_op_IF_RM := cacop_op_IF
+    }
+
+    when(!cacop_en_IF){
+        cacop_en_IF := io.cacop_en
+        cacop_op_IF := io.cacop_op
+        cacop_addr_IF := io.paddr_IF
+    }.elsewhen(!(stall || cache_miss_RM.orR)){
+        cacop_en_IF := false.B
     }
 
     //mem logic
@@ -159,13 +184,16 @@ class ICache extends Module{
         instmem(i).clka := clock
     }
 
+    val cacop_way_RM = Mux(cacop_op_RM(1), hit_idx, paddr_RM(0))
+    val cacop_exec_RM = Mux(cacop_op_RM(1), cache_hit_RM, true.B)
+
     // read out
     val inst_line = Mux1H(hit, instmem.map(_.douta))
     val inst_group = VecInit.tabulate(OFFSET_NUM/4)(i => if(i == OFFSET_NUM/4-1) 0.U(32.W) ## inst_line(31+32*i, 32*i) else inst_line(63+32*i, 32*i))
     val inst_read = inst_group(offset_RM(OFFSET_WIDTH-1, 2))
     
     val ret_group = VecInit.tabulate(OFFSET_NUM/4)(i => if(i == OFFSET_NUM/4-1) 0.U(32.W) ## rbuf(31+32*i, 32*i) else rbuf(63+32*i, 32*i))
-    val ret_read = ret_group(offset_RM(OFFSET_WIDTH-1, 2))
+    val ret_read = Mux(uncache_RM, rbuf(8*OFFSET_NUM-1, 8*OFFSET_NUM-64), ret_group(offset_RM(OFFSET_WIDTH-1, 2)))
 
     val rdata = VecInit.tabulate(2)(i => Mux(data_sel === FROM_MEM, inst_read(31+32*i, 32*i), ret_read(31+32*i, 32*i)))
 
@@ -193,29 +221,40 @@ class ICache extends Module{
         is(s_idle){
             when(io.exception_RM){
                 cs := s_idle
+            }.elsewhen(cacop_en_RM){
+                cs := Mux(cacop_exec_RM, s_refill, s_idle)
+                addr_sel := Mux(cacop_exec_RM, FROM_SEG, FROM_PIPE)
+                cache_miss_RM := cacop_exec_RM
             }.elsewhen(rvalid_RM){
-                cs := Mux(cache_hit_RM, s_idle, s_miss)
-                lru_hit_upd := cache_hit_RM
-                cache_miss_RM := !cache_hit_RM
-                data_sel := FROM_MEM
-                addr_sel := Mux(stall, FROM_SEG, FROM_PIPE)
-                irvalid := cache_miss_RM
-                icache_visit := !stall
-                icache_miss := !cache_hit_RM
+                when(uncache_RM){
+                    cs := s_miss
+                    cache_miss_RM := true.B
+                    addr_sel := FROM_SEG
+                }.otherwise{
+                    cs := Mux(cache_hit_RM, s_idle, s_miss)
+                    lru_hit_upd := cache_hit_RM
+                    cache_miss_RM := !cache_hit_RM
+                    data_sel := FROM_MEM
+                    addr_sel := Mux(stall, FROM_SEG, FROM_PIPE)
+                    irvalid := cache_miss_RM
+                    icache_visit := !stall
+                    icache_miss := !cache_hit_RM
+                }
             }
         }
         is(s_miss){
             irvalid := true.B
             cache_miss_RM := true.B
-            cs := Mux(io.i_rready && io.i_rlast, s_refill, s_miss)
+            cs := Mux(io.i_rready && io.i_rlast, Mux(uncache_RM, s_wait, s_refill), s_miss)
             addr_sel := FROM_SEG
         }
         is(s_refill){
+            val tag_index = Mux(cacop_en_RM, cacop_way_RM, lru_sel)
             cs := s_wait
             cache_miss_RM := true.B
-            lru_miss_upd := true.B
-            tag_we(lru_sel) := true.B
-            inst_we(lru_sel) := true.B
+            lru_miss_upd := !cacop_en_RM
+            tag_we(tag_index) := true.B
+            inst_we(lru_sel) := !cacop_en_RM
             addr_sel := FROM_SEG
         }
         is(s_wait){
@@ -227,11 +266,12 @@ class ICache extends Module{
     // output
     io.cache_miss_RM := cache_miss_RM
     io.rdata_RM := rdata
-    io.i_araddr := tag_RM ## index_RM ## 0.U(OFFSET_WIDTH.W)
+    io.i_araddr := Mux(uncache_RM, paddr_RM, tag_RM ## index_RM ## 0.U(OFFSET_WIDTH.W))
     io.i_rvalid := irvalid
     io.i_rsize := 2.U
     io.i_rburst := 1.U
-    io.i_rlen := (8*OFFSET_NUM/32-1).U
+    io.i_rlen := Mux(uncache_RM, 1.U, (8*OFFSET_NUM/32-1).U)
+    io.has_cacop_IF := cacop_en_IF
 
     io.commit_icache_miss := icache_miss
     io.commit_icache_visit := icache_visit
