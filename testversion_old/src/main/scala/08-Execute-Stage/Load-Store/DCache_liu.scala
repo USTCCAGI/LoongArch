@@ -317,8 +317,8 @@ class DCache extends Module{
         is(w_idle){
             when(wfsm_en){
                 wcs := Mux(is_dirty, w_write, w_over)
+                cnt_rst := true.B
             }
-            cnt_rst := true.B
         }
         is(w_write){
             wcs := Mux(io.d_bvalid, w_over, w_write)
