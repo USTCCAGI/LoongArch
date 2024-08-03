@@ -99,16 +99,16 @@ class MMU extends Module{
     val i_csr_dmw1 = RegNext(io.csr_dmw1)
 
     // i_paddr
-    // val i_dmw0_hit = (!(io.i_vaddr(31, 29) ^ i_csr_dmw0(31, 29))) && i_csr_dmw0(3, 0)(io.csr_plv)
+    val i_dmw0_hit = (!(io.i_vaddr(31, 29) ^ i_csr_dmw0(31, 29))) && i_csr_dmw0(3, 0)(io.csr_plv)
     // val i_dmw1_hit = (!(io.i_vaddr(31, 29) ^ i_csr_dmw1(31, 29))) && i_csr_dmw1(3, 0)(io.csr_plv)
-    // io.i_paddr   := Mux(is_da, io.i_vaddr, 
-    //                 Mux(i_dmw0_hit, i_csr_dmw0(27, 25) ## io.i_vaddr(28, 0), 
-    //                 Mux(i_dmw1_hit, i_csr_dmw1(27, 25) ## io.i_vaddr(28, 0), tlb.io.i_paddr)))
-    // io.i_uncache := Mux(is_da, !io.csr_crmd_trans(2), 
-    //                 Mux(i_dmw0_hit, !i_csr_dmw0(4),
-    //                 Mux(i_dmw1_hit, !i_csr_dmw1(4), tlb.io.i_uncache)))
-    io.i_paddr   := io.i_vaddr
-    io.i_uncache := !io.csr_crmd_trans(2)
+    io.i_paddr   := Mux(is_da, io.i_vaddr, 
+                    Mux(i_dmw0_hit, i_csr_dmw0(27, 25) ## io.i_vaddr(28, 0)))
+                    // Mux(i_dmw1_hit, i_csr_dmw1(27, 25) ## io.i_vaddr(28, 0), tlb.io.i_paddr)))
+    io.i_uncache := Mux(is_da, !io.csr_crmd_trans(2), 
+                    Mux(i_dmw0_hit, !i_csr_dmw0(4)))
+                    // Mux(i_dmw1_hit, !i_csr_dmw1(4), tlb.io.i_uncache)))
+    // io.i_paddr   := io.i_vaddr
+    // io.i_uncache := !io.csr_crmd_trans(2)
 
     // val i_exception_ne = ShiftRegister(is_da || i_dmw0_hit || i_dmw1_hit, 1, !io.i_stall)
     // io.i_exception := Mux(i_exception_ne, 0.U, tlb.io.i_exception)
@@ -123,16 +123,16 @@ class MMU extends Module{
     val d_is_pg    = RegNext(is_pg)
     val d_vaddr    = ShiftRegister(io.d_vaddr, 1, !io.d_stall)
     // d_paddr
-    // val d_dmw0_hit = (!(d_vaddr(31, 29) ^ d_csr_dmw0(31, 29))) && d_csr_dmw0(3, 0)(d_csr_plv)
+    val d_dmw0_hit = (!(d_vaddr(31, 29) ^ d_csr_dmw0(31, 29))) && d_csr_dmw0(3, 0)(d_csr_plv)
     // val d_dmw1_hit = (!(d_vaddr(31, 29) ^ d_csr_dmw1(31, 29))) && d_csr_dmw1(3, 0)(d_csr_plv)
-    // io.d_paddr   := Mux(d_is_da, d_vaddr,
-    //                 Mux(d_dmw0_hit, d_csr_dmw0(27, 25) ## d_vaddr(28, 0), 
-    //                 Mux(d_dmw1_hit, d_csr_dmw1(27, 25) ## d_vaddr(28, 0), tlb.io.d_paddr)))
-    // io.d_uncache := Mux(d_is_da, !io.csr_crmd_trans(4), 
-    //                 Mux(d_dmw0_hit, !d_csr_dmw0(4),
-    //                 Mux(d_dmw1_hit, !d_csr_dmw1(4), tlb.io.d_uncache)))
-    io.d_paddr   := d_vaddr
-    io.d_uncache := !io.csr_crmd_trans(4)
+    io.d_paddr   := Mux(d_is_da, d_vaddr,
+                    Mux(d_dmw0_hit, d_csr_dmw0(27, 25) ## d_vaddr(28, 0)))
+                    // Mux(d_dmw1_hit, d_csr_dmw1(27, 25) ## d_vaddr(28, 0), tlb.io.d_paddr)))
+    io.d_uncache := Mux(d_is_da, !io.csr_crmd_trans(4), 
+                    Mux(d_dmw0_hit, !d_csr_dmw0(4)))
+                    // Mux(d_dmw1_hit, !d_csr_dmw1(4), tlb.io.d_uncache)))
+    // io.d_paddr   := d_vaddr
+    // io.d_uncache := !io.csr_crmd_trans(4)
     // val d_exception_ne = d_is_da || d_dmw0_hit || d_dmw1_hit
     // io.d_exception := Mux(d_exception_ne, 0.U, tlb.io.d_exception)
     io.d_exception := 0.U
