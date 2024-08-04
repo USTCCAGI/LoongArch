@@ -47,7 +47,7 @@ class ALU extends Module {
             result := src1 << (src2(4,0))
         }
         is(ALU_SRA){//9
-            result := src1 >> (src2(4,0))
+            result := (src1.asSInt >> src2(4, 0)).asUInt
         }
         is(ALU_SRL){//10
             result := src1 >> (src2(4,0))
