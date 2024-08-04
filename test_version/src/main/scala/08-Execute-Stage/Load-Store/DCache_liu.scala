@@ -118,7 +118,7 @@ class DCache extends Module{
     val cacop_en_reg_EX_MEM         = ShiftRegister(cacop_en_reg_RF_EX, 1, false.B, TC_MEM_en)
     val cacop_op_reg_EX_MEM         = ShiftRegister(cacop_op_reg_RF_EX, 1, 0.U(2.W), TC_MEM_en)
     val flush_EX_MEM                = ShiftRegister(Mux(io.flush, io.flush, flush_RF_EX), 1, false.B, TC_MEM_en || io.flush)
-    val cmem_rdata_reg_EX_MEM       = ShiftRegister(cmem_rdata_EX, 1, VecInit.fill(2)(0.U(32.W)), TC_MEM_en)
+    val cmem_rdata_reg_EX_MEM       = ShiftRegister(cmem_rdata_EX, 1, VecInit.fill(2)(0.U((OFFSET_DEPTH*8).W)), TC_MEM_en)
     val mem_type_reg_EX_MEM_backup  = ShiftRegister(VecInit.fill(5)(Mux(mem_type_reg_RF_EX(3) || uncache_EX || store_cmt_reg_RF_EX, mem_type_reg_RF_EX, 0.U)), 1, VecInit.fill(5)(0.U(5.W)), TC_MEM_en)
 
     val exception_MEM               = ShiftRegister(io.exception_MEM, 1, false.B)
