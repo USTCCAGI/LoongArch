@@ -64,14 +64,14 @@ object RF_Func{
 }
 
 
-//object SB_Struct {
-//    class sb_t extends Bundle{
-//        val addr = UInt(32.W)
-//        val data = UInt(32.W)
-//        val wstrb = UInt(4.W)
-//        val uncache = Bool()
-//    }
-//}
+object SB_Struct {
+   class sb_t extends Bundle{
+       val addr = UInt(32.W)
+       val data = UInt(32.W)
+       val wstrb = UInt(4.W)
+       val uncache = Bool()
+   }
+}
 
 object TLB_Struct {
     import Exception._
