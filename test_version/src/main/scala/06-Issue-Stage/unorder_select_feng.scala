@@ -5,49 +5,35 @@ import Issue_Queue_Struct._
 import CPU_Config._
 
 class Unorder_Select_IO[T <: inst_pack_DP_t](n: Int, inst_pack_t: T) extends Bundle {
-    val insts_issue         = Input(Vec(n, new issue_queue_t(inst_pack_t)))
-    val issue_req           = Input(Vec(n, Bool()))
-    val stall               = Input(Bool())
+    val insts_issue         = Input(Vec(n, new issue_queue_t(inst_pack_t)))//发射队列传来的指令包
+    val issue_req           = Input(Vec(n, Bool()))//发射队列的请求
+    val stall               = Input(Bool())//是否stall
 
-    val issue_ack           = Output(Vec(n, Bool()))
-    val wake_preg           = Output(UInt(log2Ceil(PREG_NUM).W))
-    // val priv_issued         = Output(Bool())
+    val issue_ack           = Output(Vec(n, Bool())) //发射队列传来的ack
+    val wake_preg           = Output(UInt(log2Ceil(PREG_NUM).W))  //通知发射队列是否唤醒
 
-    val inst_issue          = Output(new issue_queue_t(inst_pack_t))
-    val inst_issue_valid    = Output(Bool())
+    val inst_issue          = Output(new issue_queue_t(inst_pack_t)) //给下级传去的指令
+    val inst_issue_valid    = Output(Bool())   //指令有效否
 }
 
 class Unorder_Select[T <: inst_pack_DP_t](n: Int, inst_pack_t: T) extends Module {
     val io                  = IO(new Unorder_Select_IO(n, inst_pack_t))
 
-    // val select_index        = PriorityEncoder(io.issue_req)
-    // val issue_ack           = UIntToOH(select_index)(n-1, 0)
-    // val issue_ack_vec       = VecInit(issue_ack.asBools)
-    // io.issue_ack            := Mux(io.issue_req.asUInt.orR && !io.stall, issue_ack_vec, 0.U.asTypeOf(Vec(n, Bool())))
+    val select     = PriorityEncoderOH(io.issue_req)
+    val inst       = Mux1H(select, io.insts_issue)
+    val choice     = io.issue_req.asUInt.orR && !io.stall  //是否可选
+    when(choice === 1.U){
+        //可选 默认只要有请求，就有指令被发射
+        io.issue_ack := VecInit(select)
+        io.inst_issue_valid := 1.U
+        io.inst_issue := inst
+        io.wake_preg  := Mux1H(select, io.insts_issue.map(_.inst.asInstanceOf[inst_pack_DP_t].prd))
 
-    
-    // io.wake_preg            := Mux(io.issue_ack.asUInt.orR, io.insts_issue(select_index).inst.asInstanceOf[inst_pack_DP_t].prd, 0.U)
-    
-    // val inst_issue          = io.insts_issue(select_index)
-    // val bubble_inst_issue   = 0.U.asTypeOf(new issue_queue_t(inst_pack_t))
-    // io.inst_issue           := Mux(io.issue_ack.asUInt.orR, inst_issue, bubble_inst_issue)
-    // io.inst_issue_valid     := io.issue_ack.asUInt.orR
-    io.issue_ack := VecInit(Seq.fill(n)(0.U))
-    io.inst_issue_valid := 0.U
-    io.inst_issue := 0.U.asTypeOf(new issue_queue_t(inst_pack_t))
-    io.wake_preg := 0.U
-    
-    val select_indexOH        = PriorityEncoderOH(io.issue_req)
-    val issue_ack             = select_indexOH
-    val issue_ack_vec         = VecInit(issue_ack)
-    io.issue_ack              := Mux(io.issue_req.asUInt.orR && !io.stall, issue_ack_vec, 0.U.asTypeOf(Vec(n, Bool())))
-
-    io.wake_preg              := Mux(io.issue_ack.asUInt.orR, Mux1H(select_indexOH, io.insts_issue.map(_.inst.asInstanceOf[inst_pack_DP_t].prd)), 0.U)
-
-    val inst_issue            = Mux1H(select_indexOH, io.insts_issue)
-    val bubble_inst_issue     = 0.U.asTypeOf(new issue_queue_t(inst_pack_t))
-    io.inst_issue             := Mux(io.issue_ack.asUInt.orR, inst_issue, bubble_inst_issue)
-    io.inst_issue_valid       := io.issue_ack.asUInt.orR
-
+    }.otherwise{
+        //不可选
+        io.issue_ack := VecInit(Seq.fill(n)(0.U))
+        io.inst_issue_valid := 0.U
+        io.inst_issue := 0.U.asTypeOf(new issue_queue_t(inst_pack_t))
+        io.wake_preg := 0.U
+    }
 }
-
