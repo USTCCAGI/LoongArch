@@ -123,8 +123,8 @@ class ROB(n: Int) extends Module{
  
     /* ROB ptrs */
     val head        = RegInit(0.U(log2Ceil(n).W))
-    val head_next = RegInit(1.U(log2Ceil(n).W))
-    val head_each   = VecInit(head, head_next)
+    val head_plus_1 = RegInit(1.U(log2Ceil(n).W))
+    val head_each   = VecInit(head, head_plus_1)
     // val head_each   = VecInit.tabulate(2)(i => head + i.U(log2Ceil(n).W)))
     val tail        = RegInit(0.U(log2Ceil(neach).W))
     val elem_num    = RegInit(VecInit.fill(10)(VecInit.fill(2)(0.U((log2Ceil(neach)+1).W))))
@@ -297,7 +297,7 @@ class ROB(n: Int) extends Module{
     // update ptrs
     val cmt_num                 = PopCount(cmt_en)
     head                        := Mux(io.predict_fail_cmt(0) || predict_fail_cmt, 0.U, Mux(head + cmt_num >= n.U, head + cmt_num - n.U, head + cmt_num))
-    head_next                 := Mux(io.predict_fail_cmt(0) || predict_fail_cmt, 1.U, Mux(head_next + cmt_num >= n.U, head_next + cmt_num - n.U, head_next + cmt_num))                 
+    head_plus_1                 := Mux(io.predict_fail_cmt(0) || predict_fail_cmt, 1.U, Mux(head_plus_1 + cmt_num >= n.U, head_plus_1 + cmt_num - n.U, head_plus_1 + cmt_num))                 
     val head_inc                = VecInit.fill(2)(false.B)
     for(i <- 0 until 2){
         head_inc(hsel_idx(i))   := cmt_en(i)

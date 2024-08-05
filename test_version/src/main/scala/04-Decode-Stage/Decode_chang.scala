@@ -27,41 +27,41 @@ class Decode extends Module{
     val io = IO(new DecodeIO)
     val control_signal = ListLookup(io.inst, Decode_Map.default, Decode_Map.map)
 
-    when(control_signal(0).asBool){
-        io.rj := io.inst(9, 5)
-    }.otherwise{
-        io.rj := 0.U(5.W)
-    }
+    // when(control_signal(0).asBool){
+    //     io.rj := io.inst(9, 5)
+    // }.otherwise{
+    //     io.rj := 0.U(5.W)
+    // }
 
-    when(control_signal(1).asBool){
-        when(control_signal(9)(0).asBool){
-            io.rk := io.inst(14, 10)
-        }.otherwise{
-            io.rk := io.inst(4, 0)
-        }
-    }.otherwise{
-        io.rk := 0.U(5.W)
-    }
+    // when(control_signal(1).asBool){
+    //     when(control_signal(9)(0).asBool){
+    //         io.rk := io.inst(14, 10)
+    //     }.otherwise{
+    //         io.rk := io.inst(4, 0)
+    //     }
+    // }.otherwise{
+    //     io.rk := 0.U(5.W)
+    // }
 
-    def RD_Gen(inst: UInt, control_signal: UInt): UInt = {
-        val rd = Wire(UInt(5.W))
-        rd := DontCare
-        switch(control_signal) {
-            is(Control_Signal.RD)    { rd := inst(4, 0) }
-            is(Control_Signal.R1)    { rd := 1.U(5.W) }
-            is(Control_Signal.RJ)    { rd := inst(9, 5) }
-        }
-        rd
-    }
-    io.rd := RD_Gen(io.inst, control_signal(10))
-    // io.rj               := Mux(control_signal(0).asBool, io.inst(9, 5), 0.U(5.W))
+    // def RD_Gen(inst: UInt, control_signal: UInt): UInt = {
+    //     val rd = Wire(UInt(5.W))
+    //     rd := DontCare
+    //     switch(control_signal) {
+    //         is(Control_Signal.RD)    { rd := inst(4, 0) }
+    //         is(Control_Signal.R1)    { rd := 1.U(5.W) }
+    //         is(Control_Signal.RJ)    { rd := inst(9, 5) }
+    //     }
+    //     rd
+    // }
+    // io.rd := RD_Gen(io.inst, control_signal(10))
+    io.rj               := Mux(control_signal(0).asBool, io.inst(9, 5), 0.U(5.W))
 
-    // io.rk               := Mux(control_signal(1).asBool, Mux(control_signal(9)(0).asBool, io.inst(14, 10), io.inst(4, 0)), 0.U)
+    io.rk               := Mux(control_signal(1).asBool, Mux(control_signal(9)(0).asBool, io.inst(14, 10), io.inst(4, 0)), 0.U)
 
-    // io.rd               := MuxLookup(control_signal(10), io.inst(4, 0))(Seq(
-    //                         Control_Signal.RD    -> io.inst(4, 0),
-    //                         Control_Signal.R1    -> 1.U(5.W),
-    //                         Control_Signal.RJ    -> io.inst(9, 5)))
+    io.rd               := MuxLookup(control_signal(10), io.inst(4, 0))(Seq(
+                            Control_Signal.RD    -> io.inst(4, 0),
+                            Control_Signal.R1    -> 1.U(5.W),
+                            Control_Signal.RJ    -> io.inst(9, 5)))
 
 
     io.rd_valid := control_signal(2) & (io.rd =/= 0.U(5.W))

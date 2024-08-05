@@ -183,4 +183,3 @@ object Control_Signal{
     val IMM_14S   = 11.U(4.W)
 
 }
-
