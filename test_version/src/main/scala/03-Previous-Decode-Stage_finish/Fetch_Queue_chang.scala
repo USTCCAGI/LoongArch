@@ -34,11 +34,11 @@ class Fetch_Queue extends Module{
     val head = RegInit(1.U(ROW_WIDTH.W))
     val rear = mask_0 | mask_1
 
-    // val full = (head === rotate_left(rear, 1))
-    // val empty = (head === rear)
+    val full = (head === rotate_left(rear, 1))
+    val empty = (head === rear)
 
-    val full = (head & rotate_left(rear, 1)).orR
-    val empty = (head & rear).orR
+    // val full = (head & rotate_left(rear, 1)).orR
+    // val empty = (head & rear).orR
 
     io.full := full
 

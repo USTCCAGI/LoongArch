@@ -31,8 +31,8 @@ class Free_List(n: Int) extends Module{
     val rear_init = VecInit.tabulate(n)(i => (i.U === (n-1).U)).asUInt
 
     
-    //io.empty := (head === rear) || (rotate_left_1(head) === rear)
-    io.empty := VecInit.tabulate(2)(i => (VecInit(head, rotate_left_1(head))(i) & rear).orR).asUInt.orR
+    io.empty := (head === rear) || (rotate_left_1(head) === rear)
+    // io.empty := VecInit.tabulate(2)(i => (VecInit(head, rotate_left_1(head))(i) & rear).orR).asUInt.orR
 
     //Dequeue -- allocate new physical register
     val head_pre    = Wire(Vec(2, UInt(n.W)))

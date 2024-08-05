@@ -5,8 +5,8 @@ import chisel3.util._
 object CPU_Config{
     val RESET_VEC       = 0x1c000000
     val FQ_NUM          = 8
-    val PREG_NUM        = 64
-    val ROB_NUM         = 32
+    val PREG_NUM        = 54
+    val ROB_NUM         = 24
     val SB_NUM          = 4
     val IQ_AP_NUM       = 6
     val IQ_AB_NUM       = 6
@@ -16,18 +16,18 @@ object CPU_Config{
 }
 
 object Predict_Config {
-   val BTB_INDEX_WIDTH = 7
-   val BTB_TAG_WIDTH   = 28 - BTB_INDEX_WIDTH
-   val BTB_DEPTH       = 1 << BTB_INDEX_WIDTH
-   val BHT_INDEX_WIDTH = 6
-   val BHT_DEPTH       = 1 << BHT_INDEX_WIDTH
-   val PHT_INDEX_WIDTH = 6
-   val PHT_DEPTH       = 1 << PHT_INDEX_WIDTH
+    val BTB_INDEX_WIDTH = 7
+    val BTB_TAG_WIDTH   = 28 - BTB_INDEX_WIDTH
+    val BTB_DEPTH       = 1 << BTB_INDEX_WIDTH
+    val BHT_INDEX_WIDTH = 6
+    val BHT_DEPTH       = 1 << BHT_INDEX_WIDTH
+    val PHT_INDEX_WIDTH = 6
+    val PHT_DEPTH       = 1 << PHT_INDEX_WIDTH
 
-   val RET       = 1.U(2.W)
-   val BL        = 2.U(2.W)
-   val ICALL     = 3.U(2.W)
-   val ELSE      = 0.U(2.W)
+    val RET       = 1.U(2.W)
+    val BL        = 2.U(2.W)
+    val ICALL     = 3.U(2.W)
+    val ELSE      = 0.U(2.W)
 }
 
 object ICache_Config{
@@ -46,21 +46,21 @@ object ICache_Config{
     val FROM_SEG  = 1.U(1.W)
 }
 
-//object DCache_Config{
-//    val INDEX_WIDTH = 5
-//    val INDEX_DEPTH = 1 << INDEX_WIDTH
-//
-//    val OFFSET_WIDTH = 5
-//    val OFFSET_DEPTH = 1 << OFFSET_WIDTH
-//
-//    val TAG_WIDTH = 32 - INDEX_WIDTH - OFFSET_WIDTH
-//
-//    val FROM_CMEM = 0.U(1.W)
-//    val FROM_RBUF = 1.U(1.W)
-//
-//    val FROM_PIPE = 0.U(1.W)
-//    val FROM_SEG  = 1.U(1.W)
-//}
+object DCache_Config{
+    val INDEX_WIDTH = 5
+    val INDEX_DEPTH = 1 << INDEX_WIDTH
+
+    val OFFSET_WIDTH = 5
+    val OFFSET_DEPTH = 1 << OFFSET_WIDTH
+
+    val TAG_WIDTH = 32 - INDEX_WIDTH - OFFSET_WIDTH
+
+    val FROM_CMEM = 0.U(1.W)
+    val FROM_RBUF = 1.U(1.W)
+
+    val FROM_PIPE = 0.U(1.W)
+    val FROM_SEG  = 1.U(1.W)
+}
 
 object PreDecode_Config {
 

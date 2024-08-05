@@ -160,7 +160,7 @@ class CPU extends Module {
 
     /* ---------- 1. Previous Fetch Stage ---------- */
     // PC
-    pc.io.pc_stall                  := fq.io.full || icache.io.cache_miss_RM //|| icache.io.has_cacop_IF
+    pc.io.pc_stall                  := fq.io.full || icache.io.cache_miss_RM || icache.io.has_cacop_IF
     pc.io.predict_fail              := rob.io.predict_fail_cmt(0)
     pc.io.branch_target             := rob.io.branch_target_cmt
     pc.io.pred_jump                 := predict.io.predict_jump
@@ -195,7 +195,7 @@ class CPU extends Module {
     /* ---------- PF-IF SegReg ---------- */
     val pcs_PF                      = VecInit(pc.io.pc_PF(8), pc.io.pc_PF(8) + 4.U)
     pi_reg.io.flush                 := rob.io.predict_fail_cmt(0) || (!fq.io.full && pd.io.pred_fix)
-    pi_reg.io.stall                 := fq.io.full || icache.io.cache_miss_RM //|| icache.io.has_cacop_IF
+    pi_reg.io.stall                 := fq.io.full || icache.io.cache_miss_RM || icache.io.has_cacop_IF
     pi_reg.io.inst_pack_PF          := VecInit.tabulate(2)(i => inst_pack_PF_gen(pcs_PF(i), pc.io.inst_valid_PF(i), predict.io.predict_jump(i), predict.io.pred_npc, predict.io.pred_valid(i), pc.io.exception_PF,
                                                             (pcs_PF(i)(31, 28) + 1.U)(3, 0) ## 0.U(28.W), (pcs_PF(i)(31, 28) - 1.U)(3, 0) ## 0.U(28.W), (pcs_PF(i)(31, 18) + 1.U)(13, 0) ## 0.U(18.W), (pcs_PF(i)(31, 18) - 1.U)(13, 0) ## 0.U(18.W)))
 
@@ -204,14 +204,14 @@ class CPU extends Module {
     icache.io.addr_IF               := Mux(RegNext(re_reg4.io.inst_pack_EX.priv_vec(0)), RegNext(re_reg4.io.src1_EX), pc.io.pc_PF(9))
     icache.io.rvalid_IF             := !reset.asBool 
     icache.io.paddr_IF              := Mux(RegNext(re_reg4.io.inst_pack_EX.priv_vec(0)), RegNext(mmu.io.d_paddr), mmu.io.i_paddr)
-    //icache.io.uncache_IF            := mmu.io.i_uncache 
+    icache.io.uncache_IF            := mmu.io.i_uncache 
     icache.io.stall                 := fq.io.full
     icache.io.flush                 := false.B
     icache.io.i_rready              := arb.io.i_rready
     icache.io.i_rdata               := arb.io.i_rdata
     icache.io.i_rlast               := arb.io.i_rlast
-    //icache.io.cacop_en              := RegNext(re_reg4.io.inst_pack_EX.priv_vec(0)) && RegNext(re_reg4.io.inst_pack_EX.imm(2, 0) === 0.U)
-    //icache.io.cacop_op              := RegNext(re_reg4.io.inst_pack_EX.imm(4, 3))
+    icache.io.cacop_en              := RegNext(re_reg4.io.inst_pack_EX.priv_vec(0)) && RegNext(re_reg4.io.inst_pack_EX.imm(2, 0) === 0.U)
+    icache.io.cacop_op              := RegNext(re_reg4.io.inst_pack_EX.imm(4, 3))
     icache.io.exception_RM          := mmu.io.i_exception(7)
 
     /* ---------- IF-PD SegReg ---------- */
@@ -300,19 +300,19 @@ class CPU extends Module {
     rob.io.inst_dp                  := dr_reg.io.inst_RN
     
     
-    /* ---------- 6. Issue Stage ---------- */  //这里是发射模块
-    // 1. arith1, common calculate  //一路
-    // issue queue    接收1.inst包 2.包中的第几号指令 3.包中的指令是否有效
+    /* ---------- 6. Issue Stage ---------- */
+    // 1. arith1, common calculate
+    // issue queue
     iq1.io.insts_dispatch           := VecInit.tabulate(2)(i => inst_pack_DP_FU1_gen(dp.io.inst_packs(i), rob.io.rob_index_dp(i)))
     iq1.io.insts_disp_index         := dp.io.insts_disp_index(0)
     iq1.io.insts_disp_valid         := dp.io.insts_disp_valid(0)
-    iq1.io.prj_ready                := prj_ready  //input，从rename段过来的prj_ready
-    iq1.io.prk_ready                := prk_ready  //input，从rename段过来的prk_ready
-    iq1.io.issue_ack                := sel1.io.issue_ack  //input
-    iq1.io.flush                    := rob.io.predict_fail_cmt(6)  //input  分支预测失败
-    iq1.io.stall                    := stall_by_iq || rob.io.full(5) //input //发射队列满或者rob满
-    iq1.io.ld_mem_prd               := ls_ex_mem_reg.io.prd_MEM(0)  //input 从load段过来的prd，用于唤醒
-    iq1.io.dcache_miss              := dcache.io.cache_miss_iq(0)  //input  //icache访问miss
+    iq1.io.prj_ready                := prj_ready
+    iq1.io.prk_ready                := prk_ready
+    iq1.io.issue_ack                := sel1.io.issue_ack
+    iq1.io.flush                    := rob.io.predict_fail_cmt(6)
+    iq1.io.stall                    := stall_by_iq || rob.io.full(5)
+    iq1.io.ld_mem_prd               := ls_ex_mem_reg.io.prd_MEM(0)
+    iq1.io.dcache_miss              := dcache.io.cache_miss_iq(0)
 
     // select   
     sel1.io.insts_issue             := iq1.io.insts_issue
@@ -376,15 +376,12 @@ class CPU extends Module {
     sel4.io.insts_issue             := iq4.io.insts_issue
     sel4.io.issue_req               := iq4.io.issue_req
     sel4.io.stall                   := !(iq4.io.issue_req.asUInt.orR) || ir_reg4.io.stall || ShiftRegister(ir_reg4.io.stall, 1)
-    // mutual wakeup  如何唤醒
-    //线内唤醒，线间唤醒，输入分别为一路二路唤醒，三路prd和四路prd
+    // mutual wakeup
     val iq_inline_wake_preg         = VecInit(sel1.io.wake_preg, 
                                               sel2.io.wake_preg, 
                                               Mux(!mdu.io.busy(17), md_ex2_ex3_reg.io.inst_pack_EX2.prd, 0.U),
                                               re_reg4.io.inst_pack_EX.prd)
-        
-        //4个写回的prd用于决定旁路是否唤醒
-        //输入为一路二路三路四路写回的prd
+
     val iq_mutual_wake_preg         = VecInit(ir_reg1.io.inst_pack_RF.prd,
                                               ir_reg2.io.inst_pack_RF.prd,
                                               Mux(!mdu.io.busy(18), md_ex2_ex3_reg.io.inst_pack_EX2.prd, 0.U),
@@ -433,16 +430,16 @@ class CPU extends Module {
 
     // CSR Regfile      
     csr_rf.io.raddr                 := ir_reg3.io.inst_pack_RF.imm(13, 0)
-    csr_rf.io.wdata                 := rob.io.csr_wdata_cmt //指令修改CSR
-    csr_rf.io.waddr                 := rob.io.csr_addr_cmt  //指令修改CSR
-    csr_rf.io.we                    := rob.io.csr_we_cmt    //
+    csr_rf.io.wdata                 := rob.io.csr_wdata_cmt
+    csr_rf.io.waddr                 := rob.io.csr_addr_cmt
+    csr_rf.io.we                    := rob.io.csr_we_cmt
     csr_rf.io.exception             := rob.io.exception_cmt
     csr_rf.io.badv_exp              := rob.io.badv_cmt
     csr_rf.io.is_eret               := rob.io.is_eret_cmt
     csr_rf.io.pc_exp                := rob.io.pred_pc_cmt
-    csr_rf.io.interrupt             := 0.U //硬中断
-    csr_rf.io.ip_int                := false.B    //核间中断
-    csr_rf.io.tlbentry_in           := rob.io.tlbentry_cmt 
+    csr_rf.io.interrupt             := 0.U
+    csr_rf.io.ip_int                := false.B
+    csr_rf.io.tlbentry_in           := rob.io.tlbentry_cmt
     csr_rf.io.tlbrd_en              := rob.io.tlbrd_en_cmt
     csr_rf.io.tlbsrch_en            := rob.io.tlbsrch_en_cmt
     csr_rf.io.llbit_clear           := rob.io.llbit_clear_cmt
@@ -452,8 +449,8 @@ class CPU extends Module {
     re_reg1.io.flush                := rob.io.predict_fail_cmt(8)
     re_reg1.io.stall                := false.B
     re_reg1.io.inst_pack_RF         := ir_reg1.io.inst_pack_RF
-    re_reg1.io.src1_RF              := rf.io.prj_data(0)//src1
-    re_reg1.io.src2_RF              := rf.io.prk_data(0) //src2
+    re_reg1.io.src1_RF              := rf.io.prj_data(0)
+    re_reg1.io.src2_RF              := rf.io.prk_data(0)
     re_reg1.io.csr_rdata_RF         := DontCare
 
     re_reg2.io.flush                := rob.io.predict_fail_cmt(8)

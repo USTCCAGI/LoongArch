@@ -3,13 +3,13 @@ import chisel3.util._
 
 /* Predict Struct */
 object Predict_Struct{
-   import Predict_Config._
-   class btb_t extends Bundle{
-       val valid       = Bool()
-       val target      = UInt(30.W)
-       val tag         = UInt(BTB_TAG_WIDTH.W)
-       val typ         = UInt(2.W)
-   }
+    import Predict_Config._
+    class btb_t extends Bundle{
+        val valid       = Bool()
+        val target      = UInt(30.W)
+        val tag         = UInt(BTB_TAG_WIDTH.W)
+        val typ         = UInt(2.W)
+    }
 }
 /* ICache Item */
 object ICache_Struct{
@@ -64,14 +64,14 @@ object RF_Func{
 }
 
 
-//object SB_Struct {
-//    class sb_t extends Bundle{
-//        val addr = UInt(32.W)
-//        val data = UInt(32.W)
-//        val wstrb = UInt(4.W)
-//        val uncache = Bool()
-//    }
-//}
+object SB_Struct {
+    class sb_t extends Bundle{
+        val addr = UInt(32.W)
+        val data = UInt(32.W)
+        val wstrb = UInt(4.W)
+        val uncache = Bool()
+    }
+}
 
 object TLB_Struct {
     import Exception._
