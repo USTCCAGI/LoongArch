@@ -1,0 +1,384 @@
+%Warning-DECLFILENAME: ../testbench/difftest.v:67:3: Filename 'difftest' does not match MODULE name: 'DifftestInstrCommit'
+   67 |   DifftestInstrCommit(
+      |   ^~~~~~~~~~~~~~~~~~~
+                       ... For warning description see https://verilator.org/warn/DECLFILENAME?v=5.025
+                       ... Use "/* verilator lint_off DECLFILENAME */" and lint_on around source to disable this message.
+%Warning-DECLFILENAME: /home/feng1702/longarc/chiplab-chiplab_diff/IP/myCPU/core_top.sv:2:8: Filename 'core_top' does not match MODULE name: 'mycpu_top'
+    2 | module mycpu_top(
+      |        ^~~~~~~~~
+%Warning-DECLFILENAME: /home/feng1702/longarc/chiplab-chiplab_diff/IP/CONFREG/confreg_sim.v:104:8: Filename 'confreg_sim' does not match MODULE name: 'confreg'
+  104 | module confreg
+      |        ^~~~~~~
+%Warning-DECLFILENAME: /home/feng1702/longarc/chiplab-chiplab_diff/IP/AMBA/axi2apb.v:36:8: Filename 'axi2apb' does not match MODULE name: 'axi2apb_bridge'
+   36 | module axi2apb_bridge(
+      |        ^~~~~~~~~~~~~~
+%Warning-DECLFILENAME: /home/feng1702/longarc/chiplab-chiplab_diff/IP/AMBA/axi_mux_sim.v:37:8: Filename 'axi_mux_sim' does not match MODULE name: 'axi_slave_mux'
+   37 | module axi_slave_mux(
+      |        ^~~~~~~~~~~~~
+%Warning-DECLFILENAME: /home/feng1702/longarc/chiplab-chiplab_diff/IP/APB_DEV/apb_dev_top_no_nand.v:36:8: Filename 'apb_dev_top_no_nand' does not match MODULE name: 'axi2apb_misc'
+   36 | module axi2apb_misc
+      |        ^~~~~~~~~~~~
+%Warning-PINCONNECTEMPTY: /home/feng1702/longarc/chiplab-chiplab_diff/IP/APB_DEV/apb_dev_top_no_nand.v:319:2: Cell pin connected by name with empty reference: 'apb1_req'
+  319 | .apb1_req           (                   ),
+      |  ^~~~~~~~
+%Warning-PINCONNECTEMPTY: /home/feng1702/longarc/chiplab-chiplab_diff/IP/APB_DEV/apb_dev_top_no_nand.v:321:2: Cell pin connected by name with empty reference: 'apb1_rw'
+  321 | .apb1_rw            (                   ),
+      |  ^~~~~~~
+%Warning-PINCONNECTEMPTY: /home/feng1702/longarc/chiplab-chiplab_diff/IP/APB_DEV/apb_dev_top_no_nand.v:322:2: Cell pin connected by name with empty reference: 'apb1_enab'
+  322 | .apb1_enab          (                   ),
+      |  ^~~~~~~~~
+%Warning-PINCONNECTEMPTY: /home/feng1702/longarc/chiplab-chiplab_diff/IP/APB_DEV/apb_dev_top_no_nand.v:323:2: Cell pin connected by name with empty reference: 'apb1_psel'
+  323 | .apb1_psel          (                   ),
+      |  ^~~~~~~~~
+%Warning-PINCONNECTEMPTY: /home/feng1702/longarc/chiplab-chiplab_diff/IP/APB_DEV/apb_dev_top_no_nand.v:324:2: Cell pin connected by name with empty reference: 'apb1_addr'
+  324 | .apb1_addr          (                   ),
+      |  ^~~~~~~~~
+%Warning-PINCONNECTEMPTY: /home/feng1702/longarc/chiplab-chiplab_diff/IP/APB_DEV/apb_dev_top_no_nand.v:325:2: Cell pin connected by name with empty reference: 'apb1_datai'
+  325 | .apb1_datai         (                   ),
+      |  ^~~~~~~~~~
+%Warning-DECLFILENAME: /home/feng1702/longarc/chiplab-chiplab_diff/IP/APB_DEV/apb_mux2.v:185:8: Filename 'apb_mux2' does not match MODULE name: 'arb_2_1'
+  185 | module arb_2_1( clk, rst_n,  valid0, valid1, dma_grant);
+      |        ^~~~~~~
+%Warning-DECLFILENAME: /home/feng1702/longarc/chiplab-chiplab_diff/IP/APB_DEV/URT/uart_top.v:36:8: Filename 'uart_top' does not match MODULE name: 'UART_TOP'
+   36 | module UART_TOP(
+      |        ^~~~~~~~
+%Warning-DECLFILENAME: /home/feng1702/longarc/chiplab-chiplab_diff/IP/APB_DEV/NAND/nand.v:34:8: Filename 'nand' does not match MODULE name: 'NAND_top'
+   34 | module NAND_top(
+      |        ^~~~~~~~
+%Warning-MODDUP: /home/feng1702/longarc/chiplab-chiplab_diff/IP/myCPU/core_top.sv:2:8: Duplicate declaration of module: 'mycpu_top'
+    2 | module mycpu_top(
+      |        ^~~~~~~~~
+                 /home/feng1702/longarc/chiplab-chiplab_diff/chip/soc_demo/sim/soc_top.v:342:1: ... note: In file included from 'soc_top.v'
+                 ../testbench/simu_top.v:92:1: ... note: In file included from 'simu_top.v'
+                 /home/feng1702/longarc/chiplab-chiplab_diff/IP/myCPU/core_top.sv:2:8: ... Location of original declaration
+    2 | module mycpu_top(
+      |        ^~~~~~~~~
+%Error: /home/feng1702/longarc/chiplab-chiplab_diff/chip/soc_demo/sim/soc_top.v:340:10: Can't resolve module reference: 'core_top'
+  340 | core_top cpu
+      |          ^~~
+        ../testbench/simu_top.v:92:1: ... note: In file included from 'simu_top.v'
+%Warning-PINCONNECTEMPTY: /home/feng1702/longarc/chiplab-chiplab_diff/chip/soc_demo/sim/soc_top.v:572:2: Cell pin connected by name with empty reference: 's1_awid'
+  572 | .s1_awid           (                    ),
+      |  ^~~~~~~
+                          ../testbench/simu_top.v:92:1: ... note: In file included from 'simu_top.v'
+%Warning-PINCONNECTEMPTY: /home/feng1702/longarc/chiplab-chiplab_diff/chip/soc_demo/sim/soc_top.v:573:2: Cell pin connected by name with empty reference: 's1_awaddr'
+  573 | .s1_awaddr         (                    ),
+      |  ^~~~~~~~~
+                          ../testbench/simu_top.v:92:1: ... note: In file included from 'simu_top.v'
+%Warning-PINCONNECTEMPTY: /home/feng1702/longarc/chiplab-chiplab_diff/chip/soc_demo/sim/soc_top.v:574:2: Cell pin connected by name with empty reference: 's1_awlen'
+  574 | .s1_awlen          (                    ),
+      |  ^~~~~~~~
+                          ../testbench/simu_top.v:92:1: ... note: In file included from 'simu_top.v'
+%Warning-PINCONNECTEMPTY: /home/feng1702/longarc/chiplab-chiplab_diff/chip/soc_demo/sim/soc_top.v:575:2: Cell pin connected by name with empty reference: 's1_awsize'
+  575 | .s1_awsize         (                    ),
+      |  ^~~~~~~~~
+                          ../testbench/simu_top.v:92:1: ... note: In file included from 'simu_top.v'
+%Warning-PINCONNECTEMPTY: /home/feng1702/longarc/chiplab-chiplab_diff/chip/soc_demo/sim/soc_top.v:576:2: Cell pin connected by name with empty reference: 's1_awburst'
+  576 | .s1_awburst        (                    ),
+      |  ^~~~~~~~~~
+                          ../testbench/simu_top.v:92:1: ... note: In file included from 'simu_top.v'
+%Warning-PINCONNECTEMPTY: /home/feng1702/longarc/chiplab-chiplab_diff/chip/soc_demo/sim/soc_top.v:577:2: Cell pin connected by name with empty reference: 's1_awlock'
+  577 | .s1_awlock         (                    ),
+      |  ^~~~~~~~~
+                          ../testbench/simu_top.v:92:1: ... note: In file included from 'simu_top.v'
+%Warning-PINCONNECTEMPTY: /home/feng1702/longarc/chiplab-chiplab_diff/chip/soc_demo/sim/soc_top.v:578:2: Cell pin connected by name with empty reference: 's1_awcache'
+  578 | .s1_awcache        (                    ),
+      |  ^~~~~~~~~~
+                          ../testbench/simu_top.v:92:1: ... note: In file included from 'simu_top.v'
+%Warning-PINCONNECTEMPTY: /home/feng1702/longarc/chiplab-chiplab_diff/chip/soc_demo/sim/soc_top.v:579:2: Cell pin connected by name with empty reference: 's1_awprot'
+  579 | .s1_awprot         (                    ),
+      |  ^~~~~~~~~
+                          ../testbench/simu_top.v:92:1: ... note: In file included from 'simu_top.v'
+%Warning-PINCONNECTEMPTY: /home/feng1702/longarc/chiplab-chiplab_diff/chip/soc_demo/sim/soc_top.v:580:2: Cell pin connected by name with empty reference: 's1_awvalid'
+  580 | .s1_awvalid        (                    ),
+      |  ^~~~~~~~~~
+                          ../testbench/simu_top.v:92:1: ... note: In file included from 'simu_top.v'
+%Warning-PINCONNECTEMPTY: /home/feng1702/longarc/chiplab-chiplab_diff/chip/soc_demo/sim/soc_top.v:582:2: Cell pin connected by name with empty reference: 's1_wid'
+  582 | .s1_wid            (                    ),
+      |  ^~~~~~
+                          ../testbench/simu_top.v:92:1: ... note: In file included from 'simu_top.v'
+%Warning-PINCONNECTEMPTY: /home/feng1702/longarc/chiplab-chiplab_diff/chip/soc_demo/sim/soc_top.v:583:2: Cell pin connected by name with empty reference: 's1_wdata'
+  583 | .s1_wdata          (                    ),
+      |  ^~~~~~~~
+                          ../testbench/simu_top.v:92:1: ... note: In file included from 'simu_top.v'
+%Warning-PINCONNECTEMPTY: /home/feng1702/longarc/chiplab-chiplab_diff/chip/soc_demo/sim/soc_top.v:584:2: Cell pin connected by name with empty reference: 's1_wstrb'
+  584 | .s1_wstrb          (                    ),
+      |  ^~~~~~~~
+                          ../testbench/simu_top.v:92:1: ... note: In file included from 'simu_top.v'
+%Warning-PINCONNECTEMPTY: /home/feng1702/longarc/chiplab-chiplab_diff/chip/soc_demo/sim/soc_top.v:585:2: Cell pin connected by name with empty reference: 's1_wlast'
+  585 | .s1_wlast          (                    ),
+      |  ^~~~~~~~
+                          ../testbench/simu_top.v:92:1: ... note: In file included from 'simu_top.v'
+%Warning-PINCONNECTEMPTY: /home/feng1702/longarc/chiplab-chiplab_diff/chip/soc_demo/sim/soc_top.v:586:2: Cell pin connected by name with empty reference: 's1_wvalid'
+  586 | .s1_wvalid         (                    ),
+      |  ^~~~~~~~~
+                          ../testbench/simu_top.v:92:1: ... note: In file included from 'simu_top.v'
+%Warning-PINCONNECTEMPTY: /home/feng1702/longarc/chiplab-chiplab_diff/chip/soc_demo/sim/soc_top.v:588:2: Cell pin connected by name with empty reference: 's1_bid'
+  588 | .s1_bid            (                    ),
+      |  ^~~~~~
+                          ../testbench/simu_top.v:92:1: ... note: In file included from 'simu_top.v'
+%Warning-PINCONNECTEMPTY: /home/feng1702/longarc/chiplab-chiplab_diff/chip/soc_demo/sim/soc_top.v:589:2: Cell pin connected by name with empty reference: 's1_bresp'
+  589 | .s1_bresp          (                    ),
+      |  ^~~~~~~~
+                          ../testbench/simu_top.v:92:1: ... note: In file included from 'simu_top.v'
+%Warning-PINCONNECTEMPTY: /home/feng1702/longarc/chiplab-chiplab_diff/chip/soc_demo/sim/soc_top.v:591:2: Cell pin connected by name with empty reference: 's1_bready'
+  591 | .s1_bready         (                    ),
+      |  ^~~~~~~~~
+                          ../testbench/simu_top.v:92:1: ... note: In file included from 'simu_top.v'
+%Warning-PINCONNECTEMPTY: /home/feng1702/longarc/chiplab-chiplab_diff/chip/soc_demo/sim/soc_top.v:592:2: Cell pin connected by name with empty reference: 's1_arid'
+  592 | .s1_arid           (                    ),
+      |  ^~~~~~~
+                          ../testbench/simu_top.v:92:1: ... note: In file included from 'simu_top.v'
+%Warning-PINCONNECTEMPTY: /home/feng1702/longarc/chiplab-chiplab_diff/chip/soc_demo/sim/soc_top.v:593:2: Cell pin connected by name with empty reference: 's1_araddr'
+  593 | .s1_araddr         (                    ),
+      |  ^~~~~~~~~
+                          ../testbench/simu_top.v:92:1: ... note: In file included from 'simu_top.v'
+%Warning-PINCONNECTEMPTY: /home/feng1702/longarc/chiplab-chiplab_diff/chip/soc_demo/sim/soc_top.v:594:2: Cell pin connected by name with empty reference: 's1_arlen'
+  594 | .s1_arlen          (                    ),
+      |  ^~~~~~~~
+                          ../testbench/simu_top.v:92:1: ... note: In file included from 'simu_top.v'
+%Warning-PINCONNECTEMPTY: /home/feng1702/longarc/chiplab-chiplab_diff/chip/soc_demo/sim/soc_top.v:595:2: Cell pin connected by name with empty reference: 's1_arsize'
+  595 | .s1_arsize         (                    ),
+      |  ^~~~~~~~~
+                          ../testbench/simu_top.v:92:1: ... note: In file included from 'simu_top.v'
+%Warning-PINCONNECTEMPTY: /home/feng1702/longarc/chiplab-chiplab_diff/chip/soc_demo/sim/soc_top.v:596:2: Cell pin connected by name with empty reference: 's1_arburst'
+  596 | .s1_arburst        (                    ),
+      |  ^~~~~~~~~~
+                          ../testbench/simu_top.v:92:1: ... note: In file included from 'simu_top.v'
+%Warning-PINCONNECTEMPTY: /home/feng1702/longarc/chiplab-chiplab_diff/chip/soc_demo/sim/soc_top.v:597:2: Cell pin connected by name with empty reference: 's1_arlock'
+  597 | .s1_arlock         (                    ),
+      |  ^~~~~~~~~
+                          ../testbench/simu_top.v:92:1: ... note: In file included from 'simu_top.v'
+%Warning-PINCONNECTEMPTY: /home/feng1702/longarc/chiplab-chiplab_diff/chip/soc_demo/sim/soc_top.v:598:2: Cell pin connected by name with empty reference: 's1_arcache'
+  598 | .s1_arcache        (                    ),
+      |  ^~~~~~~~~~
+                          ../testbench/simu_top.v:92:1: ... note: In file included from 'simu_top.v'
+%Warning-PINCONNECTEMPTY: /home/feng1702/longarc/chiplab-chiplab_diff/chip/soc_demo/sim/soc_top.v:599:2: Cell pin connected by name with empty reference: 's1_arprot'
+  599 | .s1_arprot         (                    ),
+      |  ^~~~~~~~~
+                          ../testbench/simu_top.v:92:1: ... note: In file included from 'simu_top.v'
+%Warning-PINCONNECTEMPTY: /home/feng1702/longarc/chiplab-chiplab_diff/chip/soc_demo/sim/soc_top.v:600:2: Cell pin connected by name with empty reference: 's1_arvalid'
+  600 | .s1_arvalid        (                    ),
+      |  ^~~~~~~~~~
+                          ../testbench/simu_top.v:92:1: ... note: In file included from 'simu_top.v'
+%Warning-PINCONNECTEMPTY: /home/feng1702/longarc/chiplab-chiplab_diff/chip/soc_demo/sim/soc_top.v:602:2: Cell pin connected by name with empty reference: 's1_rid'
+  602 | .s1_rid            (                    ),
+      |  ^~~~~~
+                          ../testbench/simu_top.v:92:1: ... note: In file included from 'simu_top.v'
+%Warning-PINCONNECTEMPTY: /home/feng1702/longarc/chiplab-chiplab_diff/chip/soc_demo/sim/soc_top.v:603:2: Cell pin connected by name with empty reference: 's1_rdata'
+  603 | .s1_rdata          (                    ),
+      |  ^~~~~~~~
+                          ../testbench/simu_top.v:92:1: ... note: In file included from 'simu_top.v'
+%Warning-PINCONNECTEMPTY: /home/feng1702/longarc/chiplab-chiplab_diff/chip/soc_demo/sim/soc_top.v:604:2: Cell pin connected by name with empty reference: 's1_rresp'
+  604 | .s1_rresp          (                    ),
+      |  ^~~~~~~~
+                          ../testbench/simu_top.v:92:1: ... note: In file included from 'simu_top.v'
+%Warning-PINCONNECTEMPTY: /home/feng1702/longarc/chiplab-chiplab_diff/chip/soc_demo/sim/soc_top.v:605:2: Cell pin connected by name with empty reference: 's1_rlast'
+  605 | .s1_rlast          (                    ),
+      |  ^~~~~~~~
+                          ../testbench/simu_top.v:92:1: ... note: In file included from 'simu_top.v'
+%Warning-PINCONNECTEMPTY: /home/feng1702/longarc/chiplab-chiplab_diff/chip/soc_demo/sim/soc_top.v:607:2: Cell pin connected by name with empty reference: 's1_rready'
+  607 | .s1_rready         (                    ),
+      |  ^~~~~~~~~
+                          ../testbench/simu_top.v:92:1: ... note: In file included from 'simu_top.v'
+%Warning-PINCONNECTEMPTY: /home/feng1702/longarc/chiplab-chiplab_diff/chip/soc_demo/sim/soc_top.v:685:2: Cell pin connected by name with empty reference: 's4_awid'
+  685 | .s4_awid           (                    ),
+      |  ^~~~~~~
+                          ../testbench/simu_top.v:92:1: ... note: In file included from 'simu_top.v'
+%Warning-PINCONNECTEMPTY: /home/feng1702/longarc/chiplab-chiplab_diff/chip/soc_demo/sim/soc_top.v:686:2: Cell pin connected by name with empty reference: 's4_awaddr'
+  686 | .s4_awaddr         (                    ),
+      |  ^~~~~~~~~
+                          ../testbench/simu_top.v:92:1: ... note: In file included from 'simu_top.v'
+%Warning-PINCONNECTEMPTY: /home/feng1702/longarc/chiplab-chiplab_diff/chip/soc_demo/sim/soc_top.v:687:2: Cell pin connected by name with empty reference: 's4_awlen'
+  687 | .s4_awlen          (                    ),
+      |  ^~~~~~~~
+                          ../testbench/simu_top.v:92:1: ... note: In file included from 'simu_top.v'
+%Warning-PINCONNECTEMPTY: /home/feng1702/longarc/chiplab-chiplab_diff/chip/soc_demo/sim/soc_top.v:688:2: Cell pin connected by name with empty reference: 's4_awsize'
+  688 | .s4_awsize         (                    ),
+      |  ^~~~~~~~~
+                          ../testbench/simu_top.v:92:1: ... note: In file included from 'simu_top.v'
+%Warning-PINCONNECTEMPTY: /home/feng1702/longarc/chiplab-chiplab_diff/chip/soc_demo/sim/soc_top.v:689:2: Cell pin connected by name with empty reference: 's4_awburst'
+  689 | .s4_awburst        (                    ),
+      |  ^~~~~~~~~~
+                          ../testbench/simu_top.v:92:1: ... note: In file included from 'simu_top.v'
+%Warning-PINCONNECTEMPTY: /home/feng1702/longarc/chiplab-chiplab_diff/chip/soc_demo/sim/soc_top.v:690:2: Cell pin connected by name with empty reference: 's4_awlock'
+  690 | .s4_awlock         (                    ),
+      |  ^~~~~~~~~
+                          ../testbench/simu_top.v:92:1: ... note: In file included from 'simu_top.v'
+%Warning-PINCONNECTEMPTY: /home/feng1702/longarc/chiplab-chiplab_diff/chip/soc_demo/sim/soc_top.v:691:2: Cell pin connected by name with empty reference: 's4_awcache'
+  691 | .s4_awcache        (                    ),
+      |  ^~~~~~~~~~
+                          ../testbench/simu_top.v:92:1: ... note: In file included from 'simu_top.v'
+%Warning-PINCONNECTEMPTY: /home/feng1702/longarc/chiplab-chiplab_diff/chip/soc_demo/sim/soc_top.v:692:2: Cell pin connected by name with empty reference: 's4_awprot'
+  692 | .s4_awprot         (                    ),
+      |  ^~~~~~~~~
+                          ../testbench/simu_top.v:92:1: ... note: In file included from 'simu_top.v'
+%Warning-PINCONNECTEMPTY: /home/feng1702/longarc/chiplab-chiplab_diff/chip/soc_demo/sim/soc_top.v:693:2: Cell pin connected by name with empty reference: 's4_awvalid'
+  693 | .s4_awvalid        (                    ),
+      |  ^~~~~~~~~~
+                          ../testbench/simu_top.v:92:1: ... note: In file included from 'simu_top.v'
+%Warning-PINCONNECTEMPTY: /home/feng1702/longarc/chiplab-chiplab_diff/chip/soc_demo/sim/soc_top.v:695:2: Cell pin connected by name with empty reference: 's4_wid'
+  695 | .s4_wid            (                    ),
+      |  ^~~~~~
+                          ../testbench/simu_top.v:92:1: ... note: In file included from 'simu_top.v'
+%Warning-PINCONNECTEMPTY: /home/feng1702/longarc/chiplab-chiplab_diff/chip/soc_demo/sim/soc_top.v:696:2: Cell pin connected by name with empty reference: 's4_wdata'
+  696 | .s4_wdata          (                    ),
+      |  ^~~~~~~~
+                          ../testbench/simu_top.v:92:1: ... note: In file included from 'simu_top.v'
+%Warning-PINCONNECTEMPTY: /home/feng1702/longarc/chiplab-chiplab_diff/chip/soc_demo/sim/soc_top.v:697:2: Cell pin connected by name with empty reference: 's4_wstrb'
+  697 | .s4_wstrb          (                    ),
+      |  ^~~~~~~~
+                          ../testbench/simu_top.v:92:1: ... note: In file included from 'simu_top.v'
+%Warning-PINCONNECTEMPTY: /home/feng1702/longarc/chiplab-chiplab_diff/chip/soc_demo/sim/soc_top.v:698:2: Cell pin connected by name with empty reference: 's4_wlast'
+  698 | .s4_wlast          (                    ),
+      |  ^~~~~~~~
+                          ../testbench/simu_top.v:92:1: ... note: In file included from 'simu_top.v'
+%Warning-PINCONNECTEMPTY: /home/feng1702/longarc/chiplab-chiplab_diff/chip/soc_demo/sim/soc_top.v:699:2: Cell pin connected by name with empty reference: 's4_wvalid'
+  699 | .s4_wvalid         (                    ),
+      |  ^~~~~~~~~
+                          ../testbench/simu_top.v:92:1: ... note: In file included from 'simu_top.v'
+%Warning-PINCONNECTEMPTY: /home/feng1702/longarc/chiplab-chiplab_diff/chip/soc_demo/sim/soc_top.v:701:2: Cell pin connected by name with empty reference: 's4_bid'
+  701 | .s4_bid            (                    ),
+      |  ^~~~~~
+                          ../testbench/simu_top.v:92:1: ... note: In file included from 'simu_top.v'
+%Warning-PINCONNECTEMPTY: /home/feng1702/longarc/chiplab-chiplab_diff/chip/soc_demo/sim/soc_top.v:702:2: Cell pin connected by name with empty reference: 's4_bresp'
+  702 | .s4_bresp          (                    ),
+      |  ^~~~~~~~
+                          ../testbench/simu_top.v:92:1: ... note: In file included from 'simu_top.v'
+%Warning-PINCONNECTEMPTY: /home/feng1702/longarc/chiplab-chiplab_diff/chip/soc_demo/sim/soc_top.v:704:2: Cell pin connected by name with empty reference: 's4_bready'
+  704 | .s4_bready         (                    ),
+      |  ^~~~~~~~~
+                          ../testbench/simu_top.v:92:1: ... note: In file included from 'simu_top.v'
+%Warning-PINCONNECTEMPTY: /home/feng1702/longarc/chiplab-chiplab_diff/chip/soc_demo/sim/soc_top.v:705:2: Cell pin connected by name with empty reference: 's4_arid'
+  705 | .s4_arid           (                    ),
+      |  ^~~~~~~
+                          ../testbench/simu_top.v:92:1: ... note: In file included from 'simu_top.v'
+%Warning-PINCONNECTEMPTY: /home/feng1702/longarc/chiplab-chiplab_diff/chip/soc_demo/sim/soc_top.v:706:2: Cell pin connected by name with empty reference: 's4_araddr'
+  706 | .s4_araddr         (                    ),
+      |  ^~~~~~~~~
+                          ../testbench/simu_top.v:92:1: ... note: In file included from 'simu_top.v'
+%Warning-PINCONNECTEMPTY: /home/feng1702/longarc/chiplab-chiplab_diff/chip/soc_demo/sim/soc_top.v:707:2: Cell pin connected by name with empty reference: 's4_arlen'
+  707 | .s4_arlen          (                    ),
+      |  ^~~~~~~~
+                          ../testbench/simu_top.v:92:1: ... note: In file included from 'simu_top.v'
+%Warning-PINCONNECTEMPTY: /home/feng1702/longarc/chiplab-chiplab_diff/chip/soc_demo/sim/soc_top.v:708:2: Cell pin connected by name with empty reference: 's4_arsize'
+  708 | .s4_arsize         (                    ),
+      |  ^~~~~~~~~
+                          ../testbench/simu_top.v:92:1: ... note: In file included from 'simu_top.v'
+%Warning-PINCONNECTEMPTY: /home/feng1702/longarc/chiplab-chiplab_diff/chip/soc_demo/sim/soc_top.v:709:2: Cell pin connected by name with empty reference: 's4_arburst'
+  709 | .s4_arburst        (                    ),
+      |  ^~~~~~~~~~
+                          ../testbench/simu_top.v:92:1: ... note: In file included from 'simu_top.v'
+%Warning-PINCONNECTEMPTY: /home/feng1702/longarc/chiplab-chiplab_diff/chip/soc_demo/sim/soc_top.v:710:2: Cell pin connected by name with empty reference: 's4_arlock'
+  710 | .s4_arlock         (                    ),
+      |  ^~~~~~~~~
+                          ../testbench/simu_top.v:92:1: ... note: In file included from 'simu_top.v'
+%Warning-PINCONNECTEMPTY: /home/feng1702/longarc/chiplab-chiplab_diff/chip/soc_demo/sim/soc_top.v:711:2: Cell pin connected by name with empty reference: 's4_arcache'
+  711 | .s4_arcache        (                    ),
+      |  ^~~~~~~~~~
+                          ../testbench/simu_top.v:92:1: ... note: In file included from 'simu_top.v'
+%Warning-PINCONNECTEMPTY: /home/feng1702/longarc/chiplab-chiplab_diff/chip/soc_demo/sim/soc_top.v:712:2: Cell pin connected by name with empty reference: 's4_arprot'
+  712 | .s4_arprot         (                    ),
+      |  ^~~~~~~~~
+                          ../testbench/simu_top.v:92:1: ... note: In file included from 'simu_top.v'
+%Warning-PINCONNECTEMPTY: /home/feng1702/longarc/chiplab-chiplab_diff/chip/soc_demo/sim/soc_top.v:713:2: Cell pin connected by name with empty reference: 's4_arvalid'
+  713 | .s4_arvalid        (                    ),
+      |  ^~~~~~~~~~
+                          ../testbench/simu_top.v:92:1: ... note: In file included from 'simu_top.v'
+%Warning-PINCONNECTEMPTY: /home/feng1702/longarc/chiplab-chiplab_diff/chip/soc_demo/sim/soc_top.v:715:2: Cell pin connected by name with empty reference: 's4_rid'
+  715 | .s4_rid            (                    ),
+      |  ^~~~~~
+                          ../testbench/simu_top.v:92:1: ... note: In file included from 'simu_top.v'
+%Warning-PINCONNECTEMPTY: /home/feng1702/longarc/chiplab-chiplab_diff/chip/soc_demo/sim/soc_top.v:716:2: Cell pin connected by name with empty reference: 's4_rdata'
+  716 | .s4_rdata          (                    ),
+      |  ^~~~~~~~
+                          ../testbench/simu_top.v:92:1: ... note: In file included from 'simu_top.v'
+%Warning-PINCONNECTEMPTY: /home/feng1702/longarc/chiplab-chiplab_diff/chip/soc_demo/sim/soc_top.v:717:2: Cell pin connected by name with empty reference: 's4_rresp'
+  717 | .s4_rresp          (                    ),
+      |  ^~~~~~~~
+                          ../testbench/simu_top.v:92:1: ... note: In file included from 'simu_top.v'
+%Warning-PINCONNECTEMPTY: /home/feng1702/longarc/chiplab-chiplab_diff/chip/soc_demo/sim/soc_top.v:718:2: Cell pin connected by name with empty reference: 's4_rlast'
+  718 | .s4_rlast          (                    ),
+      |  ^~~~~~~~
+                          ../testbench/simu_top.v:92:1: ... note: In file included from 'simu_top.v'
+%Warning-PINCONNECTEMPTY: /home/feng1702/longarc/chiplab-chiplab_diff/chip/soc_demo/sim/soc_top.v:720:2: Cell pin connected by name with empty reference: 's4_rready'
+  720 | .s4_rready         (                    ),
+      |  ^~~~~~~~~
+                          ../testbench/simu_top.v:92:1: ... note: In file included from 'simu_top.v'
+%Warning-PINMISSING: /home/feng1702/longarc/chiplab-chiplab_diff/chip/soc_demo/sim/soc_top.v:726:14: Cell has missing pin: 'apb_rw_dma'
+  726 | axi2apb_misc APB_DEV 
+      |              ^~~~~~~
+                     ../testbench/simu_top.v:92:1: ... note: In file included from 'simu_top.v'
+%Warning-PINMISSING: /home/feng1702/longarc/chiplab-chiplab_diff/chip/soc_demo/sim/soc_top.v:726:14: Cell has missing pin: 'apb_psel_dma'
+  726 | axi2apb_misc APB_DEV 
+      |              ^~~~~~~
+                     ../testbench/simu_top.v:92:1: ... note: In file included from 'simu_top.v'
+%Warning-PINMISSING: /home/feng1702/longarc/chiplab-chiplab_diff/chip/soc_demo/sim/soc_top.v:726:14: Cell has missing pin: 'apb_enab_dma'
+  726 | axi2apb_misc APB_DEV 
+      |              ^~~~~~~
+                     ../testbench/simu_top.v:92:1: ... note: In file included from 'simu_top.v'
+%Warning-PINMISSING: /home/feng1702/longarc/chiplab-chiplab_diff/chip/soc_demo/sim/soc_top.v:726:14: Cell has missing pin: 'apb_addr_dma'
+  726 | axi2apb_misc APB_DEV 
+      |              ^~~~~~~
+                     ../testbench/simu_top.v:92:1: ... note: In file included from 'simu_top.v'
+%Warning-PINMISSING: /home/feng1702/longarc/chiplab-chiplab_diff/chip/soc_demo/sim/soc_top.v:726:14: Cell has missing pin: 'apb_valid_dma'
+  726 | axi2apb_misc APB_DEV 
+      |              ^~~~~~~
+                     ../testbench/simu_top.v:92:1: ... note: In file included from 'simu_top.v'
+%Warning-PINMISSING: /home/feng1702/longarc/chiplab-chiplab_diff/chip/soc_demo/sim/soc_top.v:726:14: Cell has missing pin: 'apb_wdata_dma'
+  726 | axi2apb_misc APB_DEV 
+      |              ^~~~~~~
+                     ../testbench/simu_top.v:92:1: ... note: In file included from 'simu_top.v'
+%Warning-PINMISSING: /home/feng1702/longarc/chiplab-chiplab_diff/chip/soc_demo/sim/soc_top.v:726:14: Cell has missing pin: 'apb_rdata_dma'
+  726 | axi2apb_misc APB_DEV 
+      |              ^~~~~~~
+                     ../testbench/simu_top.v:92:1: ... note: In file included from 'simu_top.v'
+%Warning-PINMISSING: /home/feng1702/longarc/chiplab-chiplab_diff/chip/soc_demo/sim/soc_top.v:726:14: Cell has missing pin: 'apb_ready_dma'
+  726 | axi2apb_misc APB_DEV 
+      |              ^~~~~~~
+                     ../testbench/simu_top.v:92:1: ... note: In file included from 'simu_top.v'
+%Warning-PINMISSING: /home/feng1702/longarc/chiplab-chiplab_diff/chip/soc_demo/sim/soc_top.v:726:14: Cell has missing pin: 'dma_grant'
+  726 | axi2apb_misc APB_DEV 
+      |              ^~~~~~~
+                     ../testbench/simu_top.v:92:1: ... note: In file included from 'simu_top.v'
+%Warning-PINMISSING: /home/feng1702/longarc/chiplab-chiplab_diff/chip/soc_demo/sim/soc_top.v:726:14: Cell has missing pin: 'dma_req_o'
+  726 | axi2apb_misc APB_DEV 
+      |              ^~~~~~~
+                     ../testbench/simu_top.v:92:1: ... note: In file included from 'simu_top.v'
+%Warning-PINMISSING: /home/feng1702/longarc/chiplab-chiplab_diff/chip/soc_demo/sim/soc_top.v:726:14: Cell has missing pin: 'dma_ack_i'
+  726 | axi2apb_misc APB_DEV 
+      |              ^~~~~~~
+                     ../testbench/simu_top.v:92:1: ... note: In file included from 'simu_top.v'
+%Warning-MULTITOP: ../testbench/difftest.v:67:3: Multiple top level modules
+                                               : ... Suggest see manual; fix the duplicates, or use --top-module to select top.
+                                               : ... Top module 'simu_top'
+    1 | module simu_top
+      |        ^~~~~~~~
+                                               : ... Top module 'DifftestInstrCommit'
+   67 |   DifftestInstrCommit(
+      |   ^~~~~~~~~~~~~~~~~~~
+                                               : ... Top module 'DifftestExcpEvent'
+  101 |   DifftestExcpEvent (
+      |   ^~~~~~~~~~~~~~~~~
+                                               : ... Top module 'DifftestTrapEvent'
+  125 |   DifftestTrapEvent(
+      |   ^~~~~~~~~~~~~~~~~
+                                               : ... Top module 'DifftestStoreEvent'
+  148 |   DifftestStoreEvent(
+      |   ^~~~~~~~~~~~~~~~~~
+                                               : ... Top module 'DifftestLoadEvent'
+  171 |   DifftestLoadEvent(
+      |   ^~~~~~~~~~~~~~~~~
+                                               : ... Top module 'DifftestCSRRegState'
+  215 |   DifftestCSRRegState(
+      |   ^~~~~~~~~~~~~~~~~~~
+                                               : ... Top module 'DifftestGRegState'
+  290 |   DifftestGRegState(
+      |   ^~~~~~~~~~~~~~~~~
+                                               : ... Top module 'mycpu_top'
+    2 | module mycpu_top(
+      |        ^~~~~~~~~
+                                               : ... Top module 'NAND_top'
+   34 | module NAND_top(
+      |        ^~~~~~~~
+%Error: Exiting due to 1 error(s)

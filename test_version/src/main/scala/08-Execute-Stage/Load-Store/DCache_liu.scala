@@ -123,24 +123,23 @@ class DCache extends Module{
     val tag_EX = Mux(store_cmt_RF_EX, addr_EX(31, INDEX_WIDTH+OFFSET_WIDTH), paddr_EX(31, INDEX_WIDTH+OFFSET_WIDTH))
     val index_EX = addr_EX(INDEX_WIDTH+OFFSET_WIDTH-1, OFFSET_WIDTH)
 
-    // TC-MEM SegReg
-    val TC_MEM_en                   = !(stall || cache_miss_MEM(4))
-    val addr_reg_EX_MEM             = ShiftRegister(addr_reg_RF_EX, 1, 0.U(32.W), TC_MEM_en)
-    val paddr_reg_EX_MEM            = ShiftRegister(Mux(store_cmt_reg_RF_EX || flush_RF_EX, addr_reg_RF_EX, io.paddr_EX), 1, 0.U(32.W), TC_MEM_en)
-    val mem_type_reg_EX_MEM         = ShiftRegister(Mux(mem_type_reg_RF_EX(3) || uncache_EX || store_cmt_reg_RF_EX, mem_type_reg_RF_EX, 0.U), 1, 0.U(5.W), TC_MEM_en)
-    val wdata_reg_EX_MEM            = ShiftRegister(wdata_reg_RF_EX, 1, 0.U(32.W), TC_MEM_en)
-    val uncache_reg_EX_MEM          = ShiftRegister(uncache_EX, 1, false.B, TC_MEM_en)
-    val rob_index_EX_MEM            = ShiftRegister(io.rob_index_EX, 1, 0.U(log2Ceil(ROB_NUM).W), TC_MEM_en)
-    val hit_reg_EX_MEM              = ShiftRegister(VecInit.fill(5)(hit_EX), 1, VecInit.fill(5)(0.U(2.W)), TC_MEM_en)
-    val valid_reg_EX_MEM            = ShiftRegister(valid_r_EX, 1, VecInit.fill(2)(0.U), TC_MEM_en)
-    val tag_reg_EX_MEM              = ShiftRegister(tag_r_EX, 1, VecInit.fill(2)(0.U(TAG_WIDTH.W)), TC_MEM_en)
-    val cacop_en_reg_EX_MEM         = ShiftRegister(cacop_en_reg_RF_EX, 1, false.B, TC_MEM_en)
-    val cacop_op_reg_EX_MEM         = ShiftRegister(cacop_op_reg_RF_EX, 1, 0.U(2.W), TC_MEM_en)
-    val flush_EX_MEM                = ShiftRegister(Mux(io.flush, io.flush, flush_RF_EX), 1, false.B, TC_MEM_en || io.flush)
-    val cmem_rdata_reg_EX_MEM       = ShiftRegister(cmem_rdata_EX, 1, VecInit.fill(2)(0.U((8 * OFFSET_DEPTH).W)), TC_MEM_en)
-    val mem_type_reg_EX_MEM_backup  = ShiftRegister(VecInit.fill(5)(Mux(mem_type_reg_RF_EX(3) || uncache_EX || store_cmt_reg_RF_EX, mem_type_reg_RF_EX, 0.U)), 1, VecInit.fill(5)(0.U(5.W)), TC_MEM_en)
-
-    val exception_MEM               = ShiftRegister(io.exception_MEM, 1, false.B)
+    // EX_MEM segreg
+    val EX_MEM_en = !(stall || cache_miss(4))
+    val addr_EX_MEM = ShiftRegister(addr_EX, 1, 0.U(32.W), EX_MEM_en)
+    val paddr_EX_MEM = ShiftRegister(Mux(store_cmt_RF_EX || flush_RF_EX, addr_RF_EX, io.paddr_EX), 1, 0.U(32.W), EX_MEM_en)
+    val mem_type_EX_MEM = ShiftRegister(Mux(mem_type_RF_EX(3) || uncache_EX || store_cmt_RF_EX, mem_type_RF_EX, 0.U), 1, 0.U, EX_MEM_en)
+    val wdata_EX_MEM = ShiftRegister(wdata_RF_EX, 1, 0.U, EX_MEM_en)
+    val hit_EX_MEM = ShiftRegister(VecInit.fill(5)(hit_EX), 1, VecInit.fill(5)(0.U(2.W)), EX_MEM_en)
+    val valid_r_EX_MEM = ShiftRegister(valid_r_EX, 1, VecInit.fill(2)(0.U), EX_MEM_en)
+    val tag_r_EX_MEM = ShiftRegister(tag_r_EX, 1, VecInit.fill(2)(0.U(TAG_WIDTH.W)), EX_MEM_en)
+    val flush_EX_MEM = ShiftRegister(Mux(io.flush, io.flush, flush_RF_EX), 1, false.B, EX_MEM_en || io.flush)
+    val data_r_EX_MEM = ShiftRegister(data_r_EX, 1, VecInit.fill(2)(0.U((8*OFFSET_NUM).W)), EX_MEM_en)
+    val mem_type_EX_MEM_backup = ShiftRegister(VecInit.fill(5)(Mux(mem_type_RF_EX(3) || uncache_EX || store_cmt_RF_EX, mem_type_RF_EX, 0.U)), 1, VecInit.fill(5)(0.U(5.W)), EX_MEM_en)
+    val uncache_EX_MEM = ShiftRegister(uncache_EX, 1, false.B, EX_MEM_en)
+    val rob_index_EX_MEM = ShiftRegister(io.rob_index_EX, 1, 0.U(log2Ceil(32).W), EX_MEM_en)
+    val cacop_en_EX_MEM = ShiftRegister(cacop_en_RF_EX, 1, false.B, EX_MEM_en)
+    val cacop_op_EX_MEM = ShiftRegister(cacop_op_RF_EX, 1, 0.U(2.W), EX_MEM_en)
+    val exception_MEM = ShiftRegister(io.exception_MEM, 1, false.B)
 
     // MEM stage
     val addr_MEM = paddr_EX_MEM

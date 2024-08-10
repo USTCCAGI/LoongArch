@@ -46,21 +46,21 @@ object ICache_Config{
     val FROM_SEG  = 1.U(1.W)
 }
 
-object DCache_Config{
-   val INDEX_WIDTH = 5
-   val INDEX_DEPTH = 1 << INDEX_WIDTH
+// object DCache_Config{
+//    val INDEX_WIDTH = 5
+//    val INDEX_DEPTH = 1 << INDEX_WIDTH
 
-   val OFFSET_WIDTH = 5
-   val OFFSET_DEPTH = 1 << OFFSET_WIDTH
+//    val OFFSET_WIDTH = 5
+//    val OFFSET_DEPTH = 1 << OFFSET_WIDTH
 
-   val TAG_WIDTH = 32 - INDEX_WIDTH - OFFSET_WIDTH
+//    val TAG_WIDTH = 32 - INDEX_WIDTH - OFFSET_WIDTH
 
-   val FROM_CMEM = 0.U(1.W)
-   val FROM_RBUF = 1.U(1.W)
+//    val FROM_CMEM = 0.U(1.W)
+//    val FROM_RBUF = 1.U(1.W)
 
-   val FROM_PIPE = 0.U(1.W)
-   val FROM_SEG  = 1.U(1.W)
-}
+//    val FROM_PIPE = 0.U(1.W)
+//    val FROM_SEG  = 1.U(1.W)
+// }
 
 object PreDecode_Config {
 
@@ -183,4 +183,3 @@ object Control_Signal{
     val IMM_14S   = 11.U(4.W)
 
 }
-
