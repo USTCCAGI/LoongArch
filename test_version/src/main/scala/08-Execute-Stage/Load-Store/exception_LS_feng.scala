@@ -38,5 +38,5 @@ class Exception_LS extends Module{
     }.otherwise{
         io.exception_ls := 0.U
     }
-
+ 
 }
