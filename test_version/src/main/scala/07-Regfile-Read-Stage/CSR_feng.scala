@@ -66,14 +66,16 @@ class CSR_Regfile(PALEN: 32, TIMER_INIT_WIDTH: 30) extends Module{
     val eret        = io.is_eret
     val interrupt   = io.interrupt
     val trap        = io.exception
-
+    val estat       = RegInit(0.U(32.W))
+    val has_tlbr    = estat(21, 16) === 0x3f.U
+    val is_tlbr     = trap(6, 0) === 0x3f.U
     //CRMD
     val crmd        = RegInit(8.U(32.W))
     val prmd        = RegInit(0.U(32.W))
     when(trap(7)){
-        crmd := crmd(31,3) ## 0.U(3.W)
+        crmd := crmd(31,5) ##Mux(is_tlbr, 1.U(2.W), crmd(4, 3))  ## 0.U(3.W) 
     }.elsewhen(eret){
-        crmd := crmd(31,3) ## prmd(2,0)
+        crmd := crmd(31,5) ## Mux(has_tlbr, 2.U(2.W), crmd(4, 3)) ## prmd(2, 0)
     }.elsewhen(we && waddr === CSR_CRMD){
         crmd := 0.U(23.W) ## wdata(8, 0) //规定前23位0，软件不可写
     }
@@ -100,7 +102,6 @@ class CSR_Regfile(PALEN: 32, TIMER_INIT_WIDTH: 30) extends Module{
     }
 
     // ESTAT：例外状态
-    val estat = RegInit(0.U(32.W))
     val timer_reg   = RegInit(false.B)
     val timer       = timer_reg
     when(trap(7)){//触发例外，将例外状态写入
@@ -122,7 +123,8 @@ class CSR_Regfile(PALEN: 32, TIMER_INIT_WIDTH: 30) extends Module{
     }
 
     // BADV：出错虚地址
-    val save_v  = trap(5, 0) === 0x8.U || trap(6, 0) === ALE
+    val vp_save = is_tlbr || trap(6, 0) >= PIL && trap(6, 0) <= PPI
+    val save_v = vp_save || trap(5, 0) === 0x8.U || trap(6, 0) === ALE
     val badv = RegInit(0.U(32.W))
     when(trap(7) && save_v){
         badv := io.badv_exp
@@ -180,31 +182,62 @@ class CSR_Regfile(PALEN: 32, TIMER_INIT_WIDTH: 30) extends Module{
 
     val tlbentry_in = io.tlbentry_in
     io.llbit_global := llbctl(0)
-
+    
     // TLBIDX：TLB索引
     val tlbidx = RegInit(0.U(32.W))
-    tlbidx := 0.U(32.W)//feng
-
+    when(io.tlbsrch_en){
+        when(wdata(TLB_INDEX_WIDTH) === 1.U){
+            // hit
+            tlbidx := 0.U(1.W) ## tlbidx(30, TLB_INDEX_WIDTH) ## wdata(TLB_INDEX_WIDTH-1, 0)
+        }.otherwise{
+            // not hit
+            tlbidx := 1.U(1.W) ## tlbidx(30, 0)
+        }
+    }.elsewhen(io.tlbrd_en){
+        tlbidx := !tlbentry_in.e ## 0.U(1.W) ## Mux(tlbentry_in.e, tlbentry_in.ps, 0.U(6.W)) ## tlbidx(23, 0)
+    }.elsewhen(we && waddr === CSR_TLBIDX){
+        tlbidx := wdata(31) ## 0.U(1.W) ## wdata(29, 24) ## 0.U((24-TLB_INDEX_WIDTH).W) ## wdata(TLB_INDEX_WIDTH-1, 0)
+    }
     io.tlbidx_global := tlbidx(TLB_INDEX_WIDTH-1, 0)
 
     // TLBEHI：TLB表项高位
     val tlbehi = RegInit(0.U(32.W))
-    tlbehi := 0.U(32.W)//feng
-
+    when(trap(7) && vp_save){
+        tlbehi := io.badv_exp(31, 13) ## 0.U(13.W)
+    }.elsewhen(io.tlbrd_en){
+        tlbehi := Mux(tlbentry_in.e, tlbentry_in.vppn ## 0.U(13.W), 0.U(32.W))
+    }.elsewhen(we && waddr === CSR_TLBEHI){
+        tlbehi := wdata(31, 13) ## 0.U(13.W)
+    }
     io.tlbehi_global := tlbehi(31, 13)
 
     // TLBELO0：TLB表项低位
     val tlbelo0 = RegInit(0.U(32.W))
-    tlbelo0 := 0.U(32.W)//feng
-    
+    when(io.tlbrd_en){
+        tlbelo0 := Mux(tlbentry_in.e, 
+                       tlbelo0(31, PALEN-4) ## tlbentry_in.ppn0 ## 0.U(1.W) ## tlbentry_in.g ## tlbentry_in.mat0 ## tlbentry_in.plv0 ## tlbentry_in.d0 ## tlbentry_in.v0,
+                       0.U(32.W))
+    }.elsewhen(we && waddr === CSR_TLBELO0){
+        tlbelo0:= 0.U((36 - PALEN).W) ## wdata(PALEN - 5, 8) ## 0.U(1.W) ## wdata(6, 0)
+    }
     // TLBELO1：TLB表项低位
     val tlbelo1 = RegInit(0.U(32.W))
-    tlbelo1 := 0.U(32.W)//feng
+    when(io.tlbrd_en){
+        tlbelo1 := Mux(tlbentry_in.e, 
+                       tlbelo1(31, PALEN-4) ## tlbentry_in.ppn1 ## 0.U(1.W) ## tlbentry_in.g ## tlbentry_in.mat1 ## tlbentry_in.plv1 ## tlbentry_in.d1 ## tlbentry_in.v1,
+                       0.U(32.W))
+    }.elsewhen(we && waddr === CSR_TLBELO1){
+        tlbelo1:= 0.U((36 - PALEN).W) ## wdata(PALEN - 5, 8) ## 0.U(1.W) ## wdata(6, 0)
+    }
 
 
     // ASID：地址空间标识符
     val asid = RegInit(0.U(32.W))
-    asid := 0.U(32.W)//feng
+    when(io.tlbrd_en){
+        asid := asid(31, 10) ## Mux(tlbentry_in.e, tlbentry_in.asid, 0.U(10.W))
+    }.elsewhen(we && waddr === CSR_ASID){
+        asid := 0.U(22.W) ## wdata(9, 0)
+    }
 
     io.asid_global := asid(9, 0)
 
@@ -228,7 +261,10 @@ class CSR_Regfile(PALEN: 32, TIMER_INIT_WIDTH: 30) extends Module{
 
     // TLBRENTRY：TLB表项重填例外入口地址
     val tlbreentry = RegInit(0.U(32.W))
-    tlbreentry := 0.U(32.W)//feng
+    when(we && waddr === CSR_TLBRENTRY){
+        tlbreentry := wdata(31, 6) ## 0.U(6.W)
+    }
+
 
     // DMW0：直接映射窗口
     val dmw0 = RegInit(0.U(32.W))
@@ -282,7 +318,9 @@ class CSR_Regfile(PALEN: 32, TIMER_INIT_WIDTH: 30) extends Module{
     io.interrupt_vec := Mux(!crmd(2), 0.U(12.W), (estat(12, 11) & ecfg(12, 11)) ## (estat(9, 0) & ecfg(9, 0)))  
 
     
-    io.tlbentry_global :=  0.U.asTypeOf(new tlb_t)
+    io.tlbentry_global := TLB_Entry_Gen(tlbehi(31, 13), tlbidx(29, 24), tlbelo0(6) && tlbelo1(6), asid(9, 0), Mux(estat(21, 16) === 0x3f.U, true.B, !tlbidx(31)), 
+                                        tlbelo0(PALEN-5, 8), tlbelo0(3, 2), tlbelo0(5, 4), tlbelo0(1), tlbelo0(0), 
+                                        tlbelo1(PALEN-5, 8), tlbelo1(3, 2), tlbelo1(5, 4), tlbelo1(1), tlbelo1(0)) 
     
     io.rdata := 0.U(32.W)
     switch(raddr){
