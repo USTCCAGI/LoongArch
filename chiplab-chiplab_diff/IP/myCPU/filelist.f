@@ -42,6 +42,7 @@ MDU.sv
 MD_EX1_EX2_Reg.sv
 MD_EX_WB_Reg.sv
 Exception_LS.sv
+TLB.sv
 MMU.sv
 SB.sv
 DCache.sv

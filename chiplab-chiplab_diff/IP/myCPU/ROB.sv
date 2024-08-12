@@ -73,17 +73,57 @@ module ROB(
   output [4:0]  io_rob_index_cmt_0,
                 io_rob_index_cmt_1,
   input  [31:0] io_eentry_global,
+                io_tlbreentry_global,
   output [31:0] io_badv_cmt,
   output [7:0]  io_exception_cmt,
   output        io_is_eret_cmt,
   input  [12:0] io_interrupt_vec,
-  output        io_tlbrd_en_cmt,
+  output        io_tlbwr_en_cmt,
+                io_tlbrd_en_cmt,
                 io_tlbfill_en_cmt,
-                io_llbit_set_cmt,
+                io_tlbsrch_en_cmt,
+                io_invtlb_en_cmt,
+  output [4:0]  io_invtlb_op_cmt,
+  output [31:0] io_invtlb_vaddr_cmt,
+  output [9:0]  io_invtlb_asid_cmt,
+  output        io_llbit_set_cmt,
                 io_llbit_clear_cmt,
                 io_idle_en_cmt,
   input  [9:0]  io_priv_vec_ex,
   input  [13:0] io_csr_addr_ex,
+  input  [18:0] io_tlbentry_ex_vppn,
+  input  [5:0]  io_tlbentry_ex_ps,
+  input         io_tlbentry_ex_g,
+  input  [9:0]  io_tlbentry_ex_asid,
+  input         io_tlbentry_ex_e,
+  input  [19:0] io_tlbentry_ex_ppn0,
+  input  [1:0]  io_tlbentry_ex_plv0,
+                io_tlbentry_ex_mat0,
+  input         io_tlbentry_ex_d0,
+                io_tlbentry_ex_v0,
+  input  [19:0] io_tlbentry_ex_ppn1,
+  input  [1:0]  io_tlbentry_ex_plv1,
+                io_tlbentry_ex_mat1,
+  input         io_tlbentry_ex_d1,
+                io_tlbentry_ex_v1,
+  output [18:0] io_tlbentry_cmt_vppn,
+  output [5:0]  io_tlbentry_cmt_ps,
+  output        io_tlbentry_cmt_g,
+  output [9:0]  io_tlbentry_cmt_asid,
+  output        io_tlbentry_cmt_e,
+  output [19:0] io_tlbentry_cmt_ppn0,
+  output [1:0]  io_tlbentry_cmt_plv0,
+                io_tlbentry_cmt_mat0,
+  output        io_tlbentry_cmt_d0,
+                io_tlbentry_cmt_v0,
+  output [19:0] io_tlbentry_cmt_ppn1,
+  output [1:0]  io_tlbentry_cmt_plv1,
+                io_tlbentry_cmt_mat1,
+  output        io_tlbentry_cmt_d1,
+                io_tlbentry_cmt_v1,
+  input  [4:0]  io_invtlb_op_ex,
+  input  [31:0] io_invtlb_vaddr_ex,
+  input  [9:0]  io_invtlb_asid_ex,
   input  [2:0]  io_priv_vec_ls,
   input         io_llbit_global,
   output        io_is_ucread_cmt_0,
@@ -722,6 +762,24 @@ module ROB(
   reg               priv_buf_valid;
   reg  [9:0]        priv_buf_priv_vec;
   reg  [13:0]       priv_buf_csr_addr;
+  reg  [18:0]       priv_buf_tlb_entry_vppn;
+  reg  [5:0]        priv_buf_tlb_entry_ps;
+  reg               priv_buf_tlb_entry_g;
+  reg  [9:0]        priv_buf_tlb_entry_asid;
+  reg               priv_buf_tlb_entry_e;
+  reg  [19:0]       priv_buf_tlb_entry_ppn0;
+  reg  [1:0]        priv_buf_tlb_entry_plv0;
+  reg  [1:0]        priv_buf_tlb_entry_mat0;
+  reg               priv_buf_tlb_entry_d0;
+  reg               priv_buf_tlb_entry_v0;
+  reg  [19:0]       priv_buf_tlb_entry_ppn1;
+  reg  [1:0]        priv_buf_tlb_entry_plv1;
+  reg  [1:0]        priv_buf_tlb_entry_mat1;
+  reg               priv_buf_tlb_entry_d1;
+  reg               priv_buf_tlb_entry_v1;
+  reg  [4:0]        priv_buf_inv_op;
+  reg  [31:0]       priv_buf_inv_vaddr;
+  reg  [9:0]        priv_buf_inv_asid;
   reg               priv_ls_buf_valid;
   reg  [2:0]        priv_ls_buf_priv_vec;
   reg  [12:0]       int_vec_buf;
@@ -841,7 +899,28 @@ module ROB(
   reg               io_is_eret_cmt_r;
   reg  [31:0]       io_badv_cmt_r;
   reg               io_tlbrd_en_cmt_r;
+  reg               io_tlbwr_en_cmt_r;
   reg               io_tlbfill_en_cmt_r;
+  reg               io_tlbsrch_en_cmt_r;
+  reg  [18:0]       io_tlbentry_cmt_r_vppn;
+  reg  [5:0]        io_tlbentry_cmt_r_ps;
+  reg               io_tlbentry_cmt_r_g;
+  reg  [9:0]        io_tlbentry_cmt_r_asid;
+  reg               io_tlbentry_cmt_r_e;
+  reg  [19:0]       io_tlbentry_cmt_r_ppn0;
+  reg  [1:0]        io_tlbentry_cmt_r_plv0;
+  reg  [1:0]        io_tlbentry_cmt_r_mat0;
+  reg               io_tlbentry_cmt_r_d0;
+  reg               io_tlbentry_cmt_r_v0;
+  reg  [19:0]       io_tlbentry_cmt_r_ppn1;
+  reg  [1:0]        io_tlbentry_cmt_r_plv1;
+  reg  [1:0]        io_tlbentry_cmt_r_mat1;
+  reg               io_tlbentry_cmt_r_d1;
+  reg               io_tlbentry_cmt_r_v1;
+  reg               io_invtlb_en_cmt_r;
+  reg  [4:0]        io_invtlb_op_cmt_r;
+  reg  [31:0]       io_invtlb_vaddr_cmt_r;
+  reg  [9:0]        io_invtlb_asid_cmt_r;
   reg               io_idle_en_cmt_r;
   reg               io_llbit_set_cmt_r;
   reg               io_llbit_clear_cmt_r;
@@ -2492,6 +2571,24 @@ module ROB(
       priv_buf_valid <= 1'h0;
       priv_buf_priv_vec <= 10'h0;
       priv_buf_csr_addr <= 14'h0;
+      priv_buf_tlb_entry_vppn <= 19'h0;
+      priv_buf_tlb_entry_ps <= 6'h0;
+      priv_buf_tlb_entry_g <= 1'h0;
+      priv_buf_tlb_entry_asid <= 10'h0;
+      priv_buf_tlb_entry_e <= 1'h0;
+      priv_buf_tlb_entry_ppn0 <= 20'h0;
+      priv_buf_tlb_entry_plv0 <= 2'h0;
+      priv_buf_tlb_entry_mat0 <= 2'h0;
+      priv_buf_tlb_entry_d0 <= 1'h0;
+      priv_buf_tlb_entry_v0 <= 1'h0;
+      priv_buf_tlb_entry_ppn1 <= 20'h0;
+      priv_buf_tlb_entry_plv1 <= 2'h0;
+      priv_buf_tlb_entry_mat1 <= 2'h0;
+      priv_buf_tlb_entry_d1 <= 1'h0;
+      priv_buf_tlb_entry_v1 <= 1'h0;
+      priv_buf_inv_op <= 5'h0;
+      priv_buf_inv_vaddr <= 32'h0;
+      priv_buf_inv_asid <= 10'h0;
       priv_ls_buf_valid <= 1'h0;
       priv_ls_buf_priv_vec <= 3'h0;
       int_vec_buf <= 13'h0;
@@ -3935,6 +4032,24 @@ module ROB(
       else begin
         priv_buf_priv_vec <= io_priv_vec_ex;
         priv_buf_csr_addr <= io_csr_addr_ex;
+        priv_buf_tlb_entry_vppn <= io_tlbentry_ex_vppn;
+        priv_buf_tlb_entry_ps <= io_tlbentry_ex_ps;
+        priv_buf_tlb_entry_g <= io_tlbentry_ex_g;
+        priv_buf_tlb_entry_asid <= io_tlbentry_ex_asid;
+        priv_buf_tlb_entry_e <= io_tlbentry_ex_e;
+        priv_buf_tlb_entry_ppn0 <= io_tlbentry_ex_ppn0;
+        priv_buf_tlb_entry_plv0 <= io_tlbentry_ex_plv0;
+        priv_buf_tlb_entry_mat0 <= io_tlbentry_ex_mat0;
+        priv_buf_tlb_entry_d0 <= io_tlbentry_ex_d0;
+        priv_buf_tlb_entry_v0 <= io_tlbentry_ex_v0;
+        priv_buf_tlb_entry_ppn1 <= io_tlbentry_ex_ppn1;
+        priv_buf_tlb_entry_plv1 <= io_tlbentry_ex_plv1;
+        priv_buf_tlb_entry_mat1 <= io_tlbentry_ex_mat1;
+        priv_buf_tlb_entry_d1 <= io_tlbentry_ex_d1;
+        priv_buf_tlb_entry_v1 <= io_tlbentry_ex_v1;
+        priv_buf_inv_op <= io_invtlb_op_ex;
+        priv_buf_inv_vaddr <= io_invtlb_vaddr_ex;
+        priv_buf_inv_asid <= io_invtlb_asid_ex;
       end
       priv_ls_buf_valid <= ~(io_predict_fail_cmt_r[0]) & (_GEN_55 | priv_ls_buf_valid);
       if (io_predict_fail_cmt_r[0] | ~_GEN_55) begin
@@ -4028,7 +4143,7 @@ module ROB(
     r_1_0 <= head;
     r_1_1 <= head;
     eentry_global <= io_eentry_global;
-    tlbreentry_global <= 32'h0;
+    tlbreentry_global <= io_tlbreentry_global;
     io_predict_fail_cmt_r <= {10{predict_fail_cmt}};
     io_branch_target_cmt_r <=
       rob_update_item_exception[7] | (|(int_vec_buf[11:0]))
@@ -4055,7 +4170,28 @@ module ROB(
     io_is_eret_cmt_r <= rob_update_item_is_priv_wrt & priv_buf_priv_vec[3];
     io_badv_cmt_r <= 32'(csr_diff_wdata_cmt_1 - 32'h4);
     io_tlbrd_en_cmt_r <= rob_update_item_is_priv_wrt & priv_buf_priv_vec[4];
+    io_tlbwr_en_cmt_r <= rob_update_item_is_priv_wrt & priv_buf_priv_vec[5];
     io_tlbfill_en_cmt_r <= rob_update_item_is_priv_wrt & priv_buf_priv_vec[6];
+    io_tlbsrch_en_cmt_r <= rob_update_item_is_priv_wrt & priv_buf_priv_vec[7];
+    io_tlbentry_cmt_r_vppn <= priv_buf_tlb_entry_vppn;
+    io_tlbentry_cmt_r_ps <= priv_buf_tlb_entry_ps;
+    io_tlbentry_cmt_r_g <= priv_buf_tlb_entry_g;
+    io_tlbentry_cmt_r_asid <= priv_buf_tlb_entry_asid;
+    io_tlbentry_cmt_r_e <= priv_buf_tlb_entry_e;
+    io_tlbentry_cmt_r_ppn0 <= priv_buf_tlb_entry_ppn0;
+    io_tlbentry_cmt_r_plv0 <= priv_buf_tlb_entry_plv0;
+    io_tlbentry_cmt_r_mat0 <= priv_buf_tlb_entry_mat0;
+    io_tlbentry_cmt_r_d0 <= priv_buf_tlb_entry_d0;
+    io_tlbentry_cmt_r_v0 <= priv_buf_tlb_entry_v0;
+    io_tlbentry_cmt_r_ppn1 <= priv_buf_tlb_entry_ppn1;
+    io_tlbentry_cmt_r_plv1 <= priv_buf_tlb_entry_plv1;
+    io_tlbentry_cmt_r_mat1 <= priv_buf_tlb_entry_mat1;
+    io_tlbentry_cmt_r_d1 <= priv_buf_tlb_entry_d1;
+    io_tlbentry_cmt_r_v1 <= priv_buf_tlb_entry_v1;
+    io_invtlb_en_cmt_r <= rob_update_item_is_priv_wrt & priv_buf_priv_vec[8];
+    io_invtlb_op_cmt_r <= priv_buf_inv_op;
+    io_invtlb_vaddr_cmt_r <= priv_buf_inv_vaddr;
+    io_invtlb_asid_cmt_r <= priv_buf_inv_asid;
     io_idle_en_cmt_r <= rob_update_item_is_priv_wrt & priv_buf_priv_vec[9];
     io_llbit_set_cmt_r <= rob_update_item_is_priv_ls & priv_ls_buf_priv_vec[1];
     io_llbit_clear_cmt_r <= rob_update_item_is_priv_ls & priv_ls_buf_priv_vec[2];
@@ -4117,11 +4253,32 @@ module ROB(
   assign io_badv_cmt = io_badv_cmt_r;
   assign io_exception_cmt = io_exception_cmt_r;
   assign io_is_eret_cmt = io_is_eret_cmt_r;
+  assign io_tlbwr_en_cmt = io_tlbwr_en_cmt_r;
   assign io_tlbrd_en_cmt = io_tlbrd_en_cmt_r;
   assign io_tlbfill_en_cmt = io_tlbfill_en_cmt_r;
+  assign io_tlbsrch_en_cmt = io_tlbsrch_en_cmt_r;
+  assign io_invtlb_en_cmt = io_invtlb_en_cmt_r;
+  assign io_invtlb_op_cmt = io_invtlb_op_cmt_r;
+  assign io_invtlb_vaddr_cmt = io_invtlb_vaddr_cmt_r;
+  assign io_invtlb_asid_cmt = io_invtlb_asid_cmt_r;
   assign io_llbit_set_cmt = io_llbit_set_cmt_r;
   assign io_llbit_clear_cmt = io_llbit_clear_cmt_r;
   assign io_idle_en_cmt = io_idle_en_cmt_r;
+  assign io_tlbentry_cmt_vppn = io_tlbentry_cmt_r_vppn;
+  assign io_tlbentry_cmt_ps = io_tlbentry_cmt_r_ps;
+  assign io_tlbentry_cmt_g = io_tlbentry_cmt_r_g;
+  assign io_tlbentry_cmt_asid = io_tlbentry_cmt_r_asid;
+  assign io_tlbentry_cmt_e = io_tlbentry_cmt_r_e;
+  assign io_tlbentry_cmt_ppn0 = io_tlbentry_cmt_r_ppn0;
+  assign io_tlbentry_cmt_plv0 = io_tlbentry_cmt_r_plv0;
+  assign io_tlbentry_cmt_mat0 = io_tlbentry_cmt_r_mat0;
+  assign io_tlbentry_cmt_d0 = io_tlbentry_cmt_r_d0;
+  assign io_tlbentry_cmt_v0 = io_tlbentry_cmt_r_v0;
+  assign io_tlbentry_cmt_ppn1 = io_tlbentry_cmt_r_ppn1;
+  assign io_tlbentry_cmt_plv1 = io_tlbentry_cmt_r_plv1;
+  assign io_tlbentry_cmt_mat1 = io_tlbentry_cmt_r_mat1;
+  assign io_tlbentry_cmt_d1 = io_tlbentry_cmt_r_d1;
+  assign io_tlbentry_cmt_v1 = io_tlbentry_cmt_r_v1;
   assign io_is_ucread_cmt_0 = r_8_0;
   assign io_is_ucread_cmt_1 = r_8_1;
   assign io_rd_cmt_0 = r_3_0;
