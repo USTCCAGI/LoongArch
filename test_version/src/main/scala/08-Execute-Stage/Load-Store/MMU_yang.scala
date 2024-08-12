@@ -58,38 +58,38 @@ class MMU_IO extends Bundle{
 
 class MMU extends Module{
     val io = IO(new MMU_IO)
-    val tlb = Module(new TLB)
+    // val tlb = Module(new TLB)
 
-    // io.tlbrd_entry := DontCare
-    // io.tlbsrch_idx     := DontCare
-    // io.tlbsrch_hit     := DontCare
+    io.tlbrd_entry := DontCare
+    io.tlbsrch_idx     := DontCare
+    io.tlbsrch_hit     := DontCare
 
-    tlb.io.csr_asid       := io.csr_asid
-    tlb.io.csr_plv        := io.csr_plv
-    tlb.io.csr_tlbehi     := io.csr_tlbehi
-    io.tlbsrch_idx        := tlb.io.tlbsrch_idx
-    io.tlbsrch_hit        := tlb.io.tlbsrch_hit
-    tlb.io.csr_tlbidx     := io.csr_tlbidx
-    io.tlbrd_entry        := tlb.io.tlbrd_entry
-    tlb.io.tlbwr_entry    := io.tlbwr_entry
-    tlb.io.tlbwr_en       := io.tlbwr_en
-    tlb.io.tlbfill_idx    := io.tlbfill_idx
-    tlb.io.tlbfill_en     := io.tlbfill_en
-    tlb.io.invtlb_en      := io.invtlb_en
-    tlb.io.invtlb_op      := io.invtlb_op
-    tlb.io.invtlb_asid    := io.invtlb_asid
-    tlb.io.invtlb_vaddr   := io.invtlb_vaddr
+    // tlb.io.csr_asid       := io.csr_asid
+    // tlb.io.csr_plv        := io.csr_plv
+    // tlb.io.csr_tlbehi     := io.csr_tlbehi
+    // io.tlbsrch_idx        := tlb.io.tlbsrch_idx
+    // io.tlbsrch_hit        := tlb.io.tlbsrch_hit
+    // tlb.io.csr_tlbidx     := io.csr_tlbidx
+    // io.tlbrd_entry        := tlb.io.tlbrd_entry
+    // tlb.io.tlbwr_entry    := io.tlbwr_entry
+    // tlb.io.tlbwr_en       := io.tlbwr_en
+    // tlb.io.tlbfill_idx    := io.tlbfill_idx
+    // tlb.io.tlbfill_en     := io.tlbfill_en
+    // tlb.io.invtlb_en      := io.invtlb_en
+    // tlb.io.invtlb_op      := io.invtlb_op
+    // tlb.io.invtlb_asid    := io.invtlb_asid
+    // tlb.io.invtlb_vaddr   := io.invtlb_vaddr
 
     // icache tlb search
-    tlb.io.i_valid        := io.i_valid
-    tlb.io.i_vaddr        := io.i_vaddr
-    tlb.io.i_stall        := io.i_stall
+    // tlb.io.i_valid        := io.i_valid
+    // tlb.io.i_vaddr        := io.i_vaddr
+    // tlb.io.i_stall        := io.i_stall
 
     // dcache tlb search
-    tlb.io.d_rvalid       := io.d_rvalid
-    tlb.io.d_wvalid       := io.d_wvalid
-    tlb.io.d_vaddr        := io.d_vaddr
-    tlb.io.d_stall        := io.d_stall
+    // tlb.io.d_rvalid       := io.d_rvalid
+    // tlb.io.d_wvalid       := io.d_wvalid
+    // tlb.io.d_vaddr        := io.d_vaddr
+    // tlb.io.d_stall        := io.d_stall
 
     val is_da   = io.csr_crmd_trans(0)
     val is_pg   = io.csr_crmd_trans(1)
@@ -107,9 +107,9 @@ class MMU extends Module{
                     Mux(i_dmw1_hit, !i_csr_dmw1(4), !io.csr_crmd_trans(2))))
     
 
-    val i_exception_ne = ShiftRegister(is_da || i_dmw0_hit || i_dmw1_hit, 1, !io.i_stall)
-    io.i_exception := Mux(i_exception_ne, 0.U, tlb.io.i_exception)
-    // io.i_exception := 0.U
+    // val i_exception_ne = ShiftRegister(is_da || i_dmw0_hit || i_dmw1_hit, 1, !io.i_stall)
+    // io.i_exception := Mux(i_exception_ne, 0.U, tlb.io.i_exception)
+    io.i_exception := 0.U
 
     val d_csr_dmw0 = RegNext(io.csr_dmw0)
     val d_csr_dmw1 = RegNext(io.csr_dmw1)
@@ -159,7 +159,7 @@ class MMU extends Module{
                         Mux(d_dmw1_hit, !d_csr_dmw1(4), !io.csr_crmd_trans(4)))
     }
 
-    val d_exception_ne = d_is_da || d_dmw0_hit || d_dmw1_hit
-    io.d_exception := Mux(d_exception_ne, 0.U, tlb.io.d_exception)
-    // io.d_exception := 0.U
+    // val d_exception_ne = d_is_da || d_dmw0_hit || d_dmw1_hit
+    // io.d_exception := Mux(d_exception_ne, 0.U, tlb.io.d_exception)
+    io.d_exception := 0.U
 }
