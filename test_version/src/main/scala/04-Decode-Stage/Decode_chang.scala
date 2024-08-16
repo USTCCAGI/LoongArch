@@ -94,6 +94,7 @@ class Decode extends Module{
             is(IMM_TID)     { imm := 0x40.U(32.W) }
             is(IMM_ERA)     { imm := 0x6.U(32.W) }
             is(IMM_COP)     { imm := Cat(Fill(15, inst(21)), inst(21, 10), inst(4, 0))}
+            is(IMM_ROR)     { imm := Cat(Fill(21, inst(25)), inst(25, 15))}
         }
         imm
     }

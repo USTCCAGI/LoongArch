@@ -87,6 +87,7 @@ object Control_Signal{
     val ALU_SLL   = 8.U(4.W)
     val ALU_SRL   = 9.U(4.W)
     val ALU_SRA   = 10.U(4.W)
+    val ALU_ROR   = 11.U(4.W)
     val ALU_MUL   = 0.U(4.W)
     val ALU_MULH  = 1.U(4.W)
     val ALU_MULHU = 2.U(4.W)
@@ -181,5 +182,6 @@ object Control_Signal{
     val IMM_ERA   = 9.U(4.W)
     val IMM_COP   = 10.U(4.W)
     val IMM_14S   = 11.U(4.W)
+    val IMM_ROR   = 12.U(4.W)
 
 }

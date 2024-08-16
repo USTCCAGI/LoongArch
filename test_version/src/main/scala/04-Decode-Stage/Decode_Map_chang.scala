@@ -9,7 +9,9 @@ object Decode_Map{
        N,        N,       N,     ALU_ADD, RS1_REG,  RS2_IMM,  NO_BR,   NO_MEM,   SYST,    RK,      RD,      IMM_00U,  NOT_PRIV,  INE
     )
     val map = Array(
-        //                  0| 1| 2| 3|         4|        5|       6|       7|        8|      9|  10| 11|      12|       13|      
+        //                  0| 1| 2| 3|         4|        5|       6|       7|        8|      9|  10| 11|      12|       13|    
+        // RRIWINZ
+        RRIWINZ     -> List(Y, Y, Y, ALU_ROR,   RS1_REG, RS2_REG,  NO_BR,   NO_MEM,   ARITH, RK, RD, IMM_ROR, NOT_PRIV, NO_EXP),
         RDCNTIDW    -> List(N, N, Y, ALU_MUL,   RS1_REG, RS2_IMM,  NO_BR,   NO_MEM,   SYST,  RD, RJ, IMM_TID, CSR_RD,   NO_EXP),
         RDCNTVLW    -> List(N, N, Y, ALU_ADD,   RS1_REG, RS2_CNTL, NO_BR,   NO_MEM,   RDCNT, RK, RD, IMM_00U, NOT_PRIV, NO_EXP),
         RDCNTVHW    -> List(N, N, Y, ALU_ADD,   RS1_REG, RS2_CNTH, NO_BR,   NO_MEM,   RDCNT, RK, RD, IMM_00U, NOT_PRIV, NO_EXP),
@@ -74,5 +76,6 @@ object Decode_Map{
         BGE         -> List(Y, Y, N, ALU_ADD,   RS1_REG, RS2_IMM,  BR_BGE,  NO_MEM,   BR,    RD, RD, IMM_16S, NOT_PRIV, NO_EXP),
         BLTU        -> List(Y, Y, N, ALU_ADD,   RS1_REG, RS2_IMM,  BR_BLTU, NO_MEM,   BR,    RD, RD, IMM_16S, NOT_PRIV, NO_EXP),
         BGEU        -> List(Y, Y, N, ALU_ADD,   RS1_REG, RS2_IMM,  BR_BGEU, NO_MEM,   BR,    RD, RD, IMM_16S, NOT_PRIV, NO_EXP),
+    
     )
 }

@@ -492,6 +492,8 @@ class CPU extends Module {
         RS2_CNTH                    -> stable_cnt.io.value(63, 32),
         RS2_CNTL                    -> stable_cnt.io.value(31, 0)))
     
+    alu1.io.imm_ror                 := re_reg1.io.inst_pack_EX.imm
+    
     // 2. arith common fu2
     // ALU
     alu2.io.alu_op                  := re_reg2.io.inst_pack_EX.alu_op
@@ -503,6 +505,8 @@ class CPU extends Module {
         RS2_REG                     -> Mux(bypass.io.forward_prk_en(1), bypass.io.forward_prk_data(1), re_reg2.io.src2_EX),
         RS2_IMM                     -> re_reg2.io.inst_pack_EX.imm,
         RS2_FOUR                    -> 4.U))
+    
+    alu2.io.imm_ror                 := re_reg2.io.inst_pack_EX.imm
     
     // Branch
     br.io.br_type                   := re_reg2.io.inst_pack_EX.br_type
