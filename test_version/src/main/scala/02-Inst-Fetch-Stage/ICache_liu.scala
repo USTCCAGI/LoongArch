@@ -103,8 +103,8 @@ class ICache extends Module{
     val flush = io.flush
 
     // memory
-    val tagmem = VecInit.fill(2)(Module(new xilinx_single_port_ram_no_change(TAG_WIDTH+1, INDEX_NUM)).io)
-    val instmem = VecInit.fill(2)(Module(new xilinx_single_port_ram_no_change(8 * OFFSET_NUM, INDEX_NUM)).io)
+    val tagmem = VecInit.fill(2)(Module(new xilinx_single_port_ram_write_first(TAG_WIDTH+1, INDEX_NUM)).io)
+    val instmem = VecInit.fill(2)(Module(new xilinx_single_port_ram_write_first(8 * OFFSET_NUM, INDEX_NUM)).io)
 
     // IF stage
     val index_IF = vaddr_IF(INDEX_WIDTH+OFFSET_WIDTH-1, OFFSET_WIDTH)

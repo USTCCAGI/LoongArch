@@ -108,8 +108,8 @@ class DCache extends Module{
     val cacop_op_RF_EX = ShiftRegister(io.cacop_op, 1, 0.U(2.W), RF_EX_en)
 
     // banks
-    val tagmem = VecInit.fill(2)(Module(new xilinx_simple_dual_port_1_clock_ram_no_change(TAG_WIDTH+1, INDEX_NUM)).io)
-    val datamem = VecInit.fill(2)(Module(new xilinx_simple_dual_port_byte_write_1_clock_ram_read_first(OFFSET_NUM, 8, INDEX_NUM)).io)
+    val tagmem = VecInit.fill(2)(Module(new xilinx_simple_dual_port_1_clock_ram_write_first(TAG_WIDTH+1, INDEX_NUM)).io)
+    val datamem = VecInit.fill(2)(Module(new xilinx_simple_dual_port_byte_write_1_clock_ram_write_first(OFFSET_NUM, 8, INDEX_NUM)).io)
 
     // EX stage
     val tag_r_EX = VecInit.tabulate(2)(i => tagmem(i).doutb(TAG_WIDTH-1, 0))
