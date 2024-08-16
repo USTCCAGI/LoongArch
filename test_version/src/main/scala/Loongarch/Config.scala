@@ -5,8 +5,8 @@ import chisel3.util._
 object CPU_Config{
     val RESET_VEC       = 0x1c000000
     val FQ_NUM          = 8
-    val PREG_NUM        = 64
-    val ROB_NUM         = 32
+    val PREG_NUM        = 54
+    val ROB_NUM         = 24
     val SB_NUM          = 4
     val IQ_AP_NUM       = 6
     val IQ_AB_NUM       = 6

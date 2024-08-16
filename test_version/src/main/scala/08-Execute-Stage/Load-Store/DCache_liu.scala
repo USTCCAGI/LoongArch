@@ -18,6 +18,7 @@ object DCache_Config{
 }
 
 import DCache_Config._
+import CPU_Config._
 class DCache_IO extends Bundle{
     // RF stage
     val addr_RF         = Input(UInt(32.W))
@@ -27,7 +28,7 @@ class DCache_IO extends Bundle{
     // val uncache_RF      = Input(Bool())
 
     // EX stage
-    val rob_index_EX    = Input(UInt(log2Ceil(32).W)) // ROB_NUM = 32
+    val rob_index_EX    = Input(UInt(log2Ceil(ROB_NUM).W)) // ROB_NUM = 32
     val paddr_EX        = Input(UInt(32.W))
     val uncache_EX      = Input(Bool())
     // val exception_EX    = Input(Bool())
@@ -40,7 +41,7 @@ class DCache_IO extends Bundle{
     val cache_miss_iq   = Output(Vec(5, Bool()))
 
     // uncache cmt
-    val rob_index_CMT   = Input(UInt(log2Ceil(32).W))
+    val rob_index_CMT   = Input(UInt(log2Ceil(ROB_NUM).W))
 
     // cacop 
     val cacop_en        = Input(Bool())
@@ -136,7 +137,7 @@ class DCache extends Module{
     val data_r_EX_MEM = ShiftRegister(data_r_EX, 1, VecInit.fill(2)(0.U((8*OFFSET_NUM).W)), EX_MEM_en)
     val mem_type_EX_MEM_backup = ShiftRegister(VecInit.fill(5)(Mux(mem_type_RF_EX(3) || uncache_EX || store_cmt_RF_EX, mem_type_RF_EX, 0.U)), 1, VecInit.fill(5)(0.U(5.W)), EX_MEM_en)
     val uncache_EX_MEM = ShiftRegister(uncache_EX, 1, false.B, EX_MEM_en)
-    val rob_index_EX_MEM = ShiftRegister(io.rob_index_EX, 1, 0.U(log2Ceil(32).W), EX_MEM_en)
+    val rob_index_EX_MEM = ShiftRegister(io.rob_index_EX, 1, 0.U(log2Ceil(ROB_NUM).W), EX_MEM_en)
     val cacop_en_EX_MEM = ShiftRegister(cacop_en_RF_EX, 1, false.B, EX_MEM_en)
     val cacop_op_EX_MEM = ShiftRegister(cacop_op_RF_EX, 1, 0.U(2.W), EX_MEM_en)
     val exception_MEM = ShiftRegister(io.exception_MEM, 1, false.B)
