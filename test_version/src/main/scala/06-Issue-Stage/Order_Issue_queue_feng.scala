@@ -53,14 +53,17 @@ class Order_Issue_Queue[T <: inst_pack_DP_t](n: Int, inst_pack_t: T) extends Mod
     //队列操作
     //左移1，进入一条
     def insert1(x: UInt): UInt = {
+        val n = x.getWidth
         x(n-2, 0) ## 1.U(1.W)
     }
     //左移2，进入两条
     def insert2(x: UInt): UInt = {
+        val n = x.getWidth
         x(n-3, 0) ## 3.U(2.W)
     }
     //右移1，发射一条
     def pop1(x: UInt): UInt = {
+        val n = x.getWidth
         0.U(1.W) ## x(n-1, 1)
     }
     val num_pop =Wire(UInt((log2Ceil(n)+1).W))
