@@ -36,6 +36,7 @@ class CPU_IO extends Bundle{
     val wready                      = Input(Bool())
     val wstrb                       = Output(UInt(4.W))
     val wvalid                      = Output(Bool())
+    val intrpt                      = Input(UInt(8.W))
 
     // debug
     val commit_en                   = Output(Vec(2, Bool()))
@@ -440,7 +441,7 @@ class CPU extends Module {
     csr_rf.io.badv_exp              := rob.io.badv_cmt
     csr_rf.io.is_eret               := rob.io.is_eret_cmt
     csr_rf.io.pc_exp                := rob.io.pred_pc_cmt
-    csr_rf.io.interrupt             := 0.U //硬中断
+    csr_rf.io.interrupt             := io.intrpt //硬中断
     csr_rf.io.ip_int                := false.B    //核间中断
     csr_rf.io.tlbentry_in           := rob.io.tlbentry_cmt 
     csr_rf.io.tlbrd_en              := rob.io.tlbrd_en_cmt
